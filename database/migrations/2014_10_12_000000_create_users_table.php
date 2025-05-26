@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->string('zip_code')->nullable();
 
             $table->enum('status', ['suspend', 'waiting-approval', 'active'])->default('active');
+            $table->softDeletes();
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
