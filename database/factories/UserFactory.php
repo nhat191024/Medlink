@@ -53,6 +53,18 @@ class UserFactory extends Factory
     }
 
     /**
+     * State for a admin user.
+     */
+    public function admin(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'user_type' => 'admin',
+            ];
+        });
+    }
+
+    /**
      * State for a doctor user.
      */
     public function doctor(): static
