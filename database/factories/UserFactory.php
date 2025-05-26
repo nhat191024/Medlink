@@ -37,7 +37,7 @@ class UserFactory extends Factory
             'password' => bcrypt('Password1$'),
 
             'avatar' => 'upload/avatar/default.png',
-            'name' => $this->faker->name(),
+            'name' => $this->faker->unique()->firstName() . ' ' . $this->faker->unique()->lastName(),
             'country_code' => '+84',
             'phone' => $this->faker->phoneNumber(),
 
