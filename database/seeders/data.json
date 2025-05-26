@@ -1,0 +1,322 @@
+{
+    "medical_categories": [
+        {
+            "name": "Dentist"
+        },
+        {
+            "name": "Cardiologist"
+        },
+        {
+            "name": "Dermatologist"
+        },
+        {
+            "name": "Gynecologist"
+        },
+        {
+            "name": "Neurologist"
+        },
+        {
+            "name": "Ophthalmologist"
+        },
+        {
+            "name": "Orthopedic"
+        },
+        {
+            "name": "Pediatrician"
+        },
+        {
+            "name": "Psychiatrist"
+        },
+        {
+            "name": "Urologist"
+        }
+    ],
+    "services": [
+        {
+            "icon": "icon",
+            "name": "Home",
+            "description": "Schedule doctor to visit your home",
+            "price": 100,
+            "duration": 30,
+            "buffer_time": 10,
+            "seat": 1,
+            "is_active": true
+        },
+        {
+            "icon": "icon",
+            "name": "Video Appointment",
+            "description": "Book a video call with doctor",
+            "price": 100,
+            "duration": 30,
+            "buffer_time": 10,
+            "seat": 2,
+            "is_active": true
+        },
+        {
+            "icon": "icon",
+            "name": "Clinic",
+            "description": "Schedule an office visit",
+            "price": 100,
+            "duration": 30,
+            "buffer_time": 10,
+            "seat": 3,
+            "is_active": true
+        },
+        {
+            "icon": "icon",
+            "name": "Online visit",
+            "description": "Book a video call with doctor",
+            "price": 100,
+            "duration": 30,
+            "buffer_time": 10,
+            "seat": 3,
+            "is_active": true
+        }
+    ],
+    "appointments": [
+        {
+            "status": "2",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "status": "2",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "link": "https://zoom.us/j/1234567890"
+        },
+        {
+            "status": "2",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "status": "2",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "link": "https://zoom.us/j/1234567890"
+        },
+        {
+            "status": "3",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "status": "3",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "link": "https://zoom.us/j/1234567890"
+        },
+        {
+            "status": "4",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "status": "4",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "link": "https://zoom.us/j/1234567890"
+        },
+        {
+            "status": "1",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "status": "1",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "link": "https://zoom.us/j/1234567890"
+        },
+        {
+            "patient_id": 13,
+            "doctor_id": 1,
+            "service_id": 3,
+            "status": "0",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, New York, NY 10030"
+        },
+        {
+            "patient_id": 4,
+            "doctor_id": 1,
+            "service_id": 4,
+            "status": "0",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "duration": 30,
+            "date": "2024-12-02",
+            "day_of_week": "Monday",
+            "time": "10:00 AM - 10:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "link": "https://zoom.us/j/1234567890"
+        }
+    ],
+    "bills": [
+        {
+            "appointment_id": 1,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 2,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 3,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 4,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 5,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 6,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 7,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 8,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 9,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 10,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 11,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        },
+        {
+            "appointment_id": 12,
+            "taxVAT": 4,
+            "total": 204,
+            "status": 1
+        }
+    ],
+    "languages": [
+        {
+            "name": "English"
+        },
+        {
+            "name": "Vietnamese"
+        }
+    ],
+    "notifications": [
+        {
+            "title": "Nikko Monahan something long has made an appointment",
+            "user_id": 1,
+            "appointment_id": 1,
+            "status": "unread"
+        },
+        {
+            "title": "Kieran Jakubowski has made an appointment",
+            "user_id": 1,
+            "appointment_id": 1,
+            "status": "unread"
+        },
+        {
+            "title": "Alford Mitchell canceled your appointment",
+            "user_id": 1,
+            "appointment_id": 4,
+            "status": "unread"
+        },
+        {
+            "title": "Nikko Monahan something long canceled your appointment",
+            "user_id": 1,
+            "appointment_id": 5,
+            "status": "unread"
+        },
+        {
+            "title": "Your appointment with Nikko Monahan something long will arrive in 1 hour",
+            "user_id": 1,
+            "appointment_id": 6,
+            "status": "unread"
+        },
+        {
+            "title": "Nikko Monahan something long has made an appointment",
+            "user_id": 1,
+            "appointment_id": 7,
+            "status": "read"
+        },
+        {
+            "title": "Alford Mitchell has made an appointment",
+            "user_id": 1,
+            "appointment_id": 1,
+            "status": "read"
+        }
+    ]
+}
