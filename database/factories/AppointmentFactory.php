@@ -24,7 +24,7 @@ class AppointmentFactory extends Factory
 
     public function definition(): array
     {
-        $doctorsID = $this->seedDoctorsID ?? DoctorProfile::pluck('user_id')->toArray();
+        $doctorsID = $this->seedDoctorsID ?? DoctorProfile::where('identity', '=', 'doctor')->pluck('id')->toArray();
         $patientsID = $this->seedPatientsID ?? User::where('user_type', 'patient')->pluck('id')->toArray();
 
         $doctorID = $this->faker->randomElement($doctorsID);
