@@ -2,31 +2,52 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Sanctum\HasApiTokens;
+
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array
      */
     protected $fillable = [
-        'name',
+        'user_type',
+
         'email',
         'password',
+
+        'avatar',
+        'full_name',
+        'country_code',
+        'phone',
+
+        'wallet',
+
+        'latitude',
+        'longitude',
+
+        'country',
+        'city',
+        'state',
+        'address',
+        'zip_code',
+
+        'status',
+        'last_login',
+        'remember_token',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * The attributes that should be hidden for arrays.
      *
-     * @var list<string>
+     * @var array
      */
     protected $hidden = [
         'password',
@@ -34,15 +55,59 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast to native types.
      *
-     * @return array<string, string>
+     * @var array
      */
-    protected function casts(): array
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+
+    /**
+     *  Models relationships
+     */
+    public function patientProfile()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasOne(PatientProfile::class, 'user_id');
+    }
+
+    public function DoctorProfile()
+    {
+        return $this->hasOne(DoctorProfile::class, 'user_id');
+    }
+
+    public function languages()
+    {
+        return $this->hasMany(UserLanguage::class);
+    }
+
+    public function setting()
+    {
+        return $this->hasMany(UserSetting::class);
+    }
+
+    public function favoriteDoctors()
+    {
+        return $this->hasMany(Favorite::class, 'patient_id')->where('type', 'doctor');
+    }
+
+    public function favoritePatients()
+    {
+        return $this->hasMany(Favorite::class, 'doctor_id')->where('type', 'patient');
+    }
+
+    public function transactionHistory()
+    {
+        return $this->hasMany(TransactionHistory::class);
+    }
+
+    public function notification()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    public function support()
+    {
+        return $this->hasMany(Support::class);
     }
 }
