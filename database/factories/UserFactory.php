@@ -60,6 +60,9 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('Password1$'),
+                'name' => 'Admin',
             ];
         });
     }
