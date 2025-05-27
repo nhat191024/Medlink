@@ -9,9 +9,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+use Filament\Panel;
+use Filament\Models\Contracts\FilamentUser;
+
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($this->user_type === 'admin') {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * The attributes that are mass assignable.
