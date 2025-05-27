@@ -12,9 +12,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Panel;
 use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable implements FilamentUser
+use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Interfaces\Wallet;
+
+class User extends Authenticatable implements FilamentUser, Wallet
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet;
 
     public function canAccessPanel(Panel $panel): bool
     {
