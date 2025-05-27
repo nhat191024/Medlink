@@ -26,8 +26,6 @@ class CreateUsersTable extends Migration
             $table->string('country_code')->nullable();
             $table->string('phone')->nullable();
 
-            $table->double('wallet')->default(0);
-
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
 

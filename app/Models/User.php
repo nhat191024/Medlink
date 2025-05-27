@@ -43,8 +43,6 @@ class User extends Authenticatable implements FilamentUser, Wallet
         'country_code',
         'phone',
 
-        'wallet',
-
         'latitude',
         'longitude',
 
