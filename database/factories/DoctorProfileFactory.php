@@ -44,7 +44,6 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'identity' => 'doctor',
                 'id_card_path' => 'documents/' . $this->faker->uuid() . '.pdf',
                 'medical_degree_path' => 'documents/' . $this->faker->uuid() . '.pdf',
                 'professional_number' => $this->faker->unique()->numerify('PROF-#####'),
@@ -63,7 +62,6 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'identity' => 'pharmacies',
                 'id_card_path' => 'documents/' . $this->faker->uuid() . '.pdf',
                 'medical_license_path' => 'documents/' . $this->faker->uuid() . '.pdf',
                 'professional_number' => $this->faker->unique()->numerify('PHARM-#####'),
@@ -80,7 +78,6 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'identity' => 'hospital',
                 'medical_license_path' => 'documents/' . $this->faker->uuid() . '.pdf',
             ];
         });

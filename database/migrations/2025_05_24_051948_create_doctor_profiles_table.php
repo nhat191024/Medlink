@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('doctor_profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
-            $table->enum('identity', ['none', 'doctor', 'pharmacies', 'hospital', 'ambulance'])->default('none');
             $table->string('id_card_path')->nullable();
             $table->string('medical_degree_path')->nullable();
             $table->string('medical_license_path')->nullable(); // for pharmacies
