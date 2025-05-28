@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
         Setting::factory()->count(1)->create();
 
         //appointment factory
-        $doctorsID = DoctorProfile::where('identity', '=', 'doctor')->pluck('id')->toArray();
+        $doctorsID = DoctorProfile::whereIn('user_id', User::where('identity', 'doctor')->pluck('id'))->pluck('id')->toArray();
         $patientsID = User::where('user_type', 'patient')->pluck('id')->toArray();
         Appointment::factory()->count(10)->withSeedData($doctorsID, $patientsID)->create();
     }
