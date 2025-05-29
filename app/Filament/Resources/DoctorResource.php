@@ -149,9 +149,9 @@ class DoctorResource extends Resource
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->label('Số điện thoại'),
-                Tables\Columns\TextColumn::make('doctorProfile.professional_number') // Hiển thị từ bảng liên quan
+                Tables\Columns\TextColumn::make('doctorProfile.professional_number')
                     ->label('Số chứng chỉ')
-                    ->toggleable(isToggledHiddenByDefault: false) // Có thể ẩn/hiện
+                    ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('doctorProfile.medicalCategory.name')
                     ->label('Chuyên khoa')
@@ -180,7 +180,6 @@ class DoctorResource extends Resource
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 Tables\Actions\ForceDeleteAction::make(),
                 Tables\Actions\RestoreAction::make(),
