@@ -88,21 +88,26 @@ class DoctorResource extends Resource
                 TextColumn::make('status')
                     ->label('Trạng thái')
                     ->badge()
-                    ->state(fn($record): string => $record->status)
+                    ->state(function ($record): string {
+                        if ($record->trashed()) {
+                            return 'suspended';
+                        }
+                        return $record->status;
+                    })
                     ->formatStateUsing(fn(string $state): string => [
                         'active' => 'Kích hoạt',
-                        'suspend' => 'Tạm khóa',
                         'waiting-approval' => 'Chờ duyệt',
+                        'suspended' => 'Đình chỉ',
                     ][$state] ?? $state)
                     ->color(fn(string $state): string => [
                         'active' => 'success',
-                        'suspend' => 'danger',
                         'waiting-approval' => 'warning',
+                        'suspended' => 'danger',
                     ][$state] ?? 'secondary')
                     ->icon(fn(string $state): string => [
                         'active' => 'heroicon-o-check-circle',
-                        'suspend' => 'heroicon-o-x-circle',
                         'waiting-approval' => 'heroicon-o-clock',
+                        'suspended' => 'heroicon-o-no-symbol',
                     ][$state] ?? 'heroicon-o-question-mark-circle'),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -119,7 +124,6 @@ class DoctorResource extends Resource
                 SelectFilter::make('status')
                     ->options([
                         'active' => 'Kích hoạt',
-                        'suspend' => 'Tạm khóa',
                         'waiting-approval' => 'Chờ duyệt',
                     ])
                     ->native(false)
@@ -137,9 +141,29 @@ class DoctorResource extends Resource
                         $record->save();
                     })
                     ->visible(fn(User $record): bool => $record->status === 'waiting-approval'),
-                DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
+                DeleteAction::make()
+                    ->icon('heroicon-o-no-symbol')
+                    ->label('Suspend')
+                    ->requiresConfirmation()
+                    ->modalHeading('Suspend Doctor')
+                    ->modalDescription('Are you sure you want to suspend this doctor?')
+                    ->successNotificationTitle('Doctor suspended successfully.'),
+                RestoreAction::make()
+                    ->icon('heroicon-o-arrow-path')
+                    ->label('Restore')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Reactivate Doctor')
+                    ->modalDescription('Are you sure you want to reactivate this doctor?')
+                    ->successNotificationTitle('Doctor reactivate successfully.'),
+                ForceDeleteAction::make()
+                    ->icon('heroicon-o-trash')
+                    ->label('Delete Permanently')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->modalHeading('Delete Doctor Permanently')
+                    ->modalDescription('Are you sure you want to delete this doctor permanently? This action cannot be undone.')
+                    ->successNotificationTitle('Doctor deleted permanently.'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
