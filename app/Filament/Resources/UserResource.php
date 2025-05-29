@@ -28,9 +28,9 @@ class UserResource extends Resource
     protected static ?string $navigationGroup = 'User Management'; // Tùy chọn
 
     // Title hiển thị trong nav bar
-    protected static ?string $navigationLabel = 'Bác sĩ';
-    protected static ?string $pluralModelLabel = 'Bác sĩ';
-    protected static ?string $modelLabel = 'Bác sĩ';
+    protected static ?string $navigationLabel = 'Test table';
+    protected static ?string $pluralModelLabel = 'Test table';
+    protected static ?string $modelLabel = 'Test table';
 
 
     public static function form(Form $form): Form
