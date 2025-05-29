@@ -112,12 +112,12 @@ class UserResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            DoctorProfileRelationManager::class,
-        ];
-    }
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         DoctorProfileRelationManager::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {
