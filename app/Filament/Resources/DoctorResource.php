@@ -92,8 +92,9 @@ class DoctorResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status')
                     ->options([
-                        true => 'Kích hoạt',
-                        false => 'Không kích hoạt',
+                        'active' => 'Kích hoạt',
+                        'suspend' => 'Tạm khóa',
+                        'waiting-approval' => 'Chờ duyệt',
                     ])
                     ->native(false)
                     ->label('Trạng thái'),
@@ -134,6 +135,10 @@ class DoctorResource extends Resource
         return parent::getEloquentQuery()
             ->where('user_type', 'healthcare')
             ->where('identity', 'doctor')
+            ->with([
+                'doctorProfile',
+                'doctorProfile.medicalCategory',
+            ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
