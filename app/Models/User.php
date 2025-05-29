@@ -10,9 +10,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Filament\Panel;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
@@ -22,6 +23,16 @@ class User extends Authenticatable implements FilamentUser
             return true;
         }
         return false;
+    }
+
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if ($this->avatar) {
+            return asset($this->avatar);
+        }
+
+        return null;
     }
 
     /**
