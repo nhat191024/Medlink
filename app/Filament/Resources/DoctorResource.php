@@ -135,6 +135,10 @@ class DoctorResource extends Resource
         return parent::getEloquentQuery()
             ->where('user_type', 'healthcare')
             ->where('identity', 'doctor')
+            ->with([
+                'doctorProfile',
+                'doctorProfile.medicalCategory',
+            ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ]);
