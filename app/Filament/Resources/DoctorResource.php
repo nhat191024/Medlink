@@ -2,19 +2,38 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DoctorResource\Pages;
-use App\Filament\Resources\DoctorResource\RelationManagers;
-use App\Models\User; // Chúng ta sẽ tạo User mới và profile cho họ
-use App\Models\DoctorProfile;
+use App\Models\User;
+
+use Filament\Tables;
 use Filament\Forms;
+use Filament\Tables\Table;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Table;
+
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
+
+use Filament\Tables\Columns\TextColumn;
+
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\RestoreAction;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Actions\ForceDeleteAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+
+
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\FileUpload;
+
+use App\Filament\Resources\DoctorResource\RelationManagers;
+use App\Filament\Resources\DoctorResource\Pages\EditDoctor;
+use App\Filament\Resources\DoctorResource\Pages\ListDoctors;
+use App\Filament\Resources\DoctorResource\Pages\CreateDoctor;
+
 
 class DoctorResource extends Resource
 {
@@ -40,26 +59,38 @@ class DoctorResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable()
                     ->label('Họ tên'),
-                Tables\Columns\TextColumn::make('email')
+                TextColumn::make('email')
                     ->searchable()
                     ->sortable()
                     ->label('Email'),
-                Tables\Columns\TextColumn::make('phone')
+                TextColumn::make('phone')
                     ->searchable()
                     ->label('Số điện thoại'),
-                Tables\Columns\TextColumn::make('doctorProfile.professional_number')
+                TextColumn::make('country')
+                    ->label('Quốc gia')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
+                TextColumn::make('city')
+                    ->label('Thành phố')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
+                TextColumn::make('state')
+                    ->label('Tỉnh/Thành phố')
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->searchable(),
+                TextColumn::make('doctorProfile.professional_number')
                     ->label('Số chứng chỉ')
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('doctorProfile.medicalCategory.name')
+                TextColumn::make('doctorProfile.medicalCategory.name')
                     ->label('Chuyên khoa')
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->label('Trạng thái')
                     ->badge()
                     ->state(fn($record): string => $record->status)
@@ -78,19 +109,19 @@ class DoctorResource extends Resource
                         'suspend' => 'heroicon-o-x-circle',
                         'waiting-approval' => 'heroicon-o-clock',
                     ][$state] ?? 'heroicon-o-question-mark-circle'),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Ngày tạo'),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Ngày cập nhật'),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->options([
                         'active' => 'Kích hoạt',
                         'suspend' => 'Tạm khóa',
@@ -98,18 +129,28 @@ class DoctorResource extends Resource
                     ])
                     ->native(false)
                     ->label('Trạng thái'),
-                Tables\Filters\TrashedFilter::make(),
+                TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Action::make('approve')
+                    ->label('Duyệt')
+                    ->icon('heroicon-o-check')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->action(function (User $record) {
+                        $record->status = 'active';
+                        $record->save();
+                    })
+                    ->visible(fn(User $record): bool => $record->status === 'waiting-approval'),
+                DeleteAction::make(),
+                ForceDeleteAction::make(),
+                RestoreAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -124,9 +165,9 @@ class DoctorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDoctors::route('/'),
-            'create' => Pages\CreateDoctor::route('/create'),
-            'edit' => Pages\EditDoctor::route('/{record}/edit'),
+            'index' => ListDoctors::route('/'),
+            'create' => CreateDoctor::route('/create'),
+            'edit' => EditDoctor::route('/{record}/edit'),
         ];
     }
 
