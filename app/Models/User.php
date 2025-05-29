@@ -93,7 +93,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->hasOne(PatientProfile::class, 'user_id');
     }
 
-    public function DoctorProfile()
+    public function doctorProfile()
     {
         return $this->hasOne(DoctorProfile::class, 'user_id');
     }
