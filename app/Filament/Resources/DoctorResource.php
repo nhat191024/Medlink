@@ -40,7 +40,6 @@ class DoctorResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationGroup = 'User Management';
 
-    // Title hiển thị trong nav bar
     protected static ?string $navigationLabel = 'Bác sĩ';
     protected static ?string $pluralModelLabel = 'Bác sĩ';
     protected static ?string $modelLabel = 'Bác sĩ';
