@@ -212,8 +212,8 @@ class DoctorResource extends Resource
     {
         return [
             'index' => ListDoctors::route('/'),
-            'create' => CreateDoctor::route('/create'),
-            'edit' => EditDoctor::route('/{record}/edit'),
+            // 'create' => CreateDoctor::route('/create'),
+            // 'edit' => EditDoctor::route('/{record}/edit'),
         ];
     }
 
