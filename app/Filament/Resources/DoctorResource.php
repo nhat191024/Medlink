@@ -36,11 +36,26 @@ class DoctorResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
-    protected static ?string $navigationGroup = 'User Management';
 
-    protected static ?string $navigationLabel = 'Bác sĩ';
-    protected static ?string $pluralModelLabel = 'Bác sĩ';
-    protected static ?string $modelLabel = 'Bác sĩ';
+    public static function getNavigationGroup(): string
+    {
+        return __('sidebar.admin.user_management');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('doctor.admin.doctor');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('doctor.admin.doctor');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('doctor.admin.doctor');
+    }
 
     public static function form(Form $form): Form
     {
@@ -57,36 +72,36 @@ class DoctorResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->label('Họ tên'),
+                    ->label(__('doctor.admin.name')),
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable()
-                    ->label('Email'),
+                    ->label(__('doctor.admin.email')),
                 TextColumn::make('phone')
                     ->searchable()
-                    ->label('Số điện thoại'),
+                    ->label(__('doctor.admin.phone')),
                 TextColumn::make('country')
-                    ->label('Quốc gia')
+                    ->label(__('doctor.admin.country'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('city')
-                    ->label('Thành phố')
+                    ->label(__('doctor.admin.city'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('state')
-                    ->label('Tỉnh/Thành phố')
+                    ->label(__('doctor.admin.state'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 TextColumn::make('doctorProfile.professional_number')
-                    ->label('Số chứng chỉ')
+                    ->label(__('doctor.admin.professional_number'))
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
                 TextColumn::make('doctorProfile.medicalCategory.name')
-                    ->label('Chuyên khoa')
+                    ->label(__('doctor.admin.medical_category'))
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->searchable(),
                 TextColumn::make('status')
-                    ->label('Trạng thái')
+                    ->label(__('doctor.admin.status'))
                     ->badge()
                     ->state(function ($record): string {
                         if ($record->trashed()) {
@@ -95,9 +110,9 @@ class DoctorResource extends Resource
                         return $record->status;
                     })
                     ->formatStateUsing(fn(string $state): string => [
-                        'active' => 'Kích hoạt',
-                        'waiting-approval' => 'Chờ duyệt',
-                        'suspended' => 'Đình chỉ',
+                        'active' => __('doctor.admin.active'),
+                        'waiting-approval' => __('doctor.admin.waiting-approval'),
+                        'suspended' => __('doctor.admin.suspended'),
                     ][$state] ?? $state)
                     ->color(fn(string $state): string => [
                         'active' => 'success',
@@ -113,26 +128,31 @@ class DoctorResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Ngày tạo'),
+                    ->label(__('doctor.admin.created_at')),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Ngày cập nhật'),
+                    ->label(__('doctor.admin.updated_at')),
             ])
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'active' => 'Kích hoạt',
-                        'waiting-approval' => 'Chờ duyệt',
+                        'active' => __('doctor.admin.active'),
+                        'waiting-approval' => __('doctor.admin.waiting-approval'),
                     ])
                     ->native(false)
-                    ->label('Trạng thái'),
-                TrashedFilter::make(),
+                    ->label(__('doctor.admin.status')),
+                TrashedFilter::make()
+                    ->label(__('doctor.admin.suspend_filter'))
+                    ->trueLabel(__('doctor.admin.suspend_filter_all'))
+                    ->falseLabel(__('doctor.admin.suspend_filter_only'))
+                    ->native(false),
+                //
             ])
             ->actions([
                 Action::make('approve')
-                    ->label('Duyệt')
+                    ->label(__('doctor.admin.approve'))
                     ->icon('heroicon-o-check')
                     ->color('success')
                     ->requiresConfirmation()
@@ -143,33 +163,40 @@ class DoctorResource extends Resource
                     ->visible(fn(User $record): bool => $record->status === 'waiting-approval'),
                 DeleteAction::make()
                     ->icon('heroicon-o-no-symbol')
-                    ->label('Suspend')
+                    ->label(__('doctor.admin.suspend'))
                     ->requiresConfirmation()
-                    ->modalHeading('Suspend Doctor')
-                    ->modalDescription('Are you sure you want to suspend this doctor?')
-                    ->successNotificationTitle('Doctor suspended successfully.'),
+                    ->modalHeading(__('doctor.admin.suspend_modal_heading'))
+                    ->modalDescription(__('doctor.admin.suspend_modal_description'))
+                    ->successNotificationTitle(__('doctor.admin.suspend_success')),
                 RestoreAction::make()
                     ->icon('heroicon-o-arrow-path')
-                    ->label('Restore')
+                    ->label(__('doctor.admin.restore'))
                     ->color('success')
                     ->requiresConfirmation()
-                    ->modalHeading('Reactivate Doctor')
-                    ->modalDescription('Are you sure you want to reactivate this doctor?')
-                    ->successNotificationTitle('Doctor reactivate successfully.'),
+                    ->modalHeading(__('doctor.admin.restore_modal_heading'))
+                    ->modalDescription(__('doctor.admin.restore_modal_description'))
+                    ->successNotificationTitle(__('doctor.admin.restore_success')),
                 ForceDeleteAction::make()
                     ->icon('heroicon-o-trash')
-                    ->label('Delete Permanently')
+                    ->label(__('doctor.admin.delete_permanently'))
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->modalHeading('Delete Doctor Permanently')
-                    ->modalDescription('Are you sure you want to delete this doctor permanently? This action cannot be undone.')
-                    ->successNotificationTitle('Doctor deleted permanently.'),
+                    ->modalHeading(__('doctor.admin.delete_modal_heading'))
+                    ->modalDescription(__('doctor.admin.delete_modal_description'))
+                    ->successNotificationTitle(__('doctor.admin.delete_success')),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->label(__('doctor.admin.suspend'))
+                        ->icon('heroicon-o-no-symbol'),
+                    ForceDeleteBulkAction::make()
+                        ->label(__('doctor.admin.delete_permanently'))
+                        ->icon('heroicon-o-trash'),
+                    RestoreBulkAction::make()
+                        ->label(__('doctor.admin.restore'))
+                        ->icon('heroicon-o-arrow-path')
+                        ->color('success'),
                 ]),
             ]);
     }
