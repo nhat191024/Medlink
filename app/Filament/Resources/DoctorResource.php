@@ -81,25 +81,25 @@ class DoctorResource extends Resource
                     ->searchable()
                     ->label(__('doctor.admin.phone')),
                 TextColumn::make('country')
-                    ->label(__('doctor.admin.country'))
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
+                    ->label(__('doctor.admin.country')),
                 TextColumn::make('city')
-                    ->label(__('doctor.admin.city'))
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
+                    ->label(__('doctor.admin.city')),
                 TextColumn::make('state')
-                    ->label(__('doctor.admin.state'))
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
+                    ->label(__('doctor.admin.state')),
                 TextColumn::make('doctorProfile.professional_number')
-                    ->label(__('doctor.admin.professional_number'))
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->searchable(),
+                    ->label(__('doctor.admin.professional_number')),
                 TextColumn::make('doctorProfile.medicalCategory.name')
-                    ->label(__('doctor.admin.medical_category'))
+                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
-                    ->searchable(),
+                    ->label(__('doctor.admin.medical_category')),
                 TextColumn::make('status')
                     ->label(__('doctor.admin.status'))
                     ->badge()
