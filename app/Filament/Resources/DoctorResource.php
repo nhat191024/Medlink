@@ -147,7 +147,6 @@ class DoctorResource extends Resource
                     ->trueLabel(__('common.admin.suspend_filter_all'))
                     ->falseLabel(__('common.admin.suspend_filter_only'))
                     ->native(false),
-                //
             ])
             ->actions([
                 Action::make('approve')
