@@ -34,7 +34,6 @@ use App\Filament\Resources\DoctorResource\Pages\CreateDoctor;
 class DoctorResource extends Resource
 {
     protected static ?string $model = User::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function getNavigationGroup(): string
@@ -44,24 +43,24 @@ class DoctorResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return __('doctor.admin.doctor');
+        return __('common.admin.doctor');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return __('doctor.admin.doctor');
+        return __('common.admin.doctor');
     }
 
     public static function getModelLabel(): string
     {
-        return __('doctor.admin.doctor');
+        return __('common.admin.doctor');
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //no need form because admin cannot add / edit doctor
+                //no need form because this is a read-only resource
             ]);
     }
 
@@ -72,26 +71,26 @@ class DoctorResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
-                    ->label(__('doctor.admin.name')),
+                    ->label(__('common.admin.name')),
                 TextColumn::make('email')
                     ->searchable()
                     ->sortable()
-                    ->label(__('doctor.admin.email')),
+                    ->label(__('common.admin.email')),
                 TextColumn::make('phone')
                     ->searchable()
-                    ->label(__('doctor.admin.phone')),
+                    ->label(__('common.admin.phone')),
                 TextColumn::make('country')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('doctor.admin.country')),
+                    ->label(__('common.admin.country')),
                 TextColumn::make('city')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('doctor.admin.city')),
+                    ->label(__('common.admin.city')),
                 TextColumn::make('state')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('doctor.admin.state')),
+                    ->label(__('common.admin.state')),
                 TextColumn::make('doctorProfile.professional_number')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
@@ -101,7 +100,7 @@ class DoctorResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false)
                     ->label(__('doctor.admin.medical_category')),
                 TextColumn::make('status')
-                    ->label(__('doctor.admin.status'))
+                    ->label(__('common.admin.status'))
                     ->badge()
                     ->state(function ($record): string {
                         if ($record->trashed()) {
@@ -110,9 +109,9 @@ class DoctorResource extends Resource
                         return $record->status;
                     })
                     ->formatStateUsing(fn(string $state): string => [
-                        'active' => __('doctor.admin.active'),
-                        'waiting-approval' => __('doctor.admin.waiting-approval'),
-                        'suspended' => __('doctor.admin.suspended'),
+                        'active' => __('common.admin.active'),
+                        'waiting-approval' => __('common.admin.waiting-approval'),
+                        'suspended' => __('common.admin.suspended'),
                     ][$state] ?? $state)
                     ->color(fn(string $state): string => [
                         'active' => 'success',
@@ -128,31 +127,31 @@ class DoctorResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('doctor.admin.created_at')),
+                    ->label(__('common.admin.created_at')),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('doctor.admin.updated_at')),
+                    ->label(__('common.admin.updated_at')),
             ])
             ->filters([
                 SelectFilter::make('status')
                     ->options([
-                        'active' => __('doctor.admin.active'),
-                        'waiting-approval' => __('doctor.admin.waiting-approval'),
+                        'active' => __('common.admin.active'),
+                        'waiting-approval' => __('common.admin.waiting-approval'),
                     ])
                     ->native(false)
-                    ->label(__('doctor.admin.status')),
+                    ->label(__('common.admin.status')),
                 TrashedFilter::make()
-                    ->label(__('doctor.admin.suspend_filter'))
-                    ->trueLabel(__('doctor.admin.suspend_filter_all'))
-                    ->falseLabel(__('doctor.admin.suspend_filter_only'))
+                    ->label(__('common.admin.suspend_filter'))
+                    ->trueLabel(__('common.admin.suspend_filter_all'))
+                    ->falseLabel(__('common.admin.suspend_filter_only'))
                     ->native(false),
                 //
             ])
             ->actions([
                 Action::make('approve')
-                    ->label(__('doctor.admin.approve'))
+                    ->label(__('common.admin.approve'))
                     ->icon('heroicon-o-check')
                     ->color('success')
                     ->requiresConfirmation()
@@ -163,38 +162,38 @@ class DoctorResource extends Resource
                     ->visible(fn(User $record): bool => $record->status === 'waiting-approval'),
                 DeleteAction::make()
                     ->icon('heroicon-o-no-symbol')
-                    ->label(__('doctor.admin.suspend'))
+                    ->label(__('common.admin.suspend'))
                     ->requiresConfirmation()
-                    ->modalHeading(__('doctor.admin.suspend_modal_heading'))
-                    ->modalDescription(__('doctor.admin.suspend_modal_description'))
-                    ->successNotificationTitle(__('doctor.admin.suspend_success')),
+                    ->modalHeading(__('common.admin.suspend_modal_heading'))
+                    ->modalDescription(__('common.admin.suspend_modal_description'))
+                    ->successNotificationTitle(__('common.admin.suspend_success')),
                 RestoreAction::make()
                     ->icon('heroicon-o-arrow-path')
-                    ->label(__('doctor.admin.restore'))
+                    ->label(__('common.admin.reactivate'))
                     ->color('success')
                     ->requiresConfirmation()
-                    ->modalHeading(__('doctor.admin.restore_modal_heading'))
-                    ->modalDescription(__('doctor.admin.restore_modal_description'))
-                    ->successNotificationTitle(__('doctor.admin.restore_success')),
+                    ->modalHeading(__('common.admin.restore_modal_heading'))
+                    ->modalDescription(__('common.admin.restore_modal_description'))
+                    ->successNotificationTitle(__('common.admin.restore_success')),
                 ForceDeleteAction::make()
                     ->icon('heroicon-o-trash')
-                    ->label(__('doctor.admin.delete_permanently'))
+                    ->label(__('common.admin.delete_permanently'))
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->modalHeading(__('doctor.admin.delete_modal_heading'))
-                    ->modalDescription(__('doctor.admin.delete_modal_description'))
-                    ->successNotificationTitle(__('doctor.admin.delete_success')),
+                    ->modalHeading(__('common.admin.delete_modal_heading'))
+                    ->modalDescription(__('common.admin.delete_modal_description'))
+                    ->successNotificationTitle(__('common.admin.delete_success')),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
-                        ->label(__('doctor.admin.suspend'))
+                        ->label(__('common.admin.suspend'))
                         ->icon('heroicon-o-no-symbol'),
                     ForceDeleteBulkAction::make()
-                        ->label(__('doctor.admin.delete_permanently'))
+                        ->label(__('common.admin.delete_permanently'))
                         ->icon('heroicon-o-trash'),
                     RestoreBulkAction::make()
-                        ->label(__('doctor.admin.restore'))
+                        ->label(__('common.admin.reactivate'))
                         ->icon('heroicon-o-arrow-path')
                         ->color('success'),
                 ]),
