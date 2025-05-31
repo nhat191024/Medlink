@@ -188,14 +188,23 @@ class DoctorResource extends Resource
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
                         ->label(__('common.admin.suspend'))
-                        ->icon('heroicon-o-no-symbol'),
+                        ->icon('heroicon-o-no-symbol')
+                        ->modalHeading(__('common.admin.suspend_modal_heading'))
+                        ->modalDescription(__('common.admin.suspend_modal_description'))
+                        ->successNotificationTitle(__('common.admin.suspend_success')),
                     ForceDeleteBulkAction::make()
                         ->label(__('common.admin.delete_permanently'))
-                        ->icon('heroicon-o-trash'),
+                        ->icon('heroicon-o-trash')
+                        ->modalHeading(__('common.admin.delete_modal_heading'))
+                        ->modalDescription(__('common.admin.delete_modal_description'))
+                        ->successNotificationTitle(__('common.admin.delete_success')),
                     RestoreBulkAction::make()
                         ->label(__('common.admin.reactivate'))
                         ->icon('heroicon-o-arrow-path')
-                        ->color('success'),
+                        ->color('success')
+                        ->modalHeading(__('common.admin.restore_modal_heading'))
+                        ->modalDescription(__('common.admin.restore_modal_description'))
+                        ->successNotificationTitle(__('common.admin.restore_success')),
                 ]),
             ]);
     }
