@@ -41,10 +41,10 @@ class DatabaseSeeder extends Seeder
 
         //user factory
         User::factory()->count(1)->admin()->create();
-        User::factory()->count(env('DEMO_DOCTORS'))->doctor()->create();
-        User::factory()->count(env('DEMO_PHARMACISTS'))->pharmacy()->create();
-        User::factory()->count(env('DEMO_HOSPITALS'))->hospital()->create();
-        User::factory()->count(env('DEMO_PATIENTS'))->patient()->create();
+        User::factory()->count(10)->doctor()->create();
+        User::factory()->count(4)->pharmacy()->create();
+        User::factory()->count(5)->hospital()->create();
+        User::factory()->count(20)->patient()->create();
 
         //appointment factory
         $doctorsID = DoctorProfile::whereIn('user_id', User::where('identity', 'doctor')->pluck('id'))->pluck('id')->toArray();
