@@ -18,6 +18,7 @@ return [
         'waiting-approval' => 'Đang chờ phê duyệt',
         'suspended' => 'Đã đình chỉ',
 
+        'view_image' => 'Xem hình ảnh',
         'approve' => 'Phê duyệt',
         'suspend' => 'Đình chỉ',
         'restore' => 'Khôi phục',
@@ -45,4 +46,6 @@ return [
     'app_url' => 'URL ứng dụng',
     'play_store_url' => 'URL cửa hàng Google Play',
     'app_store_url' => 'URL cửa hàng App Store',
+
+    'close' => 'Đóng',
 ];

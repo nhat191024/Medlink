@@ -18,6 +18,7 @@ return [
         'waiting-approval' => 'Waiting for Approval',
         'suspended' => 'Suspended',
 
+        'view_image' => 'View Image',
         'approve' => 'Approve',
         'suspend' => 'Suspend',
         'restore' => 'Restore',
@@ -45,4 +46,6 @@ return [
     'app_url' => 'App URL',
     'play_store_url' => 'Play Store URL',
     'app_store_url' => 'App Store URL',
+
+    'close' => 'Close',
 ];
