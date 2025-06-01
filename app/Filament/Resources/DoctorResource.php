@@ -181,7 +181,8 @@ class DoctorResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading(__('common.admin.suspend_modal_heading'))
                     ->modalDescription(__('common.admin.suspend_modal_description'))
-                    ->successNotificationTitle(__('common.admin.suspend_success')),
+                    ->successNotificationTitle(__('common.admin.suspend_success'))
+                    ->visible(fn(User $record): bool => $record->status === 'active' && !$record->trashed()),
                 RestoreAction::make()
                     ->icon('heroicon-o-arrow-path')
                     ->label(__('common.admin.reactivate'))
