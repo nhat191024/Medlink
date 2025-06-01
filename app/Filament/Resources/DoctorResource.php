@@ -149,6 +149,22 @@ class DoctorResource extends Resource
                     ->native(false),
             ])
             ->actions([
+                Action::make('view_doctor_image')
+                    ->label(__('common.admin.view_image'))
+                    ->icon('heroicon-o-eye')
+                    ->visible(fn(User $record): bool => $record->status === 'waiting-approval')
+                    ->modalHeading(__('common.admin.view_image'))
+                    ->modalContent(fn(User $record) => view('filament.resources.doctor-resource.partials.view-doctor-image', ['record' => $record]))
+                    ->modalSubmitAction(
+                        function (User $record) {
+                            $record->status = 'active';
+                            $record->save();
+                        }
+                    )
+                    ->modalSubmitActionLabel(__('common.admin.approve'))
+                    ->modalCancelActionLabel(__('common.close'))
+                    ->color('info')
+                    ->modalIcon('heroicon-o-camera'),
                 Action::make('approve')
                     ->label(__('common.admin.approve'))
                     ->icon('heroicon-o-check')
