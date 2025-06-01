@@ -39,5 +39,10 @@ return [
         'delete_modal_heading' => 'Delete Account Permanently',
         'delete_modal_description' => 'Are you sure you want to delete this account permanently? This action cannot be undone.',
         'delete_success' => 'Account deleted permanently.',
-    ]
+    ],
+
+    'mobile_app_url' => 'Mobile App URL',
+    'app_url' => 'App URL',
+    'play_store_url' => 'Play Store URL',
+    'app_store_url' => 'App Store URL',
 ];

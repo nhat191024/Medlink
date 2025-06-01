@@ -39,5 +39,10 @@ return [
         'delete_modal_heading' => 'Xóa tài khoản vĩnh viễn',
         'delete_modal_description' => 'Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản này? Hành động này không thể hoàn tác.',
         'delete_success' => 'Đã xóa tài khoản thành công.',
-    ]
+    ],
+
+    'mobile_app_url' => 'URL Ứng dụng di động',
+    'app_url' => 'URL ứng dụng',
+    'play_store_url' => 'URL cửa hàng Google Play',
+    'app_store_url' => 'URL cửa hàng App Store',
 ];
