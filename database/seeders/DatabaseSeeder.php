@@ -15,6 +15,7 @@ use App\Models\Notification;
 use App\Models\DoctorProfile;
 
 use App\Models\MedicalCategory;
+use App\Models\PatientProfile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Testing\Fakes\Fake;
 
@@ -48,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         //appointment factory
         $doctorsID = DoctorProfile::whereIn('user_id', User::where('identity', 'doctor')->pluck('id'))->pluck('id')->toArray();
-        $patientsID = User::where('user_type', 'patient')->pluck('id')->toArray();
+        $patientsID = PatientProfile::whereIn('user_id', User::where('identity', 'patient')->pluck('id'))->pluck('id')->toArray();
         Appointment::factory()->count(10)->withSeedData($doctorsID, $patientsID)->create();
 
         DB::table('app_settings')->insert([
