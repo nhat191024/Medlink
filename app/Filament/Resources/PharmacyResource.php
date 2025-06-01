@@ -150,14 +150,9 @@ class PharmacyResource extends Resource
                     ->visible(fn(User $record): bool => $record->status === 'waiting-approval')
                     ->modalHeading(__('common.admin.view_image'))
                     ->modalContent(fn(User $record) => view('filament.resources.doctor-resource.partials.view-doctor-image', ['record' => $record]))
-                    ->modalSubmitAction(
-                        function (User $record) {
-                            $record->status = 'active';
-                            $record->save();
-                        }
-                    )
-                    ->modalSubmitActionLabel(__('common.admin.approve'))
+                    ->modalSubmitAction(false)
                     ->modalCancelActionLabel(__('common.close'))
+                    ->closeModalByClickingAway(false)
                     ->color('info')
                     ->modalIcon('heroicon-o-camera'),
                 Action::make('approve')
