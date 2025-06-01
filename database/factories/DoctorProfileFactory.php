@@ -62,8 +62,8 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'id_card_path' => 'storage/upload/doctor_assets/id-card.png',
-                'medical_license_path' => 'storage/upload/doctor_assets/medical-degree.png',
+                'professional_card_path' => 'storage/upload/doctor_assets/id-card.png',
+                'exploitation_license_path' => 'storage/upload/doctor_assets/medical-degree.png',
                 'professional_number' => $this->faker->unique()->numerify('PHARM-#####'),
             ];
         });
@@ -78,7 +78,7 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'medical_license_path' =>  'storage/upload/doctor_assets/medical-degree.png',
+                'professional_card_path' =>  'storage/upload/doctor_assets/medical-degree.png',
             ];
         });
     }

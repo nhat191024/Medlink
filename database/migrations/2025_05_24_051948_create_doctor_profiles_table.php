@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('id_card_path')->nullable();
             $table->string('medical_degree_path')->nullable();
-            $table->string('medical_license_path')->nullable(); // for pharmacies
+            $table->string('professional_card_path')->nullable();
+            $table->string('exploitation_license_path')->nullable();
             $table->string('professional_number')->nullable();
             $table->text('introduce')->nullable();
             $table->unsignedBigInteger('medical_category_id')->nullable();

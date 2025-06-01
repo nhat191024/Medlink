@@ -18,6 +18,8 @@ class DoctorProfile extends Model
         'user_id',
         'id_card_path',
         'medical_degree_path',
+        'professional_card_path',
+        'exploitation_license_path',
         'professional_number',
         'introduce',
         'medical_category_id',
