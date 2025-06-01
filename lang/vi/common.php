@@ -3,6 +3,8 @@ return [
     'admin' => [
         'doctor' => 'Bác sĩ',
         'patient' => 'Bệnh nhân',
+        'pharmacy' => 'Nhà thuốc',
+        'hospital' => 'Bệnh viện',
 
         'name' => 'Họ tên',
         'email' => 'Email',

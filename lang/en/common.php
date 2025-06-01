@@ -3,6 +3,8 @@ return [
     'admin' => [
         'doctor' => 'Doctors',
         'patient' => 'Patients',
+        'pharmacy' => 'Pharmacies',
+        'hospital' => 'Hospitals',
 
         'name' => 'Name',
         'email' => 'Email',
