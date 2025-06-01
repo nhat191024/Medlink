@@ -78,7 +78,7 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'professional_card_path' =>  'storage/upload/doctor_assets/medical-degree.png',
+                'exploitation_license_path' => 'storage/upload/doctor_assets/medical-degree.png',
             ];
         });
     }
