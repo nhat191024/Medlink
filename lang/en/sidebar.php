@@ -2,7 +2,6 @@
 return [
     "admin"  => [
         "user_management" => "User Management",
-
-        'doctor' => 'Doctors',
+        'appointment_management' => 'Appointment Management',
     ]
 ];

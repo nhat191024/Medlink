@@ -2,7 +2,6 @@
 return [
     "admin"  => [
         "user_management" => "Quản lý người dùng",
-
-        'doctor' => 'Bác sĩ',
+        'appointment_management' => 'Quản lý cuộc hẹn',
     ]
 ];
