@@ -13,4 +13,9 @@ class UserLanguage extends Model
         'user_id',
         'language_id',
     ];
+
+    public function language()
+    {
+        return $this->belongsTo(Language::class);
+    }
 }
