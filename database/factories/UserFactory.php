@@ -36,7 +36,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('Password1$'),
 
-            'avatar' => 'upload/avatar/default.png',
+            'avatar' => 'storage/upload/avatar/default.png',
             'name' => $this->faker->unique()->firstName() . ' ' . $this->faker->unique()->lastName(),
             'country_code' => '+84',
             'phone' => $this->faker->phoneNumber(),
@@ -75,6 +75,7 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'healthcare',
+                'identity' => 'doctor',
             ];
         })->afterCreating(function (User $user) {
             $doctorProfile = DoctorProfile::factory()->doctor()->make();
@@ -118,6 +119,7 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'healthcare',
+                'identity' => 'pharmacies',
             ];
         })->afterCreating(function (User $user) {
             $user->doctorProfile()->save(
@@ -134,6 +136,7 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'healthcare',
+                'identity' => 'hospital',
             ];
         })->afterCreating(function (User $user) {
             $user->doctorProfile()->save(
@@ -150,6 +153,7 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'patient',
+                'identity' => 'patient',
             ];
         })->afterCreating(function (User $user) {
             $patientProfile = PatientProfile::factory()->make();

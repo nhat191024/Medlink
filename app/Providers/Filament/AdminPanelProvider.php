@@ -20,6 +20,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
+use CWSPS154\AppSettings\AppSettingsPlugin;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -37,13 +39,16 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
 
-
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->pages([
                 Pages\Dashboard::class,
             ])
             ->widgets([])
+
+            ->plugins([
+                AppSettingsPlugin::make()
+            ])
 
             ->middleware([
                 EncryptCookies::class,

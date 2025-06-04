@@ -28,9 +28,10 @@ class CreateAppointmentsTable extends Migration
             $table->string('reason')->nullable();
             $table->string('link')->nullable();
             $table->string('address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('patient_profile_id')->references('id')->on('users')->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('patient_profile_id')->references('id')->on('patient_profiles')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('doctor_profile_id')->references('id')->on('doctor_profiles')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('restrict')->onUpdate('cascade');
         });

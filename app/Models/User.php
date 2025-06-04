@@ -10,14 +10,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Filament\Panel;
+use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 
-use Bavix\Wallet\Traits\HasWallet;
-use Bavix\Wallet\Interfaces\Wallet;
-
-class User extends Authenticatable implements FilamentUser, Wallet
+class User extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -27,6 +25,16 @@ class User extends Authenticatable implements FilamentUser, Wallet
         return false;
     }
 
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if ($this->avatar) {
+            return asset($this->avatar);
+        }
+
+        return null;
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +42,7 @@ class User extends Authenticatable implements FilamentUser, Wallet
      */
     protected $fillable = [
         'user_type',
+        'identity',
 
         'email',
         'password',
@@ -84,7 +93,7 @@ class User extends Authenticatable implements FilamentUser, Wallet
         return $this->hasOne(PatientProfile::class, 'user_id');
     }
 
-    public function DoctorProfile()
+    public function doctorProfile()
     {
         return $this->hasOne(DoctorProfile::class, 'user_id');
     }
