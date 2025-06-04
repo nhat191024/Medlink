@@ -3,6 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+use App\Http\Middleware\LocalizationMiddleware;
+
+// Define API routes that require authentication
+// Route::middleware(['auth:sanctum', LocalizationMiddleware::class])->group(function () {});
+
+// Define API routes that do not require authentication
+Route::middleware([LocalizationMiddleware::class])->group(function () {
+    require __DIR__ . '/api/auth.php';
+});
