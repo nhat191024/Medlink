@@ -103,6 +103,15 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->hasMany(UserLanguage::class);
     }
 
+    /**
+     * Get the user's preferred locale
+     */
+    public function getPreferredLocale()
+    {
+        $firstLanguage = $this->languages()->with('language')->first();
+        return $firstLanguage ? $firstLanguage->language->code : config('app.locale');
+    }
+
     public function setting()
     {
         return $this->hasMany(UserSetting::class);
