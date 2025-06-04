@@ -269,10 +269,12 @@
     ],
     "languages": [
         {
-            "name": "English"
+            "name": "English",
+            "code": "en"
         },
         {
-            "name": "Vietnamese"
+            "name": "Vietnamese",
+            "code": "vi"
         }
     ],
     "notifications": [
