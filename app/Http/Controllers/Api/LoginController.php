@@ -92,4 +92,31 @@ class LoginController extends Controller
             "token" => $token,
         ], Response::HTTP_OK);
     }
+    public function checkEmail(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email',
+        ];
+
+        $messages = [
+            'email.required' => __('auth.validation.required', ['attribute' => 'email']),
+            'email.email' => __('auth.validation.email', ['attribute' => 'email']),
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (User::where('email', $request->email)->count() == 0) {
+            return response()->json([
+                "message" => __('error.errors.not_exists', ['attribute' => 'email']),
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            "message" => __('auth.validation.exists', ['attribute' => 'email']),
+        ], Response::HTTP_OK);
+    }
 }
