@@ -153,7 +153,6 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'patient',
-                'identity' => 'patient',
             ];
         })->afterCreating(function (User $user) {
             $patientProfile = PatientProfile::factory()->make();
