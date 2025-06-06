@@ -30,6 +30,14 @@ return [
         'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     ],
 
+    'registration' => [
+        'success' => 'Registration successful. Please check your email for verification.',
+        'failed' => 'Registration failed. Please try again later.',
+        'email_verification' => 'Please verify your email address to complete the registration.',
+        'invalid_insurance' => 'The selected insurance type is invalid.',
+        'invalid_identity' => 'The selected identity is invalid.',
+    ],
+
     'status' => [
         'suspended' => 'Your account has been suspended. Please contact the administrator for more details.',
         'not_approved' => 'Your account has not been approved yet. Please wait for the administrator to approve it.',

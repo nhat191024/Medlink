@@ -30,6 +30,14 @@ return [
         'throttle' => 'Quá nhiều lần đăng nhập không thành công. Vui lòng thử lại sau :seconds giây.',
     ],
 
+    'registration' => [
+        'success' => 'Đăng ký thành công. Vui lòng kiểm tra email của bạn để xác minh.',
+        'failed' => 'Đăng ký thất bại. Vui lòng thử lại sau.',
+        'email_verification' => 'Vui lòng xác minh địa chỉ email của bạn để hoàn tất đăng ký.',
+        'invalid_insurance' => 'Loại bảo hiểm đã chọn không hợp lệ.',
+        'invalid_identity' => 'Danh tính đã chọn không hợp lệ.',
+    ],
+
     'status' => [
         'suspended' => 'Tài khoản của bạn đã bị tạm ngưng. Vui lòng liên hệ với quản trị viên để biết thêm chi tiết.',
         'not_approved' => 'Tài khoản của bạn chưa được phê duyệt. Vui lòng đợi quản trị viên phê duyệt.',
