@@ -3,15 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\RegisterRequest;
 
 use App\Models\User;
 use App\Models\Service;
 use App\Models\UserSetting;
+use App\Models\DoctorProfile;
+use App\Models\PatientProfile;
+use App\Models\UserInsurance;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
@@ -118,5 +125,200 @@ class LoginController extends Controller
         return response()->json([
             "message" => __('auth.validation.exists', ['attribute' => 'email']),
         ], Response::HTTP_OK);
+    }
+
+    public function Register(RegisterRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $user = new User();
+            $user->phone = $request->phone;
+            $user->country_code = $request->countryCode;
+            $user->user_type = $request->userType;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+
+            if ($request->hasFile('avatar')) {
+                $imageName = time() . '_' . uniqid() . '.' . $request->avatar->getClientOriginalExtension();
+                $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
+                $user->avatar = "/upload/avatar/{$imageName}";
+            } else {
+                $user->avatar = "/upload/avatar/default.png";
+            }
+
+            switch ($request->userType) {
+                case 'healthcare':
+                    $user->identity = $request->identity;
+                    $user->status = 'waiting-approval';
+                    $user->save();
+                    $this->healthcareCreate($user->id, $request->identity, $request);
+                    break;
+                case 'patient':
+                    $user->name = $request->name;
+                    $user->address = $request->address;
+                    $user->save();
+                    $this->patientCreate($user->id, $request);
+                    break;
+                default:
+                    return 1;
+            }
+
+            $this->createSettings($user->id);
+
+            if ($request->userType == 'patient') {
+                $token = $user->createToken('token')->plainTextToken;
+                DB::commit();
+                return response()->json([
+                    "message" => "success",
+                    "token" => $token,
+                ], Response::HTTP_CREATED);
+            }
+
+            DB::commit();
+            return response()->json([
+                "message" => "success",
+            ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                "message" => "Registration failed.",
+                "error" => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private function healthcareCreate($userId, $identity, RegisterRequest $request)
+    {
+        $profile = new DoctorProfile();
+        $profile->user_id = $userId;
+        switch ($identity) {
+            case 'doctor':
+                if ($request->hasFile('idCard')) {
+                    $imageName = time() . '_' . uniqid() . '.' . $request->idCard->getClientOriginalExtension();
+                    $request->file('idCard')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
+                    $profile->id_card_path = "/upload/doctor_assets/{$imageName}";
+                }
+
+                if ($request->hasFile('medicalDegree')) {
+                    $imageName = time() . '_' . uniqid() . '.' . $request->medicalDegree->getClientOriginalExtension();
+                    $request->file('medicalDegree')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
+                    $profile->medical_degree_path = "/upload/doctor_assets/{$imageName}";
+                }
+                $profile->professional_number = $request->professionalNumber;
+                break;
+
+            case 'pharmacies':
+                if ($request->hasFile('professionalCard')) {
+                    $imageName = time() . '_' . uniqid() . '.' . $request->professionalCard->getClientOriginalExtension();
+                    $request->file('professionalCard')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
+                    $profile->professional_card_path = "/upload/doctor_assets/{$imageName}";
+                }
+
+                if ($request->hasFile('exploitationLicense')) {
+                    $imageName = time() . '_' . uniqid() . '.' . $request->exploitationLicense->getClientOriginalExtension();
+                    $request->file('exploitationLicense')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
+                    $profile->exploitation_license_path = "/upload/doctor_assets/{$imageName}";
+                }
+                break;
+
+            case 'hospital':
+                if ($request->hasFile('exploitationLicense')) {
+                    $imageName = time() . '_' . uniqid() . '.' . $request->exploitationLicense->getClientOriginalExtension();
+                    $request->file('exploitationLicense')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
+                    $profile->exploitation_license_path = "/upload/doctor_assets/{$imageName}";
+                }
+                break;
+            // case 4: // Ambulance
+            //     $profile = new DoctorProfile();
+            //     break;
+            default:
+                return response()->json([
+                    "message" => __('auth.registration.invalid_identity'),
+                ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $profile->save();
+        $this->createService($profile->id);
+    }
+
+    private function patientCreate($userId, RegisterRequest $request)
+    {
+        $profile = new PatientProfile();
+        $profile->user_id = $userId;
+        $profile->age = $request->age;
+        $profile->gender = $request->gender;
+        $profile->height = $request->height;
+        $profile->weight = $request->weight;
+        $profile->blood_group = $request->bloodGroup;
+        $profile->medical_history = $request->medicalHistory;
+        $profile->save();
+
+        $insurance = new UserInsurance();
+        $insurance->patient_profile_id = $profile->id;
+        $insurance->insurance_type = $request->insuranceType;
+        $insurance->insurance_number = $request->insuranceNumber;
+
+        switch ($request->insuranceType) {
+            case 'public':
+                $insurance->assurance_type = $request->assuranceType;
+                break;
+            case 'private':
+                $insurance->main_insured = $request->mainInsured;
+                $insurance->entitled_insured = $request->entitledInsured;
+                $insurance->assurance_type = $request->assuranceType;
+                break;
+            case 'vietnamese':
+                $insurance->insuranceRegistry = $request->registry;
+                $insurance->insuranceRegisteredAddress = $request->registeredAddress;
+                $insurance->insuranceValidFrom = $request->validFrom;
+                break;
+            default:
+                return response()->json([
+                    "message" => __('auth.registration.invalid_insurance'),
+                ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $insurance->save();
+    }
+
+    private function createSettings($userId)
+    {
+        $notificationSettingsName = ["system", "promotion", "sms", "push"];
+        $messagesSettingsName = ["delivery", "appearance", "privacy", "backup"];
+
+        for ($i = 0; $i < 4; $i++) {
+            $notificationSetting = new UserSetting();
+            $notificationSetting->user_id = $userId;
+            $notificationSetting->name = $notificationSettingsName[$i];
+            $notificationSetting->value = 1;
+            $notificationSetting->save();
+
+            $messageSetting = new UserSetting();
+            $messageSetting->user_id = $userId;
+            $messageSetting->name = $messagesSettingsName[$i];
+            $messageSetting->value = 1;
+            $messageSetting->save();
+        }
+    }
+
+    private function createService($doctorProfileId)
+    {
+        $serviceName = ["Home", "Video appointment", "Clinic", "Online visit"];
+        $serviceDescription = ["Schedule doctor to visit your home", "Book a video call with doctor", "Schedule an office visit", "Book a video call with doctor"];
+        $serviceIcon = ["assets/icons/home_2.svg", "assets/icons/video_on.svg", "assets/icons/first_aid_kit.svg", "assets/icons/online.svg"];
+
+        for ($i = 0; $i < 4; $i++) {
+            $service = new Service();
+            $service->doctor_profile_id = $doctorProfileId;
+            $service->icon = $serviceIcon[$i];
+            $service->name = $serviceName[$i];
+            $service->description = $serviceDescription[$i];
+            $service->price = 0;
+            $service->duration = 0;
+            $service->buffer_time = 0;
+            $service->is_active = 0;
+            $service->save();
+        }
     }
 }
