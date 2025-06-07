@@ -8,3 +8,4 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/check-email', [AuthController::class, 'checkEmail']);
 Route::post('/password-reset-request', [AuthController::class, 'passwordResetRequest'])->middleware('auth:sanctum');
+Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
