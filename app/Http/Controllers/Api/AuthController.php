@@ -373,4 +373,18 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
+
+    public function tokenCheck(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            return response()->json([
+                "message" => "Token is valid",
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                "message" => "Token is invalid",
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+    }
 }
