@@ -11,6 +11,7 @@ use App\Http\Middleware\LocalizationMiddleware;
 Route::middleware(['auth:sanctum', LocalizationMiddleware::class])->group(function () {
 
     //* Authentication routes
+    Route::get('token-check', [AuthController::class, 'tokenCheck']);
     Route::post('/password-reset-request', [AuthController::class, 'passwordResetRequest']);
     Route::get('/logout', [AuthController::class, 'logout']);
 });
