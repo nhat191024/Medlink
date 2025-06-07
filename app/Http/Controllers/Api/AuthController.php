@@ -358,4 +358,19 @@ class AuthController extends Controller
             "message" => "success",
         ], Response::HTTP_OK);
     }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->tokens()->delete();
+            return response()->json([
+                "message" => "Logout successful",
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                "message" => "User not authenticated",
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+    }
 }
