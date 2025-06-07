@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\LoginController;
+use App\Http\Controllers\API\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/register', [LoginController::class, 'register']);
-Route::post('/check-email', [LoginController::class, 'checkEmail']);
-Route::post('/password-reset-request', [LoginController::class, 'passwordResetRequest']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/check-email', [AuthController::class, 'checkEmail']);
+Route::post('/password-reset-request', [AuthController::class, 'passwordResetRequest']);

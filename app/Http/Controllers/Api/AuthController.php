@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Validator;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function Login(Request $request)
     {
