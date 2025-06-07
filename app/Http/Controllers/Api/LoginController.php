@@ -321,4 +321,41 @@ class LoginController extends Controller
             $service->save();
         }
     }
+
+    public function passwordResetRequest(Request $request)
+    {
+        $rules = [
+            'countryCode' => 'required|string',
+            'phone' => 'required|string',
+        ];
+
+        $messages = [
+            'countryCode.required' => "Country Code is required",
+            'countryCode.string' => "Country Code must be string",
+            'phone.required' => "Phone number is required",
+            'phone.string' => "Phone number must be string",
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
+        }
+
+        $user = User::where('country_code', $request->countryCode)
+            ->where('phone', $request->phone)
+            ->first();
+
+        if (!$user) {
+            return response()->json([
+                "message" => "User not found",
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        //TODO: Implement password reset logic here (e.g., send email or SMS with reset link)
+        //* for now, we will just return a success message
+        return response()->json([
+            "message" => "success",
+        ], Response::HTTP_OK);
+    }
 }
