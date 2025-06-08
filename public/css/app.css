@@ -3,3 +3,147 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f9fafb;
+}
+
+.login-left {
+    flex: 1;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    background: #fff;
+}
+
+.doctor-img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.login-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9fafb;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 350px;
+    background: transparent;
+    padding: 40px 24px;
+    border-radius: 16px;
+    box-shadow: none;
+    text-align: center;
+}
+
+.login-logo {
+    height: 64px;
+    margin-bottom: 24px;
+}
+
+.login-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #22223b;
+    margin-bottom: 32px;
+}
+
+.logindt-btn {
+    display: block;
+    width: 100%;
+    background: #111;
+    color: #fff;
+    font-weight: 500;
+    padding: 12px 0;
+    border-radius: 24px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.login-btn:hover {
+    background: #333;
+}
+
+.register-btn {
+    display: block;
+    width: 100%;
+    background: #fff;
+    color: #111;
+    font-weight: 500;
+    padding: 12px 0;
+    border: 1px solid #bbb;
+    border-radius: 24px;
+    margin-bottom: 28px;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.register-btn:hover {
+    background: #f1f1f1;
+}
+
+.divider {
+    position: relative;
+    margin: 24px 0;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.divider:before,
+.divider:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #ddd;
+}
+
+.divider:before {
+    left: 0;
+}
+
+.divider:after {
+    right: 0;
+}
+
+.social-btns {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.social-btns a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.social-btns a:hover {
+    background: #f1f1f1;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.social-btns img {
+    width: 24px;
+    height: 24px;
+}
