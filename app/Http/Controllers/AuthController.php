@@ -8,11 +8,11 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.splash');
     }
 
     public function showRegistrationForm()
     {
-        return view('auth.register'); // Tạo tương tự nếu cần
+        return view('auth.register');
     }
 }
