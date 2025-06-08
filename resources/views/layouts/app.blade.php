@@ -11,13 +11,29 @@
     <!-- Styles -->
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
 
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+    </style>
     @stack('styles')
 </head>
 
 <body>
     <!-- Navbar Component -->
     <x-navbar />
+
 
     <!-- Main Content -->
     <main>
@@ -26,6 +42,10 @@
 
     <!-- Scripts -->
     @stack('scripts')
+
+    @include('layouts.footer')
+    
 </body>
 
 </html>
+                                                                                

@@ -1,0 +1,75 @@
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h4 class="footer-title">DỊCH VỤ</h4>
+            <ul>
+                <li>Đặt câu hỏi miễn phí</li>
+                <li>Đặt khám tổng quát</li>
+                <li>Xem kết quả xét nghiệm</li>
+                <li>Mua thuốc trực tuyến</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4 class="footer-title">THÔNG TIN</h4>
+            <ul>
+                <li>Tra cứu loại bệnh</li>
+                <li>Tra cứu thuốc <span class="footer-badge">SẮP RA MẮT</span></li>
+                <li>Tìm phòng khám</li>
+                <li>Tìm kiếm Bác sĩ</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4 class="footer-title">CHO ĐỐI TÁC</h4>
+            <ul>
+                <li>Dành cho Bác sĩ</li>
+                <li>Cộng tác viên</li>
+                <li>Doanh nghiệp</li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4 class="footer-title">KHÁC</h4>
+            <ul>
+                <li>Chính sách bảo mật</li>
+                <li>Điều khoản sử dụng</li>
+                <li>Quy định về sử dụng sản phẩm</li>
+                <li>Thanh toán tự động Autopay</li>
+                <li>Quy chế hoạt động</li>
+                <li>Tin tức & Báo chí</li>
+            </ul>
+        </div>
+        <div class="footer-section footer-connect">
+            <h4 class="footer-title">KẾT NỐI VỚI CHÚNG TÔI</h4>
+            <div class="footer-social">
+                <span class="footer-icon">FB</span>
+                <span class="footer-icon">YT</span>
+            </div>
+            <div class="footer-apps">
+                <img src="{{ asset('appstore.png') }}" alt="App Store" class="footer-app-img" />
+                <img src="{{ asset('googleplay.png') }}" alt="Google Play" class="footer-app-img" />
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div>
+            <strong>Liên hệ</strong><br>
+            Email: hotro@fpt.vn<br>
+            Hotline: 1900 6115 - 0899909115
+        </div>
+        <div>
+            <strong>Trụ sở Hồ Chí Minh</strong><br>
+            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+        </div>
+        <div>
+            <strong>Chi nhánh TP. Hải Phòng</strong><br>
+            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+        </div>
+        <div>
+            <strong>Chi nhánh TP. Cần Thơ</strong><br>
+            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+        </div>
+    </div>
+    <div class="footer-company">
+        Công ty Cổ phần  | Đại diện pháp luật: Ông | MST 123
+        <img src="{{ asset('dangky.png') }}" alt="Đã đăng ký bộ công thương" class="footer-dangky" />
+    </div>
+</footer>
