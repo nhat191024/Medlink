@@ -53,7 +53,7 @@
         <!-- Auth Buttons -->
         <div class="navbar-auth">
             @guest
-                <a class="auth-button login-btn" href="{{ route('login') }}">Đăng ký / Đăng nhập</a>
+                <a class="auth-button login-btn" href="{{ route('splash') }}">Đăng ký / Đăng nhập</a>
                 <div class="auth-subtitle">Đăng nhập để xem kết quả</div>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->

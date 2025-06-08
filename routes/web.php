@@ -11,7 +11,7 @@ Route::get('/', function () {
 
 // Auth routes
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::get('/splash', [AuthController::class, 'showSplashForm'])->name('splash');
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 
     Route::get('/login', [LoginController::class, 'index'])->name('login');
