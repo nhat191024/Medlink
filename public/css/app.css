@@ -5,14 +5,14 @@ body {
     background: #f5f6fa;
 }
 
-.login-container {
+.splash-container {
     display: flex;
     min-height: 92vh;
     position: relative;
     background: #f5f6fa;
 }
 
-.login-left {
+.splash-left {
     flex: 1.2;
     height: 92.5vh;
     overflow: hidden;
@@ -34,7 +34,7 @@ body {
     display: block;
 }
 
-.login-right {
+.splash-right {
     flex: 1;
     display: flex;
     align-items: center;
@@ -51,7 +51,7 @@ body {
     min-height: 92.5vh;
 }
 
-.login-box {
+.splash-box {
     width: 100%;
     max-width: 350px;
     background: transparent;
@@ -61,19 +61,19 @@ body {
     text-align: center;
 }
 
-.login-logo {
+.splash-logo {
     height: 100px;
     margin-bottom: 32px;
 }
 
-.login-title {
+.splash-title {
     font-size: 18px;
     font-weight: 600;
     color: #22223b;
     margin-bottom: 32px;
 }
 
-.logindt-btn {
+.splashdt-btn {
     display: block;
     width: 100%;
     background: #111;
@@ -86,7 +86,7 @@ body {
     transition: background 0.2s;
 }
 
-.login-btn:hover {
+.splash-btn:hover {
     background: #333;
 }
 

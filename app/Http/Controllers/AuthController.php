@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function showLoginForm()
+    public function showSplashForm()
     {
         return view('auth.splash');
     }

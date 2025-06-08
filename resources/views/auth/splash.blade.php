@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="login-container">
-    <div class="login-left">
+<div class="splash-container">
+    <div class="splash-left">
         <img src="/images/happy-black-male-doctor-showing-thumb-up-medical-product-advertising-concept_1262-12343.avif" alt="Doctor" class="doctor-img">
     </div>
-    <div class="login-right">
-        <div class="login-box">
-            <img src="/images/logo.svg" alt="Logo" class="login-logo">
-            <h1 class="login-title">Chăm sóc sức khỏe chỉ cần một chút</h1>
-            <a href="{{ route('login') }}" class="logindt-btn">Đăng nhập</a>
+    <div class="splash-right">
+        <div class="splash-box">
+            <img src="/images/logo.svg" alt="Logo" class="splash-logo">
+            <h1 class="splash-title">Chăm sóc sức khỏe chỉ cần một chút</h1>
+            <a href="{{ route('splash') }}" class="splashdt-btn">Đăng nhập</a>
             <a href="{{ route('register') }}" class="register-btn">Tạo tài khoản</a>
             <div class="divider">
                 <span>hoặc tiếp tục với</span>
