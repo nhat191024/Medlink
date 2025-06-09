@@ -69,7 +69,7 @@
         </div>
     </div>
     <div class="footer-company">
-        Công ty Cổ phần Nobi 💓 | Đại diện pháp luật: Ông Nguyễn Minh Đức | MST 123
-        <img class="footer-dangky" src="{{ asset('dangky.png') }}" alt="Đã đăng ký bộ công thương" />
+        Công ty Cổ phần Taiyo | Đại diện pháp luật: Ông Taiyo | MST 123
+        <img class="footer-dangky" src="{{ asset('img/bocongthuong.png') }}" alt="Đã đăng ký bộ công thương" />
     </div>
 </footer>
