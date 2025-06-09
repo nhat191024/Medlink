@@ -83,10 +83,8 @@
 }
 
 .footer-app-img {
-    width: 120px;
-    border-radius: 6px;
-    background: #fff;
-    padding: 2px 0;
+    width: 65%;
+    height: 65%;
 }
 
 .footer-bottom {

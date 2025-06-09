@@ -44,8 +44,8 @@
                 <span class="footer-icon">YT</span>
             </div>
             <div class="footer-apps">
-                <img src="{{ asset('appstore.png') }}" alt="App Store" class="footer-app-img" />
-                <img src="{{ asset('googleplay.png') }}" alt="Google Play" class="footer-app-img" />
+                <img class="footer-app-img" src="{{ asset('img/AppStore.png') }}" alt="App Store" />
+                <img class="footer-app-img" src="{{ asset('img/GooglePlay.png') }}" alt="Google Play" />
             </div>
         </div>
     </div>
@@ -70,6 +70,6 @@
     </div>
     <div class="footer-company">
         Công ty Cổ phần Nobi 💓 | Đại diện pháp luật: Ông Nguyễn Minh Đức | MST 123
-        <img src="{{ asset('dangky.png') }}" alt="Đã đăng ký bộ công thương" class="footer-dangky" />
+        <img class="footer-dangky" src="{{ asset('dangky.png') }}" alt="Đã đăng ký bộ công thương" />
     </div>
 </footer>
