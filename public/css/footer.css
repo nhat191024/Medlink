@@ -66,9 +66,10 @@
     height: 32px;
     font-weight: bold;
     font-size: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     transition: background 0.2s, color 0.2s;
 }
+
 .footer-icon:hover {
     background: #e91c2a;
     color: #fff;
@@ -80,6 +81,7 @@
     flex-direction: column;
     gap: 8px;
 }
+
 .footer-app-img {
     width: 120px;
     border-radius: 6px;
@@ -100,7 +102,8 @@
     margin-right: auto;
     gap: 20px;
 }
-.footer-bottom > div {
+
+.footer-bottom>div {
     flex: 1 1 200px;
     margin: 5px 10px;
     min-width: 180px;
@@ -115,6 +118,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 .footer-dangky {
     height: 32px;
     vertical-align: middle;
@@ -122,16 +126,21 @@
 }
 
 @media (max-width: 900px) {
-    .footer-container, .footer-bottom {
+
+    .footer-container,
+    .footer-bottom {
         flex-direction: column;
         align-items: flex-start;
     }
-    .footer-section, .footer-bottom > div {
+
+    .footer-section,
+    .footer-bottom>div {
         min-width: unset;
         width: 100%;
         margin: 0 0 20px 0;
     }
+
     .footer-company {
         text-align: left;
     }
-} 
+}
