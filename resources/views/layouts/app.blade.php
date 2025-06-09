@@ -29,11 +29,11 @@
         @yield('content')
     </main>
 
+    <!-- Footer Component -->
+    <x-footer />
+
     <!-- Scripts -->
     @stack('scripts')
-
-    @include('layouts.footer')
-
 </body>
 
 </html>
