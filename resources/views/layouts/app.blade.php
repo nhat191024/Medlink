@@ -11,8 +11,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     @stack('styles')
+
+    <!-- Example: Add page-specific styles -->
+    {{-- @push('styles')
+        <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
+    @endpush --}}
 </head>
 
 <body>
@@ -23,6 +28,9 @@
     <main>
         @yield('content')
     </main>
+
+    <!-- Footer Component -->
+    <x-footer />
 
     <!-- Scripts -->
     @stack('scripts')

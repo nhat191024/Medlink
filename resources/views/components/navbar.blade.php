@@ -1,41 +1,41 @@
 <nav class="navbar">
     <div class="navbar-container">
         <!-- Main Navigation Menu -->
-        <div class="navbar-menu">
-            <div class="navbar-item dropdown">
+        <ul class="navbar-menu">
+            <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Phòng khám
                     <span class="dropdown-arrow">▼</span>
                 </a>
                 <div class="navbar-subtitle">Bệnh viện, cơ sở y tế</div>
-            </div>
+            </li>
 
-            <div class="navbar-item dropdown">
+            <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Dịch vụ
                     <span class="dropdown-arrow">▼</span>
                 </a>
                 <div class="navbar-subtitle">Danh sách các dịch vụ</div>
-            </div>
+            </li>
 
-            <div class="navbar-item">
+            <li class="navbar-item">
                 <a class="navbar-link" href="#">Đặt lịch</a>
                 <div class="navbar-subtitle">Tư vấn bác sĩ trực tuyến</div>
-            </div>
+            </li>
 
-            <div class="navbar-item">
+            <li class="navbar-item">
                 <a class="navbar-link" href="#">Nhà thuốc</a>
                 <div class="navbar-subtitle">Mua thuốc trực tuyến</div>
-            </div>
+            </li>
 
-            <div class="navbar-item dropdown">
+            <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Hỗ trợ
                     <span class="dropdown-arrow">▼</span>
                 </a>
                 <div class="navbar-subtitle">Bác sĩ, CTV, phòng khám</div>
-            </div>
-        </div>
+            </li>
+        </ul>
 
         <!-- Search Bar -->
         <div class="navbar-search">
