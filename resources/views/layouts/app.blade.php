@@ -12,28 +12,17 @@
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
-
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        main {
-            flex: 1 0 auto;
-        }
-    </style>
     @stack('styles')
+
+    <!-- Example: Add page-specific styles -->
+    {{-- @push('styles')
+        <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
+    @endpush --}}
 </head>
 
 <body>
     <!-- Navbar Component -->
     <x-navbar />
-
 
     <!-- Main Content -->
     <main>
@@ -44,8 +33,7 @@
     @stack('scripts')
 
     @include('layouts.footer')
-    
+
 </body>
 
 </html>
-                                                                                
