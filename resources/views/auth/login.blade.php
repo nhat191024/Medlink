@@ -61,7 +61,7 @@ function togglePasswordVisibility() {
 
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
-        icon.textContent = "🙈";
+        icon.textContent = "👁️‍🗨️";
     } else {
         passwordInput.type = "password";
         icon.textContent = "👁️";
