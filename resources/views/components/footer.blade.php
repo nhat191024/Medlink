@@ -13,7 +13,6 @@
             <h4 class="footer-title">THÔNG TIN</h4>
             <ul>
                 <li>Tra cứu loại bệnh</li>
-                <li>Tra cứu thuốc <span class="footer-badge">SẮP RA MẮT</span></li>
                 <li>Tìm phòng khám</li>
                 <li>Tìm kiếm Bác sĩ</li>
             </ul>
@@ -34,7 +33,6 @@
                 <li>Quy định về sử dụng sản phẩm</li>
                 <li>Thanh toán tự động Autopay</li>
                 <li>Quy chế hoạt động</li>
-                <li>Tin tức & Báo chí</li>
             </ul>
         </div>
         <div class="footer-section footer-connect">
@@ -52,20 +50,20 @@
     <div class="footer-bottom">
         <div>
             <strong>Liên hệ</strong><br>
-            Email: hotro@fpt.vn<br>
-            Hotline: 1900 6115 - 0899909115
+            Email: hotro@medlink.vn<br>
+            Hotline: 1900 100ó
         </div>
         <div>
             <strong>Trụ sở Hồ Chí Minh</strong><br>
-            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+            landmark 81, 720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh
         </div>
         <div>
             <strong>Chi nhánh TP. Hải Phòng</strong><br>
-            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+            Vìnhomes Ocean Park, 458 Lê Văn Lương, Phường Cát Bi, Quận Hải An, TP. Hải Phòng
         </div>
         <div>
-            <strong>Chi nhánh TP. Cần Thơ</strong><br>
-            Tầng 6 Tòa Cao đẳng FPT Polytechnic - Lê Thánh Tông - Ngô Quyền - Hải Phòng
+            <strong>Chi nhánh TP. Hà Nội</strong><br>
+            Vinhomes Metropolis, 29 Liễu Giai, Phường Liễu Giai, Quận Ba Đình, TP. Hà Nội
         </div>
     </div>
     <div class="footer-company">
