@@ -40,8 +40,8 @@
         <div class="footer-section footer-connect">
             <h4 class="footer-title">KẾT NỐI VỚI CHÚNG TÔI</h4>
             <div class="footer-social">
-                <span class="footer-icon">FB</span>
-                <span class="footer-icon">YT</span>
+                <img class="footer-icon" src="{{ asset('img/facebook.png') }}" alt="Facebook" />
+                <img class="footer-icon" src="{{ asset('img/youtube.png') }}" alt="Youtube" />
             </div>
             <div class="footer-apps">
                 <img class="footer-app-img" src="{{ asset('img/AppStore.png') }}" alt="App Store" />
