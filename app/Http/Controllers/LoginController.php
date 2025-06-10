@@ -24,11 +24,9 @@ class LoginController extends Controller
             'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z]{6,})(?=.*\d)(?=.*[&$#%]).+$/',
         ];
 
-        if ($fieldType === 'phone') {
-            $rules['email'] = 'required||string|regex:/^(\+84|84|0)[0-9]{9,10}$|^(\+1\s?)?(\(?\d{3}\)?[\s.-]?)?\d{3}[\s.-]?\d{4}$/';
-        } else {
-            $rules['email'] = 'required|string|email';
-        }
+        $rules['email'] = $fieldType === 'phone'
+            ? 'required|string|regex:/^\+[0-9]{1,3}[0-9]{10,15}$/'
+            : 'required|string|email';
 
         $messages = [
             'email.required' => 'Vui lòng nhập email hoặc số điện thoại.',
