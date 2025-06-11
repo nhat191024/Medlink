@@ -10,9 +10,4 @@ class AuthController extends Controller
     {
         return view('auth.splash');
     }
-
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
-    }
 }
