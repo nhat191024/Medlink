@@ -36,7 +36,7 @@ class AuthController extends Controller
         $messages = [
             'email.required' => __('client/auth.validation.email_required'),
             'email.email' => __('client/auth.validation.email_email'),
-            'email.regex' => __('client/auth.validation.phone_regex'),
+            'email.regex' => __('client/auth.validation.email_regex'),
             'password.required' => __('client/auth.validation.password_required'),
             'password.min' => __('client/auth.validation.password_min'),
             'password.regex' => __('client/auth.validation.password_regex'),
