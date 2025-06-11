@@ -10,56 +10,54 @@
         <!-- Main Navigation Menu -->
         <ul class="navbar-menu">
             <li class="navbar-item dropdown">
-                <a class="navbar-link" href="#">
-                    Phòng khám
-                    <span class="dropdown-arrow">
-                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
-                    </span>
-                </a>
-                <div class="navbar-subtitle">Bệnh viện, cơ sở y tế</div>
+                <a class="navbar-link" href="#">{{ __('client/navbar.menu.home') }}</a>
+                <div class="navbar-subtitle">{{ __('client/navbar.subtitle.home') }}</div>
             </li>
 
             <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
-                    Dịch vụ
+                    {{ __('client/navbar.menu.services') }}
                     <span class="dropdown-arrow">
                         @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
                     </span>
                 </a>
-                <div class="navbar-subtitle">Danh sách các dịch vụ</div>
+                <div class="navbar-subtitle">
+                    {{ __('client/navbar.subtitle.services') }}
+                </div>
             </li>
 
             <li class="navbar-item">
-                <a class="navbar-link" href="#">Đặt lịch</a>
-                <div class="navbar-subtitle">Tư vấn bác sĩ trực tuyến</div>
+                <a class="navbar-link" href="#">{{ __('client/navbar.menu.doctor_consultation') }}</a>
+                <div class="navbar-subtitle">{{ __('client/navbar.subtitle.doctor_consultation') }}</div>
             </li>
 
             <li class="navbar-item">
-                <a class="navbar-link" href="#">Nhà thuốc</a>
-                <div class="navbar-subtitle">Mua thuốc trực tuyến</div>
+                <a class="navbar-link" href="#">{{ __('client/navbar.menu.pharmacy') }}</a>
+                <div class="navbar-subtitle">
+                    {{ __('client/navbar.subtitle.pharmacy') }}
+                </div>
             </li>
 
             <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
-                    Hỗ trợ
+                    {{ __('client/navbar.menu.support') }}
                     <span class="dropdown-arrow">
                         @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
                     </span>
                 </a>
-                <div class="navbar-subtitle">Bác sĩ, CTV, phòng khám</div>
+                <div class="navbar-subtitle">{{ __('client/navbar.subtitle.support') }}</div>
             </li>
         </ul>
 
         <!-- Auth Buttons -->
         <div class="navbar-auth">
             @guest
-                <a class="auth-button" href="{{ route('splash') }}">Đăng ký / Đăng nhập</a>
-                <div class="auth-subtitle">Đăng nhập để xem kết quả</div>
+                <a class="auth-button" href="{{ route('splash') }}">{{ __('client/navbar.button.login') }} / {{ __('client/navbar.button.register') }}</a>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="auth-button" type="submit">Đăng xuất</button>
+                    <button class="auth-button" type="submit">{{ __('client/navbar.button.logout') }}</button>
                 </form>
             @endguest
         </div>
