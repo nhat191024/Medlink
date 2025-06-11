@@ -1,5 +1,12 @@
 <nav class="navbar">
     <div class="navbar-container">
+        <!-- Logo -->
+
+        <a class="navbar-logo" href="#">
+            <img class="logo-image" src="{{ asset('img/logo.svg') }}" alt="Logo">
+            <span class="logo-text">Medlink</span>
+        </a>
+
         <!-- Main Navigation Menu -->
         <ul class="navbar-menu">
             <li class="navbar-item dropdown">
