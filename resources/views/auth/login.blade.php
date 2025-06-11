@@ -13,12 +13,12 @@
                     <img src="{{ asset('img/bantay.png') }}" alt="bantay">
                 </div>
 
-                <h2>Welcome back!</h2>
+                <h2>{{ __('client/auth.welcome') }}</h2>
 
                 {{-- EMAIL or PHONE --}}
                 <div class="form-group">
-                    <label for="email">Email or Phone</label>
-                    <input id="email" name="email" type="text" value="{{ old('email') }}" placeholder="Enter your email or phone number">
+                    <label for="email">{{ __('client/auth.fields.label.login') }}</label>
+                    <input id="email" name="email" type="text" value="{{ old('email') }}" placeholder="{{ __('client/auth.fields.placeholder.login') }}">
                     @error('email')
                         <div style="color: red; font-size: 14px; margin-top: 6px;">
                             {{ $message }}
@@ -28,9 +28,9 @@
 
                 {{-- PASSWORD --}}
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">{{ __('client/auth.fields.label.password') }}</label>
                     <div class="password-wrapper">
-                        <input id="password" name="password" type="password" placeholder="Enter your password">
+                        <input id="password" name="password" type="password" placeholder="{{ __('client/auth.fields.placeholder.password') }}">
                         <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
                     </div>
                     @error('password')
@@ -40,9 +40,9 @@
                     @enderror
                 </div>
 
-                <a class="forgot-password" href="#">Forgot password</a>
+                <a class="forgot-password" href="#">{{ __('client/auth.forgot_password') }}</a>
 
-                <button type="submit">Log In</button>
+                <button type="submit">{{ __('client/auth.button.login') }}</button>
             </form>
         </div>
     </div>
