@@ -12,7 +12,9 @@
             <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Phòng khám
-                    <span class="dropdown-arrow">▼</span>
+                    <span class="dropdown-arrow">
+                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
+                    </span>
                 </a>
                 <div class="navbar-subtitle">Bệnh viện, cơ sở y tế</div>
             </li>
@@ -20,7 +22,9 @@
             <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Dịch vụ
-                    <span class="dropdown-arrow">▼</span>
+                    <span class="dropdown-arrow">
+                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
+                    </span>
                 </a>
                 <div class="navbar-subtitle">Danh sách các dịch vụ</div>
             </li>
@@ -38,7 +42,9 @@
             <li class="navbar-item dropdown">
                 <a class="navbar-link" href="#">
                     Hỗ trợ
-                    <span class="dropdown-arrow">▼</span>
+                    <span class="dropdown-arrow">
+                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
+                    </span>
                 </a>
                 <div class="navbar-subtitle">Bác sĩ, CTV, phòng khám</div>
             </li>
