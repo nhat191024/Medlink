@@ -15,12 +15,12 @@
 
                 <h2>Welcome back!</h2>
 
-                {{-- EMAIL OR PHONE --}}
+                {{-- EMAIL or PHONE --}}
                 <div class="form-group">
                     <label for="email">Email or Phone</label>
                     <input id="email" name="email" type="text" value="{{ old('email') }}" placeholder="Enter your email or phone number">
                     @error('email')
-                        <div style="color: red; font-size: 14px;">
+                        <div style="color: red; font-size: 14px; margin-top: 6px;">
                             {{ $message }}
                         </div>
                     @enderror
@@ -34,7 +34,7 @@
                         <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
                     </div>
                     @error('password')
-                        <div style="color: red; font-size: 14px;">
+                        <div style="color: red; font-size: 14px; margin-top: 6px;">
                             {{ $message }}
                         </div>
                     @enderror
