@@ -1,6 +1,7 @@
 <?php
 return [
     'welcome' => 'Welcome back',
+    'splash_title' => 'Healthcare made easy',
     'fields' => [
         'label' => [
             'login' => 'Email or phone number',
@@ -13,6 +14,7 @@ return [
         ],
     ],
     'forgot_password' => 'Forgot your password?',
+    'or_continue_with' => 'Or continue with',
 
     'validation' => [
         'email_required' => 'Please enter your email or phone number.',

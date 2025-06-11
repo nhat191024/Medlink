@@ -52,8 +52,16 @@
 
         <!-- Auth Buttons -->
         <div class="navbar-auth">
-            <a class="auth-button login-btn" href="#">Đăng ký / Đăng nhập</a>
-            <div class="auth-subtitle">Đăng nhập để xem kết quả</div>
+            @guest
+                <a class="auth-button login-btn" href="{{ route('splash') }}">Đăng ký / Đăng nhập</a>
+                <div class="auth-subtitle">Đăng nhập để xem kết quả</div>
+            @else
+                <!-- Hiển thị khi đã đăng nhập -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="auth-button login-btn">Đăng xuất</button>
+                </form>
+            @endguest
         </div>
     </div>
 </nav>
