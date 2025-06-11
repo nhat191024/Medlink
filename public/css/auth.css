@@ -1,0 +1,223 @@
+.container {
+    display: flex;
+    height: 92vh;
+    position: relative;
+    background: #EFEFEF;
+}
+
+.doctor-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.left {
+    flex-basis: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.right {
+    flex-basis: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f6f6f5;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 40px 0 0 40px;
+    margin-left: -30px;
+}
+
+.back-btn-container {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    z-index: 10;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.logo {
+    height: 100px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 40px 0 40px 0;
+    text-align: center;
+}
+
+/* login screen */
+.form-group {
+    position: relative;
+    margin-bottom: 28px;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 16px 44px 16px 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 16px;
+    background: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: #222;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    border-color: #DF1D32;
+    box-shadow: 0 2px 8px rgba(223, 29, 50, 0.08);
+}
+
+.form-group label {
+    position: absolute;
+    top: 12px;
+    left: 18px;
+    font-size: 14px;
+    color: #888;
+    background: transparent;
+    pointer-events: none;
+    transition: 0.2s;
+    z-index: 2;
+}
+
+.form-group.has-value label,
+.form-group input:focus+label {
+    top: -12px;
+    left: 10px;
+    font-size: 12px;
+    color: #DF1D32;
+    background: #f6f6f5;
+    padding: 0 4px;
+}
+
+.input-icon-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-group input {
+    padding-right: 44px;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    z-index: 3;
+}
+
+.toggle-password-icon {
+    width: 24px;
+    height: 24px;
+    color: #888;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 8px;
+    align-self: center;
+    text-align: center;
+}
+
+.forgot-password {
+    color: #DF1D32;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 24px;
+    align-self: center;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.login-btn {
+    display: block;
+    width: 40%;
+    background: #111;
+    color: #fff;
+    font-weight: 500;
+    padding: 12px 0;
+    border-radius: 24px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.register-btn {
+    display: block;
+    width: 40%;
+    background: #fff;
+    color: #111;
+    font-weight: 500;
+    padding: 12px 0;
+    border: 1px solid #111;
+    border-radius: 24px;
+    margin-bottom: 28px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.divider {
+    position: relative;
+    margin: 0 0 20px 0;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.social-btns {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.social-btns a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.social-btns a:hover {
+    background: #f1f1f1;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}

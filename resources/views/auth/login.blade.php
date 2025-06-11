@@ -1,68 +1,94 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-    <div class="login-container">
-        <div class="login-left">
-            <img src="{{ asset('img/bacsi.png') }}" alt="doctor">
+    <div class="container">
+        <div class="left">
+            <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
-        <div class="login-right">
-            <form class="login-form" method="POST" action="{{ route('login.post') }}">
-                @csrf
 
-                <div class="emoji">
-                    <img src="{{ asset('img/bantay.png') }}" alt="bantay">
-                </div>
+        <form class="right" method="POST" action="{{ route('login.post') }}">
+            @csrf
 
-                <h2>{{ __('client/auth.welcome') }}</h2>
+            <div class="back-btn-container">
+                <a class="back-btn" href="{{ route('splash') }}">
+                    @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
+                </a>
+            </div>
 
-                {{-- EMAIL or PHONE --}}
-                <div class="form-group">
-                    <label for="email">{{ __('client/auth.fields.label.login') }}</label>
-                    <input id="email" name="email" type="text" value="{{ old('email') }}" placeholder="{{ __('client/auth.fields.placeholder.login') }}">
-                    @error('email')
-                        <div style="color: red; font-size: 14px; margin-top: 6px;">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
+            <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
 
-                {{-- PASSWORD --}}
-                <div class="form-group">
-                    <label for="password">{{ __('client/auth.fields.label.password') }}</label>
-                    <div class="password-wrapper">
-                        <input id="password" name="password" type="password" placeholder="{{ __('client/auth.fields.placeholder.password') }}">
-                        <span class="toggle-password" onclick="togglePasswordVisibility()">👁️</span>
+            <h1>{{ __('client/auth.welcome') }}</h1>
+
+            <div class="form-group {{ old('email') ? 'has-value' : '' }}">
+                <input id="email" name="email" type="text" value="{{ old('email') }}">
+                <label for="email">{{ __('client/auth.fields.label.login') }}</label>
+
+                @error('email')
+                    <div class="error-message">
+                        {{ $message }}
                     </div>
-                    @error('password')
-                        <div style="color: red; font-size: 14px; margin-top: 6px;">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon-group">
+                    <input id="password" name="password" type="password">
+                    <label for="password">{{ __('client/auth.fields.label.password') }}</label>
+                    <button class="toggle-password-btn" type="button" onclick="togglePassword()">
+                        @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
+                    </button>
                 </div>
+                @error('password')
+                    <div class="error-message">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
 
-                <a class="forgot-password" href="#">{{ __('client/auth.forgot_password') }}</a>
+            <a class="forgot-password" href="#">{{ __('client/auth.forgot_password') }}</a>
 
-                <button type="submit">{{ __('client/auth.button.login') }}</button>
-            </form>
-        </div>
+            <button class="login-btn" type="submit">{{ __('client/auth.button.login') }}</button>
+        </form>
+
     </div>
+@endsection
 
+@push('scripts')
     <script>
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById("password");
-            const icon = document.querySelector(".toggle-password");
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                icon.textContent = "👁️‍🗨️";
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerHTML = `@svg('heroicon-o-eye-slash')`;
             } else {
-                passwordInput.type = "password";
-                icon.textContent = "👁️";
+                input.type = 'password';
+                icon.innerHTML = `@svg('heroicon-o-eye')`;
             }
         }
+
+        // Auto label floating for input fields
+        function updateHasValueClass(input) {
+            const formGroup = input.closest('.form-group');
+            if (input.value) {
+                formGroup.classList.add('has-value');
+            } else {
+                formGroup.classList.remove('has-value');
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            [emailInput, passwordInput].forEach(function(input) {
+                updateHasValueClass(input);
+                input.addEventListener('input', function() {
+                    updateHasValueClass(input);
+                });
+            });
+        });
     </script>
-@endsection
+@endpush
