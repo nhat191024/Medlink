@@ -12,11 +12,11 @@
         <div class="splash-right">
             <div class="splash-box">
                 <img class="splash-logo" src="/images/logo.svg" alt="Logo">
-                <h1 class="splash-title">Chăm sóc sức khỏe chỉ cần một chút</h1>
-                <a class="splashdt-btn" href="{{ route('splash') }}">Đăng nhập</a>
-                <a class="register-btn" href="{{ route('register') }}">Tạo tài khoản</a>
+                <h1 class="splash-title">{{ __('client/auth.splash_title') }}</h1>
+                <a class="splashdt-btn" href="{{ route('splash') }}">{{ __('client/auth.button.login') }}</a>
+                <a class="register-btn" href="{{ route('register') }}">{{ __('client/auth.button.register') }}</a>
                 <div class="divider">
-                    <span>hoặc tiếp tục với</span>
+                    <span>{{ __('client/auth.or_continue_with') }}</span>
                 </div>
                 <div class="social-btns">
                     <a href="#"><img src="/images/747.png" alt="Apple"></a>

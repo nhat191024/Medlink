@@ -1,6 +1,7 @@
 <?php
 return [
     'welcome' => 'Chào mừng quay trở lại',
+    'splash_title' => 'Chăm sóc sức khoẻ chỉ cần một chút',
     'fields' => [
         'label' => [
             'login' => 'Email hoặc số điện thoại',
@@ -13,6 +14,7 @@ return [
         ],
     ],
     'forgot_password' => 'Quên mật khẩu của bạn?',
+    'or_continue_with' => 'Hoặc tiếp tục với',
 
     'validation' => [
         'email_required' => 'Vui lòng nhập email hoặc số điện thoại.',
