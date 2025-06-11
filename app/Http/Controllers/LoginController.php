@@ -29,12 +29,12 @@ class LoginController extends Controller
             : 'required|string|email';
 
         $messages = [
-            'email.required' => 'Vui lòng nhập email hoặc số điện thoại.',
-            'email.email' => 'Email không đúng định dạng.',
-            'email.regex' => 'Số điện thoại không đúng định dạng. VD: 0901234567 hoặc +1 (602) 384-7437',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'password.min' => 'Mật khẩu tối thiểu 8 ký tự.',
-            'password.regex' => 'Mật khẩu phải có ít nhất 6 chữ cái, 1 số và 1 ký tự đặc biệt (&, $, #, %).',
+            'email.required' => __('client/auth.validation.email_required'),
+            'email.email' => __('client/auth.validation.email_email'),
+            'email.regex' => __('client/auth.validation.phone_regex'),
+            'password.required' => __('client/auth.validation.password_required'),
+            'password.min' => __('client/auth.validation.password_min'),
+            'password.regex' => __('client/auth.validation.password_regex'),
         ];
 
         $request->validate($rules, $messages);
@@ -44,7 +44,7 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'password' => 'Thông tin đăng nhập không chính xác.',
+            'password' => __('client/auth.validation.password_wrong'),
         ])->withInput($request->only('email'));
     }
 }
