@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('layouts.app');
-});
-
 // Auth routes
 Route::middleware('guest')->group(function () {
     Route::get('/splash', [AuthController::class, 'showSplashForm'])->name('splash');
