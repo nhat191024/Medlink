@@ -53,13 +53,13 @@
         <!-- Auth Buttons -->
         <div class="navbar-auth">
             @guest
-                <a class="auth-button login-btn" href="{{ route('splash') }}">Đăng ký / Đăng nhập</a>
+                <a class="auth-button" href="{{ route('splash') }}">Đăng ký / Đăng nhập</a>
                 <div class="auth-subtitle">Đăng nhập để xem kết quả</div>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="auth-button login-btn">Đăng xuất</button>
+                    <button class="auth-button" type="submit">Đăng xuất</button>
                 </form>
             @endguest
         </div>
