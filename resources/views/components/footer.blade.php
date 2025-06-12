@@ -1,42 +1,33 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-section">
-            <h4 class="footer-title">DỊCH VỤ</h4>
+            <h4 class="footer-title">{{ __('client/footer.menu.service') }}</h4>
             <ul>
-                <li>Đặt câu hỏi miễn phí</li>
-                <li>Đặt khám tổng quát</li>
-                <li>Xem kết quả xét nghiệm</li>
-                <li>Mua thuốc trực tuyến</li>
+                <li>{{ __('client/footer.menu.services.service1') }}</li>
+                <li>{{ __('client/footer.menu.services.service2') }}</li>
+                <li>{{ __('client/footer.menu.services.service3') }}</li>
+                <li>{{ __('client/footer.menu.services.service4') }}</li>
             </ul>
         </div>
         <div class="footer-section">
-            <h4 class="footer-title">THÔNG TIN</h4>
+            <h4 class="footer-title">{{ __('client/footer.menu.information') }}</h4>
             <ul>
-                <li>Tra cứu loại bệnh</li>
-                <li>Tìm phòng khám</li>
-                <li>Tìm kiếm Bác sĩ</li>
+                <li>{{ __('client/footer.menu.informations.information1') }}</li>
+                <li>{{ __('client/footer.menu.informations.information2') }}</li>
+                <li>{{ __('client/footer.menu.informations.information3') }}</li>
             </ul>
         </div>
         <div class="footer-section">
-            <h4 class="footer-title">CHO ĐỐI TÁC</h4>
+            <h4 class="footer-title">{{ __('client/footer.menu.extra') }}</h4>
             <ul>
-                <li>Dành cho Bác sĩ</li>
-                <li>Cộng tác viên</li>
-                <li>Doanh nghiệp</li>
-            </ul>
-        </div>
-        <div class="footer-section">
-            <h4 class="footer-title">KHÁC</h4>
-            <ul>
-                <li>Chính sách bảo mật</li>
-                <li>Điều khoản sử dụng</li>
-                <li>Quy định về sử dụng sản phẩm</li>
-                <li>Thanh toán tự động Autopay</li>
-                <li>Quy chế hoạt động</li>
+                <li>{{ __('client/footer.menu.extras.extra1') }}</li>
+                <li>{{ __('client/footer.menu.extras.extra2') }}</li>
+                <li>{{ __('client/footer.menu.extras.extra3') }}</li>
+                <li>{{ __('client/footer.menu.extras.extra4') }}</li>
             </ul>
         </div>
         <div class="footer-section footer-connect">
-            <h4 class="footer-title">KẾT NỐI VỚI CHÚNG TÔI</h4>
+            <h4 class="footer-title">{{ __('client/footer.menu.connect_with_us') }}</h4>
             <div class="footer-social">
                 <img class="footer-icon" src="{{ asset('img/facebook.png') }}" alt="Facebook" />
                 <img class="footer-icon" src="{{ asset('img/youtube.png') }}" alt="Youtube" />
@@ -49,25 +40,25 @@
     </div>
     <div class="footer-bottom">
         <div>
-            <strong>Liên hệ</strong><br>
-            Email: hotro@medlink.vn<br>
-            Hotline: 1900 100ó
+            <strong>{{ __('client/footer.menu.contact') }}</strong><br>
+            {{ __('client/footer.menu.email') }}: hotro@medlink.vn<br>
+            {{ __('client/footer.menu.hotline') }}: 1900 100ó
         </div>
         <div>
-            <strong>Trụ sở Hồ Chí Minh</strong><br>
-            landmark 81, 720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh
+            <strong>{{ __('client/footer.menu.headquarters') }}</strong><br>
+            {{ __('client/footer.menu.address.address1') }}
         </div>
         <div>
-            <strong>Chi nhánh TP. Hải Phòng</strong><br>
-            Vìnhomes Ocean Park, 458 Lê Văn Lương, Phường Cát Bi, Quận Hải An, TP. Hải Phòng
+            <strong>{{ __('client/footer.menu.branches.branch2') }}</strong><br>
+            {{ __('client/footer.menu.address.address3') }}
         </div>
         <div>
-            <strong>Chi nhánh TP. Hà Nội</strong><br>
-            Vinhomes Metropolis, 29 Liễu Giai, Phường Liễu Giai, Quận Ba Đình, TP. Hà Nội
+            <strong>{{ __('client/footer.menu.branches.branch1') }}</strong><br>
+            {{ __('client/footer.menu.address.address2') }}
         </div>
     </div>
     <div class="footer-company">
-        Công ty Cổ phần Taiyo | Đại diện pháp luật: Ông Taiyo | MST 123
+        {{ __('client/footer.menu.company') }}
         <img class="footer-dangky" src="{{ asset('img/bocongthuong.png') }}" alt="Đã đăng ký bộ công thương" />
     </div>
 </footer>
