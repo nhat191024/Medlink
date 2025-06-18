@@ -10,7 +10,7 @@ class LogRouteAccess
 {
     public function handle(Request $request, Closure $next)
     {
-        if (env('APP_ENV') === 'local') {
+        if (env('APP_LOG_API') === 'local') {
             $route = $request->route();
             $routeName = $route?->getName();
             $routeAction = $route?->getActionName();
