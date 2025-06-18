@@ -6,9 +6,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 
 use App\Http\Middleware\LocalizationMiddleware;
+use App\Http\Middleware\LogRouteAccess;
 
 // Define API routes that require authentication
-Route::middleware(['auth:sanctum', LocalizationMiddleware::class])->group(function () {
+Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess::class])->group(function () {
 
     //* Authentication routes
     Route::get('token-check', [AuthController::class, 'tokenCheck']);
@@ -17,6 +18,6 @@ Route::middleware(['auth:sanctum', LocalizationMiddleware::class])->group(functi
 });
 
 // Define API routes that do not require authentication
-Route::middleware([LocalizationMiddleware::class])->group(function () {
+Route::middleware([LocalizationMiddleware::class, LogRouteAccess::class])->group(function () {
     require __DIR__ . '/api/auth.php';
 });
