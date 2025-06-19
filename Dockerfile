@@ -41,7 +41,10 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Cài đặt các dependency của Laravel
-RUN composer install --no-dev --optimize-autoloader
+# Cho Production
+# RUN composer install --no-dev --optimize-autoloader
+# Cho Development
+RUN composer install --optimize-autoloader
 
 # tạo key cho ứng dụng Laravel
 RUN php artisan key:generate
