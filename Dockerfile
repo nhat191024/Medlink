@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     libpng-dev \
     libpq-dev \
-    nodejs \
-    npm \
+    # nodejs \
+    # npm \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libicu-dev \
@@ -44,7 +44,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer install --no-dev --optimize-autoloader
 
 # tạo key cho ứng dụng Laravel
-RUN php artisan key:generateư
+RUN php artisan key:generate
 
 # Tạo cache cho config
 # RUN php artisan optimize:clear
