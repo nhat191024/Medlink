@@ -380,6 +380,7 @@ class AuthController extends Controller
         if ($user) {
             return response()->json([
                 "message" => "Token is valid",
+                "userType" => $user->user_type,
             ], Response::HTTP_OK);
         } else {
             return response()->json([
