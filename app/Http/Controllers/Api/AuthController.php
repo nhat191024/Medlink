@@ -388,4 +388,32 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
     }
+
+    public function mailCheck(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email',
+        ];
+
+        $messages = [
+            'email.required' => 'email is required',
+            'email.email' => 'email must be a valid email address',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (User::where('email', $request->email)->count() == 0) {
+            return response()->json([
+                "message" => 'email does not exist',
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json([
+            "message" => 'email already exists',
+        ], Response::HTTP_OK);
+    }
 }
