@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $doctor_profile_id
@@ -43,9 +43,9 @@ class WorkSchedule extends Model
         'all_day',
     ];
 
-    public static function isAvailable($doctorId)
+    public static function isAvailable($doctorProfileId)
     {
-        if (Appointment::isDoctorBusy($doctorId)) {
+        if (Appointment::isDoctorBusy($doctorProfileId)) {
             return false;
         }
 
@@ -53,7 +53,7 @@ class WorkSchedule extends Model
         $currentDayOfWeek = $now->format('l');
         $currentTime = $now->format('H:i:s');
 
-        $schedule = self::where('doctor_id', $doctorId)
+        $schedule = self::where('doctor_profile_id', $doctorProfileId)
             ->where('day_of_week', $currentDayOfWeek)
             ->first();
 
