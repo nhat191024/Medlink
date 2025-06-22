@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -55,7 +55,6 @@ class PatientProfile extends Model
         'user_id',
         'birth_date',
         'age',
-        'gender',
         'height',
         'weight',
         'blood_group',
