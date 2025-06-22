@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
 
             $table->string('avatar')->nullable();
             $table->string('name')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('country_code')->nullable();
             $table->string('phone')->nullable();
 

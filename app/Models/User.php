@@ -14,7 +14,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $user_type
@@ -125,6 +125,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
         'avatar',
         'name',
+        'gender',
         'country_code',
         'phone',
 
