@@ -7,6 +7,56 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $patient_profile_id
+ * @property int $doctor_profile_id
+ * @property int $service_id
+ * @property string $status
+ * @property string $medical_problem
+ * @property string|null $medical_problem_file
+ * @property int $duration
+ * @property string $date
+ * @property string $day_of_week
+ * @property string $time
+ * @property string|null $reason
+ * @property string|null $link
+ * @property string|null $address
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\DoctorProfile $doctor
+ * @property-read \App\Models\PatientProfile $patient
+ * @property-read \App\Models\Review|null $review
+ * @property-read \App\Models\Service $service
+ * @method static \Database\Factories\AppointmentFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereDayOfWeek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereDoctorProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereMedicalProblem($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereMedicalProblemFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment wherePatientProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereServiceId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Appointment extends Model
 {
     use HasFactory, SoftDeletes;
