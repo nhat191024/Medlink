@@ -18,6 +18,7 @@ Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess
 
     require __DIR__ . '/api/dashboard.php';
     require __DIR__ . '/api/notification.php';
+    require __DIR__ . '/api/search.php';
 });
 
 // Define API routes that do not require authentication
