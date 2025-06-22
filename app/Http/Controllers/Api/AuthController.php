@@ -116,7 +116,7 @@ class AuthController extends Controller
             return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
 
-        if (User::where('email', $request->email)->count() == 0) {
+        if (User::where('email', $request->input('email'))->count() == 0) {
             return response()->json([
                 "message" => __('error.errors.not_exists', ['attribute' => 'email']),
             ], Response::HTTP_NOT_FOUND);
@@ -133,30 +133,30 @@ class AuthController extends Controller
 
         try {
             $user = new User();
-            $user->phone = $request->phone;
-            $user->country_code = $request->countryCode;
-            $user->user_type = $request->userType;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            $user->phone = $request->input('phone');
+            $user->country_code = $request->input('countryCode');
+            $user->user_type = $request->input('userType');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
 
             if ($request->hasFile('avatar')) {
-                $imageName = time() . '_' . uniqid() . '.' . $request->avatar->getClientOriginalExtension();
+                $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
                 $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
                 $user->avatar = "/upload/avatar/{$imageName}";
             } else {
                 $user->avatar = "/upload/avatar/default.png";
             }
 
-            switch ($request->userType) {
+            switch ($request->input('userType')) {
                 case 'healthcare':
-                    $user->identity = $request->identity;
+                    $user->identity = $request->input('identity');
                     $user->status = 'waiting-approval';
                     $user->save();
-                    $this->healthcareCreate($user->id, $request->identity, $request);
+                    $this->healthcareCreate($user->id, $request->input('identity'), $request);
                     break;
                 case 'patient':
-                    $user->name = $request->name;
-                    $user->address = $request->address;
+                    $user->name = $request->input('name');
+                    $user->address = $request->input('address');
                     $user->save();
                     $this->patientCreate($user->id, $request);
                     break;
@@ -166,7 +166,7 @@ class AuthController extends Controller
 
             $this->createSettings($user->id);
 
-            if ($request->userType == 'patient') {
+            if ($request->input('userType') == 'patient') {
                 $token = $user->createToken('token')->plainTextToken;
                 DB::commit();
                 return response()->json([
@@ -195,28 +195,28 @@ class AuthController extends Controller
         switch ($identity) {
             case 'doctor':
                 if ($request->hasFile('idCard')) {
-                    $imageName = time() . '_' . uniqid() . '.' . $request->idCard->getClientOriginalExtension();
+                    $imageName = time() . '_' . uniqid() . '.' . $request->file('idCard')->getClientOriginalExtension();
                     $request->file('idCard')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
                     $profile->id_card_path = "/upload/doctor_assets/{$imageName}";
                 }
 
                 if ($request->hasFile('medicalDegree')) {
-                    $imageName = time() . '_' . uniqid() . '.' . $request->medicalDegree->getClientOriginalExtension();
+                    $imageName = time() . '_' . uniqid() . '.' . $request->file('medicalDegree')->getClientOriginalExtension();
                     $request->file('medicalDegree')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
                     $profile->medical_degree_path = "/upload/doctor_assets/{$imageName}";
                 }
-                $profile->professional_number = $request->professionalNumber;
+                $profile->professional_number = $request->input('professionalNumber');
                 break;
 
             case 'pharmacies':
                 if ($request->hasFile('professionalCard')) {
-                    $imageName = time() . '_' . uniqid() . '.' . $request->professionalCard->getClientOriginalExtension();
+                    $imageName = time() . '_' . uniqid() . '.' . $request->file('professionalCard')->getClientOriginalExtension();
                     $request->file('professionalCard')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
                     $profile->professional_card_path = "/upload/doctor_assets/{$imageName}";
                 }
 
                 if ($request->hasFile('exploitationLicense')) {
-                    $imageName = time() . '_' . uniqid() . '.' . $request->exploitationLicense->getClientOriginalExtension();
+                    $imageName = time() . '_' . uniqid() . '.' . $request->file('exploitationLicense')->getClientOriginalExtension();
                     $request->file('exploitationLicense')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
                     $profile->exploitation_license_path = "/upload/doctor_assets/{$imageName}";
                 }
@@ -224,7 +224,7 @@ class AuthController extends Controller
 
             case 'hospital':
                 if ($request->hasFile('exploitationLicense')) {
-                    $imageName = time() . '_' . uniqid() . '.' . $request->exploitationLicense->getClientOriginalExtension();
+                    $imageName = time() . '_' . uniqid() . '.' . $request->file('exploitationLicense')->getClientOriginalExtension();
                     $request->file('exploitationLicense')->move(storage_path('app/public/upload/doctor_assets'), $imageName);
                     $profile->exploitation_license_path = "/upload/doctor_assets/{$imageName}";
                 }
@@ -246,32 +246,32 @@ class AuthController extends Controller
     {
         $profile = new PatientProfile();
         $profile->user_id = $userId;
-        $profile->age = $request->age;
-        $profile->gender = $request->gender;
-        $profile->height = $request->height;
-        $profile->weight = $request->weight;
-        $profile->blood_group = $request->bloodGroup;
-        $profile->medical_history = $request->medicalHistory;
+        $profile->age = $request->input('age');
+        $profile->gender = $request->input('gender');
+        $profile->height = $request->input('height');
+        $profile->weight = $request->input('weight');
+        $profile->blood_group = $request->input('bloodGroup');
+        $profile->medical_history = $request->input('medicalHistory');
         $profile->save();
 
         $insurance = new UserInsurance();
         $insurance->patient_profile_id = $profile->id;
-        $insurance->insurance_type = $request->insuranceType;
-        $insurance->insurance_number = $request->insuranceNumber;
+        $insurance->insurance_type = $request->input('insuranceType');
+        $insurance->insurance_number = $request->input('insuranceNumber');
 
-        switch ($request->insuranceType) {
+        switch ($request->input('insuranceType')) {
             case 'public':
-                $insurance->assurance_type = $request->assuranceType;
+                $insurance->assurance_type = $request->input('assuranceType');
                 break;
             case 'private':
-                $insurance->main_insured = $request->mainInsured;
-                $insurance->entitled_insured = $request->entitledInsured;
-                $insurance->assurance_type = $request->assuranceType;
+                $insurance->main_insured = $request->input('mainInsured');
+                $insurance->entitled_insured = $request->input('entitledInsured');
+                $insurance->assurance_type = $request->input('assuranceType');
                 break;
             case 'vietnamese':
-                $insurance->insuranceRegistry = $request->registry;
-                $insurance->insuranceRegisteredAddress = $request->registeredAddress;
-                $insurance->insuranceValidFrom = $request->validFrom;
+                $insurance->insuranceRegistry = $request->input('registry');
+                $insurance->insuranceRegisteredAddress = $request->input('registeredAddress');
+                $insurance->insuranceValidFrom = $request->input('validFrom');
                 break;
             default:
                 return response()->json([
@@ -342,8 +342,8 @@ class AuthController extends Controller
             return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
 
-        $user = User::where('country_code', $request->countryCode)
-            ->where('phone', $request->phone)
+        $user = User::where('country_code', $request->input('countryCode'))
+            ->where('phone', $request->input('phone'))
             ->first();
 
         if (!$user) {
@@ -406,7 +406,7 @@ class AuthController extends Controller
             return response()->json(["message" => $validator->errors()->all()], Response::HTTP_BAD_REQUEST);
         }
 
-        if (User::where('email', $request->email)->count() == 0) {
+        if (User::where('email', $request->input('email'))->count() == 0) {
             return response()->json([
                 "message" => 'email does not exist',
             ], Response::HTTP_NOT_FOUND);
