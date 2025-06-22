@@ -269,9 +269,9 @@ class AuthController extends Controller
                 $insurance->assurance_type = $request->input('assuranceType');
                 break;
             case 'vietnamese':
-                $insurance->insuranceRegistry = $request->input('registry');
-                $insurance->insuranceRegisteredAddress = $request->input('registeredAddress');
-                $insurance->insuranceValidFrom = $request->input('validFrom');
+                $insurance->registry = $request->input('registry');
+                $insurance->registered_address = $request->input('registeredAddress');
+                $insurance->valid_from = $request->input('validFrom');
                 break;
             default:
                 return response()->json([
