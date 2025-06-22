@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $patient_profile_id
@@ -97,16 +97,16 @@ class Appointment extends Model
         return $this->hasOne(Review::class, 'appointment_id');
     }
 
-    public static function isDoctorBusy($doctorId)
+    public static function isDoctorBusy($doctorProfileId)
     {
         $now = Carbon::now();
         $currentDate = $now->format('Y-m-d');
         $currentDayOfWeek = $now->format('l');
 
-        $appointments = self::where('doctor_id', $doctorId)
+        $appointments = self::where('doctor_profile_id', $doctorProfileId)
             ->where('date', $currentDate)
             ->where('day_of_week', $currentDayOfWeek)
-            ->whereIn('status', ['2', '3'])
+            ->whereIn('status', ['pending', 'upcoming'])
             ->get();
 
         foreach ($appointments as $appointment) {
