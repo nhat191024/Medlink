@@ -93,10 +93,15 @@ class SearchController extends Controller
     {
         $page = $request->input('page', 1);
         $perPage = $request->input('per_page', 4);
-        $cacheKey = "doctor_list_page_{$page}_per_{$perPage}";
+        $search = $request->input('search', '');
+        $specialty = $request->input('specialty', '');
+        $location = $request->input('location', '');
+
+        // Create cache key including search parameters
+        $cacheKey = "doctor_list_page_{$page}_per_{$perPage}_search_" . md5($search . $specialty . $location);
 
         // Cache for 10 minutes
-        $result = Cache::remember($cacheKey, 600, fn() => $this->fetchDoctorList($perPage));
+        $result = Cache::remember($cacheKey, 600, fn() => $this->fetchDoctorList($perPage, $search, $specialty, $location));
 
         return response()->json($result, Response::HTTP_OK);
     }
@@ -104,10 +109,10 @@ class SearchController extends Controller
     /**
      * Fetch doctor list from database
      */
-    private function fetchDoctorList($perPage)
+    private function fetchDoctorList($perPage, $search = '', $specialty = '', $location = '')
     {
-        // Get users with doctor identity and their doctor profiles
-        $users = User::where('identity', 'doctor')
+        // Start building the query
+        $query = User::where('identity', 'doctor')
             ->where('status', 'active')
             ->whereNotNull('name')
             ->with([
@@ -120,10 +125,44 @@ class SearchController extends Controller
                 'favoriteDoctors' => function ($query) {
                     $query->where('patient_id', Auth::id());
                 }
-            ])
-            ->paginate($perPage);
+            ]);
 
-        $doctors = $users->getCollection()->map(fn($user) => $this->transformDoctorData($user));
+        // Add search filters
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhereHas('doctorProfile', function ($doctorQuery) use ($search) {
+                        $doctorQuery->where('introduce', 'LIKE', "%{$search}%")
+                            ->orWhere('company_name', 'LIKE', "%{$search}%")
+                            ->orWhere('professional_number', 'LIKE', "%{$search}%");
+                    });
+            });
+        }
+
+        // Filter by specialty/medical category
+        if (!empty($specialty)) {
+            $query->whereHas('doctorProfile.medicalCategory', function ($categoryQuery) use ($specialty) {
+                $categoryQuery->where('name', 'LIKE', "%{$specialty}%")
+                    ->orWhere('id', $specialty);
+            });
+        }
+
+        // Filter by location
+        if (!empty($location)) {
+            $query->where(function ($locationQuery) use ($location) {
+                $locationQuery->where('city', 'LIKE', "%{$location}%")
+                    ->orWhere('state', 'LIKE', "%{$location}%")
+                    ->orWhere('address', 'LIKE', "%{$location}%")
+                    ->orWhereHas('doctorProfile', function ($doctorQuery) use ($location) {
+                        $doctorQuery->where('office_address', 'LIKE', "%{$location}%");
+                    });
+            });
+        }
+
+        // Execute query with pagination
+        $users = $query->paginate($perPage);
+
+        $doctors = $users->getCollection()->map(fn($user) => $this->transformDoctorData($user))->filter();
 
         return [
             'data' => $doctors,
@@ -133,6 +172,11 @@ class SearchController extends Controller
             'total' => $users->total(),
             'next_page_url' => $users->nextPageUrl(),
             'prev_page_url' => $users->previousPageUrl(),
+            'search_params' => [
+                'search' => $search,
+                'specialty' => $specialty,
+                'location' => $location,
+            ]
         ];
     }
 
@@ -245,5 +289,212 @@ class SearchController extends Controller
         return response()->json([
             'message' => 'Doctor list cache cleared successfully'
         ], Response::HTTP_OK);
+    }
+
+    /**
+     * Search doctors by name and other criteria
+     */
+    public function searchDoctors(Request $request)
+    {
+        $searchQuery = $request->input('query', '');
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 10);
+        $specialty = $request->input('specialty', '');
+        $location = $request->input('location', '');
+        $minRating = $request->input('min_rating', 0);
+        $maxPrice = $request->input('max_price', null);
+        $isAvailable = $request->input('is_available', false);
+
+        // Create cache key for search results
+        $cacheKey = "doctor_search_" . md5($searchQuery . $specialty . $location . $minRating . $maxPrice . $isAvailable . $page . $perPage);
+
+        // Cache search results for 5 minutes
+        $result = Cache::remember($cacheKey, 300, function () use (
+            $searchQuery,
+            $page,
+            $perPage,
+            $specialty,
+            $location,
+            $minRating,
+            $maxPrice,
+            $isAvailable
+        ) {
+            return $this->performDoctorSearch($searchQuery, $page, $perPage, $specialty, $location, $minRating, $maxPrice, $isAvailable);
+        });
+
+        return response()->json($result, Response::HTTP_OK);
+    }
+
+    /**
+     * Perform doctor search with multiple criteria
+     */
+    private function performDoctorSearch($searchQuery, $page, $perPage, $specialty, $location, $minRating, $maxPrice, $isAvailable)
+    {
+        $query = User::where('identity', 'doctor')
+            ->where('status', 'active')
+            ->whereNotNull('name')
+            ->with([
+                'doctorProfile.medicalCategory',
+                'doctorProfile.services',
+                'doctorProfile.workSchedules',
+                'doctorProfile.reviews',
+                'languages.language',
+                'favoriteDoctors' => function ($query) {
+                    $query->where('patient_id', Auth::id());
+                }
+            ]);
+
+        // Search by name or doctor profile info
+        if (!empty($searchQuery)) {
+            $query->where(function ($q) use ($searchQuery) {
+                $q->where('name', 'LIKE', "%{$searchQuery}%")
+                    ->orWhereHas('doctorProfile', function ($doctorQuery) use ($searchQuery) {
+                        $doctorQuery->where('introduce', 'LIKE', "%{$searchQuery}%")
+                            ->orWhere('company_name', 'LIKE', "%{$searchQuery}%")
+                            ->orWhere('professional_number', 'LIKE', "%{$searchQuery}%");
+                    })
+                    ->orWhereHas('doctorProfile.medicalCategory', function ($categoryQuery) use ($searchQuery) {
+                        $categoryQuery->where('name', 'LIKE', "%{$searchQuery}%");
+                    });
+            });
+        }
+
+        // Filter by specialty
+        if (!empty($specialty)) {
+            $query->whereHas('doctorProfile.medicalCategory', function ($categoryQuery) use ($specialty) {
+                $categoryQuery->where('name', 'LIKE', "%{$specialty}%")
+                    ->orWhere('id', $specialty);
+            });
+        }
+
+        // Filter by location
+        if (!empty($location)) {
+            $query->where(function ($locationQuery) use ($location) {
+                $locationQuery->where('city', 'LIKE', "%{$location}%")
+                    ->orWhere('state', 'LIKE', "%{$location}%")
+                    ->orWhere('address', 'LIKE', "%{$location}%")
+                    ->orWhereHas('doctorProfile', function ($doctorQuery) use ($location) {
+                        $doctorQuery->where('office_address', 'LIKE', "%{$location}%");
+                    });
+            });
+        }
+
+        // Filter by minimum rating
+        if ($minRating > 0) {
+            $query->whereHas('doctorProfile', function ($doctorQuery) use ($minRating) {
+                $doctorQuery->whereHas('reviews', function ($reviewQuery) use ($minRating) {
+                    $reviewQuery->havingRaw('AVG(rate) >= ?', [$minRating]);
+                });
+            });
+        }
+
+        // Filter by maximum price
+        if ($maxPrice !== null) {
+            $query->whereHas('doctorProfile.services', function ($serviceQuery) use ($maxPrice) {
+                $serviceQuery->where('price', '<=', $maxPrice);
+            });
+        }
+
+        // Filter by availability
+        if ($isAvailable) {
+            $today = now()->format('l');
+            $query->whereHas('doctorProfile.workSchedules', function ($scheduleQuery) use ($today) {
+                $scheduleQuery->where('day_of_week', $today)
+                    ->where('is_active', true);
+            });
+        }
+
+        // Execute query with pagination
+        $users = $query->paginate($perPage, ['*'], 'page', $page);
+
+        $doctors = $users->getCollection()->map(function ($user) {
+            return $this->transformDoctorData($user);
+        })->filter();
+
+        return [
+            'data' => $doctors,
+            'total_page' => $users->lastPage(),
+            'current_page' => $users->currentPage(),
+            'per_page' => $users->perPage(),
+            'total' => $users->total(),
+            'next_page_url' => $users->nextPageUrl(),
+            'prev_page_url' => $users->previousPageUrl(),
+            'search_params' => [
+                'query' => $searchQuery,
+                'specialty' => $specialty,
+                'location' => $location,
+                'min_rating' => $minRating,
+                'max_price' => $maxPrice,
+                'is_available' => $isAvailable,
+            ],
+            'has_results' => $doctors->isNotEmpty(),
+            'search_suggestions' => $this->getSearchSuggestions($searchQuery),
+        ];
+    }
+
+    /**
+     * Get search suggestions based on query
+     */
+    private function getSearchSuggestions($query)
+    {
+        if (empty($query) || strlen($query) < 2) {
+            return [];
+        }
+
+        $suggestions = [];
+
+        // Get doctor name suggestions
+        $doctorNames = User::where('identity', 'doctor')
+            ->where('status', 'active')
+            ->where('name', 'LIKE', "%{$query}%")
+            ->pluck('name')
+            ->unique()
+            ->take(3)
+            ->toArray();
+
+        // Get specialty suggestions
+        $specialties = \App\Models\MedicalCategory::where('name', 'LIKE', "%{$query}%")
+            ->pluck('name')
+            ->unique()
+            ->take(3)
+            ->toArray();
+
+        return [
+            'doctors' => $doctorNames,
+            'specialties' => $specialties,
+        ];
+    }
+
+    /**
+     * Get popular search terms
+     */
+    public function getPopularSearchTerms()
+    {
+        $cacheKey = 'popular_search_terms';
+
+        return Cache::remember($cacheKey, 3600, function () {
+            // Get most common specialties
+            $popularSpecialties = \App\Models\MedicalCategory::withCount('doctorProfiles')
+                ->orderBy('doctor_profiles_count', 'desc')
+                ->take(5)
+                ->pluck('name')
+                ->toArray();
+
+            // Get most common locations
+            $popularLocations = User::where('identity', 'doctor')
+                ->where('status', 'active')
+                ->whereNotNull('city')
+                ->groupBy('city')
+                ->selectRaw('city, COUNT(*) as count')
+                ->orderBy('count', 'desc')
+                ->take(5)
+                ->pluck('city')
+                ->toArray();
+
+            return [
+                'specialties' => $popularSpecialties,
+                'locations' => $popularLocations,
+            ];
+        });
     }
 }
