@@ -12,16 +12,12 @@
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/auth-register.css') }}" rel="stylesheet">
-    
-    <!-- intlTelInput CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css">
 
     @stack('styles')
 
     <!-- Example: Add page-specific styles -->
     {{-- @push('styles')
-        <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
     @endpush --}}
 </head>
 
