@@ -19,6 +19,18 @@
                 </a>
             </div>
 
+            <!-- Progress Indicator -->
+            <div class="progress-indicator" id="progressIndicator">
+                <div class="progress-circle">
+                    <svg viewBox="0 0 50 50">
+                        <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
+                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        </circle>
+                    </svg>
+                    <div class="progress-number" id="progressNumber">0</div>
+                </div>
+            </div>
+
             <div class="icon">
                 <img src="{{ asset('img/dienthoai.png') }}" alt="Điện thoại">
             </div>
@@ -113,10 +125,10 @@
                 countries.forEach(country => {
                     const div = document.createElement('div');
                     div.innerHTML = `
-                            <span class="country-flag">${country.flag}</span>
-                            <span class="country-name">${country.name}</span>
-                            <span class="country-code">${country.code}</span>
-                        `;
+                                <span class="country-flag">${country.flag}</span>
+                                <span class="country-name">${country.name}</span>
+                                <span class="country-code">${country.code}</span>
+                            `;
                     div.addEventListener('click', function () {
                         selectCountry(country);
                     });
@@ -126,9 +138,9 @@
 
             function selectCountry(country) {
                 selectSelected.innerHTML = `
-                        <span class="country-flag">${country.flag}</span>
-                        <span class="country-code">${country.code}</span>
-                    `;
+                            <span class="country-flag">${country.flag}</span>
+                            <span class="country-code">${country.code}</span>
+                        `;
                 hiddenSelect.value = country.code;
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
@@ -147,6 +159,37 @@
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             });
+        });
+
+        // Progress Indicator - Easy copy-paste to other files
+        function initProgressIndicator(currentStep, totalSteps = 5) {
+            const circle = document.getElementById('progressCircle');
+            const numberEl = document.getElementById('progressNumber');
+            const circumference = 2 * Math.PI * 20; // radius = 20
+
+            // Calculate progress percentage
+            const progress = (currentStep / totalSteps) * 100;
+            const strokeDasharray = (progress / 100) * circumference;
+
+            // Animate from previous step
+            setTimeout(() => {
+                // Animate circle
+                circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
+
+                // Animate number
+                numberEl.textContent = currentStep;
+                numberEl.classList.add('animate');
+
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    numberEl.classList.remove('animate');
+                }, 600);
+            }, 300);
+        }
+
+        // Initialize progress when page loads - CHANGE THIS NUMBER FOR EACH PAGE
+        document.addEventListener('DOMContentLoaded', function () {
+            initProgressIndicator(1); // Step 1 for register page
         });
     </script>
 @endpush
