@@ -255,10 +255,11 @@ class AppointmentController extends Controller
             );
 
             // Create the appointment
-            $this->appointmentService->createAppointment($request, $user);
+            $response = $this->appointmentService->createAppointment($request, $user);
 
             return response()->json([
                 'message' => 'Appointment booked successfully',
+                'data' => $response
             ], Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json([
