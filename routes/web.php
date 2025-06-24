@@ -18,4 +18,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/otp', function () {
         return view('auth.otp');
     })->name('otp.form');
+    Route::get('/create-account', function () {
+    return view('auth.create-account');
+})->name('register');
 });

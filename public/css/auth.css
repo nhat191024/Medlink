@@ -498,3 +498,100 @@
         opacity: 1;
     }
 }
+
+/* create account */
+.welcome-text {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+    color: #111;
+    z-index: 2;
+}
+
+.welcome-text h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin: 0;
+}
+
+.welcome-text h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.form-content {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-icon {
+    width: 40px;
+    margin-bottom: 20px;
+}
+
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #111;
+    text-align: center;
+}
+
+.password-hint {
+    font-size: 12px;
+    color: #666;
+    margin-top: 6px;
+    text-align: left;
+    width: 100%;
+    max-width: 380px;
+}
+
+.terms-checkbox {
+    margin: 20px 0;
+    font-size: 13px;
+    color: #444;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: 380px;
+}
+
+.terms-checkbox input {
+    margin-top: 4px;
+}
+
+.terms-checkbox a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+    text-decoration: underline;
+}
+
+
+.password-checklist {
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 0;
+    font-size: 14px;
+    color: #888;
+}
+
+.password-checklist li {
+    margin-bottom: 4px;
+}
+
+.password-checklist li.valid {
+    color: green;
+}
+
+.password-checklist li.invalid {
+    color: red;
+}
+
