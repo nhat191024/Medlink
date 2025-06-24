@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $appointment_id
@@ -34,6 +34,7 @@ class Bill extends Model
 
     protected $fillable = [
         'appointment_id',
+        'payment_method',
         'taxVAT',
         'total',
         'status',
