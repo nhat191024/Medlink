@@ -28,7 +28,7 @@ class BookAppointment extends FormRequest
             'medical_problem_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'date' => 'required|date|after_or_equal:today',
             'day_of_week' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday',
-            'time' => 'required|string|regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/',
+            'time' => ['required', 'string', 'regex:/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/'],
             'payment_method' => 'required|in:wallet,credit_card,qr_transfer',
         ];
     }
