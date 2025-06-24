@@ -2,9 +2,14 @@
 
 namespace App\Http\Services;
 
+use App\Models\Bill;
+use App\Models\Service;
 use App\Models\Appointment;
-use App\Http\Resources\DoctorAppointmentResource;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Cache;
+use App\Jobs\ProcessAppointmentPayment;
+use App\Http\Resources\DoctorAppointmentResource;
 
 class AppointmentService
 {
@@ -338,5 +343,138 @@ class AppointmentService
             'historyAppointments' => DoctorAppointmentResource::collection($groupedAppointments['history']),
             'statistics' => $this->calculatePatientStatistics($appointments),
         ];
+    }
+
+    /**
+     * Create a new appointment
+     */
+    public function createAppointment($request, $user)
+    {
+        try {
+            DB::beginTransaction();
+            // Get patient profile
+            $patientProfile = $user->patientProfile;
+
+            if (!$patientProfile) {
+                throw new \Exception('Patient profile not found');
+            }
+
+            // Handle file upload if exists
+            $medicalProblemFilePath = null;
+            if ($request->hasFile('medical_problem_file')) {
+                $file = $request->file('medical_problem_file');
+                $fileName = time() . '_' . $file->getClientOriginalName();
+                $medicalProblemFilePath = $file->move(storage_path('uploads/medical_problems'), $fileName)->getPathname();
+            }
+
+            $service = Service::findOrFail($request->service_id); // Ensure service exists
+
+            // Create appointment
+            $appointment = Appointment::create([
+                'patient_profile_id' => $patientProfile->id,
+                'doctor_profile_id' => $request->doctor_profile_id,
+                'service_id' => $request->service_id,
+                'status' => 'pending',
+                'medical_problem' => $request->medical_problem,
+                'medical_problem_file' => $medicalProblemFilePath,
+                'duration' => $service->duration,
+                'date' => $request->date,
+                'day_of_week' => $request->day_of_week,
+                'time' => $request->time,
+            ]);
+
+            //process appointment payment
+            ProcessAppointmentPayment::dispatch($appointment, $request->payment_method, $service->price)->onQueue('appointment_payments');
+
+            // Clear related caches
+            $this->clearAppointmentRelatedCache($appointment);
+
+            DB::commit();
+
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw new \Exception('Error creating appointment: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Validate appointment availability
+     */
+    public function validateAppointmentAvailability($doctorProfileId, $date, $time)
+    {
+        // Check if there's already an appointment at this time
+        $existingAppointment = Appointment::where('doctor_profile_id', $doctorProfileId)
+            ->where('date', $date)
+            ->where('time', $time)
+            ->whereIn('status', ['pending', 'upcoming'])
+            ->exists();
+
+        if ($existingAppointment) {
+            throw new \Exception('This time slot is already booked');
+        }
+
+        // Check if the appointment date is in the past
+        if ($date < now()->toDateString()) {
+            throw new \Exception('Cannot book appointment for past dates');
+        }
+
+        // Check if the appointment is too far in the future (e.g., 3 months)
+        if ($date > now()->addMonths(3)->toDateString()) {
+            throw new \Exception('Cannot book appointment more than 3 months in advance');
+        }
+
+        return true;
+    }
+
+    /**
+     * Process appointment payment
+     *
+     * @param Appointment $appointment
+     * @param string $paymentMethod
+     * @return bool
+     */
+    public function processAppointmentPayment($appointment, $paymentMethod)
+    {
+        // This would integrate with your payment gateway
+        // For now, we'll simulate payment processing
+
+        switch ($paymentMethod) {
+            case 'wallet':
+                return $this->processWalletPayment($appointment);
+            case 'credit_card':
+                return $this->processCreditCardPayment($appointment);
+            case 'qr_transfer':
+                return $this->processQRTransferPayment($appointment);
+            default:
+                throw new \Exception('Invalid payment method');
+        }
+    }
+
+    /**
+     * Process wallet payment
+     */
+    private function processWalletPayment($appointment)
+    {
+        //TODO: Implement wallet payment logic
+        return true;
+    }
+
+    /**
+     * Process credit card payment
+     */
+    private function processCreditCardPayment($appointment)
+    {
+        //TODO: Implement credit card payment logic
+        return true;
+    }
+
+    /**
+     * Process QR transfer payment
+     */
+    private function processQRTransferPayment($appointment)
+    {
+        //TODO: Implement QR transfer payment logic
+        return true;
     }
 }
