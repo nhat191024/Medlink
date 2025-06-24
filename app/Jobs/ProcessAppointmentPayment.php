@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Models\Bill;
 use App\Models\Appointment;
 
-use App\Http\Services\AppointmentService;
+use App\Http\Services\PaymentService;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -20,26 +20,28 @@ class ProcessAppointmentPayment implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $appointment;
-    public $payment_method;
-    public $service_price;
+    public $paymentMethod;
+    public $servicePrice;
+    private $paymentService;
 
     public function __construct(Appointment $appointment, string $paymentMethod, float $servicePrice)
     {
         $this->appointment = $appointment;
-        $this->payment_method = $paymentMethod;
-        $this->service_price = $servicePrice;
+        $this->paymentMethod = $paymentMethod;
+        $this->servicePrice = $servicePrice;
+        $this->paymentService = app(PaymentService::class);
     }
 
 
     /**
      * Execute the job.
      */
-    public function handle(AppointmentService $appointmentService): void
+    public function handle(): void
     {
         try {
-            $paymentResult = $appointmentService->processAppointmentPayment(
+            $paymentResult = $this->paymentService->processAppointmentPayment(
                 $this->appointment,
-                $this->payment_method,
+                $this->paymentMethod,
             );
 
             $this->createBill($paymentResult);
@@ -54,9 +56,9 @@ class ProcessAppointmentPayment implements ShouldQueue
     {
         Bill::create([
             'appointment_id' => $this->appointment->id,
-            'payment_method' => $this->payment_method,
-            'taxVAT' => $this->service_price * 0.10, // Assuming VAT is 10%
-            'total' => $this->service_price + $this->service_price * 0.10,
+            'payment_method' => $this->paymentMethod,
+            'taxVAT' => $this->servicePrice * 0.10, // Assuming VAT is 10%
+            'total' => $this->servicePrice + $this->servicePrice * 0.10,
             'status' => 'paid',
         ]);
     }
