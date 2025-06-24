@@ -5,14 +5,24 @@ namespace App\Http\Services;
 use App\Models\Bill;
 use App\Models\Service;
 use App\Models\Appointment;
-use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+
 use App\Jobs\ProcessAppointmentPayment;
 use App\Http\Resources\DoctorAppointmentResource;
 
+use App\Http\Services\PaymentService;
+
 class AppointmentService
 {
+    private $paymentService;
+
+    public function __construct()
+    {
+        $this->paymentService = app(PaymentService::class);
+    }
+
     /**
      * Get appointments by type for a doctor profile
      */
@@ -383,15 +393,48 @@ class AppointmentService
                 'time' => $request->time,
             ]);
 
-            //process appointment payment
-            ProcessAppointmentPayment::dispatch($appointment, $request->payment_method, $service->price)->onQueue('appointment_payments');
+            $price = $service->price < 2000 ? 2000 : $service->price;  // Cap price at 2000 for development
 
-            // Clear related caches
+            $bill = Bill::create([
+                'appointment_id' => $appointment->id,
+                'payment_method' => $request->payment_method,
+                'taxVAT' => $price * 0.10, // Assuming VAT is 10%
+                'total' => $price + $price * 0.10,
+                'status' => 'unpaid',
+            ]);
+
+            $total = $bill->total;
+            $doctorName = $appointment->doctor->user->name ?? 'Unknown Doctor';
+
+            $data = [
+                'billId' => $bill->id,
+                'amount' => $total,
+                'buyerName' => $user->name,
+                'buyerEmail' => $user->email,
+                'buyerPhone' => $user->phone,
+                'buyerAddress' => $patientProfile->user->address ?? null,
+                'items' => [
+                    [
+                        'name' => "Appointment Booking at medlink - Dr {$doctorName} - Service: {$service->name}",
+                        'price' => $price,
+                        'quantity' => 1
+                    ],
+                    [
+                        'name' => 'VAT (10%)',
+                        'price' => $bill->taxVAT,
+                        'quantity' => 1
+                    ]
+                ],
+                'expiryTime' => intval(now()->addMinutes(5)->timestamp) // 5 minutes expiry
+            ];
+
+            $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method);
+
             $this->clearAppointmentRelatedCache($appointment);
 
             DB::commit();
 
-            return true;
+            return $response;
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception('Error creating appointment: ' . $e->getMessage());
