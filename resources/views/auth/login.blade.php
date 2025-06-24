@@ -23,6 +23,12 @@
 
             <h1>{{ __('client/auth.welcome') }}</h1>
 
+            @if (session('status'))
+                <div class="alert alert-success" style="color: green; margin-bottom: 1rem; text-align: center;">
+                    {{ session('status') }}
+                </div>
+            @endif
+
             <div class="form-group {{ old('email') ? 'has-value' : '' }}">
                 <input id="email" name="email" type="text" value="{{ old('email') }}">
                 <label for="email">{{ __('client/auth.fields.label.login') }}</label>
@@ -49,7 +55,7 @@
                 @enderror
             </div>
 
-            <a class="forgot-password" href="#">{{ __('client/auth.forgot_password') }}</a>
+            <a class="forgot-password" href="{{ route('forgot-password') }}">{{ __('client/auth.forgot_password') }}</a>
 
             <button class="login-btn" type="submit">{{ __('client/auth.button.login') }}</button>
         </form>
