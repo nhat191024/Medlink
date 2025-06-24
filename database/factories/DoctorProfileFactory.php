@@ -44,6 +44,7 @@ class DoctorProfileFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
+                'office_address' => $this->faker->address(),
                 'id_card_path' => 'storage/upload/doctor_assets/id-card.png',
                 'medical_degree_path' => 'storage/upload/doctor_assets/medical-degree.png',
                 'professional_number' => $this->faker->unique()->numerify('PROF-#####'),
