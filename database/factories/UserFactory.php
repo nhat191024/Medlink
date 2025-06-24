@@ -41,6 +41,7 @@ class UserFactory extends Factory
             'name' => $this->faker->unique()->firstName() . ' ' . $this->faker->unique()->lastName(),
             'country_code' => '+84',
             'phone' => $this->faker->phoneNumber(),
+            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
 
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
