@@ -20,6 +20,8 @@ use App\Models\Appointment;
 use App\Http\Resources\DoctorAppointmentResource;
 use App\Http\Resources\PatientAppointmentResource;
 
+use App\Http\Requests\BookAppointment;
+
 class AppointmentController extends Controller
 {
     private $appointmentService;
@@ -225,6 +227,108 @@ class AppointmentController extends Controller
 
         return response()->json([
             'message' => 'All appointment caches cleared successfully'
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     *  Add a new appointment with validation
+     *
+     * @param \App\Http\Requests\BookAppointment $request
+     */
+    public function bookAppointment(BookAppointment $request)
+    {
+        $user = Auth::user();
+
+        // Check if the user is a patient
+        if ($user->user_type !== 'patient') {
+            return response()->json([
+                'message' => 'Unauthorized access'
+            ], Response::HTTP_FORBIDDEN);
+        }
+
+        try {
+            // Validate appointment availability
+            $this->appointmentService->validateAppointmentAvailability(
+                $request->doctor_profile_id,
+                $request->date,
+                $request->time
+            );
+
+            // Create the appointment
+            $this->appointmentService->createAppointment($request, $user);
+
+            return response()->json([
+                'message' => 'Appointment booked successfully',
+            ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to book appointment',
+                'error' => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Get available time slots for a doctor on a specific date (i don't know if this is needed, but... i gonna keep it)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAvailableTimeSlots(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'doctor_profile_id' => 'required|exists:doctor_profiles,id',
+            'date' => 'required|date|after_or_equal:today'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $timeSlots = $this->appointmentService->getAvailableTimeSlots(
+            $request->doctor_profile_id,
+            $request->date
+        );
+
+        return response()->json([
+            'available_time_slots' => $timeSlots,
+            'date' => $request->date,
+            'doctor_profile_id' => $request->doctor_profile_id
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * Get doctor work schedule (same with the thing above)
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getDoctorWorkSchedule(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'doctor_profile_id' => 'required|exists:doctor_profiles,id',
+            'day_of_week' => 'required|string|in:Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $workSchedule = $this->appointmentService->getDoctorWorkSchedule(
+            $request->doctor_profile_id,
+            $request->day_of_week
+        );
+
+        return response()->json([
+            'work_schedule' => $workSchedule,
+            'day_of_week' => $request->day_of_week,
+            'doctor_profile_id' => $request->doctor_profile_id
         ], Response::HTTP_OK);
     }
 }
