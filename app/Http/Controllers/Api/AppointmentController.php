@@ -31,6 +31,8 @@ class AppointmentController extends Controller
 
     /**
      * Get doctor appointments with caching
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function doctorAppointments()
     {
@@ -48,6 +50,8 @@ class AppointmentController extends Controller
 
     /**
      * Get patient appointments with caching
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function patientAppointments()
     {
@@ -65,6 +69,8 @@ class AppointmentController extends Controller
 
     /**
      * Clear appointment cache for current user
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function clearAppointmentCache()
     {
@@ -91,6 +97,9 @@ class AppointmentController extends Controller
 
     /**
      * Get appointment details with caching
+     *
+     * @param int $appointmentId
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAppointmentDetails($appointmentId)
     {
@@ -126,6 +135,10 @@ class AppointmentController extends Controller
 
     /**
      * Update appointment status with cache invalidation
+     *
+     * @param int $appointmentId
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateAppointmentStatus($appointmentId, Request $request)
     {
@@ -174,6 +187,8 @@ class AppointmentController extends Controller
 
     /**
      * Get appointment statistics with caching
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAppointmentStatistics()
     {
@@ -190,6 +205,8 @@ class AppointmentController extends Controller
 
     /**
      * Clear all appointment caches
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public function clearAllAppointmentCaches()
     {
