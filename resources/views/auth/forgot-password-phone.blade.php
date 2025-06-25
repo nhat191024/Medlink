@@ -2,140 +2,7 @@
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
-    <style>
-        /* Custom Phone Input with Dropdown */
-        .phone-input-group {
-            margin-bottom: 24px;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .phone-input-group .static-label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        
-        .phone-input {
-            display: flex;
-            align-items: center;
-        }
-
-        .custom-select {
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .custom-select::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 28px;
-            width: 1px;
-            background-color: #e0e0e0;
-        }
-
-        .select-selected {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border: 1.5px solid #e0e0e0;
-            border-right: none;
-            border-radius: 16px 0 0 16px;
-            cursor: pointer;
-            padding: 16px;
-            height: 54px;
-            box-sizing: border-box;
-        }
-        
-        .select-selected:hover,
-        .phone-input input[type="text"]:focus {
-            border-color: #DF1D32;
-        }
-        
-        .select-selected .country-flag {
-            font-size: 24px;
-            margin-right: 8px;
-        }
-
-        .select-items {
-            position: absolute;
-            background-color: white;
-            top: 105%;
-            left: 0;
-            right: 0;
-            z-index: 99;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            max-height: 200px;
-            overflow-y: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .select-hide {
-            display: none;
-        }
-
-        .select-items div {
-            padding: 12px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-
-        .select-items div:hover {
-            background-color: #f5f5f5;
-        }
-
-        .select-items .country-flag {
-            font-size: 20px;
-            margin-right: 10px;
-        }
-        
-        .select-items .country-name {
-            flex-grow: 1;
-        }
-
-        .phone-input input[type="text"] {
-            flex-grow: 1;
-            border-radius: 0 16px 16px 0;
-            margin-left: -1px;
-            height: 54px;
-            padding: 16px;
-            border: 1.5px solid #e0e0e0;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        .note {
-            font-size: 14px;
-            color: #666;
-            margin: 24px 0;
-            text-align: center;
-            max-width: 350px;
-        }
-
-        .submit-btn {
-            display: block;
-            width: 100%;
-            max-width: 400px;
-            background: #111;
-            color: #fff;
-            font-weight: 500;
-            padding: 16px 0;
-            border-radius: 16px;
-            text-decoration: none;
-            text-align: center;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
+ 
 @endpush
 
 @section('content')
@@ -183,7 +50,7 @@
                         <div class="select-items select-hide" id="selectItems"></div>
                     </div>
                     <select id="country_code" name="country_code" style="display: none;"></select>
-                    <input type="text" id="phone" name="phone" placeholder="">
+                    <input type="text" id="phone" name="phone" placeholder="" autocomplete="off">
                 </div>
             </div>
 
@@ -191,7 +58,7 @@
                 Don't worry. We won't text you or call you.
             </p>
 
-            <button type="submit" class="submit-btn">Get verification code</button>
+            <button type="submit" class="submit-btn" id="phone-submit-btn" disabled>Get verification code</button>
         </form>
     </div>
 @endsection
@@ -267,6 +134,15 @@
                 if(selectItems) selectItems.classList.add('select-hide');
                 if(selectSelected) selectSelected.classList.remove('select-arrow-active');
             });
+
+            // Validate phone number đơn giản
+            const phoneInput = document.getElementById('phone');
+            const submitBtn = document.getElementById('phone-submit-btn');
+            function validatePhone() {
+                submitBtn.disabled = !phoneInput.value.trim();
+            }
+            phoneInput.addEventListener('input', validatePhone);
+            validatePhone();
         });
     </script>
 @endpush
