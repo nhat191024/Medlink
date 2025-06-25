@@ -19,10 +19,10 @@
                 </a>
             </div>
 
-            <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
+            <img src="{{ asset('img/lock.png') }}" alt="Lock Icon" style="width: 48px; height: auto;">
 
             <h1>Create new password</h1>
-            <p class="description" style="margin-bottom: 2rem; color: #666;">Your new password must be different from previous used passwords.</p>
+            <p class="description" style="margin-bottom: 2rem; color: #666;">Password should have at least 8 characters, include of 6 alphabets, 1 number and 1 special character</p>
 
             <div class="form-group">
                 <div class="input-icon-group">
