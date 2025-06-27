@@ -21,4 +21,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/create-account', function () {
     return view('auth.create-account');
 })->name('register');
+    Route::get('/profile', function () {
+        return view('auth.profile');
+    });
 });
