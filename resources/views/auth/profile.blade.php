@@ -24,7 +24,7 @@
                     <div class="progress-number" id="progressNumber">0</div>
                 </div>
             </div>
-            
+
             <div class="form-title">
                 <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="icon" class="form-icon">
                 <h2>Complete your profile</h2>
@@ -33,28 +33,19 @@
                 <div class="form-columns">
                     <div class="form-left">
                         <label>Full name*<input type="text" placeholder="Your full name" required></label>
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <label for="age-slider">Age*</label>
-                                <span class="slider-value" id="age-value">I'm 18</span>
-                            </div>
+                        <label>Age*
                             <input type="range" min="0" max="150" value="18" class="slider" id="age-slider">
-                        </div>
+                            <span class="slider-value" id="age-value">I'm 18</span>
+                        </label>
                         <label>Gender*<select class="profile-select" required><option>Choose</option><option>Male</option><option>Female</option><option>Other</option></select></label>
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <label for="height-slider">Height*</label>
-                                <span class="slider-value" id="height-value">I'm 1.53 m</span>
-                            </div>
-                            <input type="range" min="1.0" max="3" step="0.01" value="1.53" class="slider" id="height-slider">
-                        </div>
-                        <div class="slider-group">
-                            <div class="slider-label-row">
-                                <label for="weight-slider">Weight*</label>
-                                <span class="slider-value" id="weight-value">I'm 46 kg</span>
-                            </div>
+                        <label>Height*
+                            <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="slider" id="height-slider">
+                            <span class="slider-value" id="height-value">I'm 1.53 m</span>
+                        </label>
+                        <label>Weight*
                             <input type="range" min="30" max="500" value="46" class="slider" id="weight-slider">
-                        </div>
+                            <span class="slider-value" id="weight-value">I'm 46 kg</span>
+                        </label>
                         <label>Blood group*<select class="profile-select" required><option>Choose</option><option>A</option><option>B</option><option>AB</option><option>O</option></select></label>
                         <label>Medical history<textarea placeholder="Enter your history medical"></textarea></label>
                     </div>
@@ -76,26 +67,31 @@
     </div>
 @endsection
 
-@push('scripts')
 <script>
+document.addEventListener('DOMContentLoaded', function() {
     // Age
     const ageSlider = document.getElementById('age-slider');
     const ageValue = document.getElementById('age-value');
-    ageSlider.addEventListener('input', function() {
-        ageValue.textContent = `I'm ${this.value}`;
-    });
+    if (ageSlider && ageValue) {
+        ageSlider.addEventListener('input', function() {
+            ageValue.textContent = "I'm " + ageSlider.value;
+        });
+    }
     // Height
     const heightSlider = document.getElementById('height-slider');
     const heightValue = document.getElementById('height-value');
-    heightSlider.addEventListener('input', function() {
-        heightValue.textContent = `I'm ${parseFloat(this.value).toFixed(2)} m`;
-    });
+    if (heightSlider && heightValue) {
+        heightSlider.addEventListener('input', function() {
+            heightValue.textContent = "I'm " + parseFloat(heightSlider.value).toFixed(2) + " m";
+        });
+    }
     // Weight
     const weightSlider = document.getElementById('weight-slider');
     const weightValue = document.getElementById('weight-value');
-    weightSlider.addEventListener('input', function() {
-        weightValue.textContent = `I'm ${this.value} kg`;
-    });
-</script>
-@endpush
-
+    if (weightSlider && weightValue) {
+        weightSlider.addEventListener('input', function() {
+            weightValue.textContent = "I'm " + weightSlider.value + " kg";
+        });
+    }
+});
+</script> 
