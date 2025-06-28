@@ -1303,3 +1303,23 @@
 .insurance-option.active .insurance-tick { display: inline !important; }
 .insurance-option.saved .insurance-tick { display: inline !important; }
 .insurance-option.active.saved .insurance-tick { display: inline !important; }
+
+.profile-input[type="date"] {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 16px;
+    background: #fafafa;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: #222;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.profile-input[type="date"]:focus {
+    border-color: #DF1D32;
+    box-shadow: 0 2px 8px rgba(223, 29, 50, 0.08);
+}

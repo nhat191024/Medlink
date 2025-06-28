@@ -106,6 +106,12 @@
                                 </div>
                             </div>
                         </label>
+                        <div id="vietnamInsuranceFields" style="display:none; margin-bottom: 16px;">
+                            <label>Card number<input type="text" class="profile-input" placeholder="Enter card number"></label>
+                            <label>Valid from<input type="date" class="profile-input"></label>
+                            <label>Valid to<input type="date" class="profile-input"></label>
+                            <label>Initial medical facility<input type="text" class="profile-input" placeholder="Enter facility"></label>
+                        </div>
                         <label>Public insurance*<input type="text" placeholder="Enter number"></label>
                         <!-- Custom Assurance type select -->
                         <label>Assurance type
@@ -124,6 +130,8 @@
                                 </div>
                             </div>
                         </label>
+                        <label id="mainInsuredGroup" style="display:none;">Main insured<input type="text" placeholder="Enter number"></label>
+                        <label id="entitledInsuredGroup" style="display:none;">Entitled insured<input type="text" placeholder="Enter number"></label>
                         <label>Address*<input type="text" placeholder="Enter"></label>
                     </div>
                 </div>
@@ -193,6 +201,55 @@
                     const saved = document.querySelector('.blood-option-grid.saved');
                     if (saved) saved.classList.add('active');
                 }
+            });
+
+            // Hiện/ẩn Main insured & Entitled insured theo Insurance type
+            const selectedInsurance = document.getElementById('selectedInsurance');
+            const mainInsuredGroup = document.getElementById('mainInsuredGroup');
+            const entitledInsuredGroup = document.getElementById('entitledInsuredGroup');
+            function toggleInsuredFields() {
+                if (selectedInsurance.textContent.trim() === 'Private insurance') {
+                    mainInsuredGroup.style.display = '';
+                    entitledInsuredGroup.style.display = '';
+                } else {
+                    mainInsuredGroup.style.display = 'none';
+                    entitledInsuredGroup.style.display = 'none';
+                }
+            }
+            // Gọi khi load trang
+            toggleInsuredFields();
+            // Gọi lại mỗi khi chọn Insurance type mới
+            const insuranceDropdown = document.getElementById('insuranceDropdown');
+            insuranceDropdown.addEventListener('click', function(e) {
+                setTimeout(toggleInsuredFields, 10);
+            });
+            // Gọi lại khi Save
+            const insuranceSave = document.getElementById('insuranceSave');
+            insuranceSave.addEventListener('click', function() {
+                setTimeout(toggleInsuredFields, 10);
+            });
+
+            // Hiện/ẩn Vietnam insurance fields
+            const vietnamInsuranceFields = document.getElementById('vietnamInsuranceFields');
+            function toggleVietnamInsuranceFields() {
+                if (selectedInsurance.textContent.trim() === 'Vietnam insurance') {
+                    vietnamInsuranceFields.style.display = '';
+                } else {
+                    vietnamInsuranceFields.style.display = 'none';
+                }
+            }
+            // Gọi khi load trang
+            toggleVietnamInsuranceFields();
+            // Gọi lại mỗi khi chọn Insurance type mới
+            insuranceDropdown.addEventListener('click', function(e) {
+                setTimeout(function() {
+                    toggleVietnamInsuranceFields();
+                }, 10);
+            });
+            insuranceSave.addEventListener('click', function() {
+                setTimeout(function() {
+                    toggleVietnamInsuranceFields();
+                }, 10);
             });
         });
     </script>
