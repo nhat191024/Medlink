@@ -37,7 +37,23 @@
                             <input type="range" min="0" max="150" value="18" class="slider" id="age-slider">
                             <span class="slider-value" id="age-value">I'm 18</span>
                         </label>
-                        <label>Gender*<select class="profile-select" required><option>Choose</option><option>Male</option><option>Female</option><option>Other</option></select></label>
+                        <label>Gender*
+                            <div class="custom-select-gender" id="genderSelect">
+                                <div class="selected-gender" id="selectedGender">Choose</div>
+                                <input type="hidden" name="gender" id="genderInput" value="">
+                                <div class="gender-dropdown" id="genderDropdown" style="display:none;">
+                                    <div class="gender-dropdown-header">
+                                        <span>Gender</span>
+                                        <span class="gender-save" id="genderSave">Save</span>
+                                    </div>
+                                    <div class="gender-options">
+                                        <div class="gender-option" data-value="Male">Male <span class="gender-tick">&#10003;</span></div>
+                                        <div class="gender-option" data-value="Female">Female <span class="gender-tick">&#10003;</span></div>
+                                        <div class="gender-option" data-value="Other">Other <span class="gender-tick">&#10003;</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                         <label>Height*
                             <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="slider" id="height-slider">
                             <span class="slider-value" id="height-value">I'm 1.53 m</span>
@@ -46,18 +62,71 @@
                             <input type="range" min="30" max="500" value="46" class="slider" id="weight-slider">
                             <span class="slider-value" id="weight-value">I'm 46 kg</span>
                         </label>
-                        <label>Blood group*<select class="profile-select" required><option>Choose</option><option>A</option><option>B</option><option>AB</option><option>O</option></select></label>
+                        <!-- Custom Blood group select -->
+                        <label>Blood group*
+                            <div class="custom-select-blood" id="bloodSelect">
+                                <div class="selected-blood" id="selectedBlood">Choose</div>
+                                <input type="hidden" name="blood_group" id="bloodGroupInput" value="">
+                                <div class="blood-dropdown" id="bloodDropdown" style="display:none;">
+                                    <div class="blood-dropdown-header">
+                                        <span>Blood group</span>
+                                        <span class="blood-save" id="bloodSave">Save</span>
+                                    </div>
+                                    <div class="blood-options-grid">
+                                        <div class="blood-option-grid" data-value="A+">A+ <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="A-">A- <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="B+">B+ <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="B-">B- <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="O+">O+ <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="O-">O- <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="AB+">AB+ <span class="blood-drop">🩸</span></div>
+                                        <div class="blood-option-grid" data-value="AB-">AB- <span class="blood-drop">🩸</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                         <label>Medical history<textarea placeholder="Enter your history medical"></textarea></label>
                     </div>
                     <div class="form-right">
+                        <!-- Custom Insurance Type Select (chuẩn mẫu) -->
                         <label>Insurance type
-                            <select class="profile-select">
-                                <option>Public insurance</option>
-                                <option>Private insurance</option>
-                            </select>
+                            <div class="custom-select-insurance" id="insuranceSelect">
+                                <div class="selected-insurance" id="selectedInsurance">Public insurance</div>
+                                <input type="hidden" name="insurance_type" id="insuranceTypeInput" value="Public insurance">
+                                <div class="insurance-dropdown" id="insuranceDropdown" style="display:none;">
+                                    <div class="insurance-dropdown-header">
+                                        <span>Insurance type</span>
+                                        <span class="insurance-save" id="insuranceSave">Save</span>
+                                    </div>
+                                    <div class="insurance-options">
+                                        <div class="insurance-option active" data-value="Public insurance">
+                                            Public insurance <span class="insurance-tick" style="display:inline;">&#10003;</span>
+                                        </div>
+                                        <div class="insurance-option" data-value="Private insurance">
+                                            Private insurance <span class="insurance-tick" style="display:none;">&#10003;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </label>
                         <label>Public insurance*<input type="text" placeholder="Enter number"></label>
-                        <label>Assurance type<select class="profile-select"><option>Choose</option><option>Type 1</option><option>Type 2</option></select></label>
+                        <!-- Custom Assurance type select -->
+                        <label>Assurance type
+                            <div class="custom-select-assurance" id="assuranceSelect">
+                                <div class="selected-assurance" id="selectedAssurance">Choose</div>
+                                <input type="hidden" name="assurance_type" id="assuranceTypeInput" value="">
+                                <div class="assurance-dropdown" id="assuranceDropdown" style="display:none;">
+                                    <div class="assurance-dropdown-header">
+                                        <span>Assurance type</span>
+                                        <span class="assurance-save" id="assuranceSave">Save</span>
+                                    </div>
+                                    <div class="assurance-options">
+                                        <div class="assurance-option" data-value="Type 1">Type 1 <span class="assurance-tick">&#10003;</span></div>
+                                        <div class="assurance-option" data-value="Type 2">Type 2 <span class="assurance-tick">&#10003;</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </label>
                         <label>Address*<input type="text" placeholder="Enter"></label>
                     </div>
                 </div>
@@ -65,33 +134,92 @@
             </form>
         </div>
     </div>
-@endsection
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Age
-    const ageSlider = document.getElementById('age-slider');
-    const ageValue = document.getElementById('age-value');
-    if (ageSlider && ageValue) {
-        ageSlider.addEventListener('input', function() {
-            ageValue.textContent = "I'm " + ageSlider.value;
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Age
+            const ageSlider = document.getElementById('age-slider');
+            const ageValue = document.getElementById('age-value');
+            if (ageSlider && ageValue) {
+                ageSlider.addEventListener('input', function() {
+                    ageValue.textContent = "I'm " + ageSlider.value;
+                });
+            }
+            // Height
+            const heightSlider = document.getElementById('height-slider');
+            const heightValue = document.getElementById('height-value');
+            if (heightSlider && heightValue) {
+                heightSlider.addEventListener('input', function() {
+                    heightValue.textContent = "I'm " + parseFloat(heightSlider.value).toFixed(2) + " m";
+                });
+            }
+            // Weight
+            const weightSlider = document.getElementById('weight-slider');
+            const weightValue = document.getElementById('weight-value');
+            if (weightSlider && weightValue) {
+                weightSlider.addEventListener('input', function() {
+                    weightValue.textContent = "I'm " + weightSlider.value + " kg";
+                });
+            }
         });
-    }
-    // Height
-    const heightSlider = document.getElementById('height-slider');
-    const heightValue = document.getElementById('height-value');
-    if (heightSlider && heightValue) {
-        heightSlider.addEventListener('input', function() {
-            heightValue.textContent = "I'm " + parseFloat(heightSlider.value).toFixed(2) + " m";
-        });
-    }
-    // Weight
-    const weightSlider = document.getElementById('weight-slider');
-    const weightValue = document.getElementById('weight-value');
-    if (weightSlider && weightValue) {
-        weightSlider.addEventListener('input', function() {
-            weightValue.textContent = "I'm " + weightSlider.value + " kg";
-        });
-    }
-});
-</script> 
+    </script>
+
+    @push('scripts')
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function initCustomSelect(selectId, selectedId, dropdownId, optionClass, saveId, inputId) {
+            const select = document.getElementById(selectId);
+            const selected = document.getElementById(selectedId);
+            const dropdown = document.getElementById(dropdownId);
+            const options = dropdown.querySelectorAll('.' + optionClass);
+            const save = document.getElementById(saveId);
+            const input = inputId ? document.getElementById(inputId) : null;
+            let currentValue = selected.textContent.trim();
+            let activeOption = null;
+
+            options.forEach((option) => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => {
+                        opt.classList.remove('active');
+                        opt.classList.remove('saved');
+                    });
+                    this.classList.add('active');
+                    currentValue = this.getAttribute('data-value');
+                    activeOption = this;
+                });
+            });
+            selected.addEventListener('click', function(e) {
+                dropdown.style.display = 'block';
+                options.forEach(opt => opt.classList.remove('active'));
+                const saved = dropdown.querySelector('.' + optionClass + '.saved');
+                if (saved) saved.classList.add('active');
+            });
+            save.addEventListener('click', function() {
+                selected.textContent = currentValue;
+                if (input) input.value = currentValue;
+                dropdown.style.display = 'none';
+                options.forEach(opt => {
+                    opt.classList.remove('saved');
+                    opt.classList.remove('active');
+                });
+                if (activeOption) activeOption.classList.add('saved');
+            });
+            document.addEventListener('mousedown', function(e) {
+                if (!select.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                    options.forEach(opt => opt.classList.remove('active'));
+                }
+            });
+        }
+
+        // Gender
+        initCustomSelect('genderSelect', 'selectedGender', 'genderDropdown', 'gender-option', 'genderSave', 'genderInput');
+        // Insurance type
+        initCustomSelect('insuranceSelect', 'selectedInsurance', 'insuranceDropdown', 'insurance-option', 'insuranceSave', 'insuranceTypeInput');
+        // Assurance type
+        initCustomSelect('assuranceSelect', 'selectedAssurance', 'assuranceDropdown', 'assurance-option', 'assuranceSave', 'assuranceTypeInput');
+    });
+    </script>
+    @endpush
+@endsection 
+
