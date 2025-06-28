@@ -99,12 +99,9 @@
                                         <span class="insurance-save" id="insuranceSave">Save</span>
                                     </div>
                                     <div class="insurance-options">
-                                        <div class="insurance-option active" data-value="Public insurance">
-                                            Public insurance <span class="insurance-tick" style="display:inline;">&#10003;</span>
-                                        </div>
-                                        <div class="insurance-option" data-value="Private insurance">
-                                            Private insurance <span class="insurance-tick" style="display:none;">&#10003;</span>
-                                        </div>
+                                        <div class="insurance-option" data-value="Public insurance">Public insurance <span class="insurance-tick">&#10003;</span></div>
+                                        <div class="insurance-option" data-value="Private insurance">Private insurance <span class="insurance-tick">&#10003;</span></div>
+                                        <div class="insurance-option" data-value="Vietnam insurance">Vietnam insurance <span class="insurance-tick">&#10003;</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -161,6 +158,42 @@
                     weightValue.textContent = "I'm " + weightSlider.value + " kg";
                 });
             }
+            // Khôi phục lại Blood group select dạng grid
+            const bloodSelect = document.getElementById('bloodSelect');
+            const selectedBlood = document.getElementById('selectedBlood');
+            const bloodDropdown = document.getElementById('bloodDropdown');
+            const bloodOptions = bloodDropdown.querySelectorAll('.blood-option-grid');
+            const bloodSave = document.getElementById('bloodSave');
+            const bloodGroupInput = document.getElementById('bloodGroupInput');
+            let bloodCurrent = selectedBlood.textContent.trim();
+            let bloodActive = null;
+
+            selectedBlood.addEventListener('click', function(e) {
+                bloodDropdown.style.display = 'block';
+            });
+            bloodOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    bloodOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    bloodCurrent = this.getAttribute('data-value');
+                    bloodActive = this;
+                });
+            });
+            bloodSave.addEventListener('click', function() {
+                selectedBlood.textContent = bloodCurrent;
+                bloodGroupInput.value = bloodCurrent;
+                bloodDropdown.style.display = 'none';
+                bloodOptions.forEach(opt => opt.classList.remove('saved'));
+                if (bloodActive) bloodActive.classList.add('saved');
+            });
+            document.addEventListener('mousedown', function(e) {
+                if (!bloodSelect.contains(e.target)) {
+                    bloodDropdown.style.display = 'none';
+                    bloodOptions.forEach(opt => opt.classList.remove('active'));
+                    const saved = document.querySelector('.blood-option-grid.saved');
+                    if (saved) saved.classList.add('active');
+                }
+            });
         });
     </script>
 

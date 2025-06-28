@@ -2,7 +2,7 @@
     display: flex;
     height: 92vh;
     position: relative;
-    background: #EFEFEF;
+    background: #fff;
 }
 
 .doctor-img {
@@ -27,10 +27,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f6f6f5;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-radius: 40px 0 0 40px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
     margin-left: -30px;
 }
 
@@ -604,11 +604,11 @@
     justify-content: center;
 }
 .form-wrapper {
-    background: #fff;
-    border-radius: 32px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.07);
-    padding: 48px 56px 32px 56px;
-    max-width: 950px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 40px 24px;
+    max-width: 1300px;
     width: 100%;
     margin: 40px auto;
     position: relative;
@@ -635,7 +635,7 @@
 }
 .form-columns {
     display: flex;
-    gap: 48px;
+    gap: 96px;
     margin-bottom: 32px;
 }
 .form-left, .form-right {
@@ -1281,14 +1281,12 @@
     display: inline;
 }
 
-/* Không hiện tick ở .saved nếu không .active */
 .insurance-option.saved .insurance-tick:not(.active),
 .assurance-option.saved .assurance-tick:not(.active),
 .gender-option.saved .gender-tick:not(.active) {
     display: none;
 }
 
-/* Đảm bảo tick luôn hiển thị đúng ở lựa chọn có nền đỏ */
 .gender-option .gender-tick { display: none !important; }
 .gender-option.active .gender-tick,
 .gender-option.saved .gender-tick {
