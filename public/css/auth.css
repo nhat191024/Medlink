@@ -264,95 +264,195 @@
     color: #222;
 }
 
-/* Custom Select Dropdown */
+/* Custom Select Components (Unified) */
 .custom-select {
     position: relative;
-    display: inline-block;
-    min-width: 120px;
+    width: 100%;
+    font-size: 1rem;
 }
 
-.select-selected {
-    background-color: transparent;
-    padding: 16px 12px;
-    border: none;
-    border-right: 1px solid #e0e0e0;
+.selected-option {
+    background: #fafafa;
+    border: 1.5px solid #eee;
+    border-radius: 12px;
+    padding: 12px 40px 12px 16px;
     cursor: pointer;
+    width: 100%;
     user-select: none;
+    font-size: 1rem;
+    transition: border 0.2s;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.selected-option:after {
+    content: '\25BC';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1.1em;
+    pointer-events: none;
+}
+
+.dropdown {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    z-index: 20;
+    border: 1.5px solid #eee;
+    padding: 0;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.dropdown-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 8px 20px;
+    font-weight: bold;
+    color: #222;
+    border-bottom: 1px solid #f3f3f3;
+    font-size: 1.08rem;
+}
+
+.save-btn {
+    color: #DF1D32;
+    font-size: 0.98rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.save-btn:hover {
+    color: #b91c1c;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.option {
+    padding: 18px 20px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 16px;
+    font-size: 1rem;
+    color: #222;
+    border-radius: 0;
+    background: #fff;
+    font-weight: 400;
+    border: none;
+    margin: 0;
+    transition: background 0.18s, color 0.18s, font-weight 0.18s;
 }
 
-.select-items {
-    position: absolute;
-    background-color: white;
-    top: 100%;
-    left: -60px;
-    width: 300px;
-    z-index: 999;
-    max-height: 250px;
-    min-height: 150px;
-    overflow-y: auto;
-    border: 1px solid #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    margin-top: 4px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+.option:hover {
+    background: #f7f7f9;
+    font-weight: bold;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.select-items::-webkit-scrollbar {
+.option.active,
+.option.saved {
+    background: #fff0f1;
+    color: #DF1D32;
+    font-weight: bold;
+}
+
+.tick {
+    color: #DF1D32;
+    font-size: 1.2em;
+    margin-left: 8px;
+    transition: opacity 0.18s;
+    opacity: 1;
     display: none;
 }
 
-.select-hide {
-    display: none !important;
+.option.active .tick,
+.option.saved .tick {
+    display: inline;
 }
 
-.select-items div {
-    color: #333;
-    padding: 12px 16px;
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-    user-select: none;
+/* Blood group specific grid layout */
+.blood-options-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 20px;
+}
+
+.blood-option-grid {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    font-size: 14px;
-    transition: background-color 0.2s;
-}
-
-.select-items div:last-child {
-    border-bottom: none;
-}
-
-.select-items div:hover,
-.same-as-selected {
-    background-color: #f8f8f8;
-}
-
-.country-flag {
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
-    flex-shrink: 0;
-}
-
-.country-name {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
-}
-
-.country-code {
-    color: #666;
+    background: #fff;
+    border: 2px solid #f3f3f3;
+    border-radius: 16px;
+    font-size: 1.08rem;
+    color: #222;
     font-weight: 500;
-    flex-shrink: 0;
+    padding: 18px 0;
+    cursor: pointer;
+    transition: border 0.18s, background 0.18s, color 0.18s;
+    min-width: 70px;
+}
+
+.blood-option-grid .blood-drop {
+    font-size: 1.3em;
+    color: #ff4d7e;
+    margin-left: 2px;
+    margin-top: 1px;
+}
+
+.blood-option-grid.active {
+    border: 2px solid #DF1D32;
+    background: #fff0f1;
+    color: #DF1D32;
+    font-weight: 600;
+}
+
+.blood-option-grid.active .blood-drop {
+    color: #DF1D32;
+}
+
+.blood-option-grid:hover {
+    border: 2px solid #DF1D32;
+    background: #fbe9ec;
+    color: #DF1D32;
+}
+
+/* Date input styling */
+.profile-input[type="date"] {
+    width: 100%;
+    padding: 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 16px;
+    background: #fafafa;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: #222;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.profile-input[type="date"]:focus {
+    border-color: #DF1D32;
+    box-shadow: 0 2px 8px rgba(223, 29, 50, 0.08);
 }
 
 .note {
@@ -790,536 +890,4 @@
     .form-left, .form-right {
         gap: 12px;
     }
-}
-
-/* --- Custom Insurance Type Select: Full width như input --- */
-.custom-select-insurance {
-    position: relative;
-    width: 100%;
-    font-size: 1rem;
-}
-.selected-insurance {
-    background: #fafafa;
-    border: 1.5px solid #eee;
-    border-radius: 12px;
-    padding: 12px 40px 12px 16px;
-    cursor: pointer;
-    width: 100%;
-    user-select: none;
-    font-size: 1rem;
-    transition: border 0.2s;
-    position: relative;
-    box-sizing: border-box;
-}
-.selected-insurance:after {
-    content: '\25BC';
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    font-size: 1.1em;
-    pointer-events: none;
-}
-.insurance-dropdown {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    z-index: 20;
-    border: 1.5px solid #eee;
-    padding: 0;
-    margin-top: 2px;
-    overflow: hidden;
-}
-.insurance-dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px 8px 20px;
-    font-weight: bold;
-    color: #222;
-    border-bottom: 1px solid #f3f3f3;
-    font-size: 1.08rem;
-}
-.insurance-save {
-    color: #DF1D32;
-    font-size: 0.98rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-.insurance-save:hover {
-    color: #b91c1c;
-}
-.insurance-options {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-.insurance-option {
-    padding: 18px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #222;
-    border-radius: 0;
-    background: #fff;
-    font-weight: 400;
-    border: none;
-    margin: 0;
-    transition: background 0.18s, color 0.18s, font-weight 0.18s;
-}
-.insurance-option:hover {
-    background: #f7f7f9;
-    font-weight: bold;
-}
-.insurance-option.active {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.insurance-option.saved {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.insurance-tick {
-    color: #DF1D32;
-    font-size: 1.2em;
-    margin-left: 8px;
-    transition: opacity 0.18s;
-    opacity: 1;
-    display: none;
-}
-.insurance-option.active .insurance-tick,
-.insurance-option.saved .insurance-tick {
-    display: inline;
-}
-
-/* --- Custom Blood group Select --- */
-.custom-select-blood {
-    position: relative;
-    width: 100%;
-    font-size: 1rem;
-}
-.selected-blood {
-    background: #fafafa;
-    border: 1.5px solid #eee;
-    border-radius: 12px;
-    padding: 12px 40px 12px 16px;
-    cursor: pointer;
-    width: 100%;
-    user-select: none;
-    font-size: 1rem;
-    transition: border 0.2s;
-    position: relative;
-    box-sizing: border-box;
-}
-.selected-blood:after {
-    content: '\25BC';
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    font-size: 1.1em;
-    pointer-events: none;
-}
-.blood-dropdown {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    z-index: 20;
-    border: 1.5px solid #eee;
-    padding: 0;
-    margin-top: 2px;
-    overflow: hidden;
-}
-.blood-dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px 8px 20px;
-    font-weight: bold;
-    color: #222;
-    border-bottom: 1px solid #f3f3f3;
-    font-size: 1.08rem;
-}
-.blood-save {
-    color: #DF1D32;
-    font-size: 0.98rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-.blood-save:hover {
-    color: #b91c1c;
-}
-.blood-options {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-.blood-option {
-    padding: 18px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #222;
-    border-radius: 0;
-    background: #fff;
-    font-weight: 400;
-    border: none;
-    margin: 0;
-    transition: background 0.18s, color 0.18s, font-weight 0.18s;
-}
-.blood-option:hover {
-    background: #fff0f1;
-    color: #DF1D32;
-}
-.blood-option.active {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.blood-option.saved {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.blood-tick {
-    color: #DF1D32;
-    font-size: 1.2em;
-    margin-left: 8px;
-    transition: opacity 0.18s;
-    opacity: 1;
-    display: none;
-}
-.blood-option.active .blood-tick,
-.blood-option.saved .blood-tick {
-    display: inline;
-}
-
-/* --- Custom Assurance type Select --- */
-.custom-select-assurance {
-    position: relative;
-    width: 100%;
-    font-size: 1rem;
-}
-.selected-assurance {
-    background: #fafafa;
-    border: 1.5px solid #eee;
-    border-radius: 12px;
-    padding: 12px 40px 12px 16px;
-    cursor: pointer;
-    width: 100%;
-    user-select: none;
-    font-size: 1rem;
-    transition: border 0.2s;
-    position: relative;
-    box-sizing: border-box;
-}
-.selected-assurance:after {
-    content: '\25BC';
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    font-size: 1.1em;
-    pointer-events: none;
-}
-.assurance-dropdown {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    z-index: 20;
-    border: 1.5px solid #eee;
-    padding: 0;
-    margin-top: 2px;
-    overflow: hidden;
-}
-.assurance-dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px 8px 20px;
-    font-weight: bold;
-    color: #222;
-    border-bottom: 1px solid #f3f3f3;
-    font-size: 1.08rem;
-}
-.assurance-save {
-    color: #DF1D32;
-    font-size: 0.98rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-.assurance-save:hover {
-    color: #b91c1c;
-}
-.assurance-options {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-.assurance-option {
-    padding: 18px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #222;
-    border-radius: 0;
-    background: #fff;
-    font-weight: 400;
-    border: none;
-    margin: 0;
-    transition: background 0.18s, color 0.18s, font-weight 0.18s;
-}
-.assurance-option:hover {
-    background: #f7f7f9;
-    font-weight: bold;
-}
-.assurance-option.active {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.assurance-option.saved {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.assurance-tick {
-    color: #DF1D32;
-    font-size: 1.2em;
-    margin-left: 8px;
-    transition: opacity 0.18s;
-    opacity: 1;
-    display: none;
-}
-.assurance-option.active .assurance-tick,
-.assurance-option.saved .assurance-tick {
-    display: inline;
-}
-
-/* --- Custom Blood group Select Grid --- */
-.blood-options-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    padding: 20px;
-}
-.blood-option-grid {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: #fff;
-    border: 2px solid #f3f3f3;
-    border-radius: 16px;
-    font-size: 1.08rem;
-    color: #222;
-    font-weight: 500;
-    padding: 18px 0;
-    cursor: pointer;
-    transition: border 0.18s, background 0.18s, color 0.18s;
-    min-width: 70px;
-}
-.blood-option-grid .blood-drop {
-    font-size: 1.3em;
-    color: #ff4d7e;
-    margin-left: 2px;
-    margin-top: 1px;
-}
-.blood-option-grid.active {
-    border: 2px solid #DF1D32;
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: 600;
-}
-.blood-option-grid.active .blood-drop {
-    color: #DF1D32;
-}
-.blood-option-grid:hover {
-    border: 2px solid #DF1D32;
-    background: #fbe9ec;
-    color: #DF1D32;
-}
-
-/* --- Custom Gender Select --- */
-.custom-select-gender {
-    position: relative;
-    width: 100%;
-    font-size: 1rem;
-}
-.selected-gender {
-    background: #fafafa;
-    border: 1.5px solid #eee;
-    border-radius: 12px;
-    padding: 12px 40px 12px 16px;
-    cursor: pointer;
-    width: 100%;
-    user-select: none;
-    font-size: 1rem;
-    transition: border 0.2s;
-    position: relative;
-    box-sizing: border-box;
-}
-.selected-gender:after {
-    content: '\25BC';
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-    font-size: 1.1em;
-    pointer-events: none;
-}
-.gender-dropdown {
-    position: absolute;
-    top: 110%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    z-index: 20;
-    border: 1.5px solid #eee;
-    padding: 0;
-    margin-top: 2px;
-    overflow: hidden;
-}
-.gender-dropdown-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px 8px 20px;
-    font-weight: bold;
-    color: #222;
-    border-bottom: 1px solid #f3f3f3;
-    font-size: 1.08rem;
-}
-.gender-save {
-    color: #DF1D32;
-    font-size: 0.98rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-.gender-save:hover {
-    color: #b91c1c;
-}
-.gender-options {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-.gender-option {
-    padding: 18px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 1rem;
-    color: #222;
-    border-radius: 0;
-    background: #fff;
-    font-weight: 400;
-    border: none;
-    margin: 0;
-    transition: background 0.18s, color 0.18s, font-weight 0.18s;
-}
-.gender-option:hover {
-    background: #f7f7f9;
-    font-weight: bold;
-}
-.gender-option.active {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.gender-option.saved {
-    background: #fff0f1;
-    color: #DF1D32;
-    font-weight: bold;
-}
-.gender-tick {
-    color: #DF1D32;
-    font-size: 1.2em;
-    margin-left: 8px;
-    transition: opacity 0.18s;
-    opacity: 1;
-    display: none;
-}
-.gender-option.active .gender-tick,
-.gender-option.saved .gender-tick {
-    display: inline;
-}
-
-.insurance-option.saved .insurance-tick:not(.active),
-.assurance-option.saved .assurance-tick:not(.active),
-.gender-option.saved .gender-tick:not(.active) {
-    display: none;
-}
-
-.gender-option .gender-tick { display: none !important; }
-.gender-option.active .gender-tick,
-.gender-option.saved .gender-tick {
-    display: inline !important;
-}
-
-.assurance-option .assurance-tick { display: none !important; }
-.assurance-option.active .assurance-tick,
-.assurance-option.saved .assurance-tick {
-    display: inline !important;
-}
-
-.insurance-option .insurance-tick { display: none !important; }
-.insurance-option.active .insurance-tick { display: inline !important; }
-.insurance-option.saved .insurance-tick { display: inline !important; }
-.insurance-option.active.saved .insurance-tick { display: inline !important; }
-
-.profile-input[type="date"] {
-    width: 100%;
-    padding: 16px;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 16px;
-    background: #fafafa;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    color: #222;
-    box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-.profile-input[type="date"]:focus {
-    border-color: #DF1D32;
-    box-shadow: 0 2px 8px rgba(223, 29, 50, 0.08);
 }

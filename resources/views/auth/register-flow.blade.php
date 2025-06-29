@@ -33,7 +33,7 @@
             <div style="font-size:1.45rem; font-weight:700; margin-bottom:32px; text-align:center;">Complete your profile</div>
             <!-- Khung trắng bo góc bóng đổ lớn -->
             <div style="background:#fff; border-radius:32px; box-shadow:0 8px 40px rgba(0,0,0,0.10); padding:56px 38px 44px 38px; min-width:340px; max-width:99vw; width:760px; text-align:center; position:relative; margin-bottom:48px;">
-                <div style="display:flex; flex-direction:column; align-items:center; g  ap:22px;">
+                <div style="display:flex; flex-direction:column; align-items:center; gap:22px;">
                     <div style="position:relative; width:108px; height:108px; margin:0 auto;">
                         <img id="avatarPreview" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" style="width:108px; height:108px; border-radius:50%; object-fit:cover; background:#f3f3f3; border:2.5px solid #f3f3f3;">
                         <button id="removeAvatarBtn" type="button" style="display:none; position:absolute; top:-12px; right:-12px; background:#fff; border:1.5px solid #eee; border-radius:50%; width:32px; height:32px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); font-size:20px; color:#b91c1c; align-items:center; justify-content:center;">&times;</button>
