@@ -112,11 +112,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <circle id="progressCircle" cx="70" cy="70" r="60" stroke="#df1d32" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="377"/>
                 </svg>
                 <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="24" fill="#fff0f1"/>
-                        <path d="M24 12L28 28L24 26L20 28L24 12Z" fill="#df1d32"/>
-                        <circle cx="24" cy="22" r="2" fill="#fff"/>
-                    </svg>
+                    <div style="background:#fff; border-radius:50%; width:72px; height:72px; display:flex; align-items:center; justify-content:center;">
+                        <img src="/img/logo.svg" alt="Logo" style="width:48px; height:48px;">
+                    </div>
                 </div>
             </div>
             <div id="progressPercent" style="font-size:2rem; font-weight:700; color:#df1d32; margin-top:8px;">0%</div>
