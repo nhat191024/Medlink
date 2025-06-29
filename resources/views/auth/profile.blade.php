@@ -135,8 +135,22 @@
                         <label>Address*<input type="text" placeholder="Enter"></label>
                     </div>
                 </div>
-                <button type="submit" class="continue-btn">Continue</button>
+                <button type="submit" class="continue-btn" id="continueBtn">Continue</button>
             </form>
+
+            <!-- Popup Overlay & Modal -->
+            <div id="requiredFieldsOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:10000; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);"></div>
+            <div id="requiredFieldsModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:18px; box-shadow:0 8px 32px rgba(0,0,0,0.18); z-index:10001; min-width:340px; max-width:90vw; padding:32px 28px 24px 28px; text-align:center;">
+                <div style="margin-bottom:18px;">
+                    <span style="font-size:38px; color:#fbbf24;">&#9888;</span>
+                </div>
+                <div style="font-size:1.25rem; font-weight:600; margin-bottom:10px;">Missing required fields!</div>
+                <div style="color:#666; font-size:1rem; margin-bottom:24px;">Some of the required fields are empty or contains invalid data. Please check your input and complete before continuing.</div>
+                <div style="display:flex; gap:16px; justify-content:center;">
+                    <button id="skipBtn" style="flex:1; background:#f3f3f3; color:#222; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">Skip</button>
+                    <button id="checkBtn" style="flex:1; background:#111; color:#fff; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">Check</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -251,6 +265,60 @@
                     toggleVietnamInsuranceFields();
                 }, 10);
             });
+
+            // Popup required fields logic
+            const continueBtn = document.getElementById('continueBtn');
+            const form = document.querySelector('.profile-form');
+            const overlay = document.getElementById('requiredFieldsOverlay');
+            const modal = document.getElementById('requiredFieldsModal');
+            const skipBtn = document.getElementById('skipBtn');
+            const checkBtn = document.getElementById('checkBtn');
+
+            function showRequiredFieldsModal() {
+                overlay.style.display = 'block';
+                modal.style.display = 'block';
+            }
+            function hideRequiredFieldsModal() {
+                overlay.style.display = 'none';
+                modal.style.display = 'none';
+            }
+
+            if (continueBtn && form) {
+                continueBtn.addEventListener('click', function(e) {
+                    // Kiểm tra các trường required
+                    let valid = true;
+                    const requiredInputs = form.querySelectorAll('input[required], textarea[required]');
+                    requiredInputs.forEach(input => {
+                        if (!input.value || input.value.trim() === '') {
+                            valid = false;
+                        }
+                    });
+                    // Custom kiểm tra các select custom (gender, blood group...)
+                    const gender = document.getElementById('selectedGender');
+                    const blood = document.getElementById('selectedBlood');
+                    if (gender && (gender.textContent.trim() === 'Choose' || gender.textContent.trim() === '')) valid = false;
+                    if (blood && (blood.textContent.trim() === 'Choose' || blood.textContent.trim() === '')) valid = false;
+                    // Nếu thiếu trường required thì show popup
+                    if (!valid) {
+                        e.preventDefault();
+                        showRequiredFieldsModal();
+                    }
+                });
+            }
+            if (skipBtn) {
+                skipBtn.addEventListener('click', function() {
+                    hideRequiredFieldsModal();
+                    window.location.href = '/profile/avatar';
+                });
+            }
+            if (checkBtn) {
+                checkBtn.addEventListener('click', function() {
+                    hideRequiredFieldsModal();
+                });
+            }
+            if (overlay) {
+                overlay.addEventListener('click', hideRequiredFieldsModal);
+            }
         });
     </script>
 

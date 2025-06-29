@@ -24,4 +24,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/profile', function () {
         return view('auth.profile');
     });
+    Route::get('/profile/avatar', function () {
+        return view('auth.profile-avatar');
+    })->name('profile.avatar');
 });

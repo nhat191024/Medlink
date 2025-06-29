@@ -61,6 +61,7 @@
             </p>
 
             <button type="submit" class="submit-btn">Continue</button>
+            <button type="button" id="skipBtn" class="submit-btn" style="background:#f3f3f3; color:#222; margin-top:8px;">Skip</button>
         </form>
     </div>
 @endsection
@@ -159,6 +160,14 @@
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             });
+
+            // Thêm xử lý cho nút Skip
+            const skipBtn = document.getElementById('skipBtn');
+            if (skipBtn) {
+                skipBtn.addEventListener('click', function() {
+                    window.location.href = '/profile/avatar';
+                });
+            }
         });
 
         // Progress Indicator - Easy copy-paste to other files
