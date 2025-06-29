@@ -165,7 +165,7 @@
             const skipBtn = document.getElementById('skipBtn');
             if (skipBtn) {
                 skipBtn.addEventListener('click', function() {
-                    window.location.href = '/profile/avatar';
+                    window.location.href = '/register-flow/avatar';
                 });
             }
         });

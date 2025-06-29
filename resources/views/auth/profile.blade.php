@@ -26,7 +26,7 @@
             </div>
 
             <div class="form-title">
-                <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="icon" class="form-icon">
+                <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" class="form-icon" style="width:38px; height:38px; object-fit:contain; display:block; margin:0 auto 8px auto;">
                 <h2>Complete your profile</h2>
             </div>
             <form class="profile-form">
@@ -308,7 +308,7 @@
             if (skipBtn) {
                 skipBtn.addEventListener('click', function() {
                     hideRequiredFieldsModal();
-                    window.location.href = '/profile/avatar';
+                    window.location.href = '/register-flow/avatar';
                 });
             }
             if (checkBtn) {
