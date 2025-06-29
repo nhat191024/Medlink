@@ -108,7 +108,6 @@
                         </label>
                         <div id="vietnamInsuranceFields" style="display:none; margin-bottom: 16px;">
                             <label>Card number<input type="text" class="profile-input" placeholder="Enter card number"></label>
-                            <label>Valid from<input type="date" class="profile-input"></label>
                             <label>Valid to<input type="date" class="profile-input"></label>
                             <label>Initial medical facility<input type="text" class="profile-input" placeholder="Enter facility"></label>
                         </div>

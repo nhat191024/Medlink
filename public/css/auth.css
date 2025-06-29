@@ -433,6 +433,17 @@
     color: #DF1D32;
 }
 
+.blood-option-grid.saved {
+    border: 2px solid #DF1D32;
+    background: #fff0f1;
+    color: #DF1D32;
+    font-weight: 600;
+}
+
+.blood-option-grid.saved .blood-drop {
+    color: #DF1D32;
+}
+
 /* Date input styling */
 .profile-input[type="date"] {
     width: 100%;
@@ -448,6 +459,9 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    height: 48px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .profile-input[type="date"]:focus {
@@ -890,4 +904,8 @@
     .form-left, .form-right {
         gap: 12px;
     }
+}
+
+#vietnamInsuranceFields label {
+    margin-bottom: 14px;
 }
