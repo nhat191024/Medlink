@@ -27,4 +27,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/profile/avatar', function () {
         return view('auth.profile-avatar');
     })->name('profile.avatar');
+    Route::get('/register-progress', function () {
+        return view('auth.register-progress');
+    });
+    Route::get('/register-complete', function () {
+        return view('auth.register-complete');
+    });
 });

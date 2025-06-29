@@ -81,12 +81,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Chuyển sang profile khi bấm Continue hoặc Skip
     if (continueBtn) {
         continueBtn.addEventListener('click', function() {
-            window.location.href = '/profile';
+            window.location.href = '/register-progress';
         });
     }
     if (skipBtn) {
         skipBtn.addEventListener('click', function() {
-            window.location.href = '/profile';
+            window.location.href = '/register-progress';
         });
     }
 });
