@@ -27,50 +27,50 @@
 
             <div class="form-title">
                 <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" class="form-icon" style="width:38px; height:38px; object-fit:contain; display:block; margin:0 auto 8px auto;">
-                <h2>Complete your profile</h2>
+                <h2>{{ __('client/auth.profile.title') }}</h2>
             </div>
             <form class="profile-form">
                 <div class="form-columns">
                     <div class="form-left">
-                        <label>Full name*<input type="text" placeholder="Your full name" required></label>
-                        <label>Age*
+                        <label>{{ __('client/auth.profile.full_name') }}*<input type="text" placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required></label>
+                        <label>{{ __('client/auth.profile.age') }}*
                             <input type="range" min="0" max="150" value="18" class="slider" id="age-slider">
-                            <span class="slider-value" id="age-value">I'm 18</span>
+                            <span class="slider-value" id="age-value">{{ __('client/auth.profile.age_prefix') }} 18</span>
                         </label>
-                        <label>Gender*
+                        <label>{{ __('client/auth.profile.gender') }}*
                             <div class="custom-select" id="genderSelect">
-                                <div class="selected-option" id="selectedGender">Choose</div>
+                                <div class="selected-option" id="selectedGender">{{ __('client/auth.profile.gender_choose') }}</div>
                                 <input type="hidden" name="gender" id="genderInput" value="">
                                 <div class="dropdown" id="genderDropdown" style="display:none;">
                                     <div class="dropdown-header">
-                                        <span>Gender</span>
-                                        <span class="save-btn" id="genderSave">Save</span>
+                                        <span>{{ __('client/auth.profile.gender') }}</span>
+                                        <span class="save-btn" id="genderSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
                                     <div class="options">
-                                        <div class="option" data-value="Male">Male <span class="tick">&#10003;</span></div>
-                                        <div class="option" data-value="Female">Female <span class="tick">&#10003;</span></div>
-                                        <div class="option" data-value="Other">Other <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="Male">{{ __('client/auth.profile.gender_male') }} <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="Female">{{ __('client/auth.profile.gender_female') }} <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="Other">{{ __('client/auth.profile.gender_other') }} <span class="tick">&#10003;</span></div>
                                     </div>
                                 </div>
                             </div>
                         </label>
-                        <label>Height*
+                        <label>{{ __('client/auth.profile.height') }}*
                             <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="slider" id="height-slider">
-                            <span class="slider-value" id="height-value">I'm 1.53 m</span>
+                            <span class="slider-value" id="height-value">{{ __('client/auth.profile.height_prefix') }} 1.53 {{ __('client/auth.profile.height_unit') }}</span>
                         </label>
-                        <label>Weight*
+                        <label>{{ __('client/auth.profile.weight') }}*
                             <input type="range" min="30" max="500" value="46" class="slider" id="weight-slider">
-                            <span class="slider-value" id="weight-value">I'm 46 kg</span>
+                            <span class="slider-value" id="weight-value">{{ __('client/auth.profile.weight_prefix') }} 46 {{ __('client/auth.profile.weight_unit') }}</span>
                         </label>
                         <!-- Custom Blood group select -->
-                        <label>Blood group*
+                        <label>{{ __('client/auth.profile.blood_group') }}*
                             <div class="custom-select" id="bloodSelect">
-                                <div class="selected-option" id="selectedBlood">Choose</div>
+                                <div class="selected-option" id="selectedBlood">{{ __('client/auth.profile.blood_group_choose') }}</div>
                                 <input type="hidden" name="blood_group" id="bloodGroupInput" value="">
                                 <div class="dropdown" id="bloodDropdown" style="display:none;">
                                     <div class="dropdown-header">
-                                        <span>Blood group</span>
-                                        <span class="save-btn" id="bloodSave">Save</span>
+                                        <span>{{ __('client/auth.profile.blood_group') }}</span>
+                                        <span class="save-btn" id="bloodSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
                                     <div class="blood-options-grid">
                                         <div class="blood-option-grid" data-value="A+">A+ <span class="blood-drop">🩸</span></div>
@@ -85,56 +85,56 @@
                                 </div>
                             </div>
                         </label>
-                        <label>Medical history<textarea placeholder="Enter your history medical"></textarea></label>
+                        <label>{{ __('client/auth.profile.medical_history') }}<textarea placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea></label>
                     </div>
                     <div class="form-right">
                         <!-- Custom Insurance Type Select -->
-                        <label>Insurance type
+                        <label>{{ __('client/auth.profile.insurance_type') }}
                             <div class="custom-select" id="insuranceSelect">
-                                <div class="selected-option" id="selectedInsurance">Public insurance</div>
-                                <input type="hidden" name="insurance_type" id="insuranceTypeInput" value="Public insurance">
+                                <div class="selected-option" id="selectedInsurance">{{ __('client/auth.profile.insurance_public') }}</div>
+                                <input type="hidden" name="insurance_type" id="insuranceTypeInput" value="{{ __('client/auth.profile.insurance_public') }}">
                                 <div class="dropdown" id="insuranceDropdown" style="display:none;">
                                     <div class="dropdown-header">
-                                        <span>Insurance type</span>
-                                        <span class="save-btn" id="insuranceSave">Save</span>
+                                        <span>{{ __('client/auth.profile.insurance_type') }}</span>
+                                        <span class="save-btn" id="insuranceSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
                                     <div class="options">
-                                        <div class="option" data-value="Public insurance">Public insurance <span class="tick">&#10003;</span></div>
-                                        <div class="option" data-value="Private insurance">Private insurance <span class="tick">&#10003;</span></div>
-                                        <div class="option" data-value="Vietnam insurance">Vietnam insurance <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_public') }}">{{ __('client/auth.profile.insurance_public') }} <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_private') }}">{{ __('client/auth.profile.insurance_private') }} <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_vietnam') }}">{{ __('client/auth.profile.insurance_vietnam') }} <span class="tick">&#10003;</span></div>
                                     </div>
                                 </div>
                             </div>
                         </label>
                         <div id="vietnamInsuranceFields" style="display:none; margin-bottom: 16px;">
-                            <label>Card number<input type="text" class="profile-input" placeholder="Enter card number"></label>
-                            <label>Valid to<input type="date" class="profile-input"></label>
-                            <label>Initial medical facility<input type="text" class="profile-input" placeholder="Enter facility"></label>
+                            <label>{{ __('client/auth.profile.card_number') }}<input type="text" class="profile-input" placeholder="{{ __('client/auth.profile.card_number_placeholder') }}"></label>
+                            <label>{{ __('client/auth.profile.valid_to') }}<input type="date" class="profile-input"></label>
+                            <label>{{ __('client/auth.profile.initial_medical_facility') }}<input type="text" class="profile-input" placeholder="{{ __('client/auth.profile.facility_placeholder') }}"></label>
                         </div>
-                        <label>Public insurance*<input type="text" placeholder="Enter number"></label>
+                        <label>{{ __('client/auth.profile.public_insurance') }}*<input type="text" placeholder="{{ __('client/auth.profile.public_insurance_placeholder') }}"></label>
                         <!-- Custom Assurance type select -->
-                        <label>Assurance type
+                        <label>{{ __('client/auth.profile.assurance_type') }}
                             <div class="custom-select" id="assuranceSelect">
-                                <div class="selected-option" id="selectedAssurance">Choose</div>
+                                <div class="selected-option" id="selectedAssurance">{{ __('client/auth.profile.assurance_choose') }}</div>
                                 <input type="hidden" name="assurance_type" id="assuranceTypeInput" value="">
                                 <div class="dropdown" id="assuranceDropdown" style="display:none;">
                                     <div class="dropdown-header">
-                                        <span>Assurance type</span>
-                                        <span class="save-btn" id="assuranceSave">Save</span>
+                                        <span>{{ __('client/auth.profile.assurance_type') }}</span>
+                                        <span class="save-btn" id="assuranceSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
                                     <div class="options">
-                                        <div class="option" data-value="Type 1">Type 1 <span class="tick">&#10003;</span></div>
-                                        <div class="option" data-value="Type 2">Type 2 <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="{{ __('client/auth.profile.assurance_type1') }}">{{ __('client/auth.profile.assurance_type1') }} <span class="tick">&#10003;</span></div>
+                                        <div class="option" data-value="{{ __('client/auth.profile.assurance_type2') }}">{{ __('client/auth.profile.assurance_type2') }} <span class="tick">&#10003;</span></div>
                                     </div>
                                 </div>
                             </div>
                         </label>
-                        <label id="mainInsuredGroup" style="display:none;">Main insured<input type="text" placeholder="Enter number"></label>
-                        <label id="entitledInsuredGroup" style="display:none;">Entitled insured<input type="text" placeholder="Enter number"></label>
-                        <label>Address*<input type="text" placeholder="Enter"></label>
+                        <label id="mainInsuredGroup" style="display:none;">{{ __('client/auth.profile.main_insured') }}<input type="text" placeholder="{{ __('client/auth.profile.main_insured_placeholder') }}"></label>
+                        <label id="entitledInsuredGroup" style="display:none;">{{ __('client/auth.profile.entitled_insured') }}<input type="text" placeholder="{{ __('client/auth.profile.entitled_insured_placeholder') }}"></label>
+                        <label>{{ __('client/auth.profile.address') }}*<input type="text" placeholder="{{ __('client/auth.profile.address_placeholder') }}"></label>
                     </div>
                 </div>
-                <button type="submit" class="continue-btn" id="continueBtn">Continue</button>
+                <button type="submit" class="continue-btn" id="continueBtn">{{ __('client/auth.profile.continue') }}</button>
             </form>
 
             <!-- Popup Overlay & Modal -->
@@ -143,11 +143,11 @@
                 <div style="margin-bottom:18px;">
                     <span style="font-size:38px; color:#fbbf24;">&#9888;</span>
                 </div>
-                <div style="font-size:1.25rem; font-weight:600; margin-bottom:10px;">Missing required fields!</div>
-                <div style="color:#666; font-size:1rem; margin-bottom:24px;">Some of the required fields are empty or contains invalid data. Please check your input and complete before continuing.</div>
+                <div style="font-size:1.25rem; font-weight:600; margin-bottom:10px;">{{ __('client/auth.profile.missing_fields_title') }}</div>
+                <div style="color:#666; font-size:1rem; margin-bottom:24px;">{{ __('client/auth.profile.missing_fields_message') }}</div>
                 <div style="display:flex; gap:16px; justify-content:center;">
-                    <button id="skipBtn" style="flex:1; background:#f3f3f3; color:#222; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">Skip</button>
-                    <button id="checkBtn" style="flex:1; background:#111; color:#fff; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">Check</button>
+                    <button id="skipBtn" style="flex:1; background:#f3f3f3; color:#222; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">{{ __('client/auth.profile.skip') }}</button>
+                    <button id="checkBtn" style="flex:1; background:#111; color:#fff; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">{{ __('client/auth.profile.check') }}</button>
                 </div>
             </div>
         </div>
@@ -160,7 +160,7 @@
             const ageValue = document.getElementById('age-value');
             if (ageSlider && ageValue) {
                 ageSlider.addEventListener('input', function() {
-                    ageValue.textContent = "I'm " + ageSlider.value;
+                    ageValue.textContent = "{{ __('client/auth.profile.age_prefix') }} " + ageSlider.value;
                 });
             }
             // Height
@@ -168,7 +168,7 @@
             const heightValue = document.getElementById('height-value');
             if (heightSlider && heightValue) {
                 heightSlider.addEventListener('input', function() {
-                    heightValue.textContent = "I'm " + parseFloat(heightSlider.value).toFixed(2) + " m";
+                    heightValue.textContent = "{{ __('client/auth.profile.height_prefix') }} " + parseFloat(heightSlider.value).toFixed(2) + " {{ __('client/auth.profile.height_unit') }}";
                 });
             }
             // Weight
@@ -176,7 +176,7 @@
             const weightValue = document.getElementById('weight-value');
             if (weightSlider && weightValue) {
                 weightSlider.addEventListener('input', function() {
-                    weightValue.textContent = "I'm " + weightSlider.value + " kg";
+                    weightValue.textContent = "{{ __('client/auth.profile.weight_prefix') }} " + weightSlider.value + " {{ __('client/auth.profile.weight_unit') }}";
                 });
             }
 
@@ -185,7 +185,7 @@
             const mainInsuredGroup = document.getElementById('mainInsuredGroup');
             const entitledInsuredGroup = document.getElementById('entitledInsuredGroup');
             function toggleInsuredFields() {
-                if (selectedInsurance.textContent.trim() === 'Private insurance') {
+                if (selectedInsurance.textContent.trim() === '{{ __('client/auth.profile.insurance_private') }}') {
                     mainInsuredGroup.style.display = '';
                     entitledInsuredGroup.style.display = '';
                 } else {
@@ -209,7 +209,7 @@
             // Hiện/ẩn Vietnam insurance fields
             const vietnamInsuranceFields = document.getElementById('vietnamInsuranceFields');
             function toggleVietnamInsuranceFields() {
-                if (selectedInsurance.textContent.trim() === 'Vietnam insurance') {
+                if (selectedInsurance.textContent.trim() === '{{ __('client/auth.profile.insurance_vietnam') }}') {
                     vietnamInsuranceFields.style.display = '';
                 } else {
                     vietnamInsuranceFields.style.display = 'none';
@@ -259,8 +259,8 @@
                     // Custom kiểm tra các select custom (gender, blood group...)
                     const gender = document.getElementById('selectedGender');
                     const blood = document.getElementById('selectedBlood');
-                    if (gender && (gender.textContent.trim() === 'Choose' || gender.textContent.trim() === '')) valid = false;
-                    if (blood && (blood.textContent.trim() === 'Choose' || blood.textContent.trim() === '')) valid = false;
+                    if (gender && (gender.textContent.trim() === '{{ __('client/auth.profile.gender_choose') }}' || gender.textContent.trim() === '')) valid = false;
+                    if (blood && (blood.textContent.trim() === '{{ __('client/auth.profile.blood_group_choose') }}' || blood.textContent.trim() === '')) valid = false;
                     // Nếu thiếu trường required thì show popup
                     if (!valid) {
                         e.preventDefault();

@@ -30,7 +30,7 @@
             <div style="margin-bottom:8px; display:flex; justify-content:center; align-items:center;">
                 <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" style="width:38px; height:38px; object-fit:contain; display:block;" />
             </div>
-            <div style="font-size:1.45rem; font-weight:700; margin-bottom:32px; text-align:center;">Complete your profile</div>
+            <div style="font-size:1.45rem; font-weight:700; margin-bottom:32px; text-align:center;">{{ __('client/auth.register_flow.avatar.title') }}</div>
             <!-- Khung trắng bo góc bóng đổ lớn -->
             <div style="background:#fff; border-radius:32px; box-shadow:0 8px 40px rgba(0,0,0,0.10); padding:56px 38px 44px 38px; min-width:340px; max-width:99vw; width:760px; text-align:center; position:relative; margin-bottom:48px;">
                 <div style="display:flex; flex-direction:column; align-items:center; gap:22px;">
@@ -38,13 +38,13 @@
                         <img id="avatarPreview" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar" style="width:108px; height:108px; border-radius:50%; object-fit:cover; background:#f3f3f3; border:2.5px solid #f3f3f3;">
                         <button id="removeAvatarBtn" type="button" style="display:none; position:absolute; top:-12px; right:-12px; background:#fff; border:1.5px solid #eee; border-radius:50%; width:32px; height:32px; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,0.08); font-size:20px; color:#b91c1c; align-items:center; justify-content:center;">&times;</button>
                     </div>
-                    <div style="font-size:1.15rem; font-weight:700; margin-top:18px; margin-bottom:12px;">Add your avatar</div>
-                    <div style="color:#888; font-size:1.04rem; margin-bottom:22px; max-width:520px; text-align:center; margin-left:auto; margin-right:auto; line-height:1.6;">Avatar must be an actual photo of you. Logo, clip-art, group photos and digitally altered images are not allowed.</div>
+                    <div style="font-size:1.15rem; font-weight:700; margin-top:18px; margin-bottom:12px;">{{ __('client/auth.register_flow.avatar.add_avatar') }}</div>
+                    <div style="color:#888; font-size:1.04rem; margin-bottom:22px; max-width:520px; text-align:center; margin-left:auto; margin-right:auto; line-height:1.6;">{{ __('client/auth.register_flow.avatar.avatar_description') }}</div>
                     <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display:none;">
-                    <button type="button" id="attachPhotoBtn" style="background:#df1d32; color:#fff; border:none; border-radius:999px; padding:12px 32px; font-size:1.08rem; font-weight:500; cursor:pointer; margin-top:8px;">Attach photo</button>
+                    <button type="button" id="attachPhotoBtn" style="background:#df1d32; color:#fff; border:none; border-radius:999px; padding:12px 32px; font-size:1.08rem; font-weight:500; cursor:pointer; margin-top:8px;">{{ __('client/auth.register_flow.avatar.attach_photo') }}</button>
                 </div>
             </div>
-            <button id="continueBtn" style="background:#111; color:#fff; border:none; border-radius:999px; padding:18px 0; font-size:1.15rem; font-weight:700; width:340px; margin:0 auto; display:block;">Continue</button>
+            <button id="continueBtn" style="background:#111; color:#fff; border:none; border-radius:999px; padding:18px 0; font-size:1.15rem; font-weight:700; width:340px; margin:0 auto; display:block;">{{ __('client/auth.register_flow.avatar.continue') }}</button>
         </div>
     </div>
 </div>
@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
             <div id="progressPercent" style="font-size:2rem; font-weight:700; color:#df1d32; margin-top:8px;">0%</div>
-            <div style="font-size:1.18rem; font-weight:600; color:#222; margin-top:8px;">Assembling Information</div>
-            <div style="color:#888; font-size:1.04rem; max-width:420px; text-align:center; margin:0 auto;">Your account is being created!</div>
+            <div style="font-size:1.18rem; font-weight:600; color:#222; margin-top:8px;">{{ __('client/auth.register_flow.progress.assembling_information') }}</div>
+            <div style="color:#888; font-size:1.04rem; max-width:420px; text-align:center; margin:0 auto;">{{ __('client/auth.register_flow.progress.account_creating') }}</div>
         </div>
     </div>
 </div>
@@ -157,9 +157,9 @@ animateProgress();
                     </svg>
                 </div>
             </div>
-            <div style="font-size:2rem; font-weight:700; color:#22c55e; margin-top:8px;">Hooray!!!</div>
-            <div style="font-size:1.18rem; font-weight:600; color:#222; margin-top:8px;">You have successfully created an account.</div>
-            <div style="color:#888; font-size:1.04rem; max-width:420px; text-align:center; margin:0 auto;">Welcome to Medlink! You can now explore all features and services.</div>
+            <div style="font-size:2rem; font-weight:700; color:#22c55e; margin-top:8px;">{{ __('client/auth.register_flow.complete.hooray') }}</div>
+            <div style="font-size:1.18rem; font-weight:600; color:#222; margin-top:8px;">{{ __('client/auth.register_flow.complete.success_message') }}</div>
+            <div style="color:#888; font-size:1.04rem; max-width:420px; text-align:center; margin:0 auto;">{{ __('client/auth.register_flow.complete.welcome_message') }}</div>
         </div>
     </div>
     <canvas id="confettiCanvas" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:999;"></canvas>
