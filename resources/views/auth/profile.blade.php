@@ -154,13 +154,24 @@
     </div>
 
     <script>
+        // Truyền các prefix từ PHP sang JS để tránh lỗi HTML entity
+        const agePrefix = @json(__('client/auth.profile.age_prefix'));
+        const heightPrefix = @json(__('client/auth.profile.height_prefix'));
+        const heightUnit = @json(__('client/auth.profile.height_unit'));
+        const weightPrefix = @json(__('client/auth.profile.weight_prefix'));
+        const weightUnit = @json(__('client/auth.profile.weight_unit'));
+        const genderChoose = @json(__('client/auth.profile.gender_choose'));
+        const bloodGroupChoose = @json(__('client/auth.profile.blood_group_choose'));
+        const insurancePrivate = @json(__('client/auth.profile.insurance_private'));
+        const insuranceVietnam = @json(__('client/auth.profile.insurance_vietnam'));
+
         document.addEventListener('DOMContentLoaded', function() {
             // Age
             const ageSlider = document.getElementById('age-slider');
             const ageValue = document.getElementById('age-value');
             if (ageSlider && ageValue) {
                 ageSlider.addEventListener('input', function() {
-                    ageValue.textContent = "{{ __('client/auth.profile.age_prefix') }} " + ageSlider.value;
+                    ageValue.textContent = agePrefix + ' ' + ageSlider.value;
                 });
             }
             // Height
@@ -168,7 +179,7 @@
             const heightValue = document.getElementById('height-value');
             if (heightSlider && heightValue) {
                 heightSlider.addEventListener('input', function() {
-                    heightValue.textContent = "{{ __('client/auth.profile.height_prefix') }} " + parseFloat(heightSlider.value).toFixed(2) + " {{ __('client/auth.profile.height_unit') }}";
+                    heightValue.textContent = heightPrefix + ' ' + parseFloat(heightSlider.value).toFixed(2) + ' ' + heightUnit;
                 });
             }
             // Weight
@@ -176,7 +187,7 @@
             const weightValue = document.getElementById('weight-value');
             if (weightSlider && weightValue) {
                 weightSlider.addEventListener('input', function() {
-                    weightValue.textContent = "{{ __('client/auth.profile.weight_prefix') }} " + weightSlider.value + " {{ __('client/auth.profile.weight_unit') }}";
+                    weightValue.textContent = weightPrefix + ' ' + weightSlider.value + ' ' + weightUnit;
                 });
             }
 
@@ -185,7 +196,7 @@
             const mainInsuredGroup = document.getElementById('mainInsuredGroup');
             const entitledInsuredGroup = document.getElementById('entitledInsuredGroup');
             function toggleInsuredFields() {
-                if (selectedInsurance.textContent.trim() === '{{ __('client/auth.profile.insurance_private') }}') {
+                if (selectedInsurance.textContent.trim() === insurancePrivate) {
                     mainInsuredGroup.style.display = '';
                     entitledInsuredGroup.style.display = '';
                 } else {
@@ -209,7 +220,7 @@
             // Hiện/ẩn Vietnam insurance fields
             const vietnamInsuranceFields = document.getElementById('vietnamInsuranceFields');
             function toggleVietnamInsuranceFields() {
-                if (selectedInsurance.textContent.trim() === '{{ __('client/auth.profile.insurance_vietnam') }}') {
+                if (selectedInsurance.textContent.trim() === insuranceVietnam) {
                     vietnamInsuranceFields.style.display = '';
                 } else {
                     vietnamInsuranceFields.style.display = 'none';
@@ -259,8 +270,8 @@
                     // Custom kiểm tra các select custom (gender, blood group...)
                     const gender = document.getElementById('selectedGender');
                     const blood = document.getElementById('selectedBlood');
-                    if (gender && (gender.textContent.trim() === '{{ __('client/auth.profile.gender_choose') }}' || gender.textContent.trim() === '')) valid = false;
-                    if (blood && (blood.textContent.trim() === '{{ __('client/auth.profile.blood_group_choose') }}' || blood.textContent.trim() === '')) valid = false;
+                    if (gender && (gender.textContent.trim() === genderChoose || gender.textContent.trim() === '')) valid = false;
+                    if (blood && (blood.textContent.trim() === bloodGroupChoose || blood.textContent.trim() === '')) valid = false;
                     // Nếu thiếu trường required thì show popup
                     if (!valid) {
                         e.preventDefault();
