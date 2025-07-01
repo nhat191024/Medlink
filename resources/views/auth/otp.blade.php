@@ -55,61 +55,55 @@
 
 @push('scripts')
     <script>
-        // Progress Indicator - Easy copy-paste to other files
         function initProgressIndicator(currentStep, totalSteps = 5) {
             const circle = document.getElementById('progressCircle');
             const numberEl = document.getElementById('progressNumber');
-            const circumference = 2 * Math.PI * 20; // radius = 20
-
-            // Calculate progress percentage
+            const circumference = 2 * Math.PI * 20;
             const progress = (currentStep / totalSteps) * 100;
             const strokeDasharray = (progress / 100) * circumference;
 
-            // Animate from previous step
             setTimeout(() => {
-                // Animate circle
                 circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
-
-                // Animate number
                 numberEl.textContent = currentStep;
                 numberEl.classList.add('animate');
-
-                // Remove animation class after animation completes
-                setTimeout(() => {
-                    numberEl.classList.remove('animate');
-                }, 600);
+                setTimeout(() => numberEl.classList.remove('animate'), 600);
             }, 300);
         }
 
-        // Initialize progress when page loads - CHANGE THIS NUMBER FOR EACH PAGE
         document.addEventListener('DOMContentLoaded', function () {
-            initProgressIndicator(2); // Step 2 for OTP page
-        });
+            initProgressIndicator(2); 
+            const inputs = document.querySelectorAll('.otp-box');
 
-        // OTP functionality
-        document.querySelectorAll('.otp-box').forEach((el, index, inputs) => {
-            el.addEventListener('input', () => {
-                if (el.value.length === 1 && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
-                checkFullCode();
+            inputs.forEach((el, index) => {
+                el.addEventListener('input', () => {
+                    if (el.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                    checkFullCode();
+                });
+
+                el.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && el.value === '' && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
             });
-        });
 
-        function checkFullCode() {
-            const allFilled = [...document.querySelectorAll('.otp-box')].every(el => el.value.length === 1);
-            document.getElementById('verify-btn').disabled = !allFilled;
-        }
-
-        let countdown = 60;
-        const countdownEl = document.getElementById("countdown");
-        const interval = setInterval(() => {
-            countdown--;
-            countdownEl.textContent = countdown + "s";
-            if (countdown <= 0) {
-                clearInterval(interval);
-                countdownEl.textContent = "Now";
+            function checkFullCode() {
+                const allFilled = [...inputs].every(el => el.value.length === 1);
+                document.getElementById('verify-btn').disabled = !allFilled;
             }
-        }, 1000);
+
+            let countdown = 60;
+            const countdownEl = document.getElementById("countdown");
+            const interval = setInterval(() => {
+                countdown--;
+                countdownEl.textContent = countdown + "s";
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    countdownEl.textContent = "Now";
+                }
+            }, 1000);
+        });
     </script>
 @endpush
