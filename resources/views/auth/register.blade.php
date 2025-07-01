@@ -35,10 +35,10 @@
                 <img src="{{ asset('img/dienthoai.png') }}" alt="Điện thoại">
             </div>
 
-            <h2>Enter your phone number</h2>
+            <h2>{{ __('client/auth.name') }}</h2>
 
             <div class="form-group">
-                <label for="phone">Phone number</label>
+                <label for="phone">{{ __('client/auth.placeholder.phone') }}</label>
                 <div class="phone-input">
                     <div class="custom-select">
                         <div class="select-selected" id="selectSelected">
@@ -57,7 +57,7 @@
             </div>
 
             <p class="note">
-                Don't worry. We won't text you or call you. We'll send you a 4-digit code to confirm your account.
+            {{ __('client/auth.note') }}
             </p>
 
             <button type="submit" class="submit-btn">Continue</button>

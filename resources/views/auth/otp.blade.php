@@ -33,7 +33,7 @@
                 <img src="{{ asset('img/mail.png') }}" alt="Mail Icon">
             </div>
 
-            <h2>Enter the 4-digit code we sent to</h2>
+            <h2>{{ __('client/auth.otp') }}</h2>
             <p class="otp-phone">+32 456 789 00</p>
 
             <form method="POST" action="#" class="otp-form">
@@ -45,7 +45,7 @@
                     <input type="text" name="digit4" maxlength="1" class="otp-box" required>
                 </div>
 
-                <p class="resend-text">Resend code after <span id="countdown">60s</span></p>
+                <p class="resend-text">{{ __('client/auth.resend-text') }} <span id="countdown">60s</span></p>
 
                 <button type="submit" class="submit-btn" disabled id="verify-btn">Verify</button>
             </form>

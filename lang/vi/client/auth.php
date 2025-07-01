@@ -2,6 +2,9 @@
 return [
     'welcome' => 'Chào mừng quay trở lại',
     'splash_title' => 'Chăm sóc sức khoẻ chỉ cần một chút',
+    'form-title'=>'Tạo tài khoản của bạn',
+    'form-title'=>'Nhập mã 4 chữ số chúng tôi đã gửi tới',
+    'name' => 'Nhập số điện thoại của bạn',
     'fields' => [
         'label' => [
             'login' => 'Email hoặc số điện thoại',
@@ -9,12 +12,16 @@ return [
         ],
 
         'placeholder' => [
+            'login_email' => 'Nhập email của bạn',
             'login' => 'Nhập email hoặc số điện thoại của bạn',
             'password' => 'Nhập mật khẩu của bạn',
+            'phone'=>'Phone number',
         ],
     ],
     'forgot_password' => 'Quên mật khẩu của bạn?',
     'or_continue_with' => 'Hoặc tiếp tục với',
+    'resend-text' => 'Gửi lại mã',
+    'note' => 'Đừng lo lắng. Chúng tôi sẽ không nhắn tin hoặc gọi điện cho bạn. Chúng tôi sẽ gửi cho bạn mã gồm 4 chữ số để xác nhận tài khoản của bạn.',
 
     'validation' => [
         'email_required' => 'Vui lòng nhập email hoặc số điện thoại.',
@@ -24,11 +31,15 @@ return [
         'password_min' => 'Mật khẩu tối thiểu 8 ký tự.',
         'password_regex' => 'Mật khẩu phải có ít nhất 6 chữ cái, 1 số và 1 ký tự đặc biệt (&, $, #, %).',
         'password_wrong' => 'Thông tin đăng nhập không chính xác.',
+        'password_regex_letters' => 'Ít nhất 6 chữ cái (az, AZ)',
+        'password_regex_number' => 'Ít nhất 1 số',
+        'password_regex_special' => 'Ít nhất 1 ký tự đặc biệt (&, $, #, %)',
     ],
 
     'button' => [
         'login' => 'Đăng nhập',
         'register' => 'Đăng ký',
+        'submit' => 'Xác minh',
     ],
 
     // Profile page translations

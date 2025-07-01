@@ -30,27 +30,27 @@
 
         <div class="form-content">
             <img src="{{ asset('img/key.svg') }}" class="form-icon" alt="Key Icon">
-            <h2 class="form-title">Create your account</h2>
+            <h2 class="form-title">{{ __('client/auth.form-title') }}</h2>
 
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <input type="email" name="email" placeholder="{{ __('client/auth.fields.placeholder.login_email') }}" required>
                 </div>
 
                 <div class="form-group input-icon-group">
-                    <input id="password" name="password" type="password" placeholder="Enter your password" required>
+                    <input id="password" name="password" type="password" placeholder="{{ __('client/auth.fields.placeholder.password') }}" required>
                     <button type="button" class="toggle-password-btn" onclick="togglePassword()">
                         @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                     </button>
                 </div>
 
                 <ul class="password-checklist" id="passwordChecklist">
-                    <li id="length" class="invalid">At least 8 characters</li>
-                    <li id="letters" class="invalid">At least 6 alphabets (a-z, A-Z)</li>
-                    <li id="number" class="invalid">At least 1 number</li>
-                    <li id="special" class="invalid">At least 1 special character (&, $, #, %)</li>
+                    <li id="length" class="invalid">{{ __('client/auth.validation.password_min') }}</li>
+                    <li id="letters" class="invalid">{{ __('client/auth.validation.password_regex_letters') }}</li>
+                    <li id="number" class="invalid">{{ __('client/auth.validation.password_regex_number') }}</li>
+                    <li id="special" class="invalid">{{ __('client/auth.validation.password_regex_special') }}</li>
                 </ul>
 
                 <div class="terms-checkbox">

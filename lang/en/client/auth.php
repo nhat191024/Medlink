@@ -2,6 +2,9 @@
 return [
     'welcome' => 'Welcome back',
     'splash_title' => 'Healthcare made easy',
+    'form-title'=>'Create your account',
+    'otp'=>'Enter the 4-digit code we sent to',
+    'name' => 'Enter your phone number',
     'fields' => [
         'label' => [
             'login' => 'Email or phone number',
@@ -11,10 +14,14 @@ return [
         'placeholder' => [
             'login' => 'Enter your email or phone number',
             'password' => 'Enter your password',
+            'login_email' => 'Enter your email',
+            'phone'=>'Phone number',
         ],
     ],
     'forgot_password' => 'Forgot your password?',
     'or_continue_with' => 'Or continue with',
+    'resend-text' => 'Resend code after',
+    'note' => "Don't worry. We won't text you or call you. We'll send you a 4-digit code to confirm your account.",
 
     'validation' => [
         'email_required' => 'Please enter your email or phone number.',
@@ -24,11 +31,15 @@ return [
         'password_min' => 'Password must be at least 8 characters long.',
         'password_regex' => 'Password must contain at least 6 letters, 1 number, and 1 special character (&, $, #, %).',
         'password_wrong' => 'Login information is incorrect.',
+        'password_regex_letters' => 'At least 6 alphabets (a-z, A-Z)',
+        'password_regex_number' => 'At least 1 number',
+        'password_regex_special' => 'At least 1 special character (&, $, #, %)',
     ],
 
     'button' => [
         'login' => 'Login',
         'register' => 'Register',
+        'submit' => 'Verify',
     ],
 
     // Profile page translations
