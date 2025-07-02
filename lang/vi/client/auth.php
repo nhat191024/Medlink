@@ -41,6 +41,7 @@ return [
         'register' => 'Đăng ký',
         'submit' => 'Xác minh',
         'continue' => 'Tiếp tục',
+        'verify' => 'Xác minh',
     ],
 
     // Profile page translations

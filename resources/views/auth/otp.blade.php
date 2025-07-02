@@ -12,7 +12,7 @@
 
         <div class="right">
             <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('register') }}">
+                <a class="back-btn" href="{{ route('register.form') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>
@@ -47,7 +47,9 @@
 
                 <p class="resend-text">{{ __('client/auth.resend-text') }} <span id="countdown">60s</span></p>
 
-                <button type="submit" class="submit-btn" disabled id="verify-btn">Verify</button>
+                <button type="submit" class="submit-btn" disabled id="verify-btn">
+                    {{ __('client/auth.button.verify') }}
+                </button>
             </form>
         </div>
     </div>
@@ -71,7 +73,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            initProgressIndicator(2); 
+            initProgressIndicator(2);
             const inputs = document.querySelectorAll('.otp-box');
 
             inputs.forEach((el, index) => {

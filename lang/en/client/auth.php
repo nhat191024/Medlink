@@ -41,6 +41,7 @@ return [
         'register' => 'Register',
         'submit' => 'Verify',
         'continue' => 'Continue',
+        'verify' => 'Verify',
     ],
 
     // Profile page translations
