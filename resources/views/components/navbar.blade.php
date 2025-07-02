@@ -9,16 +9,16 @@
 
         <!-- Main Navigation Menu -->
         <ul class="navbar-menu">
-            <li class="navbar-item dropdown">
+            <li class="navbar-item nav-dropdown">
                 <a class="navbar-link" href="#">{{ __('client/navbar.menu.home') }}</a>
                 <div class="navbar-subtitle">{{ __('client/navbar.subtitle.home') }}</div>
             </li>
 
-            <li class="navbar-item dropdown">
+            <li class="navbar-item nav-dropdown">
                 <a class="navbar-link" href="#">
                     {{ __('client/navbar.menu.services') }}
-                    <span class="dropdown-arrow">
-                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
+                    <span class="nav-dropdown-arrow">
+                        @svg('heroicon-o-chevron-down', 'nav-dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
                     </span>
                 </a>
                 <div class="navbar-subtitle">
@@ -38,11 +38,11 @@
                 </div>
             </li>
 
-            <li class="navbar-item dropdown">
+            <li class="navbar-item nav-dropdown">
                 <a class="navbar-link" href="#">
                     {{ __('client/navbar.menu.support') }}
-                    <span class="dropdown-arrow">
-                        @svg('heroicon-o-chevron-down', 'dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
+                    <span class="nav-dropdown-arrow">
+                        @svg('heroicon-o-chevron-down', 'nav-dropdown-icon', ['style' => 'width: 16px; height: 16px; color: #888;'])
                     </span>
                 </a>
                 <div class="navbar-subtitle">{{ __('client/navbar.subtitle.support') }}</div>
@@ -52,7 +52,8 @@
         <!-- Auth Buttons -->
         <div class="navbar-auth">
             @guest
-                <a class="auth-button" href="{{ route('splash') }}">{{ __('client/navbar.button.login') }} / {{ __('client/navbar.button.register') }}</a>
+                <a class="auth-button" href="{{ route('splash') }}">{{ __('client/navbar.button.login') }} /
+                    {{ __('client/navbar.button.register') }}</a>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->
                 <form method="POST" action="{{ route('logout') }}">
