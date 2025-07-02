@@ -79,7 +79,7 @@ return [
         'insurance_vietnam' => 'Vietnam insurance',
         'card_number' => 'Card number',
         'card_number_placeholder' => 'Enter card number',
-        'valid_to' => 'Valid to',
+        'valid_from' => 'Valid from',
         'initial_medical_facility' => 'Initial medical facility',
         'facility_placeholder' => 'Enter facility',
         'public_insurance' => 'Public insurance',

@@ -79,7 +79,7 @@ return [
         'insurance_vietnam' => 'Bảo hiểm Việt Nam',
         'card_number' => 'Số thẻ',
         'card_number_placeholder' => 'Nhập số thẻ',
-        'valid_to' => 'Có hiệu lực đến',
+        'valid_from' => 'Có hiệu lực từ',
         'initial_medical_facility' => 'Cơ sở y tế ban đầu',
         'facility_placeholder' => 'Nhập cơ sở y tế',
         'public_insurance' => 'Bảo hiểm công',
