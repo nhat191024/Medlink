@@ -23,6 +23,13 @@ return [
     'resend-text' => 'Gửi lại mã',
     'note' => 'Đừng lo lắng. Chúng tôi sẽ không nhắn tin hoặc gọi điện cho bạn. Chúng tôi sẽ gửi cho bạn mã gồm 4 chữ số để xác nhận tài khoản của bạn.',
 
+    'terms' => [
+        '1' => 'Bằng cách đăng ký, bạn đồng ý với',
+        '2' => 'Điều khoản dịch vụ',
+        '3' => 'và',
+        '4' => 'Chính sách bảo mật',
+    ],
+
     'validation' => [
         'email_required' => 'Vui lòng nhập email hoặc số điện thoại.',
         'email_email' => 'Email không đúng định dạng.',

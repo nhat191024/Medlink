@@ -23,6 +23,13 @@ return [
     'resend-text' => 'Resend code after',
     'note' => "Don't worry. We won't text you or call you. We'll send you a 4-digit code to confirm your account.",
 
+    'terms' => [
+        '1' => 'By registering, you agree to our',
+        '2' => 'Terms of Service',
+        '3' => 'and',
+        '4' => 'Privacy Policy',
+    ],
+
     'validation' => [
         'email_required' => 'Please enter your email or phone number.',
         'email_email' => 'Email format is incorrect.',
