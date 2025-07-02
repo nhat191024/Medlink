@@ -80,12 +80,12 @@
                 formGroup.classList.remove('has-value');
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
-            [emailInput, passwordInput].forEach(function(input) {
+            [emailInput, passwordInput].forEach(function (input) {
                 updateHasValueClass(input);
-                input.addEventListener('input', function() {
+                input.addEventListener('input', function () {
                     updateHasValueClass(input);
                 });
             });

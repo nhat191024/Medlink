@@ -1326,3 +1326,271 @@
 .profile-modal-check-btn:hover {
     background: #333;
 }
+
+/* PROGRESS PAGE SPECIFIC STYLES */
+.progress-page-container {
+    min-height: 70vh;
+}
+
+.progress-main-wrapper {
+    min-height: 100vh;
+    background: #fdf3f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+}
+
+.progress-circle-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.progress-svg {
+    width: 140px;
+    height: 140px;
+}
+
+.progress-bg-circle {
+    stroke: #f8d7da;
+    stroke-width: 12;
+    fill: none;
+}
+
+.progress-fill-circle {
+    stroke: #df1d32;
+    stroke-width: 12;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 377;
+    stroke-dashoffset: 377;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+.progress-logo-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.progress-logo-bg {
+    background: #fff;
+    border-radius: 50%;
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-logo {
+    width: 48px;
+    height: 48px;
+}
+
+.progress-percentage {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #df1d32;
+    margin-top: 8px;
+}
+
+.progress-title {
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: #222;
+    margin-top: 8px;
+}
+
+.progress-description {
+    color: #888;
+    font-size: 1.04rem;
+    max-width: 420px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Responsive styles for progress page */
+@media (max-width: 768px) {
+    .progress-circle-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .progress-svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .progress-logo-bg {
+        width: 60px;
+        height: 60px;
+    }
+
+    .progress-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .progress-percentage {
+        font-size: 1.8rem;
+    }
+
+    .progress-title {
+        font-size: 1.1rem;
+    }
+
+    .progress-description {
+        font-size: 1rem;
+        max-width: 320px;
+    }
+}
+
+/* COMPLETE PAGE SPECIFIC STYLES */
+.complete-page-container {
+    min-height: 100vh;
+    background: #f3fdf4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.complete-main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.complete-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+}
+
+.complete-circle-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.complete-svg {
+    width: 140px;
+    height: 140px;
+}
+
+.complete-bg-circle {
+    stroke: #d1f7d6;
+    stroke-width: 12;
+    fill: none;
+}
+
+.complete-fill-circle {
+    stroke: #22c55e;
+    stroke-width: 12;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 377;
+    stroke-dashoffset: 0;
+}
+
+.complete-checkmark-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.complete-checkmark-svg {
+    width: 48px;
+    height: 48px;
+}
+
+.complete-checkmark-bg {
+    fill: #e6fbe9;
+}
+
+.complete-checkmark-icon {
+    stroke: #22c55e;
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.complete-hooray-text {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #22c55e;
+    margin-top: 8px;
+}
+
+.complete-success-message {
+    font-size: 1.18rem;
+    font-weight: 600;
+    color: #222;
+    margin-top: 8px;
+}
+
+.complete-welcome-message {
+    color: #888;
+    font-size: 1.04rem;
+    max-width: 420px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.complete-confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999;
+}
+
+/* Responsive styles for complete page */
+@media (max-width: 768px) {
+    .complete-circle-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .complete-svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .complete-checkmark-svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .complete-hooray-text {
+        font-size: 1.8rem;
+    }
+
+    .complete-success-message {
+        font-size: 1.1rem;
+    }
+
+    .complete-welcome-message {
+        font-size: 1rem;
+        max-width: 320px;
+    }
+}
