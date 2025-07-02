@@ -1,108 +1,124 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="/css/auth.css">
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
+
 @section('content')
-    <div class="main-content">
-        <div class="form-wrapper">
-            <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('register.create-account') }}">
+    <div class="profile-main-content">
+        <div class="profile-form-wrapper">
+            <div class="profile-back-btn-container">
+                <a class="profile-back-btn" href="{{ route('register.create-account') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>
 
             <!-- Progress Indicator -->
-            <div class="progress-indicator" id="progressIndicator">
-                <div class="progress-circle">
+            <div class="profile-progress-indicator" id="progressIndicator">
+                <div class="profile-progress-circle">
                     <svg viewBox="0 0 50 50">
-                        <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
-                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        <circle class="profile-progress-bg" cx="25" cy="25" r="20"></circle>
+                        <circle class="profile-progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6"
+                            id="progressCircle">
                         </circle>
                     </svg>
-                    <div class="progress-number" id="progressNumber">0</div>
+                    <div class="profile-progress-number" id="progressNumber">0</div>
                 </div>
             </div>
 
-            <div class="form-title">
+            <div class="profile-form-title">
                 <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" class="form-icon"
                     style="width:38px; height:38px; object-fit:contain; display:block; margin:0 auto 8px auto;">
                 <h2>{{ __('client/auth.profile.title') }}</h2>
             </div>
             <form class="profile-form">
-                <div class="form-columns">
-                    <div class="form-left">
+                <div class="profile-form-columns">
+                    <div class="profile-form-left">
                         <label>{{ __('client/auth.profile.full_name') }}*<input type="text"
                                 placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required></label>
                         <label>{{ __('client/auth.profile.age') }}*
-                            <input type="range" min="0" max="150" value="18" class="slider" id="age-slider">
-                            <span class="slider-value" id="age-value">{{ __('client/auth.profile.age_prefix') }} 18</span>
+                            <input type="range" min="0" max="150" value="18" class="profile-slider" id="age-slider">
+                            <span class="profile-slider-value" id="age-value">{{ __('client/auth.profile.age_prefix') }}
+                                18</span>
                         </label>
                         <label>{{ __('client/auth.profile.gender') }}*
-                            <div class="custom-select" id="genderSelect">
-                                <div class="selected-option" id="selectedGender">
+                            <div class="profile-custom-select" id="genderSelect">
+                                <div class="profile-selected-option" id="selectedGender">
                                     {{ __('client/auth.profile.gender_choose') }}
                                 </div>
                                 <input type="hidden" name="gender" id="genderInput" value="">
-                                <div class="dropdown" id="genderDropdown" style="display:none;">
-                                    <div class="dropdown-header">
+                                <div class="profile-dropdown" id="genderDropdown" style="display:none;">
+                                    <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.gender') }}</span>
-                                        <span class="save-btn" id="genderSave">{{ __('client/auth.profile.save') }}</span>
+                                        <span class="profile-save-btn"
+                                            id="genderSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
-                                    <div class="options">
-                                        <div class="option" data-value="Male">{{ __('client/auth.profile.gender_male') }}
-                                            <span class="tick">&#10003;</span>
+                                    <div class="profile-options">
+                                        <div class="profile-option" data-value="Male">
+                                            {{ __('client/auth.profile.gender_male') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="option" data-value="Female">
-                                            {{ __('client/auth.profile.gender_female') }} <span class="tick">&#10003;</span>
+                                        <div class="profile-option" data-value="Female">
+                                            {{ __('client/auth.profile.gender_female') }} <span
+                                                class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="option" data-value="Other">{{ __('client/auth.profile.gender_other') }}
-                                            <span class="tick">&#10003;</span>
+                                        <div class="profile-option" data-value="Other">
+                                            {{ __('client/auth.profile.gender_other') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </label>
                         <label>{{ __('client/auth.profile.height') }}*
-                            <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="slider"
+                            <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="profile-slider"
                                 id="height-slider">
-                            <span class="slider-value" id="height-value">{{ __('client/auth.profile.height_prefix') }} 1.53
+                            <span class="profile-slider-value"
+                                id="height-value">{{ __('client/auth.profile.height_prefix') }} 1.53
                                 {{ __('client/auth.profile.height_unit') }}</span>
                         </label>
                         <label>{{ __('client/auth.profile.weight') }}*
-                            <input type="range" min="30" max="500" value="46" class="slider" id="weight-slider">
-                            <span class="slider-value" id="weight-value">{{ __('client/auth.profile.weight_prefix') }} 46
+                            <input type="range" min="30" max="500" value="46" class="profile-slider" id="weight-slider">
+                            <span class="profile-slider-value"
+                                id="weight-value">{{ __('client/auth.profile.weight_prefix') }} 46
                                 {{ __('client/auth.profile.weight_unit') }}</span>
                         </label>
                         <!-- Custom Blood group select -->
                         <label>{{ __('client/auth.profile.blood_group') }}*
-                            <div class="custom-select" id="bloodSelect">
-                                <div class="selected-option" id="selectedBlood">
+                            <div class="profile-custom-select" id="bloodSelect">
+                                <div class="profile-selected-option" id="selectedBlood">
                                     {{ __('client/auth.profile.blood_group_choose') }}
                                 </div>
                                 <input type="hidden" name="blood_group" id="bloodGroupInput" value="">
-                                <div class="dropdown" id="bloodDropdown" style="display:none;">
-                                    <div class="dropdown-header">
+                                <div class="profile-dropdown" id="bloodDropdown" style="display:none;">
+                                    <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.blood_group') }}</span>
-                                        <span class="save-btn" id="bloodSave">{{ __('client/auth.profile.save') }}</span>
+                                        <span class="profile-save-btn"
+                                            id="bloodSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
-                                    <div class="blood-options-grid">
-                                        <div class="blood-option-grid" data-value="A+">A+ <span class="blood-drop">🩸</span>
+                                    <div class="profile-blood-options-grid">
+                                        <div class="profile-blood-option-grid" data-value="A+">A+ <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="A-">A- <span class="blood-drop">🩸</span>
+                                        <div class="profile-blood-option-grid" data-value="A-">A- <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="B+">B+ <span class="blood-drop">🩸</span>
+                                        <div class="profile-blood-option-grid" data-value="B+">B+ <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="B-">B- <span class="blood-drop">🩸</span>
+                                        <div class="profile-blood-option-grid" data-value="B-">B- <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="O+">O+ <span class="blood-drop">🩸</span>
+                                        <div class="profile-blood-option-grid" data-value="O+">O+ <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="O-">O- <span class="blood-drop">🩸</span>
+                                        <div class="profile-blood-option-grid" data-value="O-">O- <span
+                                                class="blood-drop">🩸</span>
                                         </div>
-                                        <div class="blood-option-grid" data-value="AB+">AB+ <span
+                                        <div class="profile-blood-option-grid" data-value="AB+">AB+ <span
                                                 class="blood-drop">🩸</span></div>
-                                        <div class="blood-option-grid" data-value="AB-">AB- <span
+                                        <div class="profile-blood-option-grid" data-value="AB-">AB- <span
                                                 class="blood-drop">🩸</span></div>
                                     </div>
                                 </div>
@@ -111,33 +127,36 @@
                         <label>{{ __('client/auth.profile.medical_history') }}<textarea
                                 placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea></label>
                     </div>
-                    <div class="form-right">
+                    <div class="profile-form-right">
                         <!-- Custom Insurance Type Select -->
                         <label>{{ __('client/auth.profile.insurance_type') }}
-                            <div class="custom-select" id="insuranceSelect">
-                                <div class="selected-option" id="selectedInsurance">
+                            <div class="profile-custom-select" id="insuranceSelect">
+                                <div class="profile-selected-option" id="selectedInsurance">
                                     {{ __('client/auth.profile.insurance_public') }}
                                 </div>
                                 <input type="hidden" name="insurance_type" id="insuranceTypeInput"
                                     value="{{ __('client/auth.profile.insurance_public') }}">
-                                <div class="dropdown" id="insuranceDropdown" style="display:none;">
-                                    <div class="dropdown-header">
+                                <div class="profile-dropdown" id="insuranceDropdown" style="display:none;">
+                                    <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.insurance_type') }}</span>
-                                        <span class="save-btn"
+                                        <span class="profile-save-btn"
                                             id="insuranceSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
-                                    <div class="options">
-                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_public') }}">
+                                    <div class="profile-options">
+                                        <div class="profile-option"
+                                            data-value="{{ __('client/auth.profile.insurance_public') }}">
                                             {{ __('client/auth.profile.insurance_public') }} <span
-                                                class="tick">&#10003;</span>
+                                                class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_private') }}">
+                                        <div class="profile-option"
+                                            data-value="{{ __('client/auth.profile.insurance_private') }}">
                                             {{ __('client/auth.profile.insurance_private') }} <span
-                                                class="tick">&#10003;</span>
+                                                class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="option" data-value="{{ __('client/auth.profile.insurance_vietnam') }}">
+                                        <div class="profile-option"
+                                            data-value="{{ __('client/auth.profile.insurance_vietnam') }}">
                                             {{ __('client/auth.profile.insurance_vietnam') }} <span
-                                                class="tick">&#10003;</span>
+                                                class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
                                 </div>
@@ -157,25 +176,27 @@
                                 placeholder="{{ __('client/auth.profile.public_insurance_placeholder') }}"></label>
                         <!-- Custom Assurance type select -->
                         <label>{{ __('client/auth.profile.assurance_type') }}
-                            <div class="custom-select" id="assuranceSelect">
-                                <div class="selected-option" id="selectedAssurance">
+                            <div class="profile-custom-select" id="assuranceSelect">
+                                <div class="profile-selected-option" id="selectedAssurance">
                                     {{ __('client/auth.profile.assurance_choose') }}
                                 </div>
                                 <input type="hidden" name="assurance_type" id="assuranceTypeInput" value="">
-                                <div class="dropdown" id="assuranceDropdown" style="display:none;">
-                                    <div class="dropdown-header">
+                                <div class="profile-dropdown" id="assuranceDropdown" style="display:none;">
+                                    <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.assurance_type') }}</span>
-                                        <span class="save-btn"
+                                        <span class="profile-save-btn"
                                             id="assuranceSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
-                                    <div class="options">
-                                        <div class="option" data-value="{{ __('client/auth.profile.assurance_type1') }}">
+                                    <div class="profile-options">
+                                        <div class="profile-option"
+                                            data-value="{{ __('client/auth.profile.assurance_type1') }}">
                                             {{ __('client/auth.profile.assurance_type1') }} <span
-                                                class="tick">&#10003;</span>
+                                                class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="option" data-value="{{ __('client/auth.profile.assurance_type2') }}">
+                                        <div class="profile-option"
+                                            data-value="{{ __('client/auth.profile.assurance_type2') }}">
                                             {{ __('client/auth.profile.assurance_type2') }} <span
-                                                class="tick">&#10003;</span>
+                                                class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
                                 </div>
@@ -191,30 +212,26 @@
                                 placeholder="{{ __('client/auth.profile.address_placeholder') }}"></label>
                     </div>
                 </div>
-                <button type="submit" class="continue-btn"
+                <button type="submit" class="profile-continue-btn"
                     id="continueBtn">{{ __('client/auth.profile.continue') }}</button>
             </form>
 
             <!-- Popup Overlay & Modal -->
-            <div id="requiredFieldsOverlay"
-                style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.18); z-index:10000; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);">
+            <div id="requiredFieldsOverlay" class="profile-modal-overlay">
             </div>
-            <div id="requiredFieldsModal"
-                style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:18px; box-shadow:0 8px 32px rgba(0,0,0,0.18); z-index:10001; min-width:340px; max-width:90vw; padding:32px 28px 24px 28px; text-align:center;">
-                <div style="margin-bottom:18px;">
-                    <span style="font-size:38px; color:#fbbf24;">&#9888;</span>
+            <div id="requiredFieldsModal" class="profile-modal">
+                <div class="profile-modal-icon">
+                    <span class="profile-modal-warning">&#9888;</span>
                 </div>
-                <div style="font-size:1.25rem; font-weight:600; margin-bottom:10px;">
+                <div class="profile-modal-title">
                     {{ __('client/auth.profile.missing_fields_title') }}
                 </div>
-                <div style="color:#666; font-size:1rem; margin-bottom:24px;">
+                <div class="profile-modal-message">
                     {{ __('client/auth.profile.missing_fields_message') }}
                 </div>
-                <div style="display:flex; gap:16px; justify-content:center;">
-                    <button id="skipBtn"
-                        style="flex:1; background:#f3f3f3; color:#222; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">{{ __('client/auth.profile.skip') }}</button>
-                    <button id="checkBtn"
-                        style="flex:1; background:#111; color:#fff; border:none; border-radius:18px; padding:10px 0; font-size:1rem; cursor:pointer;">{{ __('client/auth.profile.check') }}</button>
+                <div class="profile-modal-buttons">
+                    <button id="skipBtn" class="profile-modal-skip-btn">{{ __('client/auth.profile.skip') }}</button>
+                    <button id="checkBtn" class="profile-modal-check-btn">{{ __('client/auth.profile.check') }}</button>
                 </div>
             </div>
         </div>
@@ -361,10 +378,10 @@
 
                 // Initialize custom selects
                 const customSelects = [
-                    ['genderSelect', 'selectedGender', 'genderDropdown', 'option', 'genderSave', 'genderInput'],
-                    ['insuranceSelect', 'selectedInsurance', 'insuranceDropdown', 'option', 'insuranceSave', 'insuranceTypeInput'],
-                    ['assuranceSelect', 'selectedAssurance', 'assuranceDropdown', 'option', 'assuranceSave', 'assuranceTypeInput'],
-                    ['bloodSelect', 'selectedBlood', 'bloodDropdown', 'blood-option-grid', 'bloodSave', 'bloodGroupInput']
+                    ['genderSelect', 'selectedGender', 'genderDropdown', 'profile-option', 'genderSave', 'genderInput'],
+                    ['insuranceSelect', 'selectedInsurance', 'insuranceDropdown', 'profile-option', 'insuranceSave', 'insuranceTypeInput'],
+                    ['assuranceSelect', 'selectedAssurance', 'assuranceDropdown', 'profile-option', 'assuranceSave', 'assuranceTypeInput'],
+                    ['bloodSelect', 'selectedBlood', 'bloodDropdown', 'profile-blood-option-grid', 'bloodSave', 'bloodGroupInput']
                 ];
 
                 customSelects.forEach(config => {
