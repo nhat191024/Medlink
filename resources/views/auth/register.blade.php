@@ -38,7 +38,7 @@
             <h2>{{ __('client/auth.name') }}</h2>
 
             <div class="form-group">
-                <label for="phone">{{ __('client/auth.placeholder.phone') }}</label>
+                <label for="phone">{{ __('client/auth.fields.placeholder.phone') }}</label>
                 <div class="phone-input">
                     <div class="custom-select">
                         <div class="select-selected" id="selectSelected">
@@ -57,11 +57,10 @@
             </div>
 
             <p class="note">
-            {{ __('client/auth.note') }}
+                {{ __('client/auth.note') }}
             </p>
 
             <button type="submit" class="submit-btn">Continue</button>
-            <button type="button" id="skipBtn" class="submit-btn" style="background:#f3f3f3; color:#222; margin-top:8px;">Skip</button>
         </form>
     </div>
 @endsection
@@ -126,10 +125,10 @@
                 countries.forEach(country => {
                     const div = document.createElement('div');
                     div.innerHTML = `
-                                <span class="country-flag">${country.flag}</span>
-                                <span class="country-name">${country.name}</span>
-                                <span class="country-code">${country.code}</span>
-                            `;
+                                                                        <span class="country-flag">${country.flag}</span>
+                                                                        <span class="country-name">${country.name}</span>
+                                                                        <span class="country-code">${country.code}</span>
+                                                                    `;
                     div.addEventListener('click', function () {
                         selectCountry(country);
                     });
@@ -139,9 +138,9 @@
 
             function selectCountry(country) {
                 selectSelected.innerHTML = `
-                            <span class="country-flag">${country.flag}</span>
-                            <span class="country-code">${country.code}</span>
-                        `;
+                                                                    <span class="country-flag">${country.flag}</span>
+                                                                    <span class="country-code">${country.code}</span>
+                                                                `;
                 hiddenSelect.value = country.code;
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
@@ -160,14 +159,6 @@
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             });
-
-            // Thêm xử lý cho nút Skip
-            const skipBtn = document.getElementById('skipBtn');
-            if (skipBtn) {
-                skipBtn.addEventListener('click', function() {
-                    window.location.href = '/register-flow/avatar';
-                });
-            }
         });
 
         // Progress Indicator - Easy copy-paste to other files

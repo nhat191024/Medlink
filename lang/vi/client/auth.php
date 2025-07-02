@@ -2,8 +2,8 @@
 return [
     'welcome' => 'Chào mừng quay trở lại',
     'splash_title' => 'Chăm sóc sức khoẻ chỉ cần một chút',
-    'form-title'=>'Tạo tài khoản của bạn',
-    'form-title'=>'Nhập mã 4 chữ số chúng tôi đã gửi tới',
+    'form-title' => 'Tạo tài khoản của bạn',
+    'otp' => 'Nhập mã 4 chữ số chúng tôi đã gửi tới',
     'name' => 'Nhập số điện thoại của bạn',
     'fields' => [
         'label' => [
@@ -15,7 +15,7 @@ return [
             'login_email' => 'Nhập email của bạn',
             'login' => 'Nhập email hoặc số điện thoại của bạn',
             'password' => 'Nhập mật khẩu của bạn',
-            'phone'=>'Phone number',
+            'phone' => 'Phone number',
         ],
     ],
     'forgot_password' => 'Quên mật khẩu của bạn?',
