@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 
-Route::prefix('register')->middleware('guest')->name('register.')->group(fn() => [
+Route::prefix('register')->middleware('guest')->name(value: 'register.')->group(fn() => [
 
     Route::get('/', fn() => view('auth.register'))->name('form'),
     Route::get('/otp', fn() => view('auth.otp'))->name('otp'),
