@@ -2,8 +2,8 @@
 return [
     'welcome' => 'Welcome back',
     'splash_title' => 'Healthcare made easy',
-    'form-title'=>'Create your account',
-    'otp'=>'Enter the 4-digit code we sent to',
+    'form-title' => 'Create your account',
+    'otp' => 'Enter the 4-digit code we sent to',
     'name' => 'Enter your phone number',
     'fields' => [
         'label' => [
@@ -15,7 +15,7 @@ return [
             'login' => 'Enter your email or phone number',
             'password' => 'Enter your password',
             'login_email' => 'Enter your email',
-            'phone'=>'Phone number',
+            'phone' => 'Phone number',
         ],
     ],
     'forgot_password' => 'Forgot your password?',
@@ -40,6 +40,7 @@ return [
         'login' => 'Login',
         'register' => 'Register',
         'submit' => 'Verify',
+        'continue' => 'Continue',
     ],
 
     // Profile page translations

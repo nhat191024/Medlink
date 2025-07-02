@@ -40,6 +40,7 @@ return [
         'login' => 'Đăng nhập',
         'register' => 'Đăng ký',
         'submit' => 'Xác minh',
+        'continue' => 'Tiếp tục',
     ],
 
     // Profile page translations

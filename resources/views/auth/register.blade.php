@@ -60,7 +60,7 @@
                 {{ __('client/auth.note') }}
             </p>
 
-            <button type="submit" class="submit-btn">Continue</button>
+            <button type="submit" class="submit-btn">{{ __('client/auth.button.continue') }}</button>
         </form>
     </div>
 @endsection
@@ -125,10 +125,10 @@
                 countries.forEach(country => {
                     const div = document.createElement('div');
                     div.innerHTML = `
-                                                                        <span class="country-flag">${country.flag}</span>
-                                                                        <span class="country-name">${country.name}</span>
-                                                                        <span class="country-code">${country.code}</span>
-                                                                    `;
+                                                                                        <span class="country-flag">${country.flag}</span>
+                                                                                        <span class="country-name">${country.name}</span>
+                                                                                        <span class="country-code">${country.code}</span>
+                                                                                    `;
                     div.addEventListener('click', function () {
                         selectCountry(country);
                     });
@@ -138,9 +138,9 @@
 
             function selectCountry(country) {
                 selectSelected.innerHTML = `
-                                                                    <span class="country-flag">${country.flag}</span>
-                                                                    <span class="country-code">${country.code}</span>
-                                                                `;
+                                                                                    <span class="country-flag">${country.flag}</span>
+                                                                                    <span class="country-code">${country.code}</span>
+                                                                                `;
                 hiddenSelect.value = country.code;
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
