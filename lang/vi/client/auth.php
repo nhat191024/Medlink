@@ -15,7 +15,7 @@ return [
             'login_email' => 'Nhập email của bạn',
             'login' => 'Nhập email hoặc số điện thoại của bạn',
             'password' => 'Nhập mật khẩu của bạn',
-            'phone' => 'Phone number',
+            'phone' => 'Số điện thoại của bạn',
         ],
     ],
     'forgot_password' => 'Quên mật khẩu của bạn?',
