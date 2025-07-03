@@ -2,7 +2,6 @@
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
-    {{-- You may need to add specific styles for this page --}}
 @endpush
 
 @section('content')
@@ -11,96 +10,102 @@
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
 
-        <form class="right" method="POST" action="{{ route('forgot-password.verify-otp') }}">
-            @csrf
+        <div class="right">
             <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('forgot-password') }}">
+                <a class="back-btn" href="{{ route('register.form') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>
 
-        
-            <div class="progress-indicator" id="progressIndicator" style="display: none; visibility: hidden;">
-           
+            <!-- Progress Indicator -->
+            <div class="progress-indicator" id="progressIndicator">
+                <div class="progress-circle">
+                    <svg viewBox="0 0 50 50">
+                        <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
+                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        </circle>
+                    </svg>
+                    <div class="progress-number" id="progressNumber">1</div>
+                </div>
             </div>
 
-            <div class="icon" style="text-align: center; margin: 2rem 0;">
-        
-                <img src="{{ asset('img/mail.png') }}" alt="Mail Icon" style="width: 60px; height: auto;">
+            <div class="icon">
+                <img src="{{ asset('img/mail.png') }}" alt="Mail Icon">
             </div>
 
-            <h2 style="text-align: center; font-size: 1.25rem;">Enter the 4-digit code</h2>
-            <p class="otp-phone" style="text-align: center; color: #666; margin-bottom: 2rem;">
-         
-            </p>
+            <h2>{{ __('client/auth.otp') }}</h2>
+            <p class="otp-phone">+32 456 789 00</p>
 
-            <div class="otp-inputs" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 1.5rem;">
-                <input type="text" name="digit1" maxlength="1" class="otp-box" required autofocus style="width: 50px; height: 50px; text-align: center; font-size: 1.5rem; border: 1px solid #ccc; border-radius: 8px;">
-                <input type="text" name="digit2" maxlength="1" class="otp-box" required style="width: 50px; height: 50px; text-align: center; font-size: 1.5rem; border: 1px solid #ccc; border-radius: 8px;">
-                <input type="text" name="digit3" maxlength="1" class="otp-box" required style="width: 50px; height: 50px; text-align: center; font-size: 1.5rem; border: 1px solid #ccc; border-radius: 8px;">
-                <input type="text" name="digit4" maxlength="1" class="otp-box" required style="width: 50px; height: 50px; text-align: center; font-size: 1.5rem; border: 1px solid #ccc; border-radius: 8px;">
-            </div>
+            <form method="POST" action="#" class="otp-form">
+                @csrf
+                <div class="otp-inputs">
+                    <input type="text" name="digit1" maxlength="1" class="otp-box" required autofocus>
+                    <input type="text" name="digit2" maxlength="1" class="otp-box" required>
+                    <input type="text" name="digit3" maxlength="1" class="otp-box" required>
+                    <input type="text" name="digit4" maxlength="1" class="otp-box" required>
+                </div>
 
-            <input type="hidden" name="otp" id="otp-value">
+                <p class="resend-text">{{ __('client/auth.resend-text') }} <span id="countdown">60s</span></p>
 
-            <p class="resend-text" style="text-align: center; margin-bottom: 1.5rem;">Resend code after <span id="countdown">60s</span></p>
-
-            <button type="submit" class="login-btn" disabled id="verify-btn">Verify</button>
-        </form>
+                <button type="submit" class="submit-btn" disabled id="verify-btn">
+                    {{ __('client/auth.button.verify') }}
+                </button>
+            </form>
+        </div>
     </div>
 @endsection
 
 @push('scripts')
     <script>
+        function initProgressIndicator(currentStep, totalSteps = 3) {
+            const circle = document.getElementById('progressCircle');
+            const numberEl = document.getElementById('progressNumber');
+            const circumference = 2 * Math.PI * 20;
+            const progress = (currentStep / totalSteps) * 100;
+            const strokeDasharray = (progress / 100) * circumference;
+
+            setTimeout(() => {
+                circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
+                numberEl.textContent = currentStep;
+                numberEl.classList.add('animate');
+                setTimeout(() => numberEl.classList.remove('animate'), 600);
+            }, 300);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
-            const otpInputs = document.querySelectorAll('.otp-box');
-            const verifyBtn = document.getElementById('verify-btn');
-            const otpValueInput = document.getElementById('otp-value');
+            initProgressIndicator(2);
+            const inputs = document.querySelectorAll('.otp-box');
 
-            otpInputs.forEach((el, index) => {
-                el.addEventListener('input', (e) => {
-                    // Only allow numbers
-                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
-
-                    if (e.target.value.length === 1 && index < otpInputs.length - 1) {
-                        otpInputs[index + 1].focus();
+            inputs.forEach((el, index) => {
+                el.addEventListener('input', () => {
+                    if (el.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
                     }
                     checkFullCode();
                 });
 
                 el.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && el.value.length === 0 && index > 0) {
-                        otpInputs[index - 1].focus();
+                    if (e.key === 'Backspace' && el.value === '' && index > 0) {
+                        inputs[index - 1].focus();
                     }
                 });
             });
 
             function checkFullCode() {
-                const code = [...otpInputs].map(el => el.value).join('');
-                const allFilled = code.length === 4;
-                verifyBtn.disabled = !allFilled;
-                if (allFilled) {
-                    otpValueInput.value = code;
-                } else {
-                    otpValueInput.value = '';
-                }
+                const allFilled = [...inputs].every(el => el.value.length === 1);
+                document.getElementById('verify-btn').disabled = !allFilled;
             }
 
-            // Countdown timer
             let countdown = 60;
             const countdownEl = document.getElementById("countdown");
-            const resendText = countdownEl.parentElement;
-            
             const interval = setInterval(() => {
                 countdown--;
-                if(countdownEl) {
-                    countdownEl.textContent = countdown + "s";
-                    if (countdown <= 0) {
-                        clearInterval(interval);
-                        resendText.innerHTML = '<a href="#">Resend code</a>';
-                    }
+                countdownEl.textContent = countdown + "s";
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    countdownEl.textContent = "Now";
                 }
             }, 1000);
         });
     </script>
-@endpush 
+@endpush
