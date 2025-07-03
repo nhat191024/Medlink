@@ -5,6 +5,7 @@ return [
     'form-title' => 'Create your account',
     'otp' => 'Enter the 4-digit code we sent to',
     'name' => 'Enter your phone number',
+    'new_password' => 'Create new password',
     'fields' => [
         'label' => [
             'login' => 'Email or phone number',
@@ -14,6 +15,7 @@ return [
         'placeholder' => [
             'login' => 'Enter your email or phone number',
             'password' => 'Enter your password',
+            'confirm_password' => 'Confirm your password',
             'login_email' => 'Enter your email',
             'phone' => 'Phone number',
         ],
@@ -22,6 +24,7 @@ return [
     'or_continue_with' => 'Or continue with',
     'resend-text' => 'Resend code after',
     'note' => "Don't worry. We won't text you or call you. We'll send you a 4-digit code to confirm your account.",
+    'new_password_note' => 'Password should have at least 8 characters, include of 6 alphabets, 1 number and 1 special character',
 
     'terms' => [
         '1' => 'By registering, you agree to our',
@@ -49,6 +52,7 @@ return [
         'submit' => 'Verify',
         'continue' => 'Continue',
         'verify' => 'Verify',
+        'reset' => 'Reset Password',
     ],
 
     // Profile page translations

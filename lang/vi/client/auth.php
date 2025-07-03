@@ -5,6 +5,7 @@ return [
     'form-title' => 'Tạo tài khoản của bạn',
     'otp' => 'Nhập mã 4 chữ số chúng tôi đã gửi tới',
     'name' => 'Nhập số điện thoại của bạn',
+    'new_password' => 'Tạo mật khẩu mới',
     'fields' => [
         'label' => [
             'login' => 'Email hoặc số điện thoại',
@@ -15,6 +16,7 @@ return [
             'login_email' => 'Nhập email của bạn',
             'login' => 'Nhập email hoặc số điện thoại của bạn',
             'password' => 'Nhập mật khẩu của bạn',
+            'confirm_password' => 'Xác nhận mật khẩu của bạn',
             'phone' => 'Số điện thoại của bạn',
         ],
     ],
@@ -22,6 +24,7 @@ return [
     'or_continue_with' => 'Hoặc tiếp tục với',
     'resend-text' => 'Gửi lại mã',
     'note' => 'Đừng lo lắng. Chúng tôi sẽ không nhắn tin hoặc gọi điện cho bạn. Chúng tôi sẽ gửi cho bạn mã gồm 4 chữ số để xác nhận tài khoản của bạn.',
+    'new_password_note' => 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm 6 chữ cái, 1 số và 1 ký tự đặc biệt (&, $, #, %)',
 
     'terms' => [
         '1' => 'Bằng cách đăng ký, bạn đồng ý với',
@@ -49,6 +52,7 @@ return [
         'submit' => 'Xác minh',
         'continue' => 'Tiếp tục',
         'verify' => 'Xác minh',
+        'reset' => 'Đặt lại mật khẩu',
     ],
 
     // Profile page translations

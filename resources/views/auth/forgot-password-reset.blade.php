@@ -21,13 +21,15 @@
 
             <img src="{{ asset('img/lock.png') }}" alt="Lock Icon" style="width: 48px; height: auto;">
 
-            <h1>Create new password</h1>
-            <p class="description" style="margin-bottom: 2rem; color: #666;">Password should have at least 8 characters, include of 6 alphabets, 1 number and 1 special character</p>
+            <h1>{{ __('client/auth.new_password') }}</h1>
+            <p class="description" style="margin-bottom: 2rem; color: #666;">
+                {{ __('client/auth.new_password_note') }}
+            </p>
 
             <div class="form-group">
                 <div class="input-icon-group">
                     <input id="password" name="password" type="password">
-                    <label for="password">Password</label>
+                    <label for="password">{{ __('client/auth.fields.placeholder.password') }}</label>
                     <button class="toggle-password-btn" type="button" onclick="togglePassword('password')">
                         @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                     </button>
@@ -37,14 +39,14 @@
             <div class="form-group">
                 <div class="input-icon-group">
                     <input id="password_confirmation" name="password_confirmation" type="password">
-                    <label for="password_confirmation">Confirm Password</label>
+                    <label for="password_confirmation">{{ __('client/auth.fields.placeholder.confirm_password') }}</label>
                     <button class="toggle-password-btn" type="button" onclick="togglePassword('password_confirmation')">
                         @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                     </button>
                 </div>
             </div>
 
-            <button class="login-btn" type="submit">Reset password</button>
+            <button class="login-btn" type="submit">{{ __('client/auth.button.reset') }}</button>
         </form>
     </div>
 @endsection
@@ -72,14 +74,14 @@
                 formGroup.classList.remove('has-value');
             }
         }
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const inputs = document.querySelectorAll('#password, #password_confirmation');
-            inputs.forEach(function(input) {
+            inputs.forEach(function (input) {
                 updateHasValueClass(input);
-                input.addEventListener('input', function() {
+                input.addEventListener('input', function () {
                     updateHasValueClass(input);
                 });
             });
         });
     </script>
-@endpush 
+@endpush
