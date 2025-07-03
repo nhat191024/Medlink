@@ -13,15 +13,14 @@
                 </a>
             </div>
 
-            <!-- Progress Indicator -->
-            <div class="profile-progress-indicator" id="progressIndicator">
-                <div class="profile-progress-circle">
+            <div class="progress-indicator" id="progressIndicator">
+                <div class="progress-circle">
                     <svg viewBox="0 0 50 50">
-                        <circle class="profile-progress-bg" cx="25" cy="25" r="20"></circle>
-                        <circle class="profile-progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6"
-                            id="progressCircle"></circle>
+                        <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
+                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        </circle>
                     </svg>
-                    <div class="profile-progress-number" id="progressNumber">0</div>
+                    <div class="progress-number" id="progressNumber">1</div>
                 </div>
             </div>
 
@@ -31,16 +30,19 @@
                 <h2>{{ __('client/auth.profile.title') }}</h2>
             </div>
 
-            <form class="profile-form">
+            <form class="profile-form" action="{{ route('register.profile.post') }}" method="POST">
+                @csrf
                 <div class="profile-form-columns">
                     <div class="profile-form-left">
                         <label>
                             {{ __('client/auth.profile.full_name') }}*
-                            <input type="text" placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required>
+                            <input type="text" name="full_name"
+                                placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required>
                         </label>
                         <label>
                             {{ __('client/auth.profile.age') }}*
-                            <input type="range" min="0" max="150" value="18" class="profile-slider" id="age-slider">
+                            <input type="range" name="age" min="0" max="150" value="18" class="profile-slider"
+                                id="age-slider">
                             <span class="profile-slider-value" id="age-value">
                                 {{ __('client/auth.profile.age_prefix') }} 18
                             </span>
@@ -59,15 +61,15 @@
                                             id="genderSave">{{ __('client/auth.profile.save') }}</span>
                                     </div>
                                     <div class="profile-options">
-                                        <div class="profile-option" data-value="Male">
+                                        <div class="profile-option" data-value="male">
                                             {{ __('client/auth.profile.gender_male') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="profile-option" data-value="Female">
+                                        <div class="profile-option" data-value="female">
                                             {{ __('client/auth.profile.gender_female') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="profile-option" data-value="Other">
+                                        <div class="profile-option" data-value="other">
                                             {{ __('client/auth.profile.gender_other') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
@@ -77,8 +79,8 @@
                         </label>
                         <label>
                             {{ __('client/auth.profile.height') }}*
-                            <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="profile-slider"
-                                id="height-slider">
+                            <input type="range" name="height" min="1.0" max="3.0" step="0.01" value="1.53"
+                                class="profile-slider" id="height-slider">
                             <span class="profile-slider-value" id="height-value">
                                 {{ __('client/auth.profile.height_prefix') }} 1.53
                                 {{ __('client/auth.profile.height_unit') }}
@@ -86,7 +88,8 @@
                         </label>
                         <label>
                             {{ __('client/auth.profile.weight') }}*
-                            <input type="range" min="30" max="500" value="46" class="profile-slider" id="weight-slider">
+                            <input type="range" name="weight" min="30" max="500" value="46" class="profile-slider"
+                                id="weight-slider">
                             <span class="profile-slider-value" id="weight-value">
                                 {{ __('client/auth.profile.weight_prefix') }} 46 {{ __('client/auth.profile.weight_unit') }}
                             </span>
@@ -137,7 +140,8 @@
                         </label>
                         <label>
                             {{ __('client/auth.profile.medical_history') }}
-                            <textarea placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea>
+                            <textarea name="medical_history"
+                                placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea>
                         </label>
                     </div>
                     <div class="profile-form-right">
@@ -148,8 +152,7 @@
                                 <div class="profile-selected-option" id="selectedInsurance">
                                     {{ __('client/auth.profile.insurance_public') }}
                                 </div>
-                                <input type="hidden" name="insurance_type" id="insuranceTypeInput"
-                                    value="{{ __('client/auth.profile.insurance_public') }}">
+                                <input type="hidden" name="insurance_type" id="insuranceTypeInput" value="public">
                                 <div class="profile-dropdown" id="insuranceDropdown" style="display:none;">
                                     <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.insurance_type') }}</span>
@@ -158,18 +161,15 @@
                                         </span>
                                     </div>
                                     <div class="profile-options">
-                                        <div class="profile-option"
-                                            data-value="{{ __('client/auth.profile.insurance_public') }}">
+                                        <div class="profile-option" data-value="public">
                                             {{ __('client/auth.profile.insurance_public') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="profile-option"
-                                            data-value="{{ __('client/auth.profile.insurance_private') }}">
+                                        <div class="profile-option" data-value="private">
                                             {{ __('client/auth.profile.insurance_private') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="profile-option"
-                                            data-value="{{ __('client/auth.profile.insurance_vietnam') }}">
+                                        <div class="profile-option" data-value="vietnamese">
                                             {{ __('client/auth.profile.insurance_vietnam') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
@@ -177,28 +177,29 @@
                                 </div>
                             </div>
                         </label>
+                        <label>
+                            {{ __('client/auth.profile.insurance_number') }}*
+                            <input type="text" name="insurance_number" class="profile-input"
+                                placeholder="{{ __('client/auth.profile.insurance_number_placeholder') }}" required>
+                        </label>
                         <div id="vietnamInsuranceFields" style="display:none; margin-bottom: 16px;">
                             <label>
-                                {{ __('client/auth.profile.card_number') }}
-                                <input type="text" class="profile-input"
-                                    placeholder="{{ __('client/auth.profile.card_number_placeholder') }}">
-                            </label>
-                            <label>
                                 {{ __('client/auth.profile.valid_from') }}
-                                <input type="date" class="profile-input">
+                                <input type="date" name="valid_from" class="profile-input">
                             </label>
                             <label>
-                                {{ __('client/auth.profile.initial_medical_facility') }}
-                                <input type="text" class="profile-input"
-                                    placeholder="{{ __('client/auth.profile.facility_placeholder') }}">
+                                {{ __('client/auth.profile.registry') }}
+                                <input type="text" class="profile-input" name="registry"
+                                    placeholder="{{ __('client/auth.profile.registry_placeholder') }}">
+                            </label>
+                            <label>
+                                {{ __('client/auth.profile.registered_address') }}
+                                <input type="text" class="profile-input" name="registered_address"
+                                    placeholder="{{ __('client/auth.profile.registered_address_placeholder') }}">
                             </label>
                         </div>
-                        <label>
-                            {{ __('client/auth.profile.public_insurance') }}*
-                            <input type="text" placeholder="{{ __('client/auth.profile.public_insurance_placeholder') }}">
-                        </label>
                         <!-- Custom Assurance type select -->
-                        <label>
+                        <label id="assuranceTypeGroup">
                             {{ __('client/auth.profile.assurance_type') }}
                             <div class="profile-custom-select" id="assuranceSelect">
                                 <div class="profile-selected-option" id="selectedAssurance">
@@ -213,14 +214,28 @@
                                         </span>
                                     </div>
                                     <div class="profile-options">
-                                        <div class="profile-option"
-                                            data-value="{{ __('client/auth.profile.assurance_type1') }}">
-                                            {{ __('client/auth.profile.assurance_type1') }}
+                                        <div class="profile-option" data-value="life_basic">
+                                            {{ __('client/auth.profile.assurances_type_option_1') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
-                                        <div class="profile-option"
-                                            data-value="{{ __('client/auth.profile.assurance_type2') }}">
-                                            {{ __('client/auth.profile.assurance_type2') }}
+                                        <div class="profile-option" data-value="life_premium">
+                                            {{ __('client/auth.profile.assurances_type_option_2') }}
+                                            <span class="profile-tick">&#10003;</span>
+                                        </div>
+                                        <div class="profile-option" data-value="togo_c12_basic">
+                                            {{ __('client/auth.profile.assurances_type_option_3') }}
+                                            <span class="profile-tick">&#10003;</span>
+                                        </div>
+                                        <div class="profile-option" data-value="togo_b18_premium">
+                                            {{ __('client/auth.profile.assurances_type_option_4') }}
+                                            <span class="profile-tick">&#10003;</span>
+                                        </div>
+                                        <div class="profile-option" data-value="senior_a1">
+                                            {{ __('client/auth.profile.assurances_type_option_5') }}
+                                            <span class="profile-tick">&#10003;</span>
+                                        </div>
+                                        <div class="profile-option" data-value="senior_b2">
+                                            {{ __('client/auth.profile.assurances_type_option_6') }}
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
@@ -229,15 +244,18 @@
                         </label>
                         <label id="mainInsuredGroup" style="display:none;">
                             {{ __('client/auth.profile.main_insured') }}
-                            <input type="text" placeholder="{{ __('client/auth.profile.main_insured_placeholder') }}">
+                            <input type="text" name="main_insured"
+                                placeholder="{{ __('client/auth.profile.main_insured_placeholder') }}">
                         </label>
                         <label id="entitledInsuredGroup" style="display:none;">
                             {{ __('client/auth.profile.entitled_insured') }}
-                            <input type="text" placeholder="{{ __('client/auth.profile.entitled_insured_placeholder') }}">
+                            <input type="text" name="entitled_insured"
+                                placeholder="{{ __('client/auth.profile.entitled_insured_placeholder') }}">
                         </label>
                         <label>
                             {{ __('client/auth.profile.address') }}*
-                            <input type="text" placeholder="{{ __('client/auth.profile.address_placeholder') }}">
+                            <input type="text" name="address"
+                                placeholder="{{ __('client/auth.profile.address_placeholder') }}" required>
                         </label>
                     </div>
                 </div>
@@ -268,265 +286,372 @@
 
     @push('scripts')
         <script>
-            // Truyền các prefix từ PHP sang JS để tránh lỗi HTML entity
-            const agePrefix = @json(__('client/auth.profile.age_prefix'));
-            const heightPrefix = @json(__('client/auth.profile.height_prefix'));
-            const heightUnit = @json(__('client/auth.profile.height_unit'));
-            const weightPrefix = @json(__('client/auth.profile.weight_prefix'));
-            const weightUnit = @json(__('client/auth.profile.weight_unit'));
-            const genderChoose = @json(__('client/auth.profile.gender_choose'));
-            const bloodGroupChoose = @json(__('client/auth.profile.blood_group_choose'));
-            const insurancePrivate = @json(__('client/auth.profile.insurance_private'));
-            const insuranceVietnam = @json(__('client/auth.profile.insurance_vietnam'));
+            // Configuration object for better maintainability
+            const ProfileConfig = {
+                translations: {
+                    agePrefix: @json(__('client/auth.profile.age_prefix')),
+                    heightPrefix: @json(__('client/auth.profile.height_prefix')),
+                    heightUnit: @json(__('client/auth.profile.height_unit')),
+                    weightPrefix: @json(__('client/auth.profile.weight_prefix')),
+                    weightUnit: @json(__('client/auth.profile.weight_unit')),
+                    genderChoose: @json(__('client/auth.profile.gender_choose')),
+                    bloodGroupChoose: @json(__('client/auth.profile.blood_group_choose')),
+                    insurancePublic: @json(__('client/auth.profile.insurance_public')),
+                    insurancePrivate: @json(__('client/auth.profile.insurance_private')),
+                    insuranceVietnam: @json(__('client/auth.profile.insurance_vietnam'))
+                },
+                genderMapping: {
+                    'male': @json(__('client/auth.profile.gender_male')),
+                    'female': @json(__('client/auth.profile.gender_female')),
+                    'other': @json(__('client/auth.profile.gender_other'))
+                },
+                insuranceMapping: {
+                    'public': @json(__('client/auth.profile.insurance_public')),
+                    'private': @json(__('client/auth.profile.insurance_private')),
+                    'vietnamese': @json(__('client/auth.profile.insurance_vietnam'))
+                },
+                assuranceMapping: {
+                    'life_basic': @json(__('client/auth.profile.assurances_type_option_1')),
+                    'life_premium': @json(__('client/auth.profile.assurances_type_option_2')),
+                    'togo_c12_basic': @json(__('client/auth.profile.assurances_type_option_3')),
+                    'togo_b18_premium': @json(__('client/auth.profile.assurances_type_option_4')),
+                    'senior_a1': @json(__('client/auth.profile.assurances_type_option_5')),
+                    'senior_b2': @json(__('client/auth.profile.assurances_type_option_6'))
+                },
+                elements: {},
+                customSelects: [],
+                initialized: false
+            };
 
-            // Progress Indicator function
-            function initProgressIndicator(currentStep, totalSteps = 5) {
-                const circle = document.getElementById('progressCircle');
-                const numberEl = document.getElementById('progressNumber');
-                const circumference = 2 * Math.PI * 20; // radius = 20
+            // Cache DOM elements for better performance
+            function cacheElements() {
+                ProfileConfig.elements = {
+                    // Progress elements
+                    progressCircle: document.getElementById('progressCircle'),
+                    progressNumber: document.getElementById('progressNumber'),
 
-                // Calculate progress percentage
-                const progress = (currentStep / totalSteps) * 100;
-                const strokeDasharray = (progress / 100) * circumference;
+                    // Slider elements
+                    ageSlider: document.getElementById('age-slider'),
+                    ageValue: document.getElementById('age-value'),
+                    heightSlider: document.getElementById('height-slider'),
+                    heightValue: document.getElementById('height-value'),
+                    weightSlider: document.getElementById('weight-slider'),
+                    weightValue: document.getElementById('weight-value'),
 
-                // Animate from previous step
-                setTimeout(() => {
-                    // Animate circle
-                    circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
-
-                    // Animate number
-                    numberEl.textContent = currentStep;
-                    numberEl.classList.add('animate');
-
-                    // Remove animation class after animation completes
-                    setTimeout(() => {
-                        numberEl.classList.remove('animate');
-                    }, 600);
-                }, 300);
-            }
-
-            function initCustomSelect(selectId, selectedId, dropdownId, optionClass, saveId, inputId) {
-                const select = document.getElementById(selectId);
-                const selected = document.getElementById(selectedId);
-                const dropdown = document.getElementById(dropdownId);
-                const save = document.getElementById(saveId);
-                const input = inputId ? document.getElementById(inputId) : null;
-                let savedValue = selected.textContent.trim();
-                let currentValue = savedValue;
-
-                // Event delegation cho options thay vì add listener cho từng option
-                dropdown.addEventListener('click', function (e) {
-                    const option = e.target.closest('.' + optionClass);
-                    if (option) {
-                        // Remove active/saved classes from all options
-                        const options = dropdown.querySelectorAll('.' + optionClass);
-                        options.forEach(opt => {
-                            opt.classList.remove('active', 'saved');
-                        });
-                        // Add active class to clicked option
-                        option.classList.add('active');
-                        currentValue = option.getAttribute('data-value');
-                    }
-                });
-
-                // Khi mở dropdown
-                selected.addEventListener('click', function (e) {
-                    dropdown.style.display = 'block';
-                    const options = dropdown.querySelectorAll('.' + optionClass);
-                    options.forEach(opt => {
-                        opt.classList.remove('active', 'saved');
-                        if (opt.getAttribute('data-value') === savedValue) {
-                            opt.classList.add('saved');
-                        }
-                    });
-                });
-
-                // Khi Save
-                save.addEventListener('click', function () {
-                    savedValue = currentValue;
-                    selected.textContent = savedValue;
-                    if (input) input.value = savedValue;
-                    dropdown.style.display = 'none';
-                    const options = dropdown.querySelectorAll('.' + optionClass);
-                    options.forEach(opt => {
-                        opt.classList.remove('active', 'saved');
-                        if (opt.getAttribute('data-value') === savedValue) {
-                            opt.classList.add('saved');
-                        }
-                    });
-                });
-
-                // Store reference to avoid creating new functions each time
-                select._closeHandler = function (e) {
-                    if (!select.contains(e.target)) {
-                        dropdown.style.display = 'none';
-                        const options = dropdown.querySelectorAll('.' + optionClass);
-                        options.forEach(opt => opt.classList.remove('active'));
-                    }
-                };
-            }
-
-            document.addEventListener('DOMContentLoaded', function () {
-                // Initialize progress indicator
-                initProgressIndicator(4); // Step 4 for profile page
-
-                // Slider elements cache
-                const sliders = {
-                    age: {
-                        slider: document.getElementById('age-slider'),
-                        value: document.getElementById('age-value'),
-                        update: function (val) {
-                            this.value.textContent = agePrefix + ' ' + val;
-                        }
-                    },
-                    height: {
-                        slider: document.getElementById('height-slider'),
-                        value: document.getElementById('height-value'),
-                        update: function (val) {
-                            this.value.textContent = heightPrefix + ' ' + parseFloat(val).toFixed(2) + ' ' + heightUnit;
-                        }
-                    },
-                    weight: {
-                        slider: document.getElementById('weight-slider'),
-                        value: document.getElementById('weight-value'),
-                        update: function (val) {
-                            this.value.textContent = weightPrefix + ' ' + val + ' ' + weightUnit;
-                        }
-                    }
-                };
-
-                // Single event delegation for all sliders
-                Object.keys(sliders).forEach(key => {
-                    const slider = sliders[key];
-                    if (slider.slider && slider.value) {
-                        slider.slider.addEventListener('input', function () {
-                            slider.update(this.value);
-                        });
-                    }
-                });
-
-                // Initialize custom selects
-                const customSelects = [
-                    ['genderSelect', 'selectedGender', 'genderDropdown', 'profile-option', 'genderSave', 'genderInput'],
-                    ['insuranceSelect', 'selectedInsurance', 'insuranceDropdown', 'profile-option', 'insuranceSave', 'insuranceTypeInput'],
-                    ['assuranceSelect', 'selectedAssurance', 'assuranceDropdown', 'profile-option', 'assuranceSave', 'assuranceTypeInput'],
-                    ['bloodSelect', 'selectedBlood', 'bloodDropdown', 'profile-blood-option-grid', 'bloodSave', 'bloodGroupInput']
-                ];
-
-                customSelects.forEach(config => {
-                    initCustomSelect(...config);
-                });
-
-                // Single global click handler for closing dropdowns
-                document.addEventListener('mousedown', function (e) {
-                    customSelects.forEach(config => {
-                        const select = document.getElementById(config[0]);
-                        const dropdown = document.getElementById(config[2]);
-                        if (select && dropdown && !select.contains(e.target)) {
-                            dropdown.style.display = 'none';
-                            const options = dropdown.querySelectorAll('.' + config[3]);
-                            options.forEach(opt => opt.classList.remove('active'));
-                        }
-                    });
-                });
-
-                // Insurance fields toggle logic - cached elements
-                const insuranceElements = {
+                    // Insurance elements
                     selectedInsurance: document.getElementById('selectedInsurance'),
                     mainInsuredGroup: document.getElementById('mainInsuredGroup'),
                     entitledInsuredGroup: document.getElementById('entitledInsuredGroup'),
                     vietnamInsuranceFields: document.getElementById('vietnamInsuranceFields'),
+                    assuranceTypeGroup: document.getElementById('assuranceTypeGroup'),
                     insuranceDropdown: document.getElementById('insuranceDropdown'),
-                    insuranceSave: document.getElementById('insuranceSave')
-                };
+                    insuranceSave: document.getElementById('insuranceSave'),
 
-                function toggleInsuredFields() {
-                    const isPrivate = insuranceElements.selectedInsurance.textContent.trim() === insurancePrivate;
-                    const display = isPrivate ? '' : 'none';
-                    insuranceElements.mainInsuredGroup.style.display = display;
-                    insuranceElements.entitledInsuredGroup.style.display = display;
-                }
-
-                function toggleVietnamInsuranceFields() {
-                    const isVietnam = insuranceElements.selectedInsurance.textContent.trim() === insuranceVietnam;
-                    insuranceElements.vietnamInsuranceFields.style.display = isVietnam ? '' : 'none';
-                }
-
-                function updateInsuranceFields() {
-                    toggleInsuredFields();
-                    toggleVietnamInsuranceFields();
-                }
-
-                // Initialize insurance fields
-                updateInsuranceFields();
-
-                // Single handler for insurance changes
-                [insuranceElements.insuranceDropdown, insuranceElements.insuranceSave].forEach(element => {
-                    if (element) {
-                        element.addEventListener('click', () => setTimeout(updateInsuranceFields, 10));
-                    }
-                });
-
-                // Form validation popup logic - cached elements
-                const formElements = {
+                    // Form validation elements
                     continueBtn: document.getElementById('continueBtn'),
                     form: document.querySelector('.profile-form'),
                     overlay: document.getElementById('requiredFieldsOverlay'),
                     modal: document.getElementById('requiredFieldsModal'),
                     skipBtn: document.getElementById('skipBtn'),
-                    checkBtn: document.getElementById('checkBtn')
+                    checkBtn: document.getElementById('checkBtn'),
+
+                    // Custom select elements
+                    selectedGender: document.getElementById('selectedGender'),
+                    selectedBlood: document.getElementById('selectedBlood')
+                };
+            }
+
+            // Optimized progress indicator
+            function initProgressIndicator(currentStep, totalSteps = 5) {
+                const { progressCircle, progressNumber } = ProfileConfig.elements;
+                if (!progressCircle || !progressNumber) return;
+
+                const circumference = 125.6; // 2 * Math.PI * 20
+                const progress = (currentStep / totalSteps) * 100;
+                const strokeDasharray = (progress / 100) * circumference;
+
+                // Use requestAnimationFrame for smooth animation
+                requestAnimationFrame(() => {
+                    progressCircle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
+                    progressNumber.textContent = currentStep;
+                    progressNumber.classList.add('animate');
+
+                    setTimeout(() => progressNumber.classList.remove('animate'), 600);
+                });
+            }
+
+            // Optimized slider handlers
+            function initSliders() {
+                const sliders = [
+                    {
+                        element: ProfileConfig.elements.ageSlider,
+                        display: ProfileConfig.elements.ageValue,
+                        update: (val) => `${ProfileConfig.translations.agePrefix} ${val}`
+                    },
+                    {
+                        element: ProfileConfig.elements.heightSlider,
+                        display: ProfileConfig.elements.heightValue,
+                        update: (val) => `${ProfileConfig.translations.heightPrefix} ${parseFloat(val).toFixed(2)} ${ProfileConfig.translations.heightUnit}`
+                    },
+                    {
+                        element: ProfileConfig.elements.weightSlider,
+                        display: ProfileConfig.elements.weightValue,
+                        update: (val) => `${ProfileConfig.translations.weightPrefix} ${val} ${ProfileConfig.translations.weightUnit}`
+                    }
+                ];
+
+                sliders.forEach(({ element, display, update }) => {
+                    if (element && display) {
+                        element.addEventListener('input', (e) => {
+                            display.textContent = update(e.target.value);
+                        });
+                    }
+                });
+            }
+
+            // Optimized custom select implementation
+            function initCustomSelect(config) {
+                const { selectId, selectedId, dropdownId, optionClass, saveId, inputId } = config;
+
+                const elements = {
+                    select: document.getElementById(selectId),
+                    selected: document.getElementById(selectedId),
+                    dropdown: document.getElementById(dropdownId),
+                    save: document.getElementById(saveId),
+                    input: inputId ? document.getElementById(inputId) : null
                 };
 
-                function showRequiredFieldsModal() {
-                    formElements.overlay.style.display = 'block';
-                    formElements.modal.style.display = 'block';
-                }
+                if (!elements.select || !elements.selected || !elements.dropdown) return null;
 
-                function hideRequiredFieldsModal() {
-                    formElements.overlay.style.display = 'none';
-                    formElements.modal.style.display = 'none';
-                }
+                let savedValue = elements.selected.textContent.trim();
+                let currentValue = savedValue;
 
-                // Form validation
-                if (formElements.continueBtn && formElements.form) {
-                    formElements.continueBtn.addEventListener('click', function (e) {
-                        // Cache DOM queries
-                        const requiredInputs = formElements.form.querySelectorAll('input[required], textarea[required]');
-                        const gender = document.getElementById('selectedGender');
-                        const blood = document.getElementById('selectedBlood');
+                // Special handling for mapped selects
+                const isInsuranceSelect = selectId === 'insuranceSelect';
+                const isGenderSelect = selectId === 'genderSelect';
+                const isAssuranceSelect = selectId === 'assuranceSelect';
+                const isMappedSelect = isInsuranceSelect || isGenderSelect || isAssuranceSelect;
 
-                        // Validate required fields
-                        let valid = Array.from(requiredInputs).every(input =>
-                            input.value && input.value.trim() !== ''
-                        );
+                // Use event delegation for better performance
+                elements.dropdown.addEventListener('click', (e) => {
+                    const option = e.target.closest(`.${optionClass}`);
+                    if (!option) return;
 
-                        // Validate custom selects
-                        if (gender && (gender.textContent.trim() === genderChoose || gender.textContent.trim() === '')) valid = false;
-                        if (blood && (blood.textContent.trim() === bloodGroupChoose || blood.textContent.trim() === '')) valid = false;
+                    // Remove active/saved classes efficiently
+                    elements.dropdown.querySelectorAll(`.${optionClass}`).forEach(opt => {
+                        opt.classList.remove('active', 'saved');
+                    });
 
-                        if (!valid) {
-                            e.preventDefault();
-                            showRequiredFieldsModal();
+                    option.classList.add('active');
+                    currentValue = option.getAttribute('data-value');
+                });
+
+                elements.selected.addEventListener('click', () => {
+                    elements.dropdown.style.display = 'block';
+                    elements.dropdown.querySelectorAll(`.${optionClass}`).forEach(opt => {
+                        opt.classList.remove('active', 'saved');
+                        if (isMappedSelect) {
+                            // For mapped selects, compare with mapped value
+                            const optionValue = opt.getAttribute('data-value');
+                            let mappedValue;
+                            if (isInsuranceSelect) {
+                                mappedValue = ProfileConfig.insuranceMapping[optionValue];
+                            } else if (isGenderSelect) {
+                                mappedValue = ProfileConfig.genderMapping[optionValue];
+                            } else if (isAssuranceSelect) {
+                                mappedValue = ProfileConfig.assuranceMapping[optionValue];
+                            }
+                            if (mappedValue === savedValue) {
+                                opt.classList.add('saved');
+                            }
+                        } else {
+                            if (opt.getAttribute('data-value') === savedValue) {
+                                opt.classList.add('saved');
+                            }
                         }
+                    });
+                });
+
+                if (elements.save) {
+                    elements.save.addEventListener('click', () => {
+                        if (isMappedSelect) {
+                            // For mapped selects, show translated text but save the key
+                            let mappedValue;
+                            if (isInsuranceSelect) {
+                                mappedValue = ProfileConfig.insuranceMapping[currentValue];
+                            } else if (isGenderSelect) {
+                                mappedValue = ProfileConfig.genderMapping[currentValue];
+                            } else if (isAssuranceSelect) {
+                                mappedValue = ProfileConfig.assuranceMapping[currentValue];
+                            }
+
+                            if (mappedValue) {
+                                savedValue = mappedValue;
+                                elements.selected.textContent = savedValue;
+                                if (elements.input) elements.input.value = currentValue; // Save the key
+                            }
+                        } else {
+                            savedValue = currentValue;
+                            elements.selected.textContent = savedValue;
+                            if (elements.input) elements.input.value = savedValue;
+                        }
+
+                        elements.dropdown.style.display = 'none';
+
+                        elements.dropdown.querySelectorAll(`.${optionClass}`).forEach(opt => {
+                            opt.classList.remove('active', 'saved');
+                            if (isMappedSelect) {
+                                const optionValue = opt.getAttribute('data-value');
+                                if (optionValue === currentValue) {
+                                    opt.classList.add('saved');
+                                }
+                            } else {
+                                if (opt.getAttribute('data-value') === savedValue) {
+                                    opt.classList.add('saved');
+                                }
+                            }
+                        });
                     });
                 }
 
-                // Modal button handlers
-                if (formElements.skipBtn) {
-                    formElements.skipBtn.addEventListener('click', function () {
-                        hideRequiredFieldsModal();
+                return { elements, savedValue, currentValue };
+            }
+
+            // Optimized insurance field management
+            function initInsuranceFields() {
+                const { selectedInsurance, mainInsuredGroup, entitledInsuredGroup, vietnamInsuranceFields, assuranceTypeGroup } = ProfileConfig.elements;
+                if (!selectedInsurance) return;
+
+                function updateInsuranceFields() {
+                    const selectedText = selectedInsurance.textContent.trim();
+                    const isPrivate = selectedText === ProfileConfig.translations.insurancePrivate;
+                    const isVietnam = selectedText === ProfileConfig.translations.insuranceVietnam;
+
+                    // Batch DOM updates
+                    if (mainInsuredGroup) mainInsuredGroup.style.display = isPrivate ? '' : 'none';
+                    if (entitledInsuredGroup) entitledInsuredGroup.style.display = isPrivate ? '' : 'none';
+                    if (vietnamInsuranceFields) vietnamInsuranceFields.style.display = isVietnam ? '' : 'none';
+                    if (assuranceTypeGroup) assuranceTypeGroup.style.display = isVietnam ? 'none' : '';
+                }
+
+                // Use debounced updates
+                let updateTimeout;
+                function debouncedUpdate() {
+                    clearTimeout(updateTimeout);
+                    updateTimeout = setTimeout(updateInsuranceFields, 10);
+                }
+
+                // Initial setup
+                updateInsuranceFields();
+
+                // Attach listeners
+                [ProfileConfig.elements.insuranceDropdown, ProfileConfig.elements.insuranceSave].forEach(element => {
+                    if (element) element.addEventListener('click', debouncedUpdate);
+                });
+            }
+
+            // Optimized form validation
+            function initFormValidation() {
+                const { continueBtn, form, overlay, modal, skipBtn, checkBtn, selectedGender, selectedBlood } = ProfileConfig.elements;
+                if (!continueBtn || !form) return;
+
+                function showModal() {
+                    if (overlay) overlay.style.display = 'block';
+                    if (modal) modal.style.display = 'block';
+                }
+
+                function hideModal() {
+                    if (overlay) overlay.style.display = 'none';
+                    if (modal) modal.style.display = 'none';
+                }
+
+                function validateForm() {
+                    const requiredInputs = form.querySelectorAll('input[required], textarea[required]');
+
+                    // Check required fields
+                    const isValidInputs = Array.from(requiredInputs).every(input =>
+                        input.value && input.value.trim() !== ''
+                    );
+
+                    // Check custom selects
+                    const isValidGender = !selectedGender ||
+                        (selectedGender.textContent.trim() !== ProfileConfig.translations.genderChoose &&
+                            selectedGender.textContent.trim() !== '');
+
+                    const isValidBlood = !selectedBlood ||
+                        (selectedBlood.textContent.trim() !== ProfileConfig.translations.bloodGroupChoose &&
+                            selectedBlood.textContent.trim() !== '');
+
+                    return isValidInputs && isValidGender && isValidBlood;
+                }
+
+                continueBtn.addEventListener('click', (e) => {
+                    if (!validateForm()) {
+                        e.preventDefault();
+                        showModal();
+                    }
+                });
+
+                // Modal event listeners
+                if (skipBtn) {
+                    skipBtn.addEventListener('click', () => {
+                        hideModal();
                         window.location.href = '/register-flow/avatar';
                     });
                 }
 
-                if (formElements.checkBtn) {
-                    formElements.checkBtn.addEventListener('click', hideRequiredFieldsModal);
-                }
+                if (checkBtn) checkBtn.addEventListener('click', hideModal);
+                if (overlay) overlay.addEventListener('click', hideModal);
+            }
 
-                if (formElements.overlay) {
-                    formElements.overlay.addEventListener('click', hideRequiredFieldsModal);
-                }
-            });
+            // Global click handler for dropdown closing
+            function initGlobalClickHandler() {
+                document.addEventListener('mousedown', (e) => {
+                    ProfileConfig.customSelects.forEach(selectConfig => {
+                        if (!selectConfig || !selectConfig.elements) return;
+
+                        const { select, dropdown } = selectConfig.elements;
+                        if (select && dropdown && !select.contains(e.target)) {
+                            dropdown.style.display = 'none';
+                            dropdown.querySelectorAll('.profile-option, .profile-blood-option-grid').forEach(opt => {
+                                opt.classList.remove('active');
+                            });
+                        }
+                    });
+                });
+            }
+
+            // Main initialization function
+            function initProfile() {
+                if (ProfileConfig.initialized) return;
+
+                cacheElements();
+                initProgressIndicator(4);
+                initSliders();
+
+                // Initialize custom selects
+                const selectConfigs = [
+                    { selectId: 'genderSelect', selectedId: 'selectedGender', dropdownId: 'genderDropdown', optionClass: 'profile-option', saveId: 'genderSave', inputId: 'genderInput' },
+                    { selectId: 'insuranceSelect', selectedId: 'selectedInsurance', dropdownId: 'insuranceDropdown', optionClass: 'profile-option', saveId: 'insuranceSave', inputId: 'insuranceTypeInput' },
+                    { selectId: 'assuranceSelect', selectedId: 'selectedAssurance', dropdownId: 'assuranceDropdown', optionClass: 'profile-option', saveId: 'assuranceSave', inputId: 'assuranceTypeInput' },
+                    { selectId: 'bloodSelect', selectedId: 'selectedBlood', dropdownId: 'bloodDropdown', optionClass: 'profile-blood-option-grid', saveId: 'bloodSave', inputId: 'bloodGroupInput' }
+                ];
+
+                ProfileConfig.customSelects = selectConfigs.map(initCustomSelect).filter(Boolean);
+
+                initInsuranceFields();
+                initFormValidation();
+                initGlobalClickHandler();
+
+                ProfileConfig.initialized = true;
+            }
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initProfile);
+            } else {
+                initProfile();
+            }
         </script>
     @endpush
 @endsection
