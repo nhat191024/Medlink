@@ -55,7 +55,9 @@
                 @enderror
             </div>
 
-            <a class="forgot-password" href="{{ route('forgot-password') }}">{{ __('client/auth.forgot_password') }}</a>
+            <a class="forgot-password" href="{{ route('forgot-password.index') }}">
+                {{ __('client/auth.forgot_password') }}
+            </a>
 
             <button class="login-btn" type="submit">{{ __('client/auth.button.login') }}</button>
         </form>
