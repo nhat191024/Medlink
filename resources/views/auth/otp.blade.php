@@ -12,7 +12,7 @@
 
         <div class="right">
             <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('register.form') }}">
+                <a class="back-btn" href="{{ route('register.phone') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>

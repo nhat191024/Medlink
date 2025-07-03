@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 
 Route::prefix('register')->middleware('guest')->name('register.')->group(fn() => [
 
-    Route::get('/', fn() => view('auth.register'))->name('form'),
+    Route::get('/', fn() => view('auth.register'))->name('phone'),
     Route::get('/otp', fn() => view('auth.otp'))->name('otp'),
     Route::get('/create-account', fn() => view('auth.create-account'))->name('create-account'),
 

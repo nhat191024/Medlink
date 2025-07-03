@@ -15,7 +15,7 @@
             <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
             <h1 class="title">{{ __('client/auth.splash_title') }}</h1>
             <a class="login-btn" href="{{ route('login') }}">{{ __('client/auth.button.login') }}</a>
-            <a class="register-btn" href="#">{{ __('client/auth.button.register') }}</a>
+            <a class="register-btn" href="{{ route('register.phone') }}">{{ __('client/auth.button.register') }}</a>
             <div class="divider">
                 <span>{{ __('client/auth.or_continue_with') }}</span>
             </div>
