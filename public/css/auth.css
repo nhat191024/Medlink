@@ -644,8 +644,8 @@
 
 .profile-form-columns {
     display: flex;
-    gap: 96px;
-    margin-bottom: 32px;
+    gap: 80px;
+    margin-bottom: 40px;
 }
 
 .profile-form-left,
@@ -653,17 +653,17 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 24px;
 }
 
 .profile-form label {
     font-size: 1rem;
     color: #222;
     font-weight: 500;
-    margin-bottom: 4px;
+    margin-bottom: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .profile-form input[type="text"],
@@ -805,7 +805,16 @@
 }
 
 #vietnamInsuranceFields label {
-    margin-bottom: 14px;
+    margin-bottom: 16px;
+}
+
+#vietnamInsuranceFields {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #fafbfc;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
 }
 
 /* Blood group specific grid layout */
@@ -872,11 +881,11 @@
 /* Date input styling */
 .profile-input[type="date"] {
     width: 100%;
-    padding: 16px;
-    border: 1.5px solid #e0e0e0;
-    border-radius: 16px;
+    padding: 12px 16px;
+    border: 1.5px solid #eee;
+    border-radius: 12px;
     background: #fafafa;
-    font-size: 16px;
+    font-size: 1rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
     color: #222;
@@ -884,14 +893,13 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    height: 48px;
-    padding-top: 0;
-    padding-bottom: 0;
+    height: auto;
 }
 
 .profile-input[type="date"]:focus {
     border-color: #DF1D32;
     box-shadow: 0 2px 8px rgba(223, 29, 50, 0.08);
+    background: #fff;
 }
 
 /* Custom Select Components (Profile Specific) */
@@ -1015,24 +1023,28 @@
 
 @media (max-width: 1100px) {
     .profile-form-wrapper {
-        padding: 32px 12px;
+        padding: 32px 16px;
         max-width: 99vw;
     }
 
     .profile-form-columns {
-        gap: 18px;
+        gap: 60px;
     }
 }
 
 @media (max-width: 800px) {
     .profile-form-columns {
         flex-direction: column;
-        gap: 0;
+        gap: 32px;
     }
 
     .profile-form-left,
     .profile-form-right {
-        gap: 12px;
+        gap: 20px;
+    }
+
+    .profile-form-wrapper {
+        padding: 24px 12px;
     }
 }
 
