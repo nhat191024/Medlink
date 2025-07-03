@@ -25,6 +25,41 @@
                 </div>
             </div>
 
+            <form id="avatarForm" action="{{ route('register.avatar.submit') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="avatar-main-content">
+                    <div class="avatar-icon-container">
+                        <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" class="avatar-icon" />
+                    </div>
+                    <div class="avatar-title">
+                        {{ __('client/auth.register_flow.avatar.title') }}
+                    </div>
+
+                    <div class="avatar-card">
+                        <div class="avatar-card-content">
+                            <div class="avatar-preview-container">
+                                <img id="avatarPreview" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="avatar"
+                                    class="avatar-preview">
+                                <button id="removeAvatarBtn" type="button" class="avatar-remove-btn">&times;</button>
+                            </div>
+                            <div class="avatar-card-title">
+                                {{ __('client/auth.register_flow.avatar.add_avatar') }}
+                            </div>
+                            <div class="avatar-description">
+                                {{ __('client/auth.register_flow.avatar.avatar_description') }}
+                            </div>
+                            <input type="file" id="avatarInput" name="avatar" accept="image/*" class="avatar-input">
+                            <button type="button" id="attachPhotoBtn" class="avatar-attach-btn">
+                                {{ __('client/auth.register_flow.avatar.attach_photo') }}
+                            </button>
+                        </div>
+                    </div>
+                    <button id="continueBtn" class="avatar-continue-btn" type="submit">
+                        {{ __('client/auth.register_flow.avatar.continue') }}
+                    </button>
+                </div>
+            </form>
+
             <div class="avatar-main-content">
                 <div class="avatar-icon-container">
                     <img src="/img/Closed mailbox with raised flag.png" alt="mailbox icon" class="avatar-icon" />
@@ -146,12 +181,6 @@
             }
 
             // Continue button handler (if needed for navigation)
-            if (elements.continueBtn) {
-                elements.continueBtn.addEventListener('click', function () {
-                    // Add any form submission or navigation logic here
-                    console.log('Continue button clicked');
-                });
-            }
         });
     </script>
 @endpush

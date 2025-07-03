@@ -60,7 +60,7 @@
 
             function onProgressComplete() {
                 // Handle completion - e.g., redirect to next page
-                // window.location.href = '/dashboard';
+                window.location.href = "{{ route('register.complete') }}";
             }
 
             // Start animation with slight delay for better UX

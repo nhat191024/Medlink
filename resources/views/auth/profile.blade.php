@@ -30,7 +30,7 @@
                 <h2>{{ __('client/auth.profile.title') }}</h2>
             </div>
 
-            <form class="profile-form" action="{{ route('register.profile.post') }}" method="POST">
+            <form class="profile-form" action="{{ route('register.profile.submit') }}" method="POST">
                 @csrf
                 <div class="profile-form-columns">
                     <div class="profile-form-left">

@@ -36,7 +36,7 @@
             <h2>{{ __('client/auth.otp') }}</h2>
             <p class="otp-phone">+32 456 789 00</p>
 
-            <form method="POST" action="#" class="otp-form">
+            <form method="POST" action="{{ route('register.otp.submit') }}" class="otp-form">
                 @csrf
                 <div class="otp-inputs">
                     <input type="text" name="digit1" maxlength="1" class="otp-box" required autofocus>

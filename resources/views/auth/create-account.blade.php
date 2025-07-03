@@ -33,18 +33,24 @@
                 <img src="{{ asset('img/key.svg') }}" class="form-icon" alt="Key Icon">
                 <h2 class="form-title">{{ __('client/auth.form-title') }}</h2>
 
-                <form method="POST" action="">
+                <form method="POST" action="{{ route('register.create-account.submit') }}" class="create-account-form">
                     @csrf
 
                     <div class="form-group">
                         <input type="email" name="email"
                             placeholder="{{ __('client/auth.fields.placeholder.login_email') }}" required>
-                    </div>
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                        </div>
 
                     <div class="form-group input-icon-group">
                         <input id="password" name="password" type="password"
                             placeholder="{{ __('client/auth.fields.placeholder.password') }}" required>
-                        <button type="button" class="toggle-password-btn" onclick="togglePassword()">
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                            <button type="button" class="toggle-password-btn" onclick="togglePassword()">
                             @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                         </button>
                     </div>

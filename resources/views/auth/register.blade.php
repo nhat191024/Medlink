@@ -10,7 +10,7 @@
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
 
-        <form class="right" method="POST" action="#">
+        <form class="right" method="POST" action="{{ route('register.phone.submit') }}">
             @csrf
 
             <div class="back-btn-container">
@@ -52,8 +52,11 @@
                         <option value="+228">🇹🇬 +228</option>
                         <option value="+1">🇺🇸 +1</option>
                     </select>
-                    <input type="text" id="phone" name="phone" placeholder="456 789 00">
+                    <input type="text" id="phone" name="phone" placeholder="456 789 00" value="{{ old('phone') }}">
                 </div>
+                @error('phone')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
             <p class="note">
