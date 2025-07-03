@@ -2,7 +2,6 @@
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
- 
 @endpush
 
 @section('content')
@@ -11,61 +10,92 @@
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
 
-        <form class="right" method="POST" action="{{ route('forgot-password.send-otp') }}">
+        <form class="right" method="POST" action="#">
             @csrf
 
             <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('login') }}">
+                <a class="back-btn" href="{{ route('splash') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>
 
-            <!-- Progress Indicator (Hidden for now) -->
-            <div class="progress-indicator" id="progressIndicator" style="display: none; visibility: hidden;">
+            <!-- Progress Indicator -->
+            <div id="progressIndicator" class="progress-indicator">
                 <div class="progress-circle">
                     <svg viewBox="0 0 50 50">
                         <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
-                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        <circle id="progressCircle" class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6">
                         </circle>
                     </svg>
-                    <div class="progress-number" id="progressNumber">0</div>
+                    <div id="progressNumber" class="progress-number">0</div>
                 </div>
             </div>
 
-            <div class="icon" style="text-align: center; margin-bottom: 1rem;">
-                <img src="{{ asset('img/lock.png') }}" alt="Lock Icon" style="width: 48px; height: auto;">
+            <div class="icon">
+                <img src="{{ asset('img/dienthoai.png') }}" alt="Điện thoại">
             </div>
 
-            <h2 style="text-align: center; font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 600;">Forgot your password?</h2>
-            <p class="note" style="margin-top: 0; margin-bottom: 2rem;">Please enter your phone number to receive a verification code</p>
+            <h2>{{ __('client/auth.name') }}</h2>
 
-            <div class="phone-input-group">
-                <label for="phone" class="static-label">Phone number</label>
+            <div class="form-group">
+                <label for="phone">{{ __('client/auth.fields.placeholder.phone') }}</label>
                 <div class="phone-input">
                     <div class="custom-select">
-                        <div class="select-selected" id="selectSelected">
+                        <div id="selectSelected" class="select-selected">
                             <span class="country-flag">🇻🇳</span>
                             <span class="country-code">+84</span>
                         </div>
-                        <div class="select-items select-hide" id="selectItems"></div>
+                        <div id="selectItems" class="select-items select-hide"></div>
                     </div>
-                    <select id="country_code" name="country_code" style="display: none;"></select>
-                    <input type="text" id="phone" name="phone" placeholder="" autocomplete="off">
+                    <select id="country_code" name="country_code" style="display: none;">
+                        <option value="+84">🇻🇳 +84</option>
+                        <option value="+228">🇹🇬 +228</option>
+                        <option value="+1">🇺🇸 +1</option>
+                    </select>
+                    <input id="phone" name="phone" type="text" placeholder="456 789 00">
                 </div>
             </div>
 
             <p class="note">
-                Don't worry. We won't text you or call you.
+                {{ __('client/auth.note') }}
             </p>
 
-            <button type="submit" class="submit-btn" id="phone-submit-btn" disabled>Get verification code</button>
+            <button class="submit-btn" type="submit">{{ __('client/auth.button.continue') }}</button>
         </form>
     </div>
 @endsection
 
 @push('scripts')
     <script>
+        // Progress Indicator - Easy copy-paste to other files
+        function initProgressIndicator(currentStep, totalSteps = 3) {
+            const circle = document.getElementById('progressCircle');
+            const numberEl = document.getElementById('progressNumber');
+            const circumference = 2 * Math.PI * 20; // radius = 20
+
+            // Calculate progress percentage
+            const progress = (currentStep / totalSteps) * 100;
+            const strokeDasharray = (progress / 100) * circumference;
+
+            // Animate from previous step
+            setTimeout(() => {
+                // Animate circle
+                circle.style.strokeDasharray = `${strokeDasharray} ${circumference}`;
+
+                // Animate number
+                numberEl.textContent = currentStep;
+                numberEl.classList.add('animate');
+
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    numberEl.classList.remove('animate');
+                }, 600);
+            }, 300);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            initProgressIndicator(1);
+
             const selectSelected = document.getElementById('selectSelected');
             const selectItems = document.getElementById('selectItems');
             const hiddenSelect = document.getElementById('country_code');
@@ -75,74 +105,124 @@
             fetch('https://restcountries.com/v3.1/all?fields=name,flag,idd')
                 .then(response => response.json())
                 .then(data => {
+                    // Filter countries that have phone codes and sort by name
                     countriesData = data
-                        .filter(country => country.idd && country.idd.root && country.flag)
+                        .filter(country => country.idd && country.idd.root)
                         .map(country => ({
                             name: country.name.common,
                             flag: country.flag,
-                            code: country.idd.root + (country.idd.suffixes ? (country.idd.suffixes[0] || '') : '')
+                            code: country.idd.root + (country.idd.suffixes ? country.idd.suffixes[0] || '' : '')
                         }))
                         .sort((a, b) => a.name.localeCompare(b.name));
-                    populateDropdown(countriesData);
+
+                    // Add popular countries first
+                    const popularCountries = [{
+                        name: 'Vietnam',
+                        flag: '🇻🇳',
+                        code: '+84'
+                    },
+                    {
+                        name: 'United States',
+                        flag: '🇺🇸',
+                        code: '+1'
+                    },
+                    {
+                        name: 'United Kingdom',
+                        flag: '🇬🇧',
+                        code: '+44'
+                    },
+                    {
+                        name: 'China',
+                        flag: '🇨🇳',
+                        code: '+86'
+                    },
+                    {
+                        name: 'Japan',
+                        flag: '🇯🇵',
+                        code: '+81'
+                    },
+                    {
+                        name: 'South Korea',
+                        flag: '🇰🇷',
+                        code: '+82'
+                    }
+                    ];
+
+                    // Remove duplicates and merge with popular countries
+                    const uniqueCountries = popularCountries.concat(
+                        countriesData.filter(country =>
+                            !popularCountries.some(popular => popular.code === country.code)
+                        )
+                    );
+
+                    // Populate dropdown
+                    populateDropdown(uniqueCountries);
                 })
                 .catch(error => {
                     console.error('Error fetching countries:', error);
-                    const fallbackCountries = [
-                        { name: 'Vietnam', flag: '🇻🇳', code: '+84' },
-                        { name: 'United States', flag: '🇺🇸', code: '+1' },
+                    // Fallback to basic countries
+                    const fallbackCountries = [{
+                        name: 'Vietnam',
+                        flag: '🇻🇳',
+                        code: '+84'
+                    },
+                    {
+                        name: 'United States',
+                        flag: '🇺🇸',
+                        code: '+1'
+                    },
+                    {
+                        name: 'United Kingdom',
+                        flag: '🇬🇧',
+                        code: '+44'
+                    },
+                    {
+                        name: 'Togo',
+                        flag: '🇹🇬',
+                        code: '+228'
+                    }
                     ];
                     populateDropdown(fallbackCountries);
                 });
 
             function populateDropdown(countries) {
                 selectItems.innerHTML = '';
-                hiddenSelect.innerHTML = '';
 
                 countries.forEach(country => {
                     const div = document.createElement('div');
-                    div.innerHTML = `<span class="country-flag">${country.flag}</span> <span class="country-name">${country.name}</span> <span class="country-code">(${country.code})</span>`;
-                    div.addEventListener('click', () => selectCountry(country));
+                    div.innerHTML =
+                        `<span class="country-flag">${country.flag}</span>
+                                <span class="country-name">${country.name}</span>
+                                <span class="country-code">${country.code}</span>`;
+                    div.addEventListener('click', function () {
+                        selectCountry(country);
+                    });
                     selectItems.appendChild(div);
-
-                    const option = document.createElement('option');
-                    option.value = country.code;
-                    option.text = `${country.flag} ${country.code}`;
-                    hiddenSelect.appendChild(option);
                 });
-                const defaultCountry = countries.find(c => c.code === '+84') || countries[0];
-                if (defaultCountry) selectCountry(defaultCountry);
             }
 
             function selectCountry(country) {
-                if(selectSelected) {
-                    selectSelected.innerHTML = `<span class="country-flag">${country.flag}</span><span class="country-code">${country.code}</span>`;
-                }
-                if(hiddenSelect) hiddenSelect.value = country.code;
-                if(selectItems) selectItems.classList.add('select-hide');
-                if(selectSelected) selectSelected.classList.remove('select-arrow-active');
+                selectSelected.innerHTML =
+                    `<span class="country-flag">${country.flag}</span>
+                            <span class="country-code">${country.code}</span>`;
+                hiddenSelect.value = country.code;
+                selectItems.classList.add('select-hide');
+                selectSelected.classList.remove('select-arrow-active');
             }
 
-            if(selectSelected) {
-                selectSelected.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    selectItems.classList.toggle('select-hide');
-                    selectSelected.classList.toggle('select-arrow-active');
-                });
-            }
-
-            document.addEventListener('click', () => {
-                if(selectItems) selectItems.classList.add('select-hide');
-                if(selectSelected) selectSelected.classList.remove('select-arrow-active');
+            // Toggle dropdown
+            selectSelected.addEventListener('click', function (e) {
+                console.log('Dropdown clicked');
+                e.stopPropagation();
+                selectItems.classList.toggle('select-hide');
+                selectSelected.classList.toggle('select-arrow-active');
             });
 
-            // Validate phone number đơn giản
-            const phoneInput = document.getElementById('phone');
-            const submitBtn = document.getElementById('phone-submit-btn');
-            function validatePhone() {
-                submitBtn.disabled = !phoneInput.value.trim();
-            }
-            phoneInput.addEventListener('input', validatePhone);
-            validatePhone();
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function () {
+                selectItems.classList.add('select-hide');
+                selectSelected.classList.remove('select-arrow-active');
+            });
         });
     </script>
 @endpush
