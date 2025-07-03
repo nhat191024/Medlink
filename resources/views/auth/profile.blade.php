@@ -4,7 +4,6 @@
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
-
 @section('content')
     <div class="profile-main-content">
         <div class="profile-form-wrapper">
@@ -20,8 +19,7 @@
                     <svg viewBox="0 0 50 50">
                         <circle class="profile-progress-bg" cx="25" cy="25" r="20"></circle>
                         <circle class="profile-progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6"
-                            id="progressCircle">
-                        </circle>
+                            id="progressCircle"></circle>
                     </svg>
                     <div class="profile-progress-number" id="progressNumber">0</div>
                 </div>
@@ -32,17 +30,23 @@
                     style="width:38px; height:38px; object-fit:contain; display:block; margin:0 auto 8px auto;">
                 <h2>{{ __('client/auth.profile.title') }}</h2>
             </div>
+
             <form class="profile-form">
                 <div class="profile-form-columns">
                     <div class="profile-form-left">
-                        <label>{{ __('client/auth.profile.full_name') }}*<input type="text"
-                                placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required></label>
-                        <label>{{ __('client/auth.profile.age') }}*
-                            <input type="range" min="0" max="150" value="18" class="profile-slider" id="age-slider">
-                            <span class="profile-slider-value" id="age-value">{{ __('client/auth.profile.age_prefix') }}
-                                18</span>
+                        <label>
+                            {{ __('client/auth.profile.full_name') }}*
+                            <input type="text" placeholder="{{ __('client/auth.profile.full_name_placeholder') }}" required>
                         </label>
-                        <label>{{ __('client/auth.profile.gender') }}*
+                        <label>
+                            {{ __('client/auth.profile.age') }}*
+                            <input type="range" min="0" max="150" value="18" class="profile-slider" id="age-slider">
+                            <span class="profile-slider-value" id="age-value">
+                                {{ __('client/auth.profile.age_prefix') }} 18
+                            </span>
+                        </label>
+                        <label>
+                            {{ __('client/auth.profile.gender') }}*
                             <div class="profile-custom-select" id="genderSelect">
                                 <div class="profile-selected-option" id="selectedGender">
                                     {{ __('client/auth.profile.gender_choose') }}
@@ -60,8 +64,8 @@
                                             <span class="profile-tick">&#10003;</span>
                                         </div>
                                         <div class="profile-option" data-value="Female">
-                                            {{ __('client/auth.profile.gender_female') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.gender_female') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                         <div class="profile-option" data-value="Other">
                                             {{ __('client/auth.profile.gender_other') }}
@@ -71,21 +75,25 @@
                                 </div>
                             </div>
                         </label>
-                        <label>{{ __('client/auth.profile.height') }}*
+                        <label>
+                            {{ __('client/auth.profile.height') }}*
                             <input type="range" min="1.0" max="3.0" step="0.01" value="1.53" class="profile-slider"
                                 id="height-slider">
-                            <span class="profile-slider-value"
-                                id="height-value">{{ __('client/auth.profile.height_prefix') }} 1.53
-                                {{ __('client/auth.profile.height_unit') }}</span>
+                            <span class="profile-slider-value" id="height-value">
+                                {{ __('client/auth.profile.height_prefix') }} 1.53
+                                {{ __('client/auth.profile.height_unit') }}
+                            </span>
                         </label>
-                        <label>{{ __('client/auth.profile.weight') }}*
+                        <label>
+                            {{ __('client/auth.profile.weight') }}*
                             <input type="range" min="30" max="500" value="46" class="profile-slider" id="weight-slider">
-                            <span class="profile-slider-value"
-                                id="weight-value">{{ __('client/auth.profile.weight_prefix') }} 46
-                                {{ __('client/auth.profile.weight_unit') }}</span>
+                            <span class="profile-slider-value" id="weight-value">
+                                {{ __('client/auth.profile.weight_prefix') }} 46 {{ __('client/auth.profile.weight_unit') }}
+                            </span>
                         </label>
                         <!-- Custom Blood group select -->
-                        <label>{{ __('client/auth.profile.blood_group') }}*
+                        <label>
+                            {{ __('client/auth.profile.blood_group') }}*
                             <div class="profile-custom-select" id="bloodSelect">
                                 <div class="profile-selected-option" id="selectedBlood">
                                     {{ __('client/auth.profile.blood_group_choose') }}
@@ -99,23 +107,17 @@
                                     </div>
                                     <div class="profile-blood-options-grid">
                                         <div class="profile-blood-option-grid" data-value="A+">A+ <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="A-">A- <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="B+">B+ <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="B-">B- <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="O+">O+ <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="O-">O- <span
-                                                class="blood-drop">🩸</span>
-                                        </div>
+                                                class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="AB+">AB+ <span
                                                 class="blood-drop">🩸</span></div>
                                         <div class="profile-blood-option-grid" data-value="AB-">AB- <span
@@ -124,12 +126,15 @@
                                 </div>
                             </div>
                         </label>
-                        <label>{{ __('client/auth.profile.medical_history') }}<textarea
-                                placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea></label>
+                        <label>
+                            {{ __('client/auth.profile.medical_history') }}
+                            <textarea placeholder="{{ __('client/auth.profile.medical_history_placeholder') }}"></textarea>
+                        </label>
                     </div>
                     <div class="profile-form-right">
                         <!-- Custom Insurance Type Select -->
-                        <label>{{ __('client/auth.profile.insurance_type') }}
+                        <label>
+                            {{ __('client/auth.profile.insurance_type') }}
                             <div class="profile-custom-select" id="insuranceSelect">
                                 <div class="profile-selected-option" id="selectedInsurance">
                                     {{ __('client/auth.profile.insurance_public') }}
@@ -163,19 +168,28 @@
                             </div>
                         </label>
                         <div id="vietnamInsuranceFields" style="display:none; margin-bottom: 16px;">
-                            <label>{{ __('client/auth.profile.card_number') }}<input type="text" class="profile-input"
-                                    placeholder="{{ __('client/auth.profile.card_number_placeholder') }}"></label>
-                            <label>{{ __('client/auth.profile.valid_from') }}<input type="date"
-                                    class="profile-input"></label>
-                            <label>{{ __('client/auth.profile.initial_medical_facility') }}
+                            <label>
+                                {{ __('client/auth.profile.card_number') }}
+                                <input type="text" class="profile-input"
+                                    placeholder="{{ __('client/auth.profile.card_number_placeholder') }}">
+                            </label>
+                            <label>
+                                {{ __('client/auth.profile.valid_from') }}
+                                <input type="date" class="profile-input">
+                            </label>
+                            <label>
+                                {{ __('client/auth.profile.initial_medical_facility') }}
                                 <input type="text" class="profile-input"
                                     placeholder="{{ __('client/auth.profile.facility_placeholder') }}">
                             </label>
                         </div>
-                        <label>{{ __('client/auth.profile.public_insurance') }}*<input type="text"
-                                placeholder="{{ __('client/auth.profile.public_insurance_placeholder') }}"></label>
+                        <label>
+                            {{ __('client/auth.profile.public_insurance') }}*
+                            <input type="text" placeholder="{{ __('client/auth.profile.public_insurance_placeholder') }}">
+                        </label>
                         <!-- Custom Assurance type select -->
-                        <label>{{ __('client/auth.profile.assurance_type') }}
+                        <label>
+                            {{ __('client/auth.profile.assurance_type') }}
                             <div class="profile-custom-select" id="assuranceSelect">
                                 <div class="profile-selected-option" id="selectedAssurance">
                                     {{ __('client/auth.profile.assurance_choose') }}
@@ -202,23 +216,27 @@
                                 </div>
                             </div>
                         </label>
-                        <label id="mainInsuredGroup"
-                            style="display:none;">{{ __('client/auth.profile.main_insured') }}<input type="text"
-                                placeholder="{{ __('client/auth.profile.main_insured_placeholder') }}"></label>
-                        <label id="entitledInsuredGroup"
-                            style="display:none;">{{ __('client/auth.profile.entitled_insured') }}<input type="text"
-                                placeholder="{{ __('client/auth.profile.entitled_insured_placeholder') }}"></label>
-                        <label>{{ __('client/auth.profile.address') }}*<input type="text"
-                                placeholder="{{ __('client/auth.profile.address_placeholder') }}"></label>
+                        <label id="mainInsuredGroup" style="display:none;">
+                            {{ __('client/auth.profile.main_insured') }}
+                            <input type="text" placeholder="{{ __('client/auth.profile.main_insured_placeholder') }}">
+                        </label>
+                        <label id="entitledInsuredGroup" style="display:none;">
+                            {{ __('client/auth.profile.entitled_insured') }}
+                            <input type="text" placeholder="{{ __('client/auth.profile.entitled_insured_placeholder') }}">
+                        </label>
+                        <label>
+                            {{ __('client/auth.profile.address') }}*
+                            <input type="text" placeholder="{{ __('client/auth.profile.address_placeholder') }}">
+                        </label>
                     </div>
                 </div>
-                <button type="submit" class="profile-continue-btn"
-                    id="continueBtn">{{ __('client/auth.profile.continue') }}</button>
+                <button type="submit" class="profile-continue-btn" id="continueBtn">
+                    {{ __('client/auth.profile.continue') }}
+                </button>
             </form>
 
             <!-- Popup Overlay & Modal -->
-            <div id="requiredFieldsOverlay" class="profile-modal-overlay">
-            </div>
+            <div id="requiredFieldsOverlay" class="profile-modal-overlay"></div>
             <div id="requiredFieldsModal" class="profile-modal">
                 <div class="profile-modal-icon">
                     <span class="profile-modal-warning">&#9888;</span>
