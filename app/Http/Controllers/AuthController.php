@@ -52,4 +52,32 @@ class AuthController extends Controller
             'password' => __('client/auth.validation.password_wrong'),
         ])->withInput($request->only('email'));
     }
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password-phone');
+    }
+
+    public function sendOtp(Request $request)
+    {
+       
+        return redirect()->route('forgot-password.otp.form');
+    }
+
+    public function verifyOtp(Request $request)
+    {
+  
+        return redirect()->route('reset-password.form');
+    }
+
+    public function showResetForm()
+    {
+        return view('auth.forgot-password-reset');
+    }
+    
+    public function resetPassword(Request $request)
+    {
+        
+        return redirect()->route('login')->with('status', 'Password has been reset successfully!');
+    }
 }
