@@ -13,6 +13,7 @@ use App\Jobs\ProcessAppointmentPayment;
 use App\Http\Resources\DoctorAppointmentResource;
 
 use App\Http\Services\PaymentService;
+use Carbon\Carbon;
 
 class AppointmentService
 {
@@ -443,19 +444,16 @@ class AppointmentService
 
     /**
      * Validate appointment availability
+     *
+     * @param int $doctorProfileId
+     * @param string $date
+     * @param string $time
+     * @param int $serviceId
+     * @return bool
+     * @throws \Exception
      */
-    public function validateAppointmentAvailability($doctorProfileId, $date, $time)
+    public function validateAppointmentAvailability($doctorProfileId, $date, $time, $serviceId)
     {
-        // Check if there's already an appointment at this time
-        $existingAppointment = Appointment::where('doctor_profile_id', $doctorProfileId)
-            ->where('date', $date)
-            ->where('time', $time)
-            ->whereIn('status', ['pending', 'upcoming'])
-            ->exists();
-
-        if ($existingAppointment) {
-            throw new \Exception('This time slot is already booked');
-        }
 
         // Check if the appointment date is in the past
         if ($date < now()->toDateString()) {
@@ -467,6 +465,49 @@ class AppointmentService
             throw new \Exception('Cannot book appointment more than 3 months in advance');
         }
 
+        $existingAppointments = Appointment::with('service')
+            ->where('doctor_profile_id', $doctorProfileId)
+            ->where('date', $date)
+            ->whereIn('status', ['pending', 'upcoming'])
+            ->get();
+
+        $service = Service::find($serviceId);
+        $duration = $service ? $service->duration : 30;
+        $duration += 5; // Add 5 minutes buffer to avoid conflicts
+
+        // Parse new appointment time
+        $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
+        $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
+
+        // dd($newAppointmentEnd);
+
+        // Check for time conflicts with each existing appointment
+        foreach ($existingAppointments as $appointment) {
+            $existingDuration = $appointment->service ? $appointment->service->duration : 30;
+            $existingAppointmentStart = Carbon::parse("{$date} {$appointment->time}");
+            $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
+
+            // Check if appointments overlap
+            if ($this->isTimeOverlapping($newAppointmentStart, $newAppointmentEnd, $existingAppointmentStart, $existingAppointmentEnd)) {
+                throw new \Exception("This time slot conflicts with an existing appointment from {$existingAppointmentStart->format('H:i')} to {$existingAppointmentEnd->format('H:i')}");
+            }
+        }
+
         return true;
+    }
+
+    /**
+     * Check if two time ranges overlap
+     *
+     * @param Carbon $start1 Start time of first range
+     * @param Carbon $end1 End time of first range
+     * @param Carbon $start2 Start time of second range
+     * @param Carbon $end2 End time of second range
+     *
+     * @return bool True if ranges overlap, false otherwise
+     */
+    private function isTimeOverlapping($start1, $end1, $start2, $end2)
+    {
+        return $start1->lt($end2) && $end1->gt($start2);
     }
 }
