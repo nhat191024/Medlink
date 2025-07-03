@@ -102,26 +102,35 @@
                                 <div class="profile-dropdown" id="bloodDropdown" style="display:none;">
                                     <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.blood_group') }}</span>
-                                        <span class="profile-save-btn"
-                                            id="bloodSave">{{ __('client/auth.profile.save') }}</span>
+                                        <span class="profile-save-btn" id="bloodSave">
+                                            {{ __('client/auth.profile.save') }}
+                                        </span>
                                     </div>
                                     <div class="profile-blood-options-grid">
-                                        <div class="profile-blood-option-grid" data-value="A+">A+ <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="A-">A- <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="B+">B+ <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="B-">B- <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="O+">O+ <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="O-">O- <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="AB+">AB+ <span
-                                                class="blood-drop">🩸</span></div>
-                                        <div class="profile-blood-option-grid" data-value="AB-">AB- <span
-                                                class="blood-drop">🩸</span></div>
+                                        <div class="profile-blood-option-grid" data-value="A+">A+
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="A-">A-
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="B+">B+
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="B-">B-
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="O+">O+
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="O-">O-
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="AB+">AB+
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
+                                        <div class="profile-blood-option-grid" data-value="AB-">AB-
+                                            <span class="blood-drop">🩸</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -144,24 +153,25 @@
                                 <div class="profile-dropdown" id="insuranceDropdown" style="display:none;">
                                     <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.insurance_type') }}</span>
-                                        <span class="profile-save-btn"
-                                            id="insuranceSave">{{ __('client/auth.profile.save') }}</span>
+                                        <span class="profile-save-btn" id="insuranceSave">
+                                            {{ __('client/auth.profile.save') }}
+                                        </span>
                                     </div>
                                     <div class="profile-options">
                                         <div class="profile-option"
                                             data-value="{{ __('client/auth.profile.insurance_public') }}">
-                                            {{ __('client/auth.profile.insurance_public') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.insurance_public') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                         <div class="profile-option"
                                             data-value="{{ __('client/auth.profile.insurance_private') }}">
-                                            {{ __('client/auth.profile.insurance_private') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.insurance_private') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                         <div class="profile-option"
                                             data-value="{{ __('client/auth.profile.insurance_vietnam') }}">
-                                            {{ __('client/auth.profile.insurance_vietnam') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.insurance_vietnam') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
                                 </div>
@@ -198,19 +208,20 @@
                                 <div class="profile-dropdown" id="assuranceDropdown" style="display:none;">
                                     <div class="profile-dropdown-header">
                                         <span>{{ __('client/auth.profile.assurance_type') }}</span>
-                                        <span class="profile-save-btn"
-                                            id="assuranceSave">{{ __('client/auth.profile.save') }}</span>
+                                        <span class="profile-save-btn" id="assuranceSave">
+                                            {{ __('client/auth.profile.save') }}
+                                        </span>
                                     </div>
                                     <div class="profile-options">
                                         <div class="profile-option"
                                             data-value="{{ __('client/auth.profile.assurance_type1') }}">
-                                            {{ __('client/auth.profile.assurance_type1') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.assurance_type1') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                         <div class="profile-option"
                                             data-value="{{ __('client/auth.profile.assurance_type2') }}">
-                                            {{ __('client/auth.profile.assurance_type2') }} <span
-                                                class="profile-tick">&#10003;</span>
+                                            {{ __('client/auth.profile.assurance_type2') }}
+                                            <span class="profile-tick">&#10003;</span>
                                         </div>
                                     </div>
                                 </div>
