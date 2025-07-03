@@ -106,8 +106,6 @@ class PaymentService
 
         $paymentRequest['signature'] = $signature;
 
-        dd($paymentRequest);
-
         $response = $this->payOS->createPaymentLink($paymentRequest);
 
         return $response;
