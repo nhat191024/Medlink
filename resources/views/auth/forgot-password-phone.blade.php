@@ -10,7 +10,7 @@
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
 
-        <form class="right" method="POST" action="#">
+        <form class="right" method="POST" action="{{ route('forgot-password.send-otp') }}">
             @csrf
 
             <div class="back-btn-container">
@@ -54,6 +54,9 @@
                     </select>
                     <input id="phone" name="phone" type="text" placeholder="456 789 00">
                 </div>
+                @if ($errors->has('phone'))
+                    <span class="error">{{ $errors->first('phone') }}</span>
+                @endif
             </div>
 
             <p class="note">

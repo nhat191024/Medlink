@@ -12,7 +12,7 @@
 
         <div class="right">
             <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('register.form') }}">
+                <a class="back-btn" href="{{ route('forgot-password.index') }}">
                     @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                 </a>
             </div>
@@ -34,7 +34,9 @@
             </div>
 
             <h2>{{ __('client/auth.otp') }}</h2>
-            <p class="otp-phone">+32 456 789 00</p>
+            <p class="otp-phone">
+                {{ session('forgot_password.country_code') }} {{ session('forgot_password.phone') }}
+            </p>
 
             <form method="POST" action="#" class="otp-form">
                 @csrf

@@ -13,14 +13,7 @@
         <form class="right" method="POST" action="#">
             @csrf
 
-            <div class="back-btn-container">
-                <a class="back-btn" href="{{ route('forgot-password') }}">
-                    @svg('heroicon-o-arrow-left', 'back-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
-                </a>
-            </div>
-
             <img src="{{ asset('img/lock.png') }}" alt="Lock Icon" style="width: 48px; height: auto;">
-
             <h1>{{ __('client/auth.new_password') }}</h1>
             <p class="description" style="margin-bottom: 2rem; color: #666;">
                 {{ __('client/auth.new_password_note') }}
@@ -34,6 +27,9 @@
                         @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                     </button>
                 </div>
+                @if ($errors->has('password'))
+                    <span class="error">{{ $errors->first('password') }}</span>
+                @endif
             </div>
 
             <div class="form-group">
@@ -44,6 +40,9 @@
                         @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                     </button>
                 </div>
+                @if ($errors->has('password'))
+                    <span class="error">{{ $errors->first('password') }}</span>
+                @endif
             </div>
 
             <button class="login-btn" type="submit">{{ __('client/auth.button.reset') }}</button>

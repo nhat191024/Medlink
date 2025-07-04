@@ -26,6 +26,7 @@ class AuthController extends Controller
     {
 
         $loginInput = $request->input('email');
+
         $password = $request->input('password');
         $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
@@ -35,7 +36,7 @@ class AuthController extends Controller
         ];
 
         $rules['email'] = $fieldType === 'phone'
-            ? 'required|string|regex:/^\+[0-9]{1,3}[0-9]{10,15}$/'
+            ? 'required|string|regex:/^[0-9]{9,11}$/'
             : 'required|string|email';
 
         $messages = [
@@ -48,7 +49,7 @@ class AuthController extends Controller
         ];
 
         $request->validate($rules, $messages);
-
+        $loginInput = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ?  trim($loginInput) : $this->removeZero(trim($loginInput));
         if (Auth::attempt([$fieldType => $loginInput, 'password' => $password])) {
             return redirect()->intended('/');
         }
@@ -97,12 +98,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'string',
-                'min:8',
-                'regex:/^(?=(?:[^a-zA-Z]*[a-zA-Z]){6,})(?=.*\d)(?=.*[&$#%]).+$/'
-            ],
+            'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z]{6,})(?=.*\d)(?=.*[&$#%]).+$/',
         ], [
             'email.required' => __('client/auth.validation.email_required'),
             'email.email' => __('client/auth.validation.email_email'),
@@ -248,7 +244,7 @@ class AuthController extends Controller
         $user->save();
         // Handle avatar upload logic here
         // For example, save the avatar to storage and update the user's profile
-        $this->patientCreate($user->id, $request,$newUser);
+        $this->patientCreate($user->id, $request, $newUser);
         $request->session()->forget('user');
         return redirect()->route('register.progress');
     }
@@ -261,12 +257,41 @@ class AuthController extends Controller
 
     public function sendOtp(Request $request)
     {
-        return redirect()->route('forgot-password.otp.form');
+
+        $phone = $request->input('phone');
+        $countryCode = $request->input('country_code');
+        $request->validate([
+            'country_code' => 'required|string|max:5',
+            'phone' => 'required|string|regex:/^[0-9]{9,11}$/',
+        ], [
+            'country_code.required' => __('client/auth.validation.country_code_required'),
+            'phone.required' => __('client/auth.validation.phone_required'),
+            'phone.regex' => __('client/auth.validation.phone_regex'),
+        ]);
+        $request->session()->put('forgot_password.country_code', $countryCode);
+        $request->session()->put('forgot_password.phone', $this->removeZero($phone));
+        $fullPhone =  $this->removeZero($phone);
+
+        if (User::where('country_code', $countryCode)->where('phone', $fullPhone)->exists()) {
+            return redirect()->route('forgot-password.otp');
+        } else {
+            return back()->withErrors([
+                'phone' => __('client/auth.validation.phone_not_found'),
+            ])->withInput($request->only('country_code', 'phone'));
+        }
+    }
+    public function removeZero(string $phone)
+    {
+        if (str_starts_with($phone, '0')) {
+            return substr($phone, 1);
+        }
+        return $phone;
     }
 
     public function verifyOtp(Request $request)
     {
-        return redirect()->route('reset-password.form');
+        $request->session()->forget('forgot_password');
+        return redirect()->route('forgot-password.reset');
     }
 
     public function showResetForm()
@@ -276,6 +301,39 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $request->validate([
+            'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z]{6,})(?=.*\d)(?=.*[&$#%]).+$/',
+            'password_confirmation' => 'required|same:password',
+        ], [
+            'password.required' => __('client/auth.validation.password_required'),
+            'password.min' => __('client/auth.validation.password_min'),
+            'password.regex' => __('client/auth.validation.password_regex'),
+            'password_confirmation.required' => __('client/auth.validation.password_confirmation_required'),
+            'password_confirmation.same' => __('client/auth.validation.password_mismatch'),
+        ]);
+        $countryCode = $request->session()->get('forgot_password.country_code');
+        $phone = $request->session()->get('forgot_password.phone');
+        $password = $request->input('password');
+        $passwordConfirmation = $request->input('password_confirmation');
+
+        $user = User::where('country_code', $countryCode)
+            ->where('phone', $phone)
+            ->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'phone' => __('client/auth.validation.phone_not_found'),
+            ])->withInput($request->only('password', 'password_confirmation'));
+        }
+        if ($password !== $passwordConfirmation) {
+            return back()->withErrors([
+                'password' => __('client/auth.validation.password_mismatch'),
+            ])->withInput($request->only('password', 'password_confirmation'));
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($password);
+        $user->save();
         return redirect()->route('login')->with('status', 'Password has been reset successfully!');
     }
 

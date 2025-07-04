@@ -9,6 +9,6 @@ Route::prefix('forgot-password')->middleware('guest')->name('forgot-password.')-
     Route::post('/', [AuthController::class, 'sendOtp'])->name('send-otp'),
     Route::get('/otp', fn() => view('auth.forgot-password-otp'))->name('otp'),
     Route::post('/otp', [AuthController::class, 'verifyOtp'])->name('verify-otp'),
-    Route::get('/reset-password', [AuthController::class, 'showResetForm'])->name('reset-password'),
-    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('reset-password-post'),
+    Route::get('/reset', [AuthController::class, 'showResetForm'])->name('reset'),
+    Route::post('/reset', [AuthController::class, 'resetPassword'])->name('reset-post'),
 ]);
