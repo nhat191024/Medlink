@@ -21,6 +21,7 @@ use App\Http\Resources\DoctorAppointmentResource;
 use App\Http\Resources\PatientAppointmentResource;
 
 use App\Http\Requests\BookAppointment;
+use App\Models\Review;
 
 class AppointmentController extends Controller
 {
@@ -268,5 +269,56 @@ class AppointmentController extends Controller
                 'error' => $e->getMessage()
             ], Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    /**
+     *  Appointment feedback
+     *
+     * @param int $appointmentId
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function appointmentFeedback($appointmentId, Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'rating' => 'required|float|between:1,5',
+            'feedback' => 'nullable|string|max:1000',
+            'is_recommended' => 'nullable|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $appointment = Appointment::find($appointmentId);
+
+        if (!$appointment) {
+            return response()->json([
+                'message' => 'Appointment not found'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        if ($appointment->review()) {
+            return response()->json([
+                'message' => 'Feedback already submitted for this appointment'
+            ], Response::HTTP_CONFLICT);
+        }
+
+        $appointment->review()->create([
+            'doctor_profile_id' => $appointment->doctor_profile_id,
+            'patient_id' => Auth::id(),
+            'review' => $request->input('feedback', null),
+            'rate' => $request->input('rating'),
+            'recommend' => $request->input('is_recommended', false),
+        ])->save();
+
+        return response()->json([
+            'message' => 'Feedback submitted successfully',
+            'appointment' => new PatientAppointmentResource($appointment)
+        ], Response::HTTP_OK);
     }
 }
