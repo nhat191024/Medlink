@@ -21,6 +21,9 @@ chown -R www-data:www-data /var/www/html/vendor
 # Cho Development
 composer install --optimize-autoloader
 
+# storage link
+php artisan storage:link
+
 # optimize the application
 php artisan optimize:clear
 # generate application key
