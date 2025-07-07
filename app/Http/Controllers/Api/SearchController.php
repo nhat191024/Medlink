@@ -230,10 +230,8 @@ class SearchController extends Controller
             'max_price' => $doctorProfile->services->isNotEmpty() ? $doctorProfile->services->max('price') : 0,
             'is_available' => $isAvailable,
             'is_favorite' => $user->favoriteDoctors->isNotEmpty(),
-            'coordinates' => [
-                'latitude' => $user->latitude ?? null,
-                'longitude' => $user->longitude ?? null,
-            ],
+            'latitude' => $user->latitude ?? null,
+            'longitude' => $user->longitude ?? null,
             'languages' => $user->languages->map(function ($userLanguage) {
                 return [
                     'code' => $userLanguage->language->code ?? null,
