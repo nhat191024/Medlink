@@ -1,6 +1,6 @@
 /* Doctor Detail Page Styles */
 .doctor-detail-container {
-    background: #ebebeb;
+    background: #ebebebd2;
     border-radius: 20px;
     padding: 32px 24px;
     margin: 32px auto;
@@ -50,7 +50,7 @@
     justify-content: space-between;
     background: #fff;
     border-radius: 16px;
-    padding: 18px 0 10px 0;
+    padding: 10px 0 10px 0;
     margin-bottom: 18px;
     font-size: 1rem;
     box-shadow: none;
@@ -59,7 +59,6 @@
 .doctor-info-col {
     flex: 1;
     text-align: center;
-    /* border-right: 1px solid #ececec; */
     padding: 0 4px;
 }
 .doctor-info-col:last-child {
@@ -127,9 +126,9 @@
     border-radius: 50%;
 }
 .doctor-section-title {
-    font-size: 1.1rem;
+    font-size: 1.25em;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
 .doctor-services {
     background: #fff;
@@ -251,9 +250,8 @@
 }
 .doctor-testimonials {
     background: #fff;
-    border-radius: 12px;
-    padding: 20px 18px;
-    margin-bottom: 24px;
+    border-radius: 16px;
+    margin-bottom: 40px;
 }
 .doctor-section-title .doctor-view-all {
     float: right;
@@ -262,71 +260,94 @@
     text-decoration: underline;
 }
 .doctor-rating-summary {
-    margin-bottom: 12px;
-    font-size: 1.1em;
+    margin-bottom: 24px;
+    font-size: 1.13em;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.doctor-rating-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    gap: 12px;
 }
 .doctor-rating-stars {
     color: #ffb400;
-    font-size: 1.1em;
-    margin-right: 6px;
+    font-size: 1.13em;
+    margin-right: 12px;
+    min-width: 80px;
 }
 .doctor-rating-bar {
     display: inline-block;
-    width: 120px;
-    height: 4px;
-    background: #eee;
+    height: 3px;
+    background: #222;
     border-radius: 2px;
-    margin: 0 8px 0 2px;
-    vertical-align: middle;
+    flex: 1;
+    margin: 0 12px 0 0;
+}
+.doctor-rating-count {
+    min-width: 24px;
+    text-align: right;
+    color: #222;
+    font-size: 1.13em;
 }
 .doctor-review-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 0;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    background: #fafafa;
-    border-radius: 8px;
-    padding: 12px 14px;
-    margin-bottom: 8px;
+    gap: 18px;
+    box-shadow: none;
 }
 .doctor-review-avatar {
-    width: 38px;
-    height: 38px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 8px;
+    margin-right: 0;
 }
 .doctor-review-user {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
 }
 .doctor-review-name {
     font-weight: 600;
-    font-size: 1em;
+    font-size: 1.13em;
+    margin-bottom: 2px;
 }
 .doctor-review-date {
-    color: #aaa;
-    font-size: 0.95em;
+    color: #888;
+    font-size: 1em;
+    margin-bottom: 0;
 }
 .doctor-review-content {
-    font-size: 1em;
-    color: #444;
-    margin-top: 2px;
+    font-size: 1.13em;
+    color: #222;
+    margin-top: 0;
+    margin-left: 0;
 }
 .doctor-book-btn {
-    background: #ff3b3b;
+    background: #e53935;
     color: #fff;
     border: none;
-    border-radius: 10px;
-    padding: 14px 38px;
-    font-size: 1.1em;
+    border-radius: 32px;
+    padding: 18px 64px;
+    font-size: 1.18em;
     font-weight: 600;
-    margin-top: 18px;
-    cursor: pointer;
+    margin-top: 32px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     transition: background 0.2s;
+    margin-bottom: 24px;
 }
 .doctor-book-btn:hover {
-    background: #d32f2f;
+    background: #c62828;
 }
 @media (max-width: 800px) {
     .doctor-detail-container {
@@ -408,39 +429,50 @@
     margin-bottom: 32px;
 }
 .doctor-schedule-month-new {
-    font-size: 1.25em;
-    font-weight: 500;
-    color: #444;
-    margin-bottom: 12px;
+    font-size: 1.35em;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 18px;
     text-align: left;
 }
 .doctor-schedule-days-new {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     font-size: 1.13em;
-    color: #444;
+    color: #222;
+    font-weight: 400;
+    border-bottom: 0;
+    padding-bottom: 0;
+    position: relative;
 }
 .doctor-schedule-days-new span {
     flex: 1;
     text-align: center;
     font-weight: 400;
+    color: #222;
+    position: relative;
+    z-index: 1;
 }
 .doctor-schedule-today-new {
     color: #e53935;
     font-weight: 500;
     border-bottom: 2px solid #e53935;
+    margin-bottom: 0;
+    background: none;
+    z-index: 2;
+    position: relative;
 }
 .doctor-schedule-times-new {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 18px;
+    gap: 24px;
+    margin-bottom: 32px;
 }
 .doctor-time-btn-new {
     background: #fff;
-    border: 2px solid #222;
-    border-radius: 12px;
+    border: 1.5px solid #222;
+    border-radius: 16px;
     padding: 12px 22px;
     font-size: 1.13em;
     color: #222;
@@ -453,9 +485,9 @@
     background: #f5f5f5;
 }
 .doctor-time-btn-disabled-new {
-    background: #f2f2f2;
+    background: #f5f5f5;
     color: #bbb;
-    border: 2px solid #eee;
+    border: 1.5px solid #f5f5f5;
     cursor: not-allowed;
 }
 .doctor-time-btn-full-new {
@@ -466,17 +498,35 @@
 }
 .doctor-schedule-all-btn-new {
     background: #fff;
-    border: 2px solid #222;
+    border: 1.5px solid #222;
     color: #222;
     border-radius: 16px;
     padding: 12px 0;
     font-size: 1.13em;
     font-weight: 500;
-    width: 100%;
+    width: 360px;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
     margin-top: 8px;
     cursor: pointer;
     transition: background 0.2s, color 0.2s, border 0.2s;
+    text-align: center;
 }
 .doctor-schedule-all-btn-new:hover {
     background: #f5f5f5;
+}
+
+.doctor-view-all {
+    color: #222 !important;
+    font-size: 1em;
+    text-decoration: underline;
+    font-weight: 400;
+    transition: color 0.2s;
+    text-underline-offset: 2px;
+    margin-left: 12px;
+    cursor: pointer;
+}
+.doctor-view-all:hover {
+    color: #e53935;
 }
