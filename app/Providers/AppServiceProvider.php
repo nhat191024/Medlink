@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
             $switch
                 ->locales(['vi', 'en']); // also accepts a closure
         });
+
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
