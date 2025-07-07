@@ -92,7 +92,7 @@
     transition: transform 0.2s ease;
 }
 
-.dropdown:hover .dropdown-arrow {
+.nav-dropdown:hover .dropdown-arrow {
     transform: rotate(180deg);
 }
 

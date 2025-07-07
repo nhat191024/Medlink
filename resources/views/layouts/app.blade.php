@@ -17,7 +17,7 @@
 
     <!-- Example: Add page-specific styles -->
     {{-- @push('styles')
-        <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom-page.css') }}" rel="stylesheet">
     @endpush --}}
 </head>
 
