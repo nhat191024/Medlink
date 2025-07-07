@@ -61,16 +61,38 @@ class WorkScheduleService
             if ($groupedData->has($day['day_of_week'])) {
                 $timeSlots = [];
 
-                foreach ($groupedData[$day['day_of_week']] as $schedule) {
-                    if ($schedule->all_day == 0) {
-                        $startTime = Carbon::parse($schedule->start_time);
+                // Check if there's an all-day schedule for this day
+                $hasAllDaySchedule = $groupedData[$day['day_of_week']]->contains('all_day', 1);
 
+                if ($hasAllDaySchedule) {
+                    // Only generate all-day time slots
+                    // Morning slots: 7:00 AM to 10:00 AM
+                    $morningSlots = [
+                        '07:00',
+                        '08:00',
+                        '09:00',
+                        '10:00'
+                    ];
+
+                    // Afternoon slots: 1:00 PM to 4:00 PM
+                    $afternoonSlots = [
+                        '13:00',
+                        '14:00',
+                        '15:00',
+                        '16:00'
+                    ];
+
+                    $allDaySlots = array_merge($morningSlots, $afternoonSlots);
+
+                    foreach ($allDaySlots as $timeSlot) {
+                        $slotTime = Carbon::parse($timeSlot);
                         $isAvailable = true;
+
                         if (isset($appointments[$day['full_date']])) {
                             foreach ($appointments[$day['full_date']] as $appointment) {
                                 $times = explode(' - ', $appointment->time);
                                 $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
-                                if ($startTime != null && $appointmentStart === $startTime->format('g:i A')) {
+                                if ($appointmentStart === $slotTime->format('g:i A')) {
                                     $isAvailable = false;
                                     break;
                                 }
@@ -78,28 +100,32 @@ class WorkScheduleService
                         }
 
                         $timeSlots[] = [
-                            'time' => $startTime != null ? $startTime->format('h:i A') : null,
+                            'time' => $slotTime->format('h:i A'),
                             'is_available' => $isAvailable
                         ];
-                    } else {
-                        $appointmentStart = null;
-                        $timeSlots[] = [
-                            'time' => 'All day',
-                            'is_available' => true
-                        ];
-                        if (isset($appointments[$day['full_date']])) {
-                            foreach ($appointments[$day['full_date']] as $appointment) {
-                                $times = explode(' - ', $appointment->time);
-                                $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
-                                $appointmentEnd = $times[1] = date("g:i A", strtotime($times[1]));
-                                //count total time of appointment in minutes
-                                $appointmentTotalTime = (strtotime($appointmentEnd) - strtotime($appointmentStart)) / 60;
-                                $timeSlots[] = [
-                                    'time' => $appointmentStart,
-                                    'appointment_time' => $appointmentTotalTime,
-                                    'is_available' => false
-                                ];
+                    }
+                } else {
+                    // Process regular time slots (non-all-day)
+                    foreach ($groupedData[$day['day_of_week']] as $schedule) {
+                        if ($schedule->all_day == 0) {
+                            $startTime = Carbon::parse($schedule->start_time);
+
+                            $isAvailable = true;
+                            if (isset($appointments[$day['full_date']])) {
+                                foreach ($appointments[$day['full_date']] as $appointment) {
+                                    $times = explode(' - ', $appointment->time);
+                                    $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
+                                    if ($startTime != null && $appointmentStart === $startTime->format('g:i A')) {
+                                        $isAvailable = false;
+                                        break;
+                                    }
+                                }
                             }
+
+                            $timeSlots[] = [
+                                'time' => $startTime?->format('h:i A'),
+                                'is_available' => $isAvailable
+                            ];
                         }
                     }
                 }
@@ -149,42 +175,83 @@ class WorkScheduleService
         $availableSchedules = collect();
         foreach ($next7Days as $day) {
             if ($groupedData->has($day['day_of_week'])) {
-                $daySchedules = $groupedData[$day['day_of_week']]->map(function ($schedule) use ($appointments, $day) {
-                    $timeSlot = [
-                        'date' => $day['date'],
-                        'day_of_week' => $day['day_of_week'],
-                        'start_time' => $schedule->start_time,
-                        'end_time' => $schedule->end_time,
-                        'all_day' => $schedule->all_day,
-                    ];
+                // Check if there's an all-day schedule for this day
+                $hasAllDaySchedule = $groupedData[$day['day_of_week']]->contains('all_day', 1);
 
-                    // Check if there are appointments during this time slot
-                    $isAvailable = true;
-                    if (isset($appointments[$day['date']])) {
-                        foreach ($appointments[$day['date']] as $appointment) {
-                            $times = explode(' - ', $appointment->time);
-                            if (count($times) !== 2) continue;
+                if ($hasAllDaySchedule) {
+                    // Generate all-day time slots
+                    $morningSlots = ['07:00', '08:00', '09:00', '10:00'];
+                    $afternoonSlots = ['13:00', '14:00', '15:00', '16:00'];
+                    $allDaySlots = array_merge($morningSlots, $afternoonSlots);
 
-                            $appointmentStart = Carbon::parse("{$day['date']} {$times[0]}");
-                            $appointmentEnd = Carbon::parse("{$day['date']} {$times[1]}");
-                            $scheduleStart = Carbon::parse("{$day['date']} {$schedule->start_time}");
-                            $scheduleEnd = Carbon::parse("{$day['date']} {$schedule->end_time}");
+                    $daySchedules = collect();
+                    foreach ($allDaySlots as $timeSlot) {
+                        $slotTime = Carbon::parse($timeSlot);
+                        $isAvailable = true;
 
-                            if (
-                                $appointmentStart->between($scheduleStart, $scheduleEnd) ||
-                                $appointmentEnd->between($scheduleStart, $scheduleEnd)
-                            ) {
-                                $isAvailable = false;
-                                break;
+                        if (isset($appointments[$day['date']])) {
+                            foreach ($appointments[$day['date']] as $appointment) {
+                                $times = explode(' - ', $appointment->time);
+                                $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
+                                if ($appointmentStart === $slotTime->format('g:i A')) {
+                                    $isAvailable = false;
+                                    break;
+                                }
                             }
                         }
+
+                        $daySchedules->push([
+                            'date' => $day['date'],
+                            'day_of_week' => $day['day_of_week'],
+                            'start_time' => $timeSlot,
+                            'end_time' => Carbon::parse($timeSlot)->addHour()->format('H:i'),
+                            'all_day' => 1,
+                            'is_available' => $isAvailable
+                        ]);
                     }
 
-                    $timeSlot['is_available'] = $isAvailable;
-                    return $timeSlot;
-                });
+                    $availableSchedules->push($daySchedules);
+                } else {
+                    // Process regular schedules (non-all-day)
+                    $daySchedules = $groupedData[$day['day_of_week']]->filter(function ($schedule) {
+                        return $schedule->all_day == 0;
+                    })->map(function ($schedule) use ($appointments, $day) {
+                        $timeSlot = [
+                            'date' => $day['date'],
+                            'day_of_week' => $day['day_of_week'],
+                            'start_time' => $schedule->start_time,
+                            'end_time' => $schedule->end_time,
+                            'all_day' => $schedule->all_day,
+                        ];
 
-                $availableSchedules->push($daySchedules);
+                        // Check if there are appointments during this time slot
+                        $isAvailable = true;
+                        if (isset($appointments[$day['date']])) {
+                            foreach ($appointments[$day['date']] as $appointment) {
+                                $times = explode(' - ', $appointment->time);
+                                if (count($times) !== 2) continue;
+
+                                $appointmentStart = Carbon::parse("{$day['date']} {$times[0]}");
+                                $appointmentEnd = Carbon::parse("{$day['date']} {$times[1]}");
+                                $scheduleStart = Carbon::parse("{$day['date']} {$schedule->start_time}");
+                                $scheduleEnd = Carbon::parse("{$day['date']} {$schedule->end_time}");
+
+                                if (
+                                    $appointmentStart->between($scheduleStart, $scheduleEnd) ||
+                                    $appointmentEnd->between($scheduleStart, $scheduleEnd)
+                                ) {
+                                    $isAvailable = false;
+                                    break;
+                                }
+                            }
+                        }
+
+                        $timeSlot['is_available'] = $isAvailable;
+                        return $timeSlot;
+                    });
+
+                    $availableSchedules->push($daySchedules);
+                }
             } else {
                 $availableSchedules->push(collect([[
                     'date' => $day['date'],
