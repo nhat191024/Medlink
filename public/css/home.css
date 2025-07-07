@@ -1,0 +1,482 @@
+/* Doctor Detail Page Styles */
+.doctor-detail-container {
+    background: #ebebeb;
+    border-radius: 20px;
+    padding: 32px 24px;
+    margin: 32px auto;
+    max-width: 1000px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.doctor-profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 24px;
+}
+.doctor-profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-left: 0;
+    margin-right: 0;
+}
+.doctor-name, .doctor-specialty, .doctor-desc {
+    text-align: center;
+    width: 100%;
+}
+.doctor-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+.doctor-specialty {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+.doctor-desc {
+    color: #444;
+    font-size: 1rem;
+    margin-bottom: 18px;
+}
+.doctor-info-row {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 0 10px 0;
+    margin-bottom: 18px;
+    font-size: 1rem;
+    box-shadow: none;
+    border: none;
+}
+.doctor-info-col {
+    flex: 1;
+    text-align: center;
+    /* border-right: 1px solid #ececec; */
+    padding: 0 4px;
+}
+.doctor-info-col:last-child {
+    border-right: none;
+}
+.doctor-info-label {
+    color: #444;
+    font-size: 1.18em;
+    font-weight: 400;
+    margin-bottom: 2px;
+    display: block;
+}
+.doctor-info-value {
+    font-size: 1.13em;
+    font-weight: 500;
+    color: #222;
+    margin-top: 2px;
+    display: inline-block;
+}
+.doctor-star {
+    color: #ffb400;
+    font-size: 1.1em;
+    margin-right: 2px;
+    vertical-align: middle;
+}
+.doctor-rating-count {
+    color: #888;
+    font-size: 0.95em;
+    margin-left: 2px;
+}
+.doctor-schedule-available {
+    color: #1abc9c;
+    font-weight: 400;
+}
+.doctor-languages {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 0;
+    margin-bottom: 24px;
+    gap: 0;
+    box-shadow: none;
+}
+.doctor-lang {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: none;
+    border-radius: 8px;
+    padding: 0 38px;
+    font-size: 1.18rem;
+    font-weight: 500;
+    box-shadow: none;
+}
+.doctor-flag {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.doctor-flag-round {
+    border-radius: 50%;
+}
+.doctor-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.doctor-services {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    margin-bottom: 24px;
+}
+.doctor-service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.doctor-service-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: none;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+.doctor-service-icon {
+    width: 38px;
+    height: 38px;
+    background: #ffeaea;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff6b6b;
+    font-size: 1.3em;
+    margin-right: 14px;
+}
+.doctor-service-desc {
+    color: #888;
+    font-size: 0.97em;
+}
+.doctor-service-price {
+    font-weight: 600;
+    color: #222;
+    font-size: 1.05em;
+}
+.doctor-schedule {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    margin-bottom: 24px;
+}
+.doctor-schedule-calendar {
+    text-align: center;
+}
+.doctor-schedule-month {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #888;
+}
+.doctor-schedule-days {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #888;
+}
+.doctor-schedule-days span {
+    flex: 1;
+    padding: 0 2px;
+}
+.doctor-schedule-today {
+    color: #ff6b6b;
+    font-weight: bold;
+}
+.doctor-schedule-times {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.doctor-time-btn {
+    background: #fff;
+    border: 1.5px solid #eee;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 1em;
+    color: #222;
+    min-width: 70px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.doctor-time-btn:hover {
+    background: #f5f5f5;
+}
+.doctor-time-btn-disabled {
+    background: #f2f2f2;
+    color: #bbb;
+    border: 1.5px solid #eee;
+    cursor: not-allowed;
+}
+.doctor-time-btn-full {
+    background: #ff6b6b;
+    color: #fff;
+    border: none;
+    cursor: not-allowed;
+}
+.doctor-schedule-all-btn {
+    background: #fff;
+    border: 1.5px solid #ff6b6b;
+    color: #ff6b6b;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+.doctor-schedule-all-btn:hover {
+    background: #ff6b6b;
+    color: #fff;
+}
+.doctor-testimonials {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    margin-bottom: 24px;
+}
+.doctor-section-title .doctor-view-all {
+    float: right;
+    font-size: 0.95em;
+    color: #888;
+    text-decoration: underline;
+}
+.doctor-rating-summary {
+    margin-bottom: 12px;
+    font-size: 1.1em;
+}
+.doctor-rating-stars {
+    color: #ffb400;
+    font-size: 1.1em;
+    margin-right: 6px;
+}
+.doctor-rating-bar {
+    display: inline-block;
+    width: 120px;
+    height: 4px;
+    background: #eee;
+    border-radius: 2px;
+    margin: 0 8px 0 2px;
+    vertical-align: middle;
+}
+.doctor-review-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+}
+.doctor-review-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+.doctor-review-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.doctor-review-name {
+    font-weight: 600;
+    font-size: 1em;
+}
+.doctor-review-date {
+    color: #aaa;
+    font-size: 0.95em;
+}
+.doctor-review-content {
+    font-size: 1em;
+    color: #444;
+    margin-top: 2px;
+}
+.doctor-book-btn {
+    background: #ff3b3b;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 38px;
+    font-size: 1.1em;
+    font-weight: 600;
+    margin-top: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.doctor-book-btn:hover {
+    background: #d32f2f;
+}
+@media (max-width: 800px) {
+    .doctor-detail-container {
+        padding: 18px 4px;
+        max-width: 98vw;
+    }
+    .doctor-info-row, .doctor-languages, .doctor-service-list, .doctor-schedule-days, .doctor-schedule-times {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .doctor-service-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+
+.doctor-services-new {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 24px 24px 24px;
+    margin-bottom: 32px;
+}
+.doctor-service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.doctor-service-item-new {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+}
+.doctor-service-icon-new {
+    width: 56px;
+    height: 56px;
+    background: #fdeaea;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff6b6b;
+    font-size: 2.1em;
+    margin-right: 24px;
+    flex-shrink: 0;
+}
+.doctor-service-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+}
+.doctor-service-title {
+    font-size: 1.13em;
+    font-weight: 500;
+    color: #222;
+    margin-bottom: 2px;
+}
+.doctor-service-desc {
+    color: #888;
+    font-size: 1em;
+    font-weight: 400;
+}
+.doctor-service-price-new {
+    font-size: 1.13em;
+    font-weight: 500;
+    color: #222;
+    margin-left: 18px;
+    white-space: nowrap;
+}
+
+.doctor-schedule-new {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 24px 24px 24px;
+    margin-bottom: 32px;
+}
+.doctor-schedule-month-new {
+    font-size: 1.25em;
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 12px;
+    text-align: left;
+}
+.doctor-schedule-days-new {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 1.13em;
+    color: #444;
+}
+.doctor-schedule-days-new span {
+    flex: 1;
+    text-align: center;
+    font-weight: 400;
+}
+.doctor-schedule-today-new {
+    color: #e53935;
+    font-weight: 500;
+    border-bottom: 2px solid #e53935;
+}
+.doctor-schedule-times-new {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+.doctor-time-btn-new {
+    background: #fff;
+    border: 2px solid #222;
+    border-radius: 12px;
+    padding: 12px 22px;
+    font-size: 1.13em;
+    color: #222;
+    min-width: 90px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.doctor-time-btn-new:hover {
+    background: #f5f5f5;
+}
+.doctor-time-btn-disabled-new {
+    background: #f2f2f2;
+    color: #bbb;
+    border: 2px solid #eee;
+    cursor: not-allowed;
+}
+.doctor-time-btn-full-new {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    cursor: not-allowed;
+}
+.doctor-schedule-all-btn-new {
+    background: #fff;
+    border: 2px solid #222;
+    color: #222;
+    border-radius: 16px;
+    padding: 12px 0;
+    font-size: 1.13em;
+    font-weight: 500;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.doctor-schedule-all-btn-new:hover {
+    background: #f5f5f5;
+}
