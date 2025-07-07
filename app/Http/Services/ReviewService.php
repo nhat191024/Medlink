@@ -47,7 +47,7 @@ class ReviewService
             'id' => $review->id,
             'rate' => $review->rate,
             'review' => $review->review,
-            'full_name' => $review->patient->full_name,
+            'name' => $review->patient->name,
             'avatar' => $review->patient->avatar ? asset($review->patient->avatar) : '',
             'created_at' => $review->created_at,
         ]);
