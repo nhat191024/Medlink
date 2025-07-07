@@ -23,7 +23,7 @@ class ServiceResource extends JsonResource
             "duration" => $this->duration,
             "buffer_time" => $this->buffer_time,
             "seat" => $this->seat,
-            "is_active" => $this->is_active,
+            "is_active" => $this->is_active == 1 ? true : false,
             // "doctor" => new UserResource($this->doctor),
         ];
     }
