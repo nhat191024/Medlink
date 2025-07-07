@@ -13,3 +13,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 });
+
+Route::get('/home/doctor-detail', function () {
+    return view('home.doctor-detail');
+});
