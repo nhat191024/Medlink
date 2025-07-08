@@ -12,10 +12,17 @@
         </div>
 
         <!-- Info row -->
-        <div class="doctor-info-row">
+        <div class="doctor-info-row box">
             <div class="doctor-info-col">
                 <div class="doctor-info-label">Location</div>
-                <div class="doctor-info-value">Paris</div>
+                <span class="doctor-info-value">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle; margin-right:4px;">
+                        <path d="M12 21c-4.418 0-8-5.373-8-10A8 8 0 0 1 20 11c0 4.627-3.582 10-8 10z" />
+                        <circle cx="12" cy="11" r="3" />
+                    </svg>
+                    Paris
+                </span>
             </div>
             <div class="doctor-info-col">
                 <div class="doctor-info-label">Rating</div>
@@ -137,22 +144,30 @@
         <div class="doctor-rating-summary">
             <div class="doctor-rating-row">
                 <span class="doctor-rating-stars">★★★★★</span>
-                <div class="doctor-rating-bar" style="width: 90%;"></div>
+                <div class="doctor-rating-bar-wrap">
+                    <div class="doctor-rating-bar" style="width: 90%;"></div>
+                </div>
                 <span class="doctor-rating-count">20</span>
             </div>
             <div class="doctor-rating-row">
                 <span class="doctor-rating-stars">★★★★</span>
-                <div class="doctor-rating-bar" style="width: 65%;"></div>
+                <div class="doctor-rating-bar-wrap">
+                    <div class="doctor-rating-bar" style="width: 65%;"></div>
+                </div>
                 <span class="doctor-rating-count">5</span>
             </div>
             <div class="doctor-rating-row">
                 <span class="doctor-rating-stars">★★★</span>
-                <div class="doctor-rating-bar" style="width: 35%;"></div>
+                <div class="doctor-rating-bar-wrap">
+                    <div class="doctor-rating-bar" style="width: 35%;"></div>
+                </div>
                 <span class="doctor-rating-count">1</span>
             </div>
             <div class="doctor-rating-row">
                 <span class="doctor-rating-stars">★★</span>
-                <div class="doctor-rating-bar" style="width: 18%;"></div>
+                <div class="doctor-rating-bar-wrap">
+                    <div class="doctor-rating-bar" style="width: 18%;"></div>
+                </div>
                 <span class="doctor-rating-count">1</span>
             </div>
         </div>
