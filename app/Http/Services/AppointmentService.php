@@ -380,6 +380,12 @@ class AppointmentService
 
             $service = Service::findOrFail($request->service_id); // Ensure service exists
 
+            $link = null;
+            if ($service->name == "Online visit" || $service->name == "Video Appointment") {
+                $link = env('APP_URL') . "/video-appointment/{$patientProfile->id}/{$service->id}";
+            }
+            $address = $service->name == "Home" ? $patientProfile->user->address : null;
+
             // Create appointment
             $appointment = Appointment::create([
                 'patient_profile_id' => $patientProfile->id,
@@ -392,6 +398,8 @@ class AppointmentService
                 'date' => $request->date,
                 'day_of_week' => $request->day_of_week,
                 'time' => $request->time,
+                'link' => $link,
+                'address' => $address,
             ]);
 
             $price = $service->price < 2000 ? 2000 : $service->price;  // Cap price at 2000 for development
