@@ -15,11 +15,13 @@ class PaymentController extends Controller
         //TODO: add logic to take user walet balance and credits card
         //* only support QR code payment for now
         $data = [
-            'name' => 'QR Code',
-            'icon' => 'assets/icons/wallet.svg',
-            'info' => 'Pay through bank with QR code',
-            'provider' => 'Payos',
-            'expiry' => null,
+            [
+                'name' => 'QR Code',
+                'icon' => 'assets/icons/wallet.svg',
+                'info' => 'Pay through bank with QR code',
+                'provider' => 'Payos',
+                'expiry' => null,
+            ],
         ];
         return response()->json(['methods' => $data], Response::HTTP_OK);
     }
