@@ -17,7 +17,7 @@ class PaymentController extends Controller
         $data = [
             [
                 'name' => 'QR Code',
-                'icon' => 'assets/icons/wallet.svg',
+                'icon' => 'assets/icons/Money.svg',
                 'info' => 'Pay through bank with QR code',
                 'provider' => 'Payos',
                 'expiry' => null,
