@@ -129,6 +129,7 @@ body {
 .doctor-section-title {
     font-size: 1.25em;
     font-weight: 600;
+    margin-top: 36px;
     margin-bottom: 18px;
 }
 
@@ -220,8 +221,8 @@ body {
     padding: 16px 48px;
     font-size: 1.15em;
     font-weight: 600;
-    margin-top: 24px;
-    margin-bottom: 24px;
+    margin-top: 50px;
+    margin-bottom: 18px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -327,18 +328,15 @@ body {
 
 .doctor-schedule-days-new {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 60px;
     margin-bottom: 24px;
     font-size: 1.13em;
-    color: #222;
-    position: relative;
 }
 
 .doctor-schedule-days-new span {
-    flex: 1;
+    gap:2px;
     text-align: center;
-    color: #222;
-    position: relative;
     z-index: 1;
 }
 
@@ -353,8 +351,8 @@ body {
 
 .doctor-schedule-times-new {
     display: flex;
-    justify-content: space-between;
-    gap: 24px;
+    gap: 34px;
+    justify-content: center;
     margin-bottom: 32px;
 }
 
