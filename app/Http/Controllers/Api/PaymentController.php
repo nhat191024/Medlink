@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
 
 class PaymentController extends Controller
 {
-    public function getPaymentMethods(Request $request)
+    public function getPaymentMethods()
     {
         // Logic to retrieve payment methods
         //TODO: add logic to take user walet balance and credits card
         //* only support QR code payment for now
-        return response()->json(['methods' => ['Bank Transfer']]);
+        $data = [
+            'name' => 'QR Code',
+            'icon' => 'assets/icons/wallet.svg',
+            'info' => 'Pay through bank with QR code',
+            'provider' => 'Payos',
+            'expiry' => null,
+        ];
+        return response()->json(['methods' => $data], Response::HTTP_OK);
     }
 }
