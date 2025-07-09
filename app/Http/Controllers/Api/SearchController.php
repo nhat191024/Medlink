@@ -116,17 +116,18 @@ class SearchController extends Controller
             ->where('status', 'active')
             ->whereNotNull('name')
             ->with([
+                'doctorProfile' => function ($query) {
+                    $query->withCount([
+                        'appointments',
+                        'appointments as recent_appointments_count' => function ($q) {
+                            $q->where('status', 1)
+                                ->where('created_at', '>=', now()->subDays(7));
+                        }
+                    ]);
+                },
                 'doctorProfile.medicalCategory',
                 'doctorProfile.services',
                 'doctorProfile.workSchedules',
-                'doctorProfile.appointments' => function ($query) {
-                    $query->select('id', 'doctor_profile_id', 'status', 'created_at');
-                },
-                'doctorProfile.appointments as recent_appointments' => function ($query) {
-                    $query->where('status', 1)
-                        ->where('created_at', '>=', now()->subDays(7))
-                        ->select('id', 'doctor_profile_id');
-                },
                 'doctorProfile.reviews.patient',
                 'languages.language',
                 'favoriteDoctors' => function ($query) {
@@ -214,7 +215,7 @@ class SearchController extends Controller
         $topReviews = $this->reviewService->getTopReviews($reviews);
 
         // Check popularity (more than 5 appointments in last 7 days)
-        $recentAppointments = $doctorProfile->recent_appointments->count();
+        $recentAppointments = $doctorProfile->recent_appointments_count ?? 0;
 
         return [
             'id' => $user->id,
@@ -246,7 +247,7 @@ class SearchController extends Controller
             'work_schedule' => $workSchedule,
             'testimonials' => $testimonials,
             'top_reviews' => $topReviews,
-            'total_appointments' => $doctorProfile->appointments->count(),
+            'total_appointments' => $doctorProfile->appointments_count ?? 0,
             'recent_appointments' => $recentAppointments,
         ];
     }
@@ -336,17 +337,18 @@ class SearchController extends Controller
             ->where('status', 'active')
             ->whereNotNull('name')
             ->with([
+                'doctorProfile' => function ($query) {
+                    $query->withCount([
+                        'appointments',
+                        'appointments as recent_appointments_count' => function ($q) {
+                            $q->where('status', 1)
+                                ->where('created_at', '>=', now()->subDays(7));
+                        }
+                    ]);
+                },
                 'doctorProfile.medicalCategory',
                 'doctorProfile.services',
                 'doctorProfile.workSchedules',
-                'doctorProfile.appointments' => function ($query) {
-                    $query->select('id', 'doctor_profile_id', 'status', 'created_at');
-                },
-                'doctorProfile.appointments as recent_appointments' => function ($query) {
-                    $query->where('status', 1)
-                        ->where('created_at', '>=', now()->subDays(7))
-                        ->select('id', 'doctor_profile_id');
-                },
                 'doctorProfile.reviews',
                 'languages.language',
                 'favoriteDoctors' => function ($query) {
