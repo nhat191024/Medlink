@@ -119,7 +119,14 @@ class SearchController extends Controller
                 'doctorProfile.medicalCategory',
                 'doctorProfile.services',
                 'doctorProfile.workSchedules',
-                'doctorProfile.appointments',
+                'doctorProfile.appointments' => function ($query) {
+                    $query->select('id', 'doctor_profile_id', 'status', 'created_at');
+                },
+                'doctorProfile.appointments as recent_appointments' => function ($query) {
+                    $query->where('status', 1)
+                        ->where('created_at', '>=', now()->subDays(7))
+                        ->select('id', 'doctor_profile_id');
+                },
                 'doctorProfile.reviews.patient',
                 'languages.language',
                 'favoriteDoctors' => function ($query) {
@@ -207,10 +214,7 @@ class SearchController extends Controller
         $topReviews = $this->reviewService->getTopReviews($reviews);
 
         // Check popularity (more than 5 appointments in last 7 days)
-        $recentAppointments = $doctorProfile->appointments()
-            ->where('status', 1)
-            ->where('created_at', '>=', now()->subDays(7))
-            ->count();
+        $recentAppointments = $doctorProfile->recent_appointments->count();
 
         return [
             'id' => $user->id,
@@ -335,6 +339,14 @@ class SearchController extends Controller
                 'doctorProfile.medicalCategory',
                 'doctorProfile.services',
                 'doctorProfile.workSchedules',
+                'doctorProfile.appointments' => function ($query) {
+                    $query->select('id', 'doctor_profile_id', 'status', 'created_at');
+                },
+                'doctorProfile.appointments as recent_appointments' => function ($query) {
+                    $query->where('status', 1)
+                        ->where('created_at', '>=', now()->subDays(7))
+                        ->select('id', 'doctor_profile_id');
+                },
                 'doctorProfile.reviews',
                 'languages.language',
                 'favoriteDoctors' => function ($query) {
