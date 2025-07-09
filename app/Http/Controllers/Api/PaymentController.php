@@ -21,6 +21,7 @@ class PaymentController extends Controller
                 'info' => 'Pay through bank with QR code',
                 'provider' => 'Payos',
                 'expiry' => null,
+                'is_card' => false,
             ],
         ];
         return response()->json(['methods' => $data], Response::HTTP_OK);
