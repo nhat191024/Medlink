@@ -1,5 +1,4 @@
 /* Doctor Detail Page Styles */
-
 body {
     background: #f5f6fa;
     font-family: 'Segoe UI', Arial, sans-serif;
@@ -11,8 +10,8 @@ body {
         padding: 32px 64px;
         margin: 32px auto;
         max-width: 1000px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
 
 .doctor-profile-section {
     display: flex;
@@ -185,7 +184,6 @@ body {
     height: 56px;
     border-radius: 50%;
     object-fit: cover;
-    margin-right: 0;
 }
 
 .doctor-review-user {
@@ -206,14 +204,11 @@ body {
 .doctor-review-date {
     color: #888;
     font-size: 1em;
-    margin-bottom: 0;
 }
 
 .doctor-review-content {
     font-size: 1.13em;
     color: #222;
-    margin-top: 0;
-    margin-left: 0;
     line-height: 1.5;
 }
 
@@ -273,7 +268,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0;
 }
 
 .doctor-service-icon-new {
@@ -287,7 +281,6 @@ body {
     color: #ff6b6b;
     font-size: 2.1em;
     margin-right: 24px;
-    flex-shrink: 0;
 }
 
 .doctor-service-content {
@@ -296,12 +289,10 @@ body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    min-width: 0;
 }
 
 .doctor-service-title {
     font-size: 1.13em;
-    font-weight: 500;
     color: #222;
     margin-bottom: 2px;
 }
@@ -314,7 +305,6 @@ body {
 
 .doctor-service-price-new {
     font-size: 1.13em;
-    font-weight: 500;
     color: #222;
     margin-left: 18px;
     white-space: nowrap;
@@ -341,16 +331,12 @@ body {
     margin-bottom: 24px;
     font-size: 1.13em;
     color: #222;
-    font-weight: 400;
-    border-bottom: 0;
-    padding-bottom: 0;
     position: relative;
 }
 
 .doctor-schedule-days-new span {
     flex: 1;
     text-align: center;
-    font-weight: 400;
     color: #222;
     position: relative;
     z-index: 1;
@@ -360,7 +346,6 @@ body {
     color: #e53935;
     font-weight: 500;
     border-bottom: 2px solid #e53935;
-    margin-bottom: 0;
     background: none;
     z-index: 2;
     position: relative;
@@ -411,7 +396,6 @@ body {
     border-radius: 16px;
     padding: 12px 0;
     font-size: 1.13em;
-    font-weight: 500;
     width: 360px;
     max-width: 100%;
     margin: 0 auto;
