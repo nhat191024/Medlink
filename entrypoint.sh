@@ -8,6 +8,9 @@ chown -R www-data:www-data /var/www/html
 chmod -R 775 /var/www/html/storage
 chown -R www-data:www-data /var/www/html/storage
 
+chmod -R 775 /var/www/html/storage/logs
+chown -R www-data:www-data /var/www/html/storage/logs
+
 chmod -R 775 /var/www/html/vendor
 chown -R www-data:www-data /var/www/html/vendor
 
