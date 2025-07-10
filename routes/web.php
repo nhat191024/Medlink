@@ -16,3 +16,7 @@ Route::middleware('guest')->group(function () {
 route::get('/', function () {
     return view('layouts.app');
 });
+
+Route::get('/home/book-appointment', function () {
+    return view('home.book-appointment.index');
+});
