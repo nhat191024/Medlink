@@ -321,5 +321,30 @@
 
 
 @push('scripts')
-    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const editButtons = document.querySelectorAll(".medlink_home_book-appointment_edit-btn");
+
+            editButtons.forEach((btn) => {
+                btn.addEventListener("click", function() {
+                    const targetSelector = btn.getAttribute("data-edit-target");
+                    if (!targetSelector) return;
+
+                    const target = document.querySelector(targetSelector);
+                    if (!target) return;
+
+                    const inputs = target.querySelectorAll(
+                        "input.medlink_home_book-appointment_input");
+
+                    // Toggle trạng thái nhập liệu
+                    const isDisabled = inputs[0]?.disabled;
+                    inputs.forEach((input) => {
+                        input.disabled = !isDisabled;
+                        input.style.opacity = isDisabled ? "1" : "0.5";
+                        input.style.pointerEvents = isDisabled ? "auto" : "none";
+                    });
+                });
+            });
+        });
+    </script>
 @endpush
