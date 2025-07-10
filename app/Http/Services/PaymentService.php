@@ -102,7 +102,7 @@ class PaymentService
             'items' => $items,
             'cancelUrl' => $url,
             'returnUrl' => $url,
-            'expiryTime' => $expiryTime,
+            'expiredAt' => $expiryTime, // Đổi từ expiryTime sang expiredAt
         ];
 
         $signature = self::createSignaturePaymentRequest(
