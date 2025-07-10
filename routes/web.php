@@ -20,3 +20,7 @@ Route::middleware('auth')->group(function () {
 route::get('/', function () {
     return view('layouts.app');
 });
+
+Route::get('/home/doctor-detail', function () {
+    return view('home.doctor-detail');
+});
