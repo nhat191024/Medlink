@@ -290,7 +290,6 @@ class AuthController extends Controller
 
     public function verifyOtp(Request $request)
     {
-        $request->session()->forget('forgot_password');
         return redirect()->route('forgot-password.reset');
     }
 
@@ -301,39 +300,47 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $request->validate([
-            'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z]{6,})(?=.*\d)(?=.*[&$#%]).+$/',
-            'password_confirmation' => 'required|same:password',
-        ], [
-            'password.required' => __('client/auth.validation.password_required'),
-            'password.min' => __('client/auth.validation.password_min'),
-            'password.regex' => __('client/auth.validation.password_regex'),
-            'password_confirmation.required' => __('client/auth.validation.password_confirmation_required'),
-            'password_confirmation.same' => __('client/auth.validation.password_mismatch'),
-        ]);
-        $countryCode = $request->session()->get('forgot_password.country_code');
-        $phone = $request->session()->get('forgot_password.phone');
-        $password = $request->input('password');
-        $passwordConfirmation = $request->input('password_confirmation');
+        try {
 
-        $user = User::where('country_code', $countryCode)
-            ->where('phone', $phone)
+            $request->validate([
+                'password' => 'required|string|min:8|regex:/^(?=.*[a-zA-Z]{6,})(?=.*\d)(?=.*[&$#%]).+$/',
+                'password_confirmation' => 'required|same:password',
+            ], [
+                'password.required' => __('client/auth.validation.password_required'),
+                'password.min' => __('client/auth.validation.password_min'),
+                'password.regex' => __('client/auth.validation.password_regex'),
+                'password_confirmation.required' => __('client/auth.validation.password_confirmation_required'),
+                'password_confirmation.same' => __('client/auth.validation.password_mismatch'),
+            ]);
+            $countryCode = $request->session()->get('forgot_password.country_code');
+            $phone = (string) $request->session()->get('forgot_password.phone');
+            $password = $request->input('password');
+            $passwordConfirmation = $request->input('password_confirmation');
+            $user = User::where('country_code', $countryCode)
+            ->where('phone', $this->removeZero($phone))
             ->first();
+            // dd($request->all(),$user, $this->removeZero($phone));
 
-        if (!$user) {
-            return back()->withErrors([
-                'phone' => __('client/auth.validation.phone_not_found'),
-            ])->withInput($request->only('password', 'password_confirmation'));
-        }
-        if ($password !== $passwordConfirmation) {
-            return back()->withErrors([
-                'password' => __('client/auth.validation.password_mismatch'),
-            ])->withInput($request->only('password', 'password_confirmation'));
-        }
+            if (!$user) {
+                return back()->withErrors([
+                    'password' => __('client/auth.validation.phone_not_found'),
+                ])->withInput($request->only('password', 'password_confirmation'));
+            }
+            if ($password !== $passwordConfirmation) {
+                return back()->withErrors([
+                    'password' => __('client/auth.validation.password_mismatch'),
+                ])->withInput($request->only('password', 'password_confirmation'));
+            }
 
-        // Update the user's password
-        $user->password = Hash::make($password);
-        $user->save();
+            // Update the user's password
+            $user->password = Hash::make($password);
+            $user->save();
+            $request->session()->forget('forgot_password');
+        } catch (\Throwable $th) {
+            return back()->withErrors([
+                'password' => __('client/auth.error'),
+            ]);
+        }
         return redirect()->route('login')->with('status', 'Password has been reset successfully!');
     }
 
