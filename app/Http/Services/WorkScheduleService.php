@@ -51,7 +51,7 @@ class WorkScheduleService
                 Carbon::now()->format('Y-m-d'),
                 Carbon::now()->addDays(6)->format('Y-m-d')
             ])
-            ->whereIn('status', ['2', '3'])
+            ->whereIn('status', ['pending', 'upcoming'])
             ->get()
             ->groupBy('date');
 
