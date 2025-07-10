@@ -33,6 +33,7 @@ class Bill extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'appointment_id',
         'payment_method',
         'taxVAT',
