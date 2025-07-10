@@ -265,6 +265,46 @@ class AppointmentService
             Cache::forget("patient_appointments_{$patientUserId}");
             Cache::forget("appointment_statistics_{$patientUserId}");
         }
+
+        // Clear doctor list cache (since appointment counts affect popularity and statistics)
+        $this->clearDoctorListCache();
+    }
+
+    /**
+     * Clear doctor list related cache
+     */
+    private function clearDoctorListCache()
+    {
+        $cacheKeys = Cache::get('doctor_list_cache_keys', []);
+        foreach ($cacheKeys as $key) {
+            Cache::forget($key);
+        }
+        Cache::forget('doctor_list_cache_keys');
+
+        $searchCacheKeys = Cache::get('doctor_search_cache_keys', []);
+        foreach ($searchCacheKeys as $key) {
+            Cache::forget($key);
+        }
+        Cache::forget('doctor_search_cache_keys');
+
+        $commonPatterns = [
+            'doctor_list_page_*',
+            'doctor_search_*',
+            'popular_search_terms',
+            'healthcare_categories_count'
+        ];
+
+        for ($page = 1; $page <= 10; $page++) {
+            for ($perPage = 4; $perPage <= 20; $perPage += 4) {
+                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5(''));
+                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5('doctor'));
+                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5('specialist'));
+            }
+        }
+
+        // Clear popular search terms cache
+        Cache::forget('popular_search_terms');
+        Cache::forget('healthcare_categories_count');
     }
 
     /**
@@ -439,6 +479,7 @@ class AppointmentService
 
             $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method, $isAppRequest);
 
+            // Clear appointment and doctor list cache after successful creation
             $this->clearAppointmentRelatedCache($appointment);
 
             DB::commit();
