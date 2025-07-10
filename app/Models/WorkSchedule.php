@@ -36,8 +36,8 @@ class WorkSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'doctor_profile_id',
-        'day_of_week',
+        'doctor_profile_id', // ko luu ngay cu the
+        'day_of_week', // ngay torng tuan thg day lam viec vao hom nao 2-7
         'start_time',
         'end_time',
         'all_day',
