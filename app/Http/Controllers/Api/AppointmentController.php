@@ -252,7 +252,7 @@ class AppointmentController extends Controller
             $this->appointmentService->validateAppointmentAvailability(
                 $request->doctor_profile_id,
                 $request->date,
-                $request->time,
+                $request->start_time,
                 $request->service_id
             );
 
