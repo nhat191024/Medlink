@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@push('styles')
-    <link href="{{ asset('css/appointments.css') }}" rel="stylesheet">
-@endpush
 
+@push('styles')
+    <link href="{{ asset('css/appointment/success.css') }}" rel="stylesheet">
+@endpush
 
 @section('content')
     <div class="success-bg">
