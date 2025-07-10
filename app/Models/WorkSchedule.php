@@ -11,8 +11,8 @@ class WorkSchedule extends Model
     use HasFactory;
 
     protected $fillable = [
-        'doctor_profile_id',
-        'day_of_week',
+        'doctor_profile_id', // ko luu ngay cu the
+        'day_of_week', // ngay torng tuan thg day lam viec vao hom nao 2-7
         'start_time',
         'end_time',
         'all_day',
@@ -28,7 +28,7 @@ class WorkSchedule extends Model
         $currentDayOfWeek = $now->format('l');
         $currentTime = $now->format('H:i:s');
 
-        $schedule = self::where('doctor_id', $doctorId)
+        $schedule = self::where('doctor_profile_id', $doctorId)
             ->where('day_of_week', $currentDayOfWeek)
             ->first();
 

@@ -60,6 +60,11 @@ return [
             'report' => false,
         ],
 
+        'tmp_uploads' => [
+            'driver' => 'local',
+            'root' => storage_path('app/tmp/uploads'),
+        ],
+
     ],
 
     /*
