@@ -62,7 +62,21 @@ class WorkSchedule extends Model
         }
 
         if ($schedule->all_day == 1) {
-            return true;
+            // Chỉ available trong khung giờ 7h-11h và 13h-17h
+            $currentHour = $now->hour;
+            $currentMinute = $now->minute;
+            $currentTimeInMinutes = ($currentHour * 60) + $currentMinute;
+
+            // 7:00 - 11:00 (420 - 660 phút)
+            $morningStart = 7 * 60; // 420 phút
+            $morningEnd = 11 * 60;  // 660 phút
+
+            // 13:00 - 17:00 (780 - 1020 phút)
+            $afternoonStart = 13 * 60; // 780 phút
+            $afternoonEnd = 17 * 60;   // 1020 phút
+
+            return ($currentTimeInMinutes >= $morningStart && $currentTimeInMinutes < $morningEnd) ||
+                ($currentTimeInMinutes >= $afternoonStart && $currentTimeInMinutes < $afternoonEnd);
         }
 
         $startTime = Carbon::parse($schedule->start_time);
