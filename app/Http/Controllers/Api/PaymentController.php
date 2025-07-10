@@ -17,6 +17,7 @@ class PaymentController extends Controller
         $data = [
             [
                 'name' => 'QR Code',
+                'id' => 'qr_transfer',
                 'icon' => 'assets/icons/Money.svg',
                 'info' => 'Pay through bank with QR code',
                 'provider' => 'Payos',
