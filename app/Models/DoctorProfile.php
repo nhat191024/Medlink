@@ -104,4 +104,14 @@ class DoctorProfile extends Model
     {
         return $this->hasMany(Review::class, 'doctor_profile_id');
     }
+
+    /**
+     * Get the average rating (rate) from related reviews.
+     *
+     * @return float|null
+     */
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rate');
+    }
 }
