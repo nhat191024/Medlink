@@ -13,6 +13,10 @@ Route::middleware('guest')->group(function () {
     require __DIR__ . '/web/forgot-password.php';
 });
 
+Route::middleware('auth')->group(function () {
+    require __DIR__ . '/web/doctor-booking.php';
+});
+
 route::get('/', function () {
     return view('layouts.app');
 });
