@@ -1,0 +1,148 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+
+use App\Http\Services\UserService;
+
+use Symfony\Component\HttpFoundation\Response;
+
+class DashboardController extends Controller
+{
+    private $userService;
+
+    public function __construct()
+    {
+        $this->userService = app(UserService::class);
+    }
+
+    /**
+     * Display the patient summary.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function patientSummary()
+    {
+        $user = Auth::user();
+
+        $cacheKey = "patient_summary_{$user->id}";
+
+        $summary = Cache::rememberForever($cacheKey, function () use ($user) {
+            // Fresh load để đảm bảo có notification mới nhất
+            $user = $user->fresh(['notification']);
+
+            $userAvatar = $user->avatar ? asset($user->avatar) : null;
+            $location = trim(($user->city ?? '') . ', ' . ($user->country ?? ''), ', ');
+
+            $notifications = $user->notification ?? collect();
+            $isHaveNotification = $notifications->where('status', 'unread')->count() > 0;
+
+            return [
+                'userAvatar' => $userAvatar,
+                'userName' => $user->name ?? 'Not provided',
+                'email' => $user->email ?? 'Not provided',
+                'phone' => $user->phone ?? 'Not provided',
+                'address' => $user->address ?? 'Not provided',
+                'gps' => ($user->latitude && $user->longitude) ? "{$user->latitude}, {$user->longitude}" : 'Not provided',
+                'country' => $user->country ?? 'Not provided',
+                'city' => $user->city ?? 'Not provided',
+                'state' => $user->state ?? 'Not provided',
+                'zip_code' => $user->zip_code ?? 'Not provided',
+                'userType' => $user->user_type ?? 'Not provided',
+                'location' => $location ?: 'Not provided',
+                'isHaveNotification' => $isHaveNotification,
+            ];
+        });
+
+        return response()->json($summary, Response::HTTP_OK);
+    }
+
+    /**
+     * Display the doctor summary.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function doctorSummary()
+    {
+        $user = Auth::user();
+
+        $profileCacheKey = "doctor_profile_{$user->id}";
+        $profileData = Cache::rememberForever($profileCacheKey, function () use ($user) {
+            $user = $user->load([
+                'doctorProfile',
+                'doctorProfile.medicalCategory',
+                'doctorProfile.reviews'
+            ]);
+            $doctorProfile = $user->doctorProfile;
+
+            // User basic info
+            $avatar = $user->avatar ? asset($user->avatar) : null;
+            $identity = $user->identity ?? 'Not specified';
+            $name = $this->userService->formatDoctorName($user->name, $identity);
+            $specialty = $doctorProfile->medicalCategory->name ?? 'Not specified';
+            $hasIntroduction = empty($doctorProfile->introduce);
+
+            // Reviews (ít thay đổi)
+            $reviewsCount = $doctorProfile->reviews->count();
+            $reviewerAvatars = $this->userService->getReviewerAvatars($doctorProfile->reviews);
+
+            return [
+                'avatar' => $avatar,
+                'name' => $name,
+                'identity' => $identity,
+                'specialty' => $specialty,
+                'userType' => $user->user_type ?? 'Not provided',
+                'introduce' => $hasIntroduction,
+                'reviews' => $reviewsCount,
+                'reviewer' => $reviewerAvatars,
+            ];
+        });
+
+        // Cache appointment data for 5 minutes
+        $appointmentCacheKey = "doctor_appointments_{$user->id}";
+        $appointmentData = Cache::remember($appointmentCacheKey, now()->addMinutes(5), function () use ($user) {
+            $user = $user->load(['doctorProfile.appointments']);
+            $appointments = $user->doctorProfile->appointments ?? collect();
+
+            return [
+                'pending' => $appointments->where('status', 'pending')->count(),
+                'upcoming' => $appointments->where('status', 'upcoming')->count(),
+            ];
+        });
+
+        // Cache notification data for 2 minutes
+        $notificationCacheKey = "doctor_notifications_{$user->id}";
+        $notificationData = Cache::remember($notificationCacheKey, now()->addMinutes(2), function () use ($user) {
+            $user = $user->fresh(['notification']);
+            $notifications = $user->notification ?? collect();
+
+            return [
+                'isHaveNotification' => $notifications->where('status', 'unread')->count() > 0,
+            ];
+        });
+
+        // Merge all cached data
+        $summary = array_merge($profileData, $appointmentData, $notificationData);
+
+        return response()->json($summary, Response::HTTP_OK);
+    }
+
+    /**
+     * Refresh cache manually - API endpoint for manual cache refresh
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshCache()
+    {
+        $user = Auth::user();
+
+        $this->userService->clearUserSummaryCache($user->id);
+
+        return response()->json(['message' => 'Cache refreshed successfully'], Response::HTTP_OK);
+    }
+}

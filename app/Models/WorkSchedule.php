@@ -6,6 +6,31 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ *
+ *
+ * @property int $id
+ * @property int $doctor_profile_id
+ * @property string $day_of_week
+ * @property string|null $start_time
+ * @property string|null $end_time
+ * @property int $all_day
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\WorkScheduleFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereAllDay($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereDayOfWeek($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereDoctorProfileId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereEndTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|WorkSchedule whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class WorkSchedule extends Model
 {
     use HasFactory;
@@ -18,9 +43,9 @@ class WorkSchedule extends Model
         'all_day',
     ];
 
-    public static function isAvailable($doctorId)
+    public static function isAvailable($doctorProfileId)
     {
-        if (Appointment::isDoctorBusy($doctorId)) {
+        if (Appointment::isDoctorBusy($doctorProfileId)) {
             return false;
         }
 
@@ -28,7 +53,7 @@ class WorkSchedule extends Model
         $currentDayOfWeek = $now->format('l');
         $currentTime = $now->format('H:i:s');
 
-        $schedule = self::where('doctor_id', $doctorId)
+        $schedule = self::where('doctor_profile_id', $doctorProfileId)
             ->where('day_of_week', $currentDayOfWeek)
             ->first();
 
@@ -37,7 +62,21 @@ class WorkSchedule extends Model
         }
 
         if ($schedule->all_day == 1) {
-            return true;
+            // Chỉ available trong khung giờ 7h-11h và 13h-17h
+            $currentHour = $now->hour;
+            $currentMinute = $now->minute;
+            $currentTimeInMinutes = ($currentHour * 60) + $currentMinute;
+
+            // 7:00 - 11:00 (420 - 660 phút)
+            $morningStart = 7 * 60; // 420 phút
+            $morningEnd = 11 * 60;  // 660 phút
+
+            // 13:00 - 17:00 (780 - 1020 phút)
+            $afternoonStart = 13 * 60; // 780 phút
+            $afternoonEnd = 17 * 60;   // 1020 phút
+
+            return ($currentTimeInMinutes >= $morningStart && $currentTimeInMinutes < $morningEnd) ||
+                ($currentTimeInMinutes >= $afternoonStart && $currentTimeInMinutes < $afternoonEnd);
         }
 
         $startTime = Carbon::parse($schedule->start_time);

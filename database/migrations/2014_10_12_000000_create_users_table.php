@@ -17,13 +17,14 @@ class CreateUsersTable extends Migration
             $table->id();
 
             $table->enum('user_type', ['healthcare', 'patient', 'admin'])->default('patient');
-            $table->enum('identity', ['none', 'patient', 'doctor', 'pharmacies', 'hospital', 'ambulance'])->default('none');
+            $table->enum('identity', ['none', 'doctor', 'pharmacies', 'hospital', 'ambulance'])->default('none');
 
             $table->string('email')->unique();
             $table->string('password');
 
             $table->string('avatar')->nullable();
             $table->string('name')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->string('country_code')->nullable();
             $table->string('phone')->nullable();
 

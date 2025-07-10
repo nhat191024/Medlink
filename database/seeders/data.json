@@ -33,7 +33,7 @@
     ],
     "services": [
         {
-            "icon": "icon",
+            "icon": "assets/icons/home_2.svg",
             "name": "Home",
             "description": "Schedule doctor to visit your home",
             "price": 100,
@@ -43,7 +43,7 @@
             "is_active": true
         },
         {
-            "icon": "icon",
+            "icon": "assets/icons/video_on.svg",
             "name": "Video Appointment",
             "description": "Book a video call with doctor",
             "price": 100,
@@ -53,7 +53,7 @@
             "is_active": true
         },
         {
-            "icon": "icon",
+            "icon": "assets/icons/first_aid_kit.svg",
             "name": "Clinic",
             "description": "Schedule an office visit",
             "price": 100,
@@ -63,7 +63,7 @@
             "is_active": true
         },
         {
-            "icon": "icon",
+            "icon": "assets/icons/online.svg",
             "name": "Online visit",
             "description": "Book a video call with doctor",
             "price": 100,
@@ -269,10 +269,12 @@
     ],
     "languages": [
         {
-            "name": "English"
+            "name": "English",
+            "code": "en"
         },
         {
-            "name": "Vietnamese"
+            "name": "Vietnamese",
+            "code": "vi"
         }
     ],
     "notifications": [

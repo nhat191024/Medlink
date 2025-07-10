@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         //appointment factory
         $doctorsID = DoctorProfile::whereIn('user_id', User::where('identity', 'doctor')->pluck('id'))->pluck('id')->toArray();
-        $patientsID = PatientProfile::whereIn('user_id', User::where('identity', 'patient')->pluck('id'))->pluck('id')->toArray();
+        $patientsID = PatientProfile::whereIn('user_id', User::where('user_type', '=', 'patient')->pluck('id'))->pluck('id')->toArray();
         Appointment::factory()->count(10)->withSeedData($doctorsID, $patientsID)->create();
 
         DB::table('app_settings')->insert([

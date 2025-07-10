@@ -15,10 +15,13 @@
         "laravel/pulse": "^1.4",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.6"
+        "livewire/livewire": "^3.6",
+        "payos/payos": "^1.0",
+        "predis/predis": "^3.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
+        "barryvdh/laravel-ide-helper": "^3.5",
         "beyondcode/laravel-query-detector": "^2.1",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.2.2",

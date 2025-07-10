@@ -23,7 +23,6 @@ class PatientProfileFactory extends Factory
             // 'user_id' => User::factory(), // Sẽ được tự động điền khi dùng $user->doctorProfile()->save()
             'birth_date' => $this->faker->date(),
             'age' => $this->faker->numberBetween(1, 100),
-            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
             'height' => $this->faker->numberBetween(140, 200), // Chiều cao từ 140cm đến 200cm
             'weight' => $this->faker->numberBetween(40, 120), // Cân nặng từ 40kg đến 120kg
             'blood_group' => $this->faker->randomElement(['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']),

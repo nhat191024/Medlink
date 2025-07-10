@@ -14,8 +14,9 @@ class CreateBillsTable extends Migration
     public function up()
     {
         Schema::create('bills', function (Blueprint $table) {
-            $table->id();
+            $table->string('id')->primary();
             $table->unsignedBigInteger('appointment_id');
+            $table->enum('payment_method', ['wallet', 'credit_card', 'qr_transfer'])->default('wallet');
             $table->double('taxVAT')->default(0);
             $table->double('total')->default(0);
             $table->enum('status', ['unpaid', 'paid'])->default('unpaid');

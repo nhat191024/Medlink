@@ -8,6 +8,7 @@ use App\Models\DoctorProfile;
 use App\Models\PatientProfile;
 use App\Models\WorkSchedule;
 use App\Models\UserInsurance;
+use App\Models\Notification;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -40,6 +41,7 @@ class UserFactory extends Factory
             'name' => $this->faker->unique()->firstName() . ' ' . $this->faker->unique()->lastName(),
             'country_code' => '+84',
             'phone' => $this->faker->phoneNumber(),
+            'gender' => $this->faker->randomElement(['male', 'female', 'other']),
 
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
@@ -64,6 +66,9 @@ class UserFactory extends Factory
                 'password' => bcrypt('Password1$'),
                 'name' => 'Admin',
             ];
+        })->afterCreating(function (User $user) {
+            // Create 4 notifications for admin (2 unread, 2 read)
+            $this->createNotificationsForUser($user);
         });
     }
 
@@ -108,6 +113,9 @@ class UserFactory extends Factory
                     WorkSchedule::factory()->count($numberOfWorkSchedules)->make()->toArray()
                 );
             }
+
+            // Create 4 notifications for each doctor (2 unread, 2 read)
+            $this->createNotificationsForUser($user);
         });
     }
 
@@ -125,6 +133,9 @@ class UserFactory extends Factory
             $user->doctorProfile()->save(
                 DoctorProfile::factory()->pharmacy()->make()
             );
+
+            // Create 4 notifications for each pharmacy (2 unread, 2 read)
+            $this->createNotificationsForUser($user);
         });
     }
 
@@ -142,6 +153,9 @@ class UserFactory extends Factory
             $user->doctorProfile()->save(
                 DoctorProfile::factory()->hospital()->make()
             );
+
+            // Create 4 notifications for each hospital (2 unread, 2 read)
+            $this->createNotificationsForUser($user);
         });
     }
 
@@ -153,7 +167,6 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'user_type' => 'patient',
-                'identity' => 'patient',
             ];
         })->afterCreating(function (User $user) {
             $patientProfile = PatientProfile::factory()->make();
@@ -164,6 +177,27 @@ class UserFactory extends Factory
                     UserInsurance::factory()->vietnameseInsurance()->make()
                 );
             }
+
+            // Create 4 notifications for each patient (2 unread, 2 read)
+            $this->createNotificationsForUser($user);
         });
+    }
+
+    /**
+     * Create 4 notifications for a user (2 unread, 2 read)
+     */
+    private function createNotificationsForUser(User $user)
+    {
+        // Create 2 unread notifications
+        Notification::factory()->count(2)->unread()->create([
+            'user_id' => $user->id,
+            'appointment_id' => null, // You can set this to a random appointment if needed
+        ]);
+
+        // Create 2 read notifications
+        Notification::factory()->count(2)->read()->create([
+            'user_id' => $user->id,
+            'appointment_id' => null, // You can set this to a random appointment if needed
+        ]);
     }
 }

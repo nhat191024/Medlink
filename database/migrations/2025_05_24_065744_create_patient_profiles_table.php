@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->unique();
             $table->string('birth_date')->nullable();
             $table->integer('age')->nullable();
-            $table->enum('gender', ['male', 'female', 'other'])->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
             $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'])->nullable();
