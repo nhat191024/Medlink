@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('styles')
+    <link href="{{ asset('css/appointment/doctor-detail.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
     <div class="doctor-detail-container">
         <!-- Profile section -->
@@ -49,8 +53,8 @@
             <div class="doctor-service-list">
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 10.5L12 4l9 6.5" />
                             <path d="M4 10.5V20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V10.5" />
                             <rect x="9" y="14" width="6" height="7" rx="1" />
@@ -64,8 +68,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="7" width="15" height="10" rx="2" />
                             <path d="M17 9l4-2v10l-4-2" />
                         </svg>
@@ -78,8 +82,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="7" width="18" height="13" rx="2" />
                             <path d="M8 7V4h8v3" />
                             <path d="M12 12v3" />
@@ -94,8 +98,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="11" width="18" height="5" rx="2" />
                             <path d="M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" />
                             <circle cx="7.5" cy="18.5" r="1.5" />
