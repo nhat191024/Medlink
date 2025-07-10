@@ -445,6 +445,7 @@ class AppointmentService
             $price = $service->price < 2000 ? 2000 : $service->price;  // Cap price at 2000 for development
 
             $bill = Bill::create([
+                'id' => 'BILL-' . strtoupper(uniqid()),
                 'appointment_id' => $appointment->id,
                 'payment_method' => $request->payment_method,
                 'taxVAT' => $price * 0.10, // Assuming VAT is 10%
