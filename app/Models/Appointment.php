@@ -53,7 +53,7 @@ class Appointment extends Model
         $currentDate = $now->format('Y-m-d');
         $currentDayOfWeek = $now->format('l');
 
-        $appointments = self::where('doctor_id', $doctorId)
+        $appointments = self::where('doctor_profile_id', $doctorId)
             ->where('date', $currentDate)
             ->where('day_of_week', $currentDayOfWeek)
             ->whereIn('status', ['2', '3'])
