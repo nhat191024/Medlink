@@ -1,7 +1,228 @@
 @extends('layouts.app')
 
 @push('styles')
-    
+    <style>
+        .medlink_home_book-appointment_container {
+            min-height: 100vh;
+            padding: 1rem;
+            background-color: #f9fafb;
+        }
+
+        .medlink_home_book-appointment_wrapper {
+            max-width: 52rem;
+            margin: 0 auto;
+        }
+
+        .medlink_home_book-appointment_header {
+            margin-bottom: 2rem;
+        }
+
+        .medlink_home_book-appointment_title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .medlink_home_book-appointment_doctor-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .medlink_home_book-appointment_doctor-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background: linear-gradient(to bottom right, #60a5fa, #a78bfa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .medlink_home_book-appointment_input:focus {
+            border-color: #3b82f6;
+            background-color: #fff;
+        }
+
+        .medlink_home_book-appointment_doctor-name {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .medlink_home_book-appointment_main-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .medlink_home_book-appointment_section-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 1rem;
+        }
+
+        .medlink_home_book-appointment_time-date-section,
+        .medlink_home_book-appointment_bill-details,
+        .medlink_home_book-appointment_payment-selection {
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .medlink_home_book-appointment_time-date-header,
+        .medlink_home_book-appointment_home-visit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .medlink_home_book-appointment_time-date-title,
+        .medlink_home_book-appointment_home-visit-title,
+        .medlink_home_book-appointment_bill-title {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .medlink_home_book-appointment_edit-btn {
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+        }
+
+        .medlink_home_book-appointment_edit-btn:has(input[type="checkbox"]:checked)~input {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .medlink_home_book-appointment_time-date-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .medlink_home_book-appointment_date-label,
+        .medlink_home_book-appointment_time-label,
+        .medlink_home_book-appointment_address-label,
+        .medlink_home_book-appointment_gps-label {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .medlink_home_book-appointment_input {
+            width: 100%;
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            color: #1f2937;
+            background-color: #f3f4f6;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .medlink_home_book-appointment_edit-btn:has(input[type="checkbox"]:checked)+.medlink_home_book-appointment_input {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .medlink_home_book-appointment_address-placeholder,
+        .medlink_home_book-appointment_gps-placeholder {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .medlink_home_book-appointment_bill-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .medlink_home_book-appointment_bill-item,
+        .medlink_home_book-appointment_bill-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .medlink_home_book-appointment_bill-item-label,
+        .medlink_home_book-appointment_bill-item-value {
+            color: #4b5563;
+        }
+
+        .medlink_home_book-appointment_bill-total-label {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .medlink_home_book-appointment_bill-total-value {
+            color: #ef4444;
+            font-weight: 600;
+        }
+
+        .medlink_home_book-appointment_bill-divider {
+            border-top: 1px solid #e5e7eb;
+            margin: 0.5rem 0;
+        }
+
+        .medlink_home_book-appointment_payment-prompt {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+        }
+
+        .medlink_home_book-appointment_payment-prompt::before {
+            content: '\1F4B3';
+            margin-right: 0.5rem;
+        }
+
+        .medlink_home_book-appointment_actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .medlink_home_book-appointment_back-btn,
+        .medlink_home_book-appointment_confirm-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+
+        .medlink_home_book-appointment_back-btn {
+            background-color: #ffffff;
+            border: 2px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .medlink_home_book-appointment_back-btn:hover {
+            background-color: #fef2f2;
+        }
+
+        .medlink_home_book-appointment_confirm-btn {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .medlink_home_book-appointment_confirm-btn:hover {
+            background-color: #dc2626;
+        }
+    </style>
 @endpush
 
 @section('content')
