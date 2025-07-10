@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  *
  *
- * @property int $id
+ * @property string $id
  * @property int $appointment_id
  * @property float $taxVAT
  * @property float $total
@@ -31,6 +31,10 @@ use Illuminate\Database\Eloquent\Model;
 class Bill extends Model
 {
     use HasFactory;
+
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'id',
