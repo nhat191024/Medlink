@@ -359,7 +359,7 @@ class AppointmentService
     /**
      * Create a new appointment
      */
-    public function createAppointment($request, $user)
+    public function createAppointment($request, $user, bool $isAppRequest = false)
     {
         try {
             DB::beginTransaction();
@@ -437,7 +437,7 @@ class AppointmentService
                 'expiryTime' => intval(now()->addMinutes(5)->timestamp) // 5 minutes expiry
             ];
 
-            $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method);
+            $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method, $isAppRequest);
 
             $this->clearAppointmentRelatedCache($appointment);
 

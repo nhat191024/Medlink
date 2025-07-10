@@ -257,7 +257,7 @@ class AppointmentController extends Controller
             );
 
             // Create the appointment
-            $response = $this->appointmentService->createAppointment($request, $user);
+            $response = $this->appointmentService->createAppointment($request, $user, true);
 
             return response()->json([
                 'message' => 'Appointment booked successfully',

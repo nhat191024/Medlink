@@ -25,7 +25,7 @@ class PaymentService
      * @param string $paymentMethod
      * @return array
      */
-    public function processAppointmentPayment(array $data, $paymentMethod)
+    public function processAppointmentPayment(array $data, $paymentMethod, bool $isAppRequest)
     {
         // This would integrate with your payment gateway
         // For now, we'll simulate payment processing
@@ -44,7 +44,8 @@ class PaymentService
                     $data['buyerPhone'] ?? null,
                     $data['buyerAddress'] ?? null,
                     $data['items'] ?? null,
-                    $data['expiryTime'] ?? null
+                    $data['expiryTime'] ?? null,
+                    $isAppRequest
                 );
             default:
                 throw new \Exception('Invalid payment method');
@@ -80,10 +81,15 @@ class PaymentService
         ?string $buyerPhone = null,
         ?string $buyerAddress = null,
         ?array $items = null,
-        ?int $expiryTime = null
+        ?int $expiryTime = null,
+        bool $isAppRequest
     ) {
         $orderCode = $billId;
         $expiryTime ??= intval(now()->addMinutes(5)->timestamp);
+
+        $url = $isAppRequest
+            ? env("APP_DEEPLINK_URL")
+            : env("APP_URL");
 
         $paymentRequest = [
             'orderCode' => $orderCode,
@@ -94,8 +100,8 @@ class PaymentService
             'buyerPhone' => $buyerPhone,
             'buyerAddress' => $buyerAddress,
             'items' => $items,
-            'cancelUrl' => env("APP_URL"),
-            'returnUrl' => env("APP_URL"),
+            'cancelUrl' => $url,
+            'returnUrl' => $url,
             'expiryTime' => $expiryTime,
         ];
 
