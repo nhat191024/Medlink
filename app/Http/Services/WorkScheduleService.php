@@ -88,7 +88,15 @@ class WorkScheduleService
                         $slotTime = Carbon::parse($timeSlot);
                         $isAvailable = true;
 
-                        if (isset($appointments[$day['full_date']])) {
+                        // Kiểm tra nếu time slot đã qua so với thời gian hiện tại (chỉ cho ngày hôm nay)
+                        if ($day['full_date'] === Carbon::now()->format('Y-m-d')) {
+                            $slotDateTime = Carbon::parse($day['full_date'] . ' ' . $timeSlot);
+                            if ($slotDateTime->isPast()) {
+                                $isAvailable = false;
+                            }
+                        }
+
+                        if ($isAvailable && isset($appointments[$day['full_date']])) {
                             foreach ($appointments[$day['full_date']] as $appointment) {
                                 $times = explode(' - ', $appointment->time);
                                 $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
@@ -111,7 +119,16 @@ class WorkScheduleService
                             $startTime = Carbon::parse($schedule->start_time);
 
                             $isAvailable = true;
-                            if (isset($appointments[$day['full_date']])) {
+
+                            // Kiểm tra nếu time slot đã qua so với thời gian hiện tại (chỉ cho ngày hôm nay)
+                            if ($day['full_date'] === Carbon::now()->format('Y-m-d')) {
+                                $slotDateTime = Carbon::parse($day['full_date'] . ' ' . $schedule->start_time);
+                                if ($slotDateTime->isPast()) {
+                                    $isAvailable = false;
+                                }
+                            }
+
+                            if ($isAvailable && isset($appointments[$day['full_date']])) {
                                 foreach ($appointments[$day['full_date']] as $appointment) {
                                     $times = explode(' - ', $appointment->time);
                                     $appointmentStart = $times[0] = date("g:i A", strtotime($times[0]));
