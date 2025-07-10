@@ -484,7 +484,11 @@ class AppointmentService
         $duration += 5; // Add 5 minutes buffer to avoid conflicts
 
         // Parse new appointment time
-        $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
+        $startTime = null;
+        if (strpos($time, 'AM') !== false || strpos($time, 'PM') !== false) {
+            $startTime = Carbon::createFromFormat('h:i A', $time)->format('H:i');
+        }
+        $newAppointmentStart = Carbon::parse($startTime)->setDateFrom($date);
         $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
 
         // dd($newAppointmentEnd);
