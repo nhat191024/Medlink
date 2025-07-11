@@ -266,8 +266,9 @@ class AppointmentService
             Cache::forget("appointment_statistics_{$patientUserId}");
         }
 
-        // Clear doctor list cache (since appointment counts affect popularity and statistics)
-        Cache::forget('doctor_list_search');
+        foreach (Cache::getRedis()->keys('doctor_list_search_page_*') as $key) {
+            Cache::forget(str_replace(config('cache.prefix') . ':', '', $key));
+        }
     }
 
     /**
