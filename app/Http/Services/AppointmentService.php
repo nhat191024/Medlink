@@ -504,45 +504,47 @@ class AppointmentService
      */
     public function validateAppointmentAvailability($doctorProfileId, $date, $time, $serviceId)
     {
-
-        // Check if the appointment date is in the past
-        if ($date < now()->toDateString()) {
-            throw new \Exception('Cannot book appointment for past dates');
-        }
-
-        // Check if the appointment is too far in the future (e.g., 3 months)
-        if ($date > now()->addMonths(3)->toDateString()) {
-            throw new \Exception('Cannot book appointment more than 3 months in advance');
-        }
-
-        $existingAppointments = Appointment::with('service')
-            ->where('doctor_profile_id', $doctorProfileId)
-            ->where('date', $date)
-            ->whereIn('status', ['pending', 'upcoming'])
-            ->get();
-
-        $service = Service::find($serviceId);
-        $duration = $service ? $service->duration : 30;
-        $duration += 5; // Add 5 minutes buffer to avoid conflicts
-
-        $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
-        $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
-
-        // dd($newAppointmentEnd);
-
-        // Check for time conflicts with each existing appointment
-        foreach ($existingAppointments as $appointment) {
-            $existingDuration = $appointment->service ? $appointment->service->duration : 30;
-            $existingAppointmentStart = Carbon::parse("{$date} {$appointment->time}");
-            $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
-
-            // Check if appointments overlap
-            if ($this->isTimeOverlapping($newAppointmentStart, $newAppointmentEnd, $existingAppointmentStart, $existingAppointmentEnd)) {
-                throw new \Exception("This time slot conflicts with an existing appointment from {$existingAppointmentStart->format('H:i')} to {$existingAppointmentEnd->format('H:i')}");
+        try {
+            // Check if the appointment date is in the past
+            if ($date < now()->toDateString()) {
+                throw new \Exception('Cannot book appointment for past dates');
             }
-        }
 
-        return true;
+            // Check if the appointment is too far in the future (e.g., 3 months)
+            if ($date > now()->addMonths(3)->toDateString()) {
+                throw new \Exception('Cannot book appointment more than 3 months in advance');
+            }
+
+            $existingAppointments = Appointment::with('service')
+                ->where('doctor_profile_id', $doctorProfileId)
+                ->where('date', $date)
+                ->whereIn('status', ['pending', 'upcoming'])
+                ->get();
+
+            $service = Service::find($serviceId);
+            $duration = $service ? $service->duration : 30;
+            $duration += 5; // Add 5 minutes buffer to avoid conflicts
+
+            $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
+            $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
+
+            // Check for time conflicts with each existing appointment
+            foreach ($existingAppointments as $appointment) {
+                $existingDuration = $appointment->service ? $appointment->service->duration : 30;
+                $existingAppointmentStart = Carbon::parse("{$date} {$appointment->time}");
+                $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
+
+                // Check if appointments overlap
+                if ($this->isTimeOverlapping($newAppointmentStart, $newAppointmentEnd, $existingAppointmentStart, $existingAppointmentEnd)) {
+                    throw new \Exception("This time slot conflicts with an existing appointment from {$existingAppointmentStart->format('H:i')} to {$existingAppointmentEnd->format('H:i')}");
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            // Optionally log the error here
+            throw new \Exception('Error validating appointment availability: ' . $e->getMessage());
+        }
     }
 
     /**
