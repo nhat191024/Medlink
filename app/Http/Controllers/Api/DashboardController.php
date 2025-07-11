@@ -43,8 +43,8 @@ class DashboardController extends Controller
             $isHaveNotification = $notifications->where('status', 'unread')->count() > 0;
 
             return [
-                'userAvatar' => $userAvatar,
-                'userName' => $user->name ?? 'Not provided',
+                'avatar' => $userAvatar,
+                'name' => $user->name ?? 'Not provided',
                 'email' => $user->email ?? 'Not provided',
                 'phone' => $user->phone ?? 'Not provided',
                 'address' => $user->address ?? 'Not provided',
