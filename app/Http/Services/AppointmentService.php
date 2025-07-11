@@ -531,7 +531,10 @@ class AppointmentService
             // Check for time conflicts with each existing appointment
             foreach ($existingAppointments as $appointment) {
                 $existingDuration = $appointment->service ? $appointment->service->duration : 30;
-                $existingAppointmentStart = Carbon::parse("{$date} {$appointment->time}");
+
+                $timeRange = $appointment->time;
+                $startTime = trim(explode(' - ', $timeRange)[0]);
+                $existingAppointmentStart = Carbon::parse("{$date} {$startTime}");
                 $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
 
                 // Check if appointments overlap
