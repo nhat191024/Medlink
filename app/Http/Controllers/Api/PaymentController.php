@@ -36,14 +36,14 @@ class PaymentController extends Controller
     {
         // Validate the request
         $request->validate([
-            'bill_id' => 'required|exists:bills,id',
+            'id' => 'required|exists:bills,id',
             'status' => 'required|in:PAID,UNPAID',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $bill = Bill::find($request->input('bill_id'));
+            $bill = Bill::find($request->input('id'));
             $status = $request->input('status');
 
             $bill->status = $status == 'PAID' ? 'paid' : 'unpaid';
