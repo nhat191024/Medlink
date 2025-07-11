@@ -85,7 +85,7 @@ class DashboardController extends Controller
             $identity = $user->identity ?? 'Not specified';
             $name = $this->userService->formatDoctorName($user->name, $identity);
             $specialty = $doctorProfile->medicalCategory->name ?? 'Not specified';
-            $hasIntroduction = empty($doctorProfile->introduce);
+            $hasIntroduction = !empty($doctorProfile->introduce);
             $introduction = $doctorProfile->introduce ?? null;
 
             // Reviews (ít thay đổi)
