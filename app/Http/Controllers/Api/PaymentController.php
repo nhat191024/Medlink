@@ -37,7 +37,7 @@ class PaymentController extends Controller
         // Validate the request
         $request->validate([
             'id' => 'required|exists:bills,id',
-            'status' => 'required|in:PAID,UNPAID',
+            'status' => 'required|in:PAID,UNPAID,CANCELLED',
         ]);
 
         try {
@@ -46,7 +46,9 @@ class PaymentController extends Controller
             $bill = Bill::find($request->input('id'));
             $status = $request->input('status');
 
-            $bill->status = $status == 'PAID' ? 'paid' : 'unpaid';
+            $status = strtolower($status);
+
+            $bill->status = $status;
             $bill->save();
 
             DB::commit();
