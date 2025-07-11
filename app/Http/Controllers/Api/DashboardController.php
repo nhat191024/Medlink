@@ -86,6 +86,7 @@ class DashboardController extends Controller
             $name = $this->userService->formatDoctorName($user->name, $identity);
             $specialty = $doctorProfile->medicalCategory->name ?? 'Not specified';
             $hasIntroduction = empty($doctorProfile->introduce);
+            $introduction = $doctorProfile->introduce ?? null;
 
             // Reviews (ít thay đổi)
             $reviewsCount = $doctorProfile->reviews->count();
@@ -97,9 +98,10 @@ class DashboardController extends Controller
                 'identity' => $identity,
                 'specialty' => $specialty,
                 'userType' => $user->user_type ?? 'Not provided',
-                'introduce' => $hasIntroduction,
+                'introduce' => $introduction,
                 'reviews' => $reviewsCount,
                 'reviewer' => $reviewerAvatars,
+                'hasIntroduction' => $hasIntroduction,
             ];
         });
 
