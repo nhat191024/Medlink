@@ -28,6 +28,8 @@ class DoctorAppointmentResource extends JsonResource
             "address" => $this->address,
             "created_at" => $this->created_at,
             "office_address" => $this->doctor->office_address,
+            "pay_type" => $this->bill->payment_method == 'qr_transfer' ? 'QR Code' : $this->bill->payment_method,
+            "provider" => $this->bill->payment_method == 'qr_transfer' ? 'Pay OS' : "Ping Bank",
             "medical_category" => new MedicalCategoryResource($this->whenLoaded('medical_category')),
             "patient" => new PatientResource($this->whenLoaded('patient')),
             "service" => new ServiceResource($this->whenLoaded('service')),
