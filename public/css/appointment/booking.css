@@ -1,0 +1,285 @@
+body {
+    background: #f5f5f7;
+}
+
+.booking-container {
+    max-width: 950px;
+    margin: 40px auto 0 auto;
+    background: none;
+    padding: 0;
+}
+
+.booking-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    gap: 0;
+}
+.step {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid #ff3b3f;
+    color: #ff3b3f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 26px;
+    transition: background 0.2s, color 0.2s;
+}
+.step.active {
+    background: #ff3b3f;
+    color: #fff;
+}
+.step-line {
+    width: 70px;
+    height: 4px;
+    background: #222;
+    margin: 0 8px;
+    border-radius: 2px;
+}
+.step-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 38px;
+    color: #222;
+    font-size: 17px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: 500;
+}
+
+.booking-doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 32px;
+    margin-top: 18px;
+}
+.doctor-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid #eee;
+}
+.doctor-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+}
+
+.booking-card {
+    background: #fafbfc;
+    border-radius: 22px;
+    padding: 38px 38px 32px 38px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.booking-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    color: #222;
+}
+
+.booking-services {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 38px;
+    justify-content: flex-start;
+}
+.service-card {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+    padding: 28px 32px 22px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 170px;
+    cursor: pointer;
+    border: 2.5px solid transparent;
+    transition: border 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+    position: relative;
+}
+.service-card.selected {
+    background: #ff3b3f;
+    border: 2.5px solid #ff3b3f;
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(255,59,63,0.08);
+}
+.service-card.selected .service-title,
+.service-card.selected .service-desc,
+.service-card.selected .service-price {
+    color: #fff;
+}
+.service-card.selected .service-icon {
+    background: #fff;
+    color: #ff3b3f;
+}
+.service-card .service-icon {
+    font-size: 36px;
+    color: #ff3b3f;
+    margin-bottom: 10px;
+    background: #fff0f0;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.service-title {
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 2px;
+    font-size: 17px;
+}
+.service-desc {
+    color: #888;
+    font-size: 15px;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+.service-price {
+    font-weight: 700;
+    color: #ff3b3f;
+    font-size: 18px;
+    margin-top: 6px;
+}
+
+.booking-time {
+    margin-bottom: 32px;
+}
+.booking-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #222;
+}
+.calendar-nav button {
+    background: #fff;
+    border: 1.5px solid #eee;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    color: #ff3b3f;
+    cursor: pointer;
+    margin-left: 4px;
+    transition: background 0.2s, color 0.2s;
+}
+.calendar-nav button:hover {
+    background: #ff3b3f;
+    color: #fff;
+}
+.booking-calendar-days {
+    display: flex;
+    gap: 28px;
+    justify-content: flex-start;
+    margin-bottom: 18px;
+    margin-left: 8px;
+}
+.calendar-day {
+    color: #222;
+    font-size: 16px;
+    text-align: center;
+    padding: 6px 0 0 0;
+    min-width: 54px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    font-weight: 500;
+}
+.calendar-day.selected {
+    color: #ff3b3f;
+    font-weight: 700;
+    border-bottom: 2.5px solid #ff3b3f;
+    background: none;
+}
+.calendar-day:hover {
+    color: #ff3b3f;
+}
+.booking-calendar-times {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin-left: 8px;
+}
+.calendar-time {
+    background: #fff;
+    border: 2px solid #222;
+    border-radius: 12px;
+    padding: 10px 22px;
+    font-size: 16px;
+    color: #222;
+    cursor: pointer;
+    transition: border 0.2s, background 0.2s, color 0.2s;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+.calendar-time.selected {
+    background: #ff3b3f;
+    color: #fff;
+    border: 2px solid #ff3b3f;
+}
+.calendar-time.disabled, .calendar-time:disabled {
+    background: #f5f5f7;
+    color: #bbb;
+    border: 2px solid #eee;
+    cursor: not-allowed;
+}
+
+.booking-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 38px;
+    gap: 18px;
+}
+.booking-continue {
+    background: #ff3b3f;
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    padding: 14px 60px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(255,59,63,0.08);
+    transition: background 0.2s;
+    margin: 0 auto;
+    display: block;
+}
+.booking-continue:hover {
+    background: #e22c2f;
+}
+.booking-total {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-right: 18px;
+}
+
+@media (max-width: 1100px) {
+    .booking-container { max-width: 99vw; }
+    .booking-card { padding: 18px 8vw; }
+    .booking-services { gap: 12px; }
+    .booking-calendar-days, .booking-calendar-times { gap: 8px; }
+}
+@media (max-width: 700px) {
+    .booking-card { padding: 12px 2vw; }
+    .booking-section-title { font-size: 16px; }
+    .service-card { min-width: 110px; padding: 12px 8px; }
+    .booking-footer { flex-direction: column; gap: 8px; }
+    .booking-total { margin-right: 0; }
+}

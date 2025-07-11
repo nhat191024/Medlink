@@ -24,3 +24,7 @@ route::get('/', function () {
 Route::get('/home/doctor-detail', function () {
     return view('home.doctor-detail');
 });
+
+Route::get('/booking', function () {
+    return view('appointment.booking');
+});
