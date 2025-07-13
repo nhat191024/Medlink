@@ -189,7 +189,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $firstLanguage ? $firstLanguage->language->code : config('app.locale');
     }
 
-    public function setting()
+    public function settings()
     {
         return $this->hasMany(UserSetting::class);
     }
