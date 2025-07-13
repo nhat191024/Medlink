@@ -49,7 +49,7 @@ class UserSettingController extends Controller
         try {
             $request->validate([
                 'name' => 'required|string|max:10',
-                'value' => 'required|boolean',
+                'value' => 'required|integer|in:0,1',
             ]);
 
             $user = Auth::user();
