@@ -106,7 +106,7 @@ class DashboardController extends Controller
         });
 
         // Cache appointment data for 5 minutes
-        $appointmentCacheKey = "doctor_appointments_{$user->id}";
+        $appointmentCacheKey = "doctor_appointments_summary_{$user->id}";
         $appointmentData = Cache::remember($appointmentCacheKey, now()->addMinutes(5), function () use ($user) {
             $user = $user->load(['doctorProfile.appointments']);
             $appointments = $user->doctorProfile->appointments ?? collect();
