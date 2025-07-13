@@ -33,7 +33,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "doctor_profile_{$userId}";
+        $cacheKey = "doctor_setting_profile_{$userId}";
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->getDoctorProfileData($user));
