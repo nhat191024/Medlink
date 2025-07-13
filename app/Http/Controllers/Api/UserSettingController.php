@@ -48,7 +48,7 @@ class UserSettingController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'required|string|max:10',
+                'name' => 'required|string|max:20',
                 'value' => 'required|integer|in:0,1',
             ]);
 
