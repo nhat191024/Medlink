@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
 use App\Models\Service;
 
-use App\Http\Resources\ServiceCollection;
+use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
+use App\Http\Resources\ServiceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
 class ServiceController extends Controller
@@ -38,15 +40,33 @@ class ServiceController extends Controller
             'is_active' => 'required|string',
         ]);
 
-        $services = Service::find($request->id);
-        $services->price = $request->price;
-        $services->duration = $request->duration;
-        $services->buffer_time = $request->buffer_time;
-        $services->is_active = $request->is_active;
-        $services->save();
+        try {
+            DB::beginTransaction();
 
-        return response()->json([
-            'message' => 'Service updated successfully',
-        ], Response::HTTP_OK);
+            $service = Service::find($request->id);
+            if (!$service) {
+                return response()->json([
+                    'message' => 'Service not found',
+                ], Response::HTTP_NOT_FOUND);
+            }
+
+            $service->price = $request->price;
+            $service->duration = $request->duration;
+            $service->buffer_time = $request->buffer_time;
+            $service->is_active = $request->is_active;
+            $service->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Service updated successfully',
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to update service',
+                'error' => $e->getMessage(),
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
