@@ -75,7 +75,7 @@ class ProfileService
             'price' => $service->price,
             'duration' => $service->duration,
             'buffer_time' => $service->buffer_time,
-            'is_active' => $service->is_active,
+            'is_active' => $service->is_active == 1 ? true : false,
             'icon' => $service->icon,
             'seat' => $service->seat,
             'created_at' => $service->created_at,
