@@ -24,7 +24,18 @@ class UserSettingController extends Controller
         $user = Auth::user();
         $settings = $user->settings;
 
-        return response()->json($settings, Response::HTTP_OK);
+        $notifationSettingsName = ['notification', 'promotion', 'sms', 'appNotification'];
+        $messageSettingsName = ['message', 'customMessage', 'messagePrivacy', 'messageBackup'];
+
+        $notifationSettings = $settings->whereIn('name', $notifationSettingsName)->pluck('value', 'name');
+        $messageSettings = $settings->whereIn('name', $messageSettingsName)->pluck('value', 'name');
+
+        $data = [
+            'notificationSettings' => $notifationSettings,
+            'messageSettings' => $messageSettings
+        ];
+
+        return response()->json($data, Response::HTTP_OK);
     }
 
     /**
