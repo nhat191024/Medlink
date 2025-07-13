@@ -108,7 +108,7 @@ class ProfileService
         return $userLanguages->map(function ($userLanguage) {
             return [
                 'code' => $userLanguage->language->code ?? null,
-                'language' => $userLanguage->language->name ?? null,
+                'name' => $userLanguage->language->name ?? null,
             ];
         })->values();
     }
