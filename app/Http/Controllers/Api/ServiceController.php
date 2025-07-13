@@ -32,8 +32,6 @@ class ServiceController extends Controller
     {
         $request->validate([
             'id' => 'required|integer',
-            'name' => 'required|string',
-            'description' => 'required|string',
             'price' => 'required|numeric',
             'duration' => 'required|integer',
             'buffer_time' => 'required|integer',
@@ -41,8 +39,6 @@ class ServiceController extends Controller
         ]);
 
         $services = Service::find($request->id);
-        $services->name = $request->name;
-        $services->description = $request->description;
         $services->price = $request->price;
         $services->duration = $request->duration;
         $services->buffer_time = $request->buffer_time;
