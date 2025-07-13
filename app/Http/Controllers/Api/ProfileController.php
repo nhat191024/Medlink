@@ -67,7 +67,7 @@ class ProfileController extends Controller
             'avgTotal' => $profileData['avgTotal'],
             'reviews' => $profileData['reviews'],
             'allReviews' => $profileData['allReviews'],
-            'averageRatings' => $profileData['averageRatings'],
+            'testimonials' => $profileData['testimonials'],
             'statistics' => $profileData['statistics'],
         ], Response::HTTP_OK);
     }

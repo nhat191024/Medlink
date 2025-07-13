@@ -8,8 +8,17 @@ use App\Models\Language;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
+use App\Http\Services\ReviewService;
+
 class ProfileService
 {
+    private $reviewService;
+
+    public function __construct()
+    {
+        $this->reviewService = app(ReviewService::class);
+    }
+
     /**
      * Get doctor profile data with caching
      */
@@ -86,7 +95,7 @@ class ProfileService
             'avgTotal' => $reviewsData['average'],
             'reviews' => $reviewsData['top_reviews'],
             'allReviews' => $reviewsData['all_reviews'],
-            'averageRatings' => $reviewsData['rating_distribution'],
+            'testimonials' => $reviewsData['rating_distribution'],
             'statistics' => $this->calculateProfileStatistics($doctorProfile),
         ];
     }
@@ -149,7 +158,7 @@ class ProfileService
         });
 
         // Calculate rating distribution
-        $ratingDistribution = $this->calculateRatingDistribution($reviews);
+        $ratingDistribution = $this->reviewService->getTestimonials($reviews);
 
         return [
             'count' => $reviewCount,
