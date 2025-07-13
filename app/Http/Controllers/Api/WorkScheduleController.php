@@ -60,10 +60,13 @@ class WorkScheduleController extends Controller
                 'work_schedule' => 'required|json',
             ]);
 
+            $user = Auth::user();
+            $doctorProfile = $user->doctorProfile;
+
             $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
             $workSchedules = json_decode($request->work_schedule, true);
 
-            WorkSchedule::where('doctor_id', Auth::user()->id)->delete();
+            WorkSchedule::where('doctor_profile_id', $doctorProfile->id)->delete();
             foreach ($days as $day) {
                 if (isset($workSchedules[$day])) {
                     foreach ($workSchedules[$day] as $workSchedule) {
@@ -90,7 +93,6 @@ class WorkScheduleController extends Controller
 
             DB::commit();
 
-            $user = Auth::user();
             $cacheKey = 'work_schedule_' . $user->id;
             Cache::forget($cacheKey);
 
@@ -101,6 +103,7 @@ class WorkScheduleController extends Controller
             DB::rollBack();
             return response()->json([
                 'message' => 'Invalid work schedule format',
+                'errors' => $e->getMessage()
             ], Response::HTTP_BAD_REQUEST);
         }
     }
