@@ -32,7 +32,7 @@ class ServiceController extends Controller
     {
         $request->validate([
             'id' => 'required|integer',
-            'price' => 'required|numeric',
+            'price' => 'required|integer',
             'duration' => 'required|integer',
             'buffer_time' => 'required|integer',
             'is_active' => 'required|string',
