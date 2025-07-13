@@ -24,7 +24,7 @@ class UserSettingController extends Controller
         $user = Auth::user();
         $settings = $user->settings;
 
-        return response()->json([$settings], Response::HTTP_OK);
+        return response()->json($settings, Response::HTTP_OK);
     }
 
     /**
