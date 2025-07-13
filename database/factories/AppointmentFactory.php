@@ -65,18 +65,14 @@ class AppointmentFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function ($appointment) {
-            // Chỉ tạo bill nếu được bật và appointment có status phù hợp
-            if ($this->shouldCreateBill && in_array($appointment->status, ['Completed', 'upcoming', 'pending'])) {
-                // Lấy giá dịch vụ từ service (nếu có)
-                $servicePrice = $appointment->service->price ?? $this->faker->randomFloat(2, 100, 800);
+            $servicePrice = $appointment->service->price ?? $this->faker->randomFloat(2, 100, 800);
 
-                Bill::factory()
-                    ->withAmount($servicePrice)
-                    ->create([
-                        'appointment_id' => $appointment->id,
-                        'status' => $this->getBillStatusBasedOnAppointment($appointment->status),
-                    ]);
-            }
+            Bill::factory()
+                ->withAmount($servicePrice)
+                ->create([
+                    'appointment_id' => $appointment->id,
+                    'status' => $this->getBillStatusBasedOnAppointment($appointment->status),
+                ]);
         });
     }
 
@@ -85,7 +81,7 @@ class AppointmentFactory extends Factory
      */
     private function getBillStatusBasedOnAppointment(string $appointmentStatus): string
     {
-        return match($appointmentStatus) {
+        return match ($appointmentStatus) {
             'Completed' => 'paid',
             'upcoming' => $this->faker->randomElement(['paid', 'pending']),
             'pending' => 'pending',
