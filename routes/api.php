@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess
     require __DIR__ . '/api/setting.php';
     require __DIR__ . '/api/service.php';
     require __DIR__ . '/api/workSchedule.php';
+    require __DIR__ . '/api/medicalCategory.php';
 });
 
 // Define API routes that do not require authentication
