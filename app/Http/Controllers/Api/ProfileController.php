@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\WorkSchedule;
+
 use App\Http\Controllers\Controller;
 
 use App\Http\Resources\DoctorProfileResource;
@@ -33,7 +35,10 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        $doctorProfile = $user->doctorProfile;
         $cacheKey = "doctor_setting_profile_{$userId}";
+
+        $isAvailable = WorkSchedule::isAvailable($doctorProfile->id);
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->getDoctorProfileData($user));
@@ -60,6 +65,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'profile' => new DoctorProfileResource($profileData['profile']),
+            'isAvailable' => $isAvailable,
             'languages' => $profileData['languages'],
             'workSchedule' => $profileData['workSchedule'],
             'services' => $profileData['services'],
