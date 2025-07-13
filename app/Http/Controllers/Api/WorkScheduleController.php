@@ -42,7 +42,7 @@ class WorkScheduleController extends Controller
             return $this->workScheduleService->getSortedGroupedWorkSchedule($workSchedule);
         });
 
-        return response()->json([$workSchedules], Response::HTTP_OK);
+        return response()->json($workSchedules, Response::HTTP_OK);
     }
 
     /**
