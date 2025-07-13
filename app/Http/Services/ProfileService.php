@@ -68,20 +68,19 @@ class ProfileService
         $workSchedules = $this->formatWorkSchedules($doctorProfile->workSchedules);
 
         // Get services
-        $services = $doctorProfile->services->map(function ($service) {
-            return [
-                'id' => $service->id,
-                'name' => $service->name,
-                'description' => $service->description,
-                'price' => $service->price,
-                'duration' => $service->duration,
-                'buffer_time' => $service->buffer_time,
-                'is_active' => $service->is_active,
-                'icon' => $service->icon,
-                'created_at' => $service->created_at,
-                'updated_at' => $service->updated_at,
-            ];
-        });
+        $services = $doctorProfile->services->map(fn($service) => [
+            'id' => $service->id,
+            'name' => $service->name,
+            'description' => $service->description,
+            'price' => $service->price,
+            'duration' => $service->duration,
+            'buffer_time' => $service->buffer_time,
+            'is_active' => $service->is_active,
+            'icon' => $service->icon,
+            'seat' => $service->seat,
+            'created_at' => $service->created_at,
+            'updated_at' => $service->updated_at,
+        ]);
 
         // Get reviews data
         $reviewsData = $this->processReviews($doctorProfile->reviews);
