@@ -22,8 +22,9 @@ class BillFactory extends Factory
         $total = $subtotal + $taxVAT;
 
         return [
-            'id' => $this->faker->uuid(),
-            'payment_method' => $this->faker->randomElement(['cash', 'credit_card', 'bank_transfer', 'e_wallet']),
+            'id' => time() . mt_rand(100000, 999999),
+            // 'payment_method' => $this->faker->randomElement(['wallet', 'credit_card', 'qr_transfer']),
+            'payment_method' => $this->faker->randomElement(['qr_transfer']), //only support QR transfer for now
             'taxVAT' => $taxVAT,
             'total' => $total,
             'status' => $this->faker->randomElement(['pending', 'paid', 'failed', 'refunded']),
@@ -35,7 +36,7 @@ class BillFactory extends Factory
      */
     public function paid(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => 'paid',
         ]);
     }
@@ -45,7 +46,7 @@ class BillFactory extends Factory
      */
     public function pending(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => 'pending',
         ]);
     }
@@ -58,7 +59,7 @@ class BillFactory extends Factory
         $taxVAT = $amount * 0.1;
         $total = $amount + $taxVAT;
 
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'taxVAT' => $taxVAT,
             'total' => $total,
         ]);
