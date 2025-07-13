@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 use App\Http\Resources\ServiceCollection;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,12 +25,22 @@ class ServiceController extends Controller
     public function getUserServices()
     {
         $user = Auth::user();
-        $doctorProfile = $user->doctorProfile;
-        $services = $doctorProfile->services;
+        $cacheKey = 'user_services_' . $user->id;
+
+        $services = Cache::rememberForever($cacheKey, function () use ($user) {
+            $doctorProfile = $user->doctorProfile;
+            return $doctorProfile->services;
+        });
 
         return response()->json(['services' => new ServiceCollection($services)], Response::HTTP_OK);
     }
 
+    /**
+     * Edit a service.
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function editService(Request $request)
     {
         $request->validate([
@@ -55,6 +66,10 @@ class ServiceController extends Controller
             $service->buffer_time = $request->buffer_time;
             $service->is_active = $request->is_active;
             $service->save();
+
+            $user = Auth::user();
+            $cacheKey = 'user_services_' . $user->id;
+            Cache::forget($cacheKey);
 
             DB::commit();
 
