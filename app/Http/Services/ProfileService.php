@@ -391,10 +391,10 @@ class ProfileService
             ]);
 
             // Handle avatar upload
-            if (isset($validatedData['avatar']) && $validatedData['useDefaultAvatar'] == false) {
+            if (isset($validatedData['avatar']) && $validatedData['useDefaultAvatar'] == "0") {
                 $avatarPath = $this->handleAvatarUpload($validatedData['avatar'], $user->avatar);
                 $user->update(['avatar' => $avatarPath]);
-            } elseif ($validatedData['useDefaultAvatar'] == true) {
+            } elseif ($validatedData['useDefaultAvatar'] == "1") {
                 $this->removeOldAvatar($user->avatar);
                 $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name)]);
             }
@@ -499,7 +499,7 @@ class ProfileService
         $imageName = time() . '_' . uniqid() . '.' . $avatarFile->getClientOriginalExtension();
 
         // Move file to upload directory
-        $avatarFile->move(storage_path('upload/avatar'), $imageName);
+        $avatarFile->move(storage_path('app/public/upload/avatar'), $imageName);
 
         return "storage/upload/avatar/{$imageName}";
     }
@@ -509,6 +509,10 @@ class ProfileService
      */
     private function removeOldAvatar($avatarPath)
     {
+        if ($avatarPath->startsWith('https://') || str_starts_with($avatarPath, 'storage/upload/avatar/default.png')) {
+            return;
+        }
+
         if ($avatarPath) {
             $fullPath = storage_path($avatarPath);
             if (file_exists($fullPath)) {
