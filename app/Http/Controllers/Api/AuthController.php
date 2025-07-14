@@ -90,7 +90,12 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        /** @var \App\Models\User $user **/  $user = Auth::user();
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        // Check if user already has tokens, delete them before creating a new one
+        if ($user->tokens()->count() > 0) {
+            $user->tokens()->delete();
+        }
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
