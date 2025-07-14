@@ -41,7 +41,7 @@ class ProfileController extends Controller
         $isAvailable = WorkSchedule::isAvailable($doctorProfile->id);
 
         // Cache for 10 minutes
-        $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->getDoctorProfileData($user));
+        $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->fetchDoctorProfileData($user));
 
         if (isset($profileData['error'])) {
             return response()->json([
@@ -87,7 +87,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "patient_profile_{$userId}";
+        $cacheKey = "patient_profile_setting_{$userId}";
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, function () use ($user) {
