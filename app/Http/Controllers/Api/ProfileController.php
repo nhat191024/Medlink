@@ -91,7 +91,7 @@ class ProfileController extends Controller
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, function () use ($user) {
-            return $this->profileService->getPatientProfileData($user);
+            return $this->profileService->fetchPatientProfileData($user);
         });
 
         if (isset($profileData['error'])) {

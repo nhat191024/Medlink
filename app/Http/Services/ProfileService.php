@@ -275,23 +275,9 @@ class ProfileService
     }
 
     /**
-     * Get patient profile data
-     */
-    public function getPatientProfileData($user, $cacheKey = null)
-    {
-        if ($cacheKey) {
-            return Cache::remember($cacheKey, 600, function () use ($user) {
-                return $this->fetchPatientProfileData($user);
-            });
-        }
-
-        return $this->fetchPatientProfileData($user);
-    }
-
-    /**
      * Fetch patient profile data from database
      */
-    private function fetchPatientProfileData($user)
+    public function fetchPatientProfileData($user)
     {
         $user->load([
             'patientProfile.insurance',
