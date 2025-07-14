@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\ReviewService;
+use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 
 use function Pest\Laravel\json;
 
@@ -527,15 +528,12 @@ class ProfileService
         // Parse and create new languages
         $languageList = json_decode($languagesJson, true);
 
-        foreach ($languageList as $languageName) {
-            $languageName = trim($languageName);
-            if (!empty($languageName)) {
-                // Find or create language
-                $language = Language::firstOrCreate(['name' => $languageName]);
+        foreach ($languageList as $language) {
+            if (!empty($language)) {
+                $languageId = Language::where(['name' => $language['name']])->first()->id;
 
-                // Create user language relationship
                 $user->languages()->create([
-                    'language_id' => $language->id,
+                    'language_id' => $languageId,
                 ]);
             }
         }
