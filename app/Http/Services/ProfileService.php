@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\ReviewService;
 
+use function Pest\Laravel\json;
+
 class ProfileService
 {
     private $reviewService;
@@ -517,13 +519,13 @@ class ProfileService
     /**
      * Update user languages
      */
-    private function updateUserLanguages($user, $languagesString)
+    private function updateUserLanguages($user, $languagesJson)
     {
         // Delete existing languages
         $user->languages()->delete();
 
         // Parse and create new languages
-        $languageList = explode(',', $languagesString);
+        $languageList = json_decode($languagesJson, true);
 
         foreach ($languageList as $languageName) {
             $languageName = trim($languageName);
@@ -533,7 +535,7 @@ class ProfileService
 
                 // Create user language relationship
                 $user->languages()->create([
-                    'language_id' => $language->id
+                    'language_id' => $language->id,
                 ]);
             }
         }
