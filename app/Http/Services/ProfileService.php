@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\User;
 use App\Models\Language;
+use App\Models\MedicalCategory;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -397,10 +398,12 @@ class ProfileService
 
             $doctorProfile = $user->doctorProfile;
 
+            $medicalCategoryId = MedicalCategory::where('name', $validatedData['medical_category_name'])->value('id');
+
             $doctorProfile->update([
                 'professional_number' => $validatedData['professional_number'],
                 'introduce' => $validatedData['introduce'],
-                'medical_category_id' => $validatedData['medical_category_id'],
+                'medical_category_id' => $medicalCategoryId,
                 'office_address' => $validatedData['office_address'],
                 'company_name' => $validatedData['company_name'],
             ]);
