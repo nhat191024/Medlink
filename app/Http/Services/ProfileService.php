@@ -24,23 +24,9 @@ class ProfileService
     }
 
     /**
-     * Get doctor profile data with caching
-     */
-    public function getDoctorProfileData($user, $cacheKey = null)
-    {
-        if ($cacheKey) {
-            return Cache::remember($cacheKey, 600, function () use ($user) {
-                return $this->fetchDoctorProfileData($user);
-            });
-        }
-
-        return $this->fetchDoctorProfileData($user);
-    }
-
-    /**
      * Fetch doctor profile data from database
      */
-    private function fetchDoctorProfileData($user)
+    public function fetchDoctorProfileData($user)
     {
         // Load necessary relationships
         $user->load([
@@ -357,8 +343,8 @@ class ProfileService
     public function clearProfileCache($userId)
     {
         $cacheKeys = [
-            "doctor_profile_{$userId}",
-            "patient_profile_{$userId}",
+            "doctor_profile_setting_{$userId}",
+            "patient_profile_setting_{$userId}",
         ];
 
         foreach ($cacheKeys as $key) {
