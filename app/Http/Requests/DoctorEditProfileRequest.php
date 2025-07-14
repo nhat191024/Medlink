@@ -24,7 +24,7 @@ class DoctorEditProfileRequest extends FormRequest
             'avatar' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'useDefaultAvatar' => 'required|boolean',
             'user_type' => 'required|string|in:healthcare,patient',
-            'indentity' => 'required|string|in:doctor,pharmacies,hospital,ambulance',
+            'identity' => 'required|string|in:doctor,pharmacies,hospital,ambulance',
             'name' => 'required|string|max:255',
             'gender' => 'required|string|in:male,female,other',
             'languages' => 'required|json',
