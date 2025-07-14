@@ -40,7 +40,7 @@ class DoctorEditProfileRequest extends FormRequest
             // Doctor profile information
             'professional_number' => 'required|string|max:100',
             'introduce' => 'required|string|max:1000',
-            'medical_category_id' => 'required|integer|exists:medical_categories,id',
+            'medical_category_name' => 'required|string|exists:medical_categories,name',
             'office_address' => 'required|string|max:500',
             'company_name' => 'required|string|max:255',
         ];
@@ -86,9 +86,9 @@ class DoctorEditProfileRequest extends FormRequest
             'professional_number.max' => 'The professional number may not be greater than 100 characters.',
             'introduce.required' => 'The introduction is required.',
             'introduce.max' => 'The introduction may not be greater than 1000 characters.',
-            'medical_category_id.required' => 'The medical category is required.',
-            'medical_category_id.integer' => 'The medical category must be a number.',
-            'medical_category_id.exists' => 'The selected medical category is invalid.',
+            'medical_category_ name.required' => 'The medical category name is required.',
+            'medical_category_ name.string' => 'The medical category name must be a string.',
+            'medical_category_ name.exists' => 'The selected medical category name is invalid.',
             'office_address.required' => 'The office address is required.',
             'office_address.max' => 'The office address may not be greater than 500 characters.',
             'company_name.required' => 'The company name is required.',
