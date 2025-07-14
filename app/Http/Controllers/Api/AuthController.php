@@ -146,7 +146,7 @@ class AuthController extends Controller
                 $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
                 $user->avatar = "/upload/avatar/{$imageName}";
             } else {
-                $user->avatar = "https://ui-avatars.com/api/?name=" . urlencode($emailFirstLetter);
+                $user->avatar = "https://ui-avatars.com/api/?name=" . urlencode($emailFirstLetter) . "&background=random&size=512";
             }
 
             switch ($request->input('userType')) {

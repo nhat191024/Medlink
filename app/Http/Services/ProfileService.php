@@ -457,7 +457,7 @@ class ProfileService
                 $user->update(['avatar' => $avatarPath]);
             } elseif ($validatedData['useDefaultAvatar'] == '1') {
                 $this->removeOldAvatar($user->avatar);
-                $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name)]);
+                $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . "&background=random&size=512"]);
             }
 
             $patientProfile = $user->patientProfile;
