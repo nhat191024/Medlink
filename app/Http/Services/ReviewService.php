@@ -42,13 +42,13 @@ class ReviewService
         $sortedReviews = $reviews->sortByDesc(function ($review) {
             return [$review->rate, $review->created_at];
         })->values();
-        $sortedReviews->load('patient');
+        $sortedReviews->load('patient.user');
         return $sortedReviews->take(2)->map(fn($review) => [
             'id' => $review->id,
             'rate' => $review->rate,
             'review' => $review->review,
-            'name' => $review->patient->name,
-            'avatar' => $review->patient->avatar ? asset($review->patient->avatar) : '',
+            'name' => $review->patient->user->name,
+            'avatar' => $review->patient->user->avatar ? asset($review->patient->user->avatar) : null,
             'created_at' => $review->created_at,
         ]);
     }
