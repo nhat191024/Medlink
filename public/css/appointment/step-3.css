@@ -1,0 +1,614 @@
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .booking-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 40px;
+        gap: 20px;
+    }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 8px;
+        border: 2px solid #ddd;
+        background: white;
+        color: #666;
+    }
+
+    .step.completed .step-number {
+        background: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+
+    .step.active .step-number {
+        background: #dc3545;
+        color: white;
+        border-color: #dc3545;
+    }
+
+    .step-label {
+        font-size: 14px;
+        color: #666;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .step.completed .step-label,
+    .step.active .step-label {
+        color: #dc3545;
+        font-weight: 500;
+    }
+
+    .step-connector {
+        width: 60px;
+        height: 2px;
+        background: #ddd;
+        margin: 0 10px;
+        margin-top: -25px;
+    }
+
+    .step.completed + .step-connector {
+        background: #dc3545;
+    }
+
+    /* Main Content */
+    .booking-content {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .booking-content.blurred {
+        filter: blur(5px);
+        transform: scale(0.98);
+        pointer-events: none;
+    }
+
+    .booking-title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+    }
+
+    /* Doctor Info */
+    .doctor-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 40px;
+    }
+
+    .doctor-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .doctor-name {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    /* Review Sections */
+    .review-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 15px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .info-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .info-label {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .info-value {
+        font-size: 14px;
+        color: #1a1a1a;
+        font-weight: 500;
+    }
+
+    .edit-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        font-size: 16px;
+        padding: 5px;
+        transition: color 0.3s;
+    }
+
+    .edit-btn:hover {
+        color: #dc3545;
+    }
+
+    /* Payment Section */
+    .payment-section {
+        margin-bottom: 30px;
+    }
+
+    .bill-details {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+
+    .bill-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .bill-row:last-child {
+        margin-bottom: 0;
+        padding-top: 8px;
+        border-top: 1px solid #dee2e6;
+        font-weight: 600;
+    }
+
+    .bill-label {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .bill-value {
+        font-size: 14px;
+        color: #1a1a1a;
+    }
+
+    .bill-value.total {
+        color: #dc3545;
+        font-weight: 600;
+    }
+
+    .payment-prompt {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        color: #666;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .payment-prompt:hover {
+        background: #e9ecef;
+    }
+
+    /* Payment Confirmation Overlay */
+    .confirmation-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .confirmation-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Payment Confirmation Section */
+    .payment-confirmation {
+        background: white;
+        border-radius: 16px;
+        padding: 35px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        min-width: 380px;
+        max-width: 90vw;
+        transform: translateY(30px) scale(0.9);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .confirmation-overlay.active .payment-confirmation {
+        transform: translateY(0) scale(1);
+    }
+
+    .confirmation-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .confirmation-bill {
+        margin-bottom: 25px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+
+    .confirmation-bill .bill-row {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .confirmation-bill .bill-row:last-child {
+        padding-top: 10px;
+        border-top: 1px solid #dee2e6;
+        font-weight: 600;
+    }
+
+    .selected-payment-method {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px;
+        border: 2px solid #dc3545;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+        transition: all 0.3s ease;
+    }
+
+    .selected-payment-method:hover {
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+    }
+
+    .payment-method-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .payment-method-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 18px;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+    }
+
+    .payment-method-details h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+    }
+
+    .payment-method-details p {
+        font-size: 13px;
+        color: #666;
+        margin-bottom: 2px;
+    }
+
+    .confirmation-continue-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .confirmation-continue-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+    }
+
+    .confirmation-continue-btn:active {
+        transform: translateY(0);
+    }
+
+    .confirmation-continue-btn.loading {
+        pointer-events: none;
+    }
+
+    .confirmation-continue-btn.loading::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid transparent;
+        border-top: 2px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .confirmation-note {
+        text-align: center;
+        font-size: 13px;
+        color: #666;
+        opacity: 0.8;
+    }
+
+    /* Form Footer */
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .back-btn {
+        padding: 12px 30px;
+        border: 2px solid #dc3545;
+        border-radius: 25px;
+        background: white;
+        color: #dc3545;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .back-btn:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+    .confirm-btn {
+        padding: 12px 30px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .confirm-btn:hover {
+        background: #c82333;
+    }
+
+    .confirm-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    /* Payment Modal */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .payment-modal {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        max-width: 400px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        transform: translateY(-20px);
+        transition: transform 0.3s;
+    }
+
+    .modal-overlay.active .payment-modal {
+        transform: translateY(0);
+    }
+
+    .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .payment-options {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .payment-option {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .payment-option:hover {
+        border-color: #dc3545;
+    }
+
+    .payment-option.selected {
+        border-color: #dc3545;
+        background: #dc3545;
+        color: white;
+    }
+
+    .payment-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        background: #f8f9fa;
+        color: #dc3545;
+    }
+
+    .payment-option.selected .payment-icon {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
+
+    .payment-info h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    .payment-info p {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    .add-payment-btn {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        background: white;
+        color: #666;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .add-payment-btn:hover {
+        border-color: #dc3545;
+        color: #dc3545;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .progress-steps {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .step-connector {
+            display: none;
+        }
+
+        .form-footer {
+            flex-direction: column-reverse;
+            gap: 15px;
+        }
+
+        .back-btn,
+        .confirm-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .booking-content {
+            padding: 20px;
+        }
+
+        .payment-modal {
+            padding: 20px;
+        }
+
+        .payment-confirmation {
+            min-width: 320px;
+            padding: 25px;
+        }
+    }
