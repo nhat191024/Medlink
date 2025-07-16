@@ -28,3 +28,5 @@ Route::get('/home/doctor-detail', function () {
 Route::get('/booking', function () {
     return view('appointment.booking');
 });
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
