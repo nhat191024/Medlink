@@ -62,7 +62,7 @@ return [
 
         'tmp_uploads' => [
             'driver' => 'local',
-            'root' => storage_path('app/tmp/uploads'),
+            'root' => storage_path('app/public/tmp/uploads'),
         ],
 
     ],
