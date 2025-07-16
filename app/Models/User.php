@@ -26,7 +26,7 @@ use Filament\Models\Contracts\FilamentUser;
  * @property string|null $country_code
  * @property string|null $phone
  * @property string|null $latitude
- * @property string|null $longitude
+ * @property string|{{ city }} $longitude
  * @property string|null $country
  * @property string|null $city
  * @property string|null $state
