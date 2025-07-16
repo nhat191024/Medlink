@@ -19,6 +19,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
+        // dd(User::find(25));
         return view('auth.login');
     }
 
