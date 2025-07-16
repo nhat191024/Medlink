@@ -27,7 +27,7 @@
             </li>
 
             <li class="navbar-item">
-                <a class="navbar-link" href="#">{{ __('client/navbar.menu.doctor_consultation') }}</a>
+                <a class="navbar-link" href="{{ route('appointment.index') }}">{{ __('client/navbar.menu.doctor_consultation') }}</a>
                 <div class="navbar-subtitle">{{ __('client/navbar.subtitle.doctor_consultation') }}</div>
             </li>
 
@@ -56,7 +56,7 @@
                     {{ __('client/navbar.button.register') }}</a>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('logout') }}" class="auth-form">
                     @csrf
                     <button class="auth-button" type="submit">{{ __('client/navbar.button.logout') }}</button>
                 </form>
