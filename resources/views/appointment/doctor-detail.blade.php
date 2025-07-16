@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ asset('css/appointment/doctor-detail.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/appointment/doctor-detail.css') }}?v=1.1" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -9,10 +9,9 @@
         <!-- Profile section -->
         <div class="doctor-profile-section">
             <img src="https://randomuser.me/api/portraits/med/women/75.jpg" class="doctor-profile-img" alt="Doctor">
-            <div class="doctor-name">Dr. Esther Howard</div>
-            <div class="doctor-specialty">Cardiologist</div>
-            <div class="doctor-desc">Hi, I'm Dr. Esther 1 lane a specialist with 8 year of experience and treating eyes.
-            </div>
+            <div class="doctor-name">{{ $doctorProfile->user->name }}</div>
+            <div class="doctor-specialty">{{ $doctorProfile->medicalCategory->name }}</div>
+            <div class="doctor-desc">{{ $doctorProfile->introduce }}</div>
         </div>
 
         <!-- Info row -->
@@ -25,36 +24,83 @@
                         <path d="M12 21c-4.418 0-8-5.373-8-10A8 8 0 0 1 20 11c0 4.627-3.582 10-8 10z" />
                         <circle cx="12" cy="11" r="3" />
                     </svg>
-                    Paris
+                    {{ $doctorProfile->user->country }}
                 </span>
             </div>
+            @php
+                $rate = $doctorProfile->reviews->avg('rate');
+                $count = $doctorProfile->reviews->count('rate');
+                $roundedRate = round($rate * 2) / 2;
+            @endphp
             <div class="doctor-info-col">
                 <div class="doctor-info-label">Rating</div>
-                <div class="doctor-info-value"><span class="doctor-star">★</span>4.6<span
-                        class="doctor-rating-count">(415)</span></div>
+                <div class="doctor-info-value">
+                    <span class="doctor-star">★</span>
+                    {{ $rate > 0 ? number_format($roundedRate, 1) : 'Not rated' }}
+                    <span
+                        class="doctor-rating-count">
+                        ({{ $count }})
+                    </span>
+                </div>
             </div>
             <div class="doctor-info-col">
                 <div class="doctor-info-label">Schedule</div>
-                <div class="doctor-info-value doctor-schedule-available">Available</div>
+                @php
+                    $isAvailable = \App\Models\WorkSchedule::isAvailable($doctorProfile->id) == 1;
+                @endphp
+                <div class="doctor-info-value doctor-schedule-{{ $isAvailable ? 'available' : 'unavailable' }}">{{ $isAvailable ? 'Available' : 'Not Available' }}</div>
             </div>
         </div>
 
         <div class="doctor-languages">
-            <span class="doctor-lang"><img src="https://flagcdn.com/fr.svg" class="doctor-flag doctor-flag-round">
-                French</span>
-            <span class="doctor-lang"><img src="https://flagcdn.com/gb.svg" class="doctor-flag doctor-flag-round">
-                English</span>
-            <span class="doctor-lang"><img src="https://flagcdn.com/vn.svg" class="doctor-flag doctor-flag-round">
-                Vietnamese</span>
+            @foreach ($doctorProfile->user->languages as $item)
+                <span class="doctor-lang">
+                    <img src="https://flagcdn.com/{{ $item->language->code }}.svg" class="doctor-flag doctor-flag-round">
+                    {{ $item->language->name }} <br>
+                </span>
+            @endforeach
         </div>
 
         <div class="doctor-section-title">Services</div>
         <div class="doctor-services doctor-services-new">
             <div class="doctor-service-list">
+                @forelse ($doctorProfile->services as $item)
+                @if (!$item->is_active) @break @endif
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 10.5L12 4l9 6.5" />
+                            <path d="M4 10.5V20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V10.5" />
+                            <rect x="9" y="14" width="6" height="7" rx="1" />
+                        </svg>
+                    </span>
+                    <span class="doctor-service-content">
+                        <div class="doctor-service-title">{{ $item->name }}</div>
+                        <div class="doctor-service-desc">{{ $item->description }}</div>
+                    </span>
+                    <span class="doctor-service-price-new">{{ $item->price }}$</span>
+                </div>
+                @empty
+                <div class="doctor-service-item-new">
+                    <span class="doctor-service-icon-new">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 21h18" />
+                            <path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16" />
+                            <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4" />
+                            <path d="M10 9h4" />
+                            <path d="M12 7v4" />
+                        </svg>
+                    </span>
+                    <span class="doctor-service-content">
+                        <div class="doctor-service-title">Không dịch vụ</div>
+                    </span>
+                </div>
+                @endforelse
+                {{-- <div class="doctor-service-item-new">
+                    <span class="doctor-service-icon-new">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 10.5L12 4l9 6.5" />
                             <path d="M4 10.5V20a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V10.5" />
                             <rect x="9" y="14" width="6" height="7" rx="1" />
@@ -68,8 +114,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="7" width="15" height="10" rx="2" />
                             <path d="M17 9l4-2v10l-4-2" />
                         </svg>
@@ -82,8 +128,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="7" width="18" height="13" rx="2" />
                             <path d="M8 7V4h8v3" />
                             <path d="M12 12v3" />
@@ -98,8 +144,8 @@
                 </div>
                 <div class="doctor-service-item-new">
                     <span class="doctor-service-icon-new">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="11" width="18" height="5" rx="2" />
                             <path d="M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" />
                             <circle cx="7.5" cy="18.5" r="1.5" />
@@ -112,14 +158,14 @@
                         <div class="doctor-service-desc">Book a date to visit your home</div>
                     </span>
                     <span class="doctor-service-price-new">100$</span>
-                </div>
+                </div> --}}
             </div>
         </div>
 
         <div class="doctor-section-title">Available time</div>
         <div class="doctor-schedule doctor-schedule-new">
             <div class="doctor-schedule-calendar">
-                <div class="doctor-schedule-month-new">Sep, 2024</div>
+                <div class="doctor-schedule-month-new"></div>
                 <div class="doctor-schedule-days-new">
                     <span>Mon<br>30</span>
                     <span>Tue<br>31</span>
