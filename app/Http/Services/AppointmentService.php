@@ -414,7 +414,7 @@ class AppointmentService
                 'payment_method' => $request->payment_method,
                 'taxVAT' => $price * 0.10, // Assuming VAT is 10%
                 'total' => $price + $price * 0.10,
-                'status' => 'unpaid',
+                'status' => 'pending',
             ]);
 
             $total = $bill->total;
