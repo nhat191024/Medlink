@@ -41,7 +41,7 @@ class RegisterRequest extends FormRequest
                 $rules['professionalNumber'] = 'required|string';
             }
         } elseif ($this->userType == "patient") {
-            $rules['fullName'] = 'required|string';
+            $rules['name'] = 'required|string';
             $rules['age'] = 'required|int';
             $rules['gender'] = 'required|string';
             $rules['height'] = 'required|int';
