@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'avatar' => 'nullable|image|mimes:png,jpg|max:5120',
         ];
 
-        if ($this->userType == 1) {
+        if ($this->userType == "healthcare") {
             $rules['identity'] = 'required|int';
             $rules['medicalDegree'] = 'required|image|mimes:png,jpg';
 
@@ -40,7 +40,7 @@ class RegisterRequest extends FormRequest
             if ($this->identity == 1) {
                 $rules['professionalNumber'] = 'required|string';
             }
-        } elseif ($this->userType == 2) {
+        } elseif ($this->userType == "patient") {
             $rules['fullName'] = 'required|string';
             $rules['age'] = 'required|int';
             $rules['gender'] = 'required|string';
