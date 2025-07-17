@@ -143,6 +143,7 @@ class AuthController extends Controller
             $user->user_type = $request->input('userType');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
+            $user->gender = $request->input('gender');
 
             $emailFirstLetter = strtolower(substr($user->email, 0, 1));
 
@@ -254,7 +255,6 @@ class AuthController extends Controller
         $profile = new PatientProfile();
         $profile->user_id = $userId;
         $profile->age = $request->input('age');
-        $profile->gender = $request->input('gender');
         $profile->height = $request->input('height');
         $profile->weight = $request->input('weight');
         $profile->blood_group = $request->input('bloodGroup');
