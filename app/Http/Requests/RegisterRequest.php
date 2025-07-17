@@ -48,9 +48,9 @@ class RegisterRequest extends FormRequest
             $rules['weight'] = 'required|int';
             $rules['bloodGroup'] = 'required|string|in:A+,A-,B+,B-,O+,O-,AB+,AB-';
             $rules['medicalHistory'] = 'required|string';
-            $rules['insuranceType'] = 'required|int';
+            $rules['insuranceType'] = 'required|string';
             $rules['insuranceNumber'] = 'required|string';
-            $rules['assuranceType'] = 'required|string';
+            $rules['assuranceType'] = 'nullable|string';
             $rules['address'] = 'required|string';
         }
 
