@@ -23,6 +23,7 @@ use Filament\Models\Contracts\FilamentUser;
  * @property string $password
  * @property string|null $avatar
  * @property string|null $name
+ * @property string|null $gender
  * @property string|null $country_code
  * @property string|null $phone
  * @property string|null $latitude
