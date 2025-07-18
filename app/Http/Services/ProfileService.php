@@ -305,6 +305,7 @@ class ProfileService
             'statistics' => $statistics,
         ];
     }
+
     /**
      * Calculate patient statistics
      */
