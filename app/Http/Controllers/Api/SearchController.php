@@ -98,7 +98,7 @@ class SearchController extends Controller
         $location = $request->input('location', '');
 
         // Create cache key including search parameters
-        $cacheKey = "doctor_list_search_page_{$page}";
+        $cacheKey = "doctor_list_search_page_{$page}_" . md5("{$search}_{$specialty}_{$location}_{$perPage}");
 
         // Cache for 10 minutes
         $result = Cache::remember($cacheKey, 600, fn() => $this->fetchDoctorList($perPage, $search, $specialty, $location));
