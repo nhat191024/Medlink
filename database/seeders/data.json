@@ -1,42 +1,75 @@
 {
     "medical_categories": [
         {
-            "name": "Dentist"
+            "name": "Khoa răng hàm mặt"
         },
         {
-            "name": "Cardiologist"
+            "name": "Khoa tim mạch"
         },
         {
-            "name": "Dermatologist"
+            "name": "Khoe da liễu"
         },
         {
-            "name": "Gynecologist"
+            "name": "Khoa phụ sản"
         },
         {
-            "name": "Neurologist"
+            "name": "Khoa thần kinh"
         },
         {
-            "name": "Ophthalmologist"
+            "name": "Khoa mặc"
         },
         {
-            "name": "Orthopedic"
+            "name": "Khoa chỉnh hình"
         },
         {
-            "name": "Pediatrician"
+            "name": "Khoa nhi"
         },
         {
-            "name": "Psychiatrist"
+            "name": "Khoa âm thần"
         },
         {
-            "name": "Urologist"
+            "name": "Khoa tiết niệu"
+        },
+        {
+            "name": "Khoa tai mũi họng"
+        },
+        {
+            "name": "Khoa mắt"
+        },
+        {
+            "name": "Khoa nội tiết"
+        },
+        {
+            "name": "Khoa tiêu hóa"
+        },
+        {
+            "name": "Khoa hô hấp"
+        },
+        {
+            "name": "Khoa dinh dưỡng"
+        },
+        {
+            "name": "Khoa ung bướu"
+        },
+        {
+            "name": "Khoa tâm thần"
+        },
+        {
+            "name": "Khoa nội tổng quát"
+        },
+        {
+            "name": "Khoa ngoại tổng quát"
+        },
+        {
+            "name": "Khoa y học cổ truyền"
         }
     ],
     "services": [
         {
             "icon": "assets/icons/home_2.svg",
-            "name": "Home",
-            "description": "Schedule doctor to visit your home",
-            "price": 100,
+            "name": "Khám tại nhà",
+            "description": "Đặt lịch khám tại nhà",
+            "price": 100000,
             "duration": 30,
             "buffer_time": 10,
             "seat": 1,
@@ -44,9 +77,9 @@
         },
         {
             "icon": "assets/icons/video_on.svg",
-            "name": "Video Appointment",
-            "description": "Book a video call with doctor",
-            "price": 100,
+            "name": "Khám qua video",
+            "description": "Đặt lịch khám qua video",
+            "price": 50000,
             "duration": 30,
             "buffer_time": 10,
             "seat": 2,
@@ -54,9 +87,9 @@
         },
         {
             "icon": "assets/icons/first_aid_kit.svg",
-            "name": "Clinic",
-            "description": "Schedule an office visit",
-            "price": 100,
+            "name": "Khám tại phòng khám",
+            "description": "Đặt lịch khám tại phòng khám",
+            "price": 100000,
             "duration": 30,
             "buffer_time": 10,
             "seat": 3,
@@ -64,9 +97,9 @@
         },
         {
             "icon": "assets/icons/online.svg",
-            "name": "Online visit",
-            "description": "Book a video call with doctor",
-            "price": 100,
+            "name": "Khám qua cuộc gọi",
+            "description": "Đặt lịch khám qua cuộc gọi",
+            "price": 50000,
             "duration": 30,
             "buffer_time": 10,
             "seat": 3,
@@ -269,11 +302,11 @@
     ],
     "languages": [
         {
-            "name": "English",
+            "name": "Tiếng Anh",
             "code": "en"
         },
         {
-            "name": "Vietnamese",
+            "name": "Tiếng Việt",
             "code": "vi"
         }
     ],
