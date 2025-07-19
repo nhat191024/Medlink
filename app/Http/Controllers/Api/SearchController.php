@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DoctorProfile;
 use App\Models\WorkSchedule;
+use App\Models\MedicalCategory;
 
 use App\Http\Resources\ServiceCollection;
 use App\Http\Services\ReviewService;
@@ -298,7 +299,7 @@ class SearchController extends Controller
         $isAvailable = $request->input('is_available', false);
 
         // Create cache key for search results
-        $cacheKey = "doctor_search_" . md5($searchQuery . $specialty . $location . $minRating . $maxPrice . $isAvailable . $page . $perPage);
+        $cacheKey = $this->cacheKey::DOCTOR_SEARCH . md5($searchQuery . $specialty . $location . $minRating . $maxPrice . $isAvailable . $page . $perPage);
 
         // Cache search results for 5 minutes
         $result = Cache::remember($cacheKey, 300, function () use (
@@ -454,7 +455,7 @@ class SearchController extends Controller
             ->toArray();
 
         // Get specialty suggestions
-        $specialties = \App\Models\MedicalCategory::where('name', 'LIKE', "%{$query}%")
+        $specialties = MedicalCategory::where('name', 'LIKE', "%{$query}%")
             ->pluck('name')
             ->unique()
             ->take(3)
@@ -464,38 +465,5 @@ class SearchController extends Controller
             'doctors' => $doctorNames,
             'specialties' => $specialties,
         ];
-    }
-
-    /**
-     * Get popular search terms
-     */
-    public function getPopularSearchTerms()
-    {
-        $cacheKey = 'popular_search_terms';
-
-        return Cache::remember($cacheKey, 3600, function () {
-            // Get most common specialties
-            $popularSpecialties = \App\Models\MedicalCategory::withCount('doctorProfiles')
-                ->orderBy('doctor_profiles_count', 'desc')
-                ->take(5)
-                ->pluck('name')
-                ->toArray();
-
-            // Get most common locations
-            $popularLocations = User::where('identity', 'doctor')
-                ->where('status', 'active')
-                ->whereNotNull('city')
-                ->groupBy('city')
-                ->selectRaw('city, COUNT(*) as count')
-                ->orderBy('count', 'desc')
-                ->take(5)
-                ->pluck('city')
-                ->toArray();
-
-            return [
-                'specialties' => $popularSpecialties,
-                'locations' => $popularLocations,
-            ];
-        });
     }
 }
