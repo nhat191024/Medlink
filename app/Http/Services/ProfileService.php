@@ -515,4 +515,31 @@ class ProfileService
             }
         }
     }
+
+    /**
+     * calculate profile completion
+     */
+    public function calculateProfileCompletion($user)
+    {
+        $profile = $user->doctorProfile;
+
+        $totalFields = 12;
+        $filledFields = 0;
+
+        if ($user->avatar) $filledFields++;
+        if ($user->name) $filledFields++;
+        if ($profile->professional_number) $filledFields++;
+        if ($user->gender) $filledFields++;
+        if ($profile->introduce) $filledFields++;
+        if ($profile->medical_category_id) $filledFields++;
+        if ($user->languages()->count() > 0) $filledFields++;
+        if ($profile->office_address) $filledFields++;
+        if ($user->latitude && $user->longitude) $filledFields++;
+        if ($profile->company_name) $filledFields++;
+        if ($user->email) $filledFields++;
+        if ($user->phone) $filledFields++;
+
+
+        return round(($filledFields / $totalFields) * 100, 1);
+    }
 }
