@@ -15,13 +15,17 @@ use App\Http\Resources\DoctorAppointmentResource;
 use App\Http\Services\PaymentService;
 use Carbon\Carbon;
 
+use App\Helper\CacheKey;
+
 class AppointmentService
 {
     private $paymentService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->paymentService = app(PaymentService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -250,23 +254,23 @@ class AppointmentService
     public function clearAppointmentRelatedCache($appointment)
     {
         // Clear appointment details cache
-        Cache::forget("appointment_details_{$appointment->id}");
+        Cache::forget($this->cacheKey::APPOINTMENT_DETAILS . $appointment->id);
 
         // Clear doctor appointments cache
         if ($appointment->doctorProfile && $appointment->doctorProfile->user) {
             $doctorUserId = $appointment->doctorProfile->user->id;
-            Cache::forget("doctor_appointments_{$doctorUserId}");
-            Cache::forget("appointment_statistics_{$doctorUserId}");
+            Cache::forget($this->cacheKey::DOCTOR_APPOINTMENTS . $doctorUserId);
+            Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $doctorUserId);
         }
 
         // Clear patient appointments cache
         if ($appointment->patient && $appointment->patient->user) {
             $patientUserId = $appointment->patient->user->id;
-            Cache::forget("patient_appointments_{$patientUserId}");
-            Cache::forget("appointment_statistics_{$patientUserId}");
+            Cache::forget($this->cacheKey::PATIENT_APPOINTMENTS . $patientUserId);
+            Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $patientUserId);
         }
 
-        foreach (Cache::getRedis()->keys('doctor_list_search_page_*') as $key) {
+        foreach (Cache::getRedis()->keys($this->cacheKey::DOCTOR_LIST_SEARCH_PAGE) as $key) {
             Cache::forget(str_replace(config('cache.prefix') . ':', '', $key));
         }
     }
