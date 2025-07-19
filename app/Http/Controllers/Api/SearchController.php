@@ -18,15 +18,19 @@ use Illuminate\Support\Facades\Cache;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class SearchController extends Controller
 {
     private $workScheduleService;
     private $reviewService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->workScheduleService = app(WorkScheduleService::class);
         $this->reviewService = app(ReviewService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -36,7 +40,7 @@ class SearchController extends Controller
      */
     public function getNumberOfEachCategory()
     {
-        $cacheKey = 'healthcare_categories_count';
+        $cacheKey = $this->cacheKey::HEALTH_CATEGORIES_COUNT;
 
         // Cache for 15 minutes (900 seconds)
         $categories = Cache::remember($cacheKey, 900, function () {
@@ -79,7 +83,7 @@ class SearchController extends Controller
      */
     public function clearCategoriesCache()
     {
-        Cache::forget('healthcare_categories_count');
+        Cache::forget($this->cacheKey::HEALTH_CATEGORIES_COUNT);
 
         return response()->json([
             'message' => 'Categories cache cleared successfully'
