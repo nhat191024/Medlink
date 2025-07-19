@@ -12,15 +12,17 @@ use Illuminate\Support\Facades\Cache;
 use App\Http\Services\ReviewService;
 use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
 
-use function Pest\Laravel\json;
+use App\Helper\CacheKey;
 
 class ProfileService
 {
     private $reviewService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->reviewService = app(ReviewService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -330,8 +332,8 @@ class ProfileService
     public function clearProfileCache($userId)
     {
         $cacheKeys = [
-            "doctor_profile_setting_{$userId}",
-            "patient_profile_setting_{$userId}",
+            $this->cacheKey::DOCTOR_PROFILE . $userId,
+            $this->cacheKey::PATIENT_PROFILE . $userId,
         ];
 
         foreach ($cacheKeys as $key) {

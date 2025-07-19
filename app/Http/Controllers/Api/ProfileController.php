@@ -17,13 +17,17 @@ use Illuminate\Support\Facades\Cache;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class ProfileController extends Controller
 {
     private $profileService;
+    private $cacheKey;
 
     public function __construct(ProfileService $profileService)
     {
         $this->profileService = $profileService;
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -36,7 +40,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $userId = $user->id;
         $doctorProfile = $user->doctorProfile;
-        $cacheKey = "doctor_setting_profile_{$userId}";
+        $cacheKey = $this->cacheKey::DOCTOR_PROFILE . $userId;
 
         $isAvailable = WorkSchedule::isAvailable($doctorProfile->id);
 
@@ -87,7 +91,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "patient_profile_setting_{$userId}";
+        $cacheKey = $this->cacheKey::PATIENT_PROFILE . $userId;
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, function () use ($user) {
@@ -133,7 +137,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "profile_statistics_{$userId}";
+        $cacheKey = $this->cacheKey::PROFILE_STATISTICS . $userId;
 
         $statistics = Cache::remember($cacheKey, 600, function () use ($user) {
             if ($user->user_type === 'healthcare' && $user->identity === 'doctor') {
