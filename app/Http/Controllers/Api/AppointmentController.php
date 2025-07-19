@@ -23,13 +23,17 @@ use App\Http\Resources\PatientAppointmentResource;
 use App\Http\Requests\BookAppointment;
 use App\Models\Review;
 
+use App\Helper\CacheKey;
+
 class AppointmentController extends Controller
 {
     private $appointmentService;
+    private $cacheKey;
 
     public function __construct(AppointmentService $appointmentService)
     {
         $this->appointmentService = $appointmentService;
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -41,7 +45,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "doctor_appointments_{$userId}";
+        $cacheKey = $this->cacheKey::DOCTOR_APPOINTMENTS . $userId;
 
         // Cache for 5 minutes (300 seconds)
         $appointmentData = Cache::remember($cacheKey, 300, function () use ($user) {
@@ -60,7 +64,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "patient_appointments_{$userId}";
+        $cacheKey = $this->cacheKey::PATIENT_APPOINTMENTS . $userId;
 
         // Cache for 5 minutes
         $appointmentData = Cache::remember($cacheKey, 300, function () use ($user) {
@@ -83,9 +87,9 @@ class AppointmentController extends Controller
         $cacheKeys = [];
 
         if ($user->user_type === 'healthcare' && $user->identity === 'doctor') {
-            $cacheKeys[] = "doctor_appointments_{$userId}";
+            $cacheKeys[] = $this->cacheKey::DOCTOR_APPOINTMENTS . $userId;
         } elseif ($user->user_type === 'patient') {
-            $cacheKeys[] = "patient_appointments_{$userId}";
+            $cacheKeys[] = $this->cacheKey::PATIENT_APPOINTMENTS . $userId;
         }
 
         foreach ($cacheKeys as $key) {
@@ -106,7 +110,7 @@ class AppointmentController extends Controller
      */
     public function getAppointmentDetails($appointmentId)
     {
-        $cacheKey = "appointment_details_{$appointmentId}";
+        $cacheKey = $this->cacheKey::APPOINTMENT_DETAILS . $appointmentId;
 
         $appointment = Cache::remember($cacheKey, 600, function () use ($appointmentId) {
             return Appointment::with([
@@ -198,7 +202,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "appointment_statistics_{$userId}";
+        $cacheKey = $this->cacheKey::APPOINTMENT_STATISTICS . $userId;
 
         $statistics = Cache::remember($cacheKey, 900, function () use ($user) {
             return $this->appointmentService->calculateDetailedStatistics($user);
@@ -218,9 +222,9 @@ class AppointmentController extends Controller
 
         // Define cache patterns to clear
         $cachePatterns = [
-            "doctor_appointments_{$user->id}",
-            "patient_appointments_{$user->id}",
-            "appointment_statistics_{$user->id}",
+            $this->cacheKey::DOCTOR_APPOINTMENTS . $user->id,
+            $this->cacheKey::PATIENT_APPOINTMENTS . $user->id,
+            $this->cacheKey::APPOINTMENT_STATISTICS . $user->id,
         ];
 
         foreach ($cachePatterns as $pattern) {
