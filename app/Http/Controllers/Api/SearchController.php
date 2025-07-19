@@ -106,7 +106,7 @@ class SearchController extends Controller
         $location = $request->input('location', '');
 
         // Create cache key including search parameters
-        $cacheKey = "doctor_list_search_page_{$page}_" . md5("{$search}_{$specialty}_{$location}_{$perPage}");
+        $cacheKey = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . "{$page}_" . md5("{$search}_{$specialty}_{$location}_{$perPage}");
 
         // Cache for 10 minutes
         $result = Cache::remember($cacheKey, 600, fn() => $this->fetchDoctorList($perPage, $search, $specialty, $location));
@@ -281,25 +281,6 @@ class SearchController extends Controller
             'average_rating' => $averageRating,
             'total_reviews' => $totalReviews,
         ];
-    }
-
-    /**
-     * Clear doctor list cache
-     */
-    public function clearDoctorListCache()
-    {
-        // Clear all doctor list cache keys
-        $cacheKeys = Cache::get('doctor_list_cache_keys', []);
-
-        foreach ($cacheKeys as $key) {
-            Cache::forget($key);
-        }
-
-        Cache::forget('doctor_list_cache_keys');
-
-        return response()->json([
-            'message' => 'Doctor list cache cleared successfully'
-        ], Response::HTTP_OK);
     }
 
     /**
