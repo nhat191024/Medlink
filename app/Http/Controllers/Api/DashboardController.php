@@ -9,16 +9,19 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\UserService;
+use App\Http\Services\ProfileService;
 
 use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
     private $userService;
+    private $profileService;
 
     public function __construct()
     {
         $this->userService = app(UserService::class);
+        $this->profileService = app(ProfileService::class);
     }
 
     /**
@@ -128,8 +131,12 @@ class DashboardController extends Controller
             ];
         });
 
+        $profileSetupPoint = ['profileSetupPoint' => $this->profileService->calculateProfileCompletion($user)];
+
+        $userBalance = ['balance' => $user->balance];
+
         // Merge all cached data
-        $summary = array_merge($profileData, $appointmentData, $notificationData);
+        $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance, $profileSetupPoint);
 
         return response()->json($summary, Response::HTTP_OK);
     }
