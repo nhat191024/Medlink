@@ -33,6 +33,8 @@ class SearchController extends Controller
         $this->cacheKey = new CacheKey();
     }
 
+    /* #region category count */
+
     /**
      * Get the number of each healthcare category
      *
@@ -89,6 +91,8 @@ class SearchController extends Controller
             'message' => 'Categories cache cleared successfully'
         ], Response::HTTP_OK);
     }
+
+    /* #endregion */
 
     /**
      * Get doctor list with proper User and DoctorProfile relationships
