@@ -13,15 +13,19 @@ use App\Http\Services\ProfileService;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class DashboardController extends Controller
 {
     private $userService;
     private $profileService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->userService = app(UserService::class);
         $this->profileService = app(ProfileService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -33,7 +37,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $cacheKey = "patient_summary_{$user->id}";
+        $cacheKey = $this->cacheKey::PATIENT_SUMMARY . $user->id;
 
         $summary = Cache::rememberForever($cacheKey, function () use ($user) {
             // Fresh load để đảm bảo có notification mới nhất
@@ -74,7 +78,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $profileCacheKey = "doctor_profile_{$user->id}";
+        $profileCacheKey = $this->cacheKey::DOCTOR_SUMMARY . $user->id;
         $profileData = Cache::rememberForever($profileCacheKey, function () use ($user) {
             $user = $user->load([
                 'doctorProfile',
@@ -95,6 +99,8 @@ class DashboardController extends Controller
             $reviewsCount = $doctorProfile->reviews->count();
             $reviewerAvatars = $this->userService->getReviewerAvatars($doctorProfile->reviews);
 
+            $profileSetupPoint = $this->profileService->calculateProfileCompletion($user);
+
             return [
                 'avatar' => $avatar,
                 'name' => $name,
@@ -105,11 +111,12 @@ class DashboardController extends Controller
                 'reviews' => $reviewsCount,
                 'reviewer' => $reviewerAvatars,
                 'hasIntroduction' => $hasIntroduction,
+                'profileSetupPoint' => $profileSetupPoint,
             ];
         });
 
         // Cache appointment data for 5 minutes
-        $appointmentCacheKey = "doctor_appointments_summary_{$user->id}";
+        $appointmentCacheKey = $this->cacheKey::DOCTOR_APPOINTMENTS_SUMMARY . $user->id;
         $appointmentData = Cache::remember($appointmentCacheKey, now()->addMinutes(5), function () use ($user) {
             $user = $user->load(['doctorProfile.appointments']);
             $appointments = $user->doctorProfile->appointments ?? collect();
@@ -121,7 +128,7 @@ class DashboardController extends Controller
         });
 
         // Cache notification data for 2 minutes
-        $notificationCacheKey = "doctor_notifications_{$user->id}";
+        $notificationCacheKey = $this->cacheKey::DOCTOR_NOTIFICATIONS . $user->id;
         $notificationData = Cache::remember($notificationCacheKey, now()->addMinutes(2), function () use ($user) {
             $user = $user->fresh(['notification']);
             $notifications = $user->notification ?? collect();
@@ -131,12 +138,10 @@ class DashboardController extends Controller
             ];
         });
 
-        $profileSetupPoint = ['profileSetupPoint' => $this->profileService->calculateProfileCompletion($user)];
-
         $userBalance = ['balance' => $user->balance];
 
         // Merge all cached data
-        $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance, $profileSetupPoint);
+        $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance);
 
         return response()->json($summary, Response::HTTP_OK);
     }
