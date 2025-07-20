@@ -14,13 +14,17 @@ use App\Http\Services\NotificationService;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class NotificationController extends Controller
 {
     private $notificationService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->notificationService = app(NotificationService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -31,7 +35,7 @@ class NotificationController extends Controller
     public function index()
     {
         $userId = Auth::id();
-        $cacheKey = "user_notifications_{$userId}";
+        $cacheKey = $this->cacheKey::USER_NOTIFICATIONS . $userId;
 
         // Cache notifications for 5 minutes
         $mappedNotifications = Cache::remember($cacheKey, 300, function () use ($userId) {
@@ -68,7 +72,8 @@ class NotificationController extends Controller
         $notification->update(['status' => 'read']);
 
         // Clear cache when notification is updated
-        Cache::forget("user_notifications_{$userId}");
+        $cacheKey = $this->cacheKey::USER_NOTIFICATIONS . $userId;
+        Cache::forget($cacheKey);
 
         return response()->json(['message' => 'Notification marked as read']);
     }
@@ -87,7 +92,13 @@ class NotificationController extends Controller
         })->update(['status' => 'read']);
 
         // Clear cache when notifications are updated
-        Cache::forget("user_notifications_{$userId}");
+        $cacheKeys = [
+            $this->cacheKey::USER_NOTIFICATIONS . $userId,
+            $this->cacheKey::UNREAD_NOTIFICATIONS_COUNT . $userId
+        ];
+        foreach ($cacheKeys as $cacheKey) {
+            Cache::forget($cacheKey);
+        }
 
         return response()->json(['message' => 'All notifications marked as read']);
     }
@@ -100,7 +111,7 @@ class NotificationController extends Controller
     public function getUnreadCount()
     {
         $userId = Auth::id();
-        $cacheKey = "user_unread_notifications_count_{$userId}";
+        $cacheKey = $this->cacheKey::UNREAD_NOTIFICATIONS_COUNT . $userId;
 
         $count = Cache::remember($cacheKey, 300, function () use ($userId) {
             return Notification::whereHas('appointment.doctor.user', function ($query) use ($userId) {
