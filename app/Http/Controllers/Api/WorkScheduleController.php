@@ -16,13 +16,17 @@ use App\Http\Services\WorkScheduleService;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class WorkScheduleController extends Controller
 {
     private $workScheduleService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->workScheduleService = app(WorkScheduleService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -36,7 +40,7 @@ class WorkScheduleController extends Controller
         $doctorProfile = $user->doctorProfile;
         $workSchedule = $doctorProfile->workSchedules;
 
-        $cacheKey = 'work_schedule_' . $user->id;
+        $cacheKey = $this->cacheKey::WORK_SCHEDULE . $user->id;
 
         $workSchedules = Cache::rememberForever($cacheKey, function () use ($workSchedule) {
             return $this->workScheduleService->getSortedGroupedWorkSchedule($workSchedule);
@@ -93,7 +97,7 @@ class WorkScheduleController extends Controller
 
             DB::commit();
 
-            $cacheKey = 'work_schedule_' . $user->id;
+            $cacheKey = $this->cacheKey::WORK_SCHEDULE . $user->id;
             Cache::forget($cacheKey);
 
             return response()->json([
@@ -129,7 +133,7 @@ class WorkScheduleController extends Controller
             DB::commit();
 
             $user = Auth::user();
-            $cacheKey = 'work_schedule_' . $user->id;
+            $cacheKey = $this->cacheKey::WORK_SCHEDULE . $user->id;
             Cache::forget($cacheKey);
 
             return response()->json([
