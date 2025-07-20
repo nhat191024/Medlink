@@ -14,18 +14,27 @@ use Illuminate\Support\Facades\DB;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class FavoriteController extends Controller
 {
+    private $cacheKey;
+
+    public function __construct()
+    {
+        $this->cacheKey = new CacheKey();
+    }
+
     /**
      * Get favorite doctors for the authenticated user
      * Caches the result for 10 minutes
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function favoriteDoctor()
+    public function getFavoriteDoctor()
     {
         $user = Auth::user();
-        $cacheKey = "favorite_doctors_user_{$user->id}";
+        $cacheKey = $this->cacheKey::FAVORITE_DOCTORS . $user->id;
 
         return Cache::remember($cacheKey, now()->addMinutes(10), function () use ($user) {
             $doctors = $user->favoriteDoctors()
@@ -43,54 +52,31 @@ class FavoriteController extends Controller
                 $doctor = $favorite->doctor;
                 $profile = $doctor->doctorProfile;
 
-                // Cache individual doctor data
-                $doctorCacheKey = "doctor_data_{$doctor->id}";
-                return Cache::remember($doctorCacheKey, now()->addMinutes(15), function () use ($doctor, $profile) {
-                    $medicalCategory = $profile->medicalCategory->name ?? 'N/A';
+                $medicalCategory = $profile->medicalCategory->name ?? 'N/A';
+                $isPopular = $profile->appointments()
+                    ->where('status', 1)
+                    ->where('created_at', '>=', now()->subDays(7))
+                    ->count() > 5;
 
-                    // Cache popularity check
-                    $popularityCacheKey = "doctor_popularity_{$profile->id}";
-                    $isPopular = Cache::remember($popularityCacheKey, now()->addMinutes(30), function () use ($profile) {
-                        return $profile->appointments()
-                            ->where('status', 1)
-                            ->where('created_at', '>=', now()->subDays(7))
-                            ->count() > 5;
-                    });
+                $reviews = $profile->reviews;
+                $rating = $reviews->count() > 0 ? round($reviews->sum('rate') / $reviews->count(), 1) : 0;
 
-                    // Cache rating calculation
-                    $ratingCacheKey = "doctor_rating_{$profile->id}";
-                    $rating = Cache::remember($ratingCacheKey, now()->addMinutes(60), function () use ($profile) {
-                        $reviews = $profile->reviews;
-                        return $reviews->count() > 0 ? round($reviews->sum('rate') / $reviews->count(), 1) : 0;
-                    });
+                $city = $doctor->city ?? 'N/A';
+                $minPrice = $profile->services ? $profile->services->min('price') : 0;
+                $isAvailable = WorkSchedule::isAvailable($profile->id);
 
-                    $city = $doctor->city ?? 'N/A';
-
-                    // Cache min price
-                    $minPriceCacheKey = "doctor_min_price_{$profile->id}";
-                    $minPrice = Cache::remember($minPriceCacheKey, now()->addHours(2), function () use ($profile) {
-                        return $profile->services ? $profile->services->min('price') : 0;
-                    });
-
-                    // Cache availability check
-                    $availabilityCacheKey = "doctor_availability_{$profile->id}";
-                    $isAvailable = Cache::remember($availabilityCacheKey, now()->addMinutes(5), function () use ($profile) {
-                        return WorkSchedule::isAvailable($profile->id);
-                    });
-
-                    return [
-                        'id' => $doctor->id,
-                        'avatar' => asset($doctor->avatar),
-                        'name' => $doctor->name,
-                        'specialty' => $medicalCategory,
-                        'is_popular' => $isPopular,
-                        'rating' => $rating,
-                        'city' => $city,
-                        'min_price' => $minPrice,
-                        'is_available' => $isAvailable,
-                        'is_favorite' => true,
-                    ];
-                });
+                return [
+                    'id' => $doctor->id,
+                    'avatar' => asset($doctor->avatar),
+                    'name' => $doctor->name,
+                    'specialty' => $medicalCategory,
+                    'is_popular' => $isPopular,
+                    'rating' => $rating,
+                    'city' => $city,
+                    'min_price' => $minPrice,
+                    'is_available' => $isAvailable,
+                    'is_favorite' => true,
+                ];
             });
 
             return response()->json($doctorsData, Response::HTTP_OK);
@@ -103,25 +89,47 @@ class FavoriteController extends Controller
     public function clearFavoriteDoctorsCache($userId = null)
     {
         $userId ??= Auth::id();
-        $cacheKey = "favorite_doctors_user_{$userId}";
+        $cacheKey = $this->cacheKey::FAVORITE_DOCTORS . $userId;
         Cache::forget($cacheKey);
     }
 
     /**
-     * Clear all doctor-related cache
+     * Add a doctor to the user's favorites
+     *
+     * @param int $doctorId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function clearDoctorCache($doctorId)
+    public function addFavoriteDoctor(Request $request)
     {
-        $cacheKeys = [
-            "doctor_data_{$doctorId}",
-            "doctor_popularity_{$doctorId}",
-            "doctor_rating_{$doctorId}",
-            "doctor_min_price_{$doctorId}",
-            "doctor_availability_{$doctorId}"
-        ];
+        $request->validate([
+            'doctor_id' => 'required|integer|exists:doctors,id',
+        ]);
 
-        foreach ($cacheKeys as $key) {
-            Cache::forget($key);
+        $doctorId = $request->input('doctor_id');
+
+        $user = Auth::user();
+        $doctor = $user->favoriteDoctors()->where('doctor_id', $doctorId)->first();
+
+        if ($doctor) {
+            return response()->json(
+                ['message' => 'Doctor already in favorites'],
+                Response::HTTP_OK
+            );
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $user->favoriteDoctors()->attach($doctorId);
+
+            $this->clearFavoriteDoctorsCache($user->id);
+
+            DB::commit();
+            return response()->json(['message' => 'Doctor added to favorites'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error adding favorite doctor: ' . $e->getMessage());
+            return response()->json(['message' => 'Error adding favorite doctor'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
