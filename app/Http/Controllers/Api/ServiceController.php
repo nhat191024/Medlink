@@ -15,8 +15,17 @@ use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\ServiceCollection;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class ServiceController extends Controller
 {
+    private $cacheKey;
+
+    public function __construct()
+    {
+        $this->cacheKey = new CacheKey();
+    }
+
     /**
      * Get user list of services.
      *
@@ -25,7 +34,7 @@ class ServiceController extends Controller
     public function getUserServices()
     {
         $user = Auth::user();
-        $cacheKey = 'user_services_' . $user->id;
+        $cacheKey = $this->cacheKey::DOCTOR_SERVICES . $user->id;
 
         $services = Cache::rememberForever($cacheKey, function () use ($user) {
             $doctorProfile = $user->doctorProfile;
@@ -68,7 +77,7 @@ class ServiceController extends Controller
             $service->save();
 
             $user = Auth::user();
-            $cacheKey = 'user_services_' . $user->id;
+            $cacheKey = $this->cacheKey::DOCTOR_SERVICES . $user->id;
             Cache::forget($cacheKey);
 
             DB::commit();
