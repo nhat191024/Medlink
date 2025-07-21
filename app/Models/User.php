@@ -14,7 +14,9 @@ use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 
 use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Traits\CanConfirm;
 use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Interfaces\Confirmable;
 
 /**
  *
@@ -93,9 +95,9 @@ use Bavix\Wallet\Interfaces\Wallet;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar, Wallet
+class User extends Authenticatable implements FilamentUser, HasAvatar, Wallet, Confirmable
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm;
 
     public function canAccessPanel(Panel $panel): bool
     {
