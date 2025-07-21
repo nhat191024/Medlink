@@ -443,7 +443,7 @@ class AppointmentService
                         'quantity' => 1
                     ]
                 ],
-                'expiryTime' => intval(now()->addMinutes(5)->timestamp) // 5 minutes expiry
+                'expiryTime' => intval(now()->addMinutes(10)->timestamp)
             ];
 
             $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method, $isAppRequest);
