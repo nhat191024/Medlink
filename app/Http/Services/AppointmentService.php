@@ -31,32 +31,50 @@ class AppointmentService
     /**
      * Get appointments by type for a doctor profile
      */
-    public function getAppointmentsByType($doctorProfileId)
+    public function getAppointmentsByType($profileId, $userType)
     {
-        $baseQuery = Appointment::with(['patient.user', 'service', 'bill'])
-            ->where('doctor_profile_id', $doctorProfileId);
+        $baseQuery = null;
 
-        return [
-            'new' => (clone $baseQuery)
+        if ($userType === 'healthcare') {
+            $baseQuery = Appointment::with(['patient.user', 'service', 'bill'])
+                ->where('doctor_profile_id', $profileId);
+        } elseif ($userType === 'patient') {
+            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill'])
+                ->where('patient_profile_id', $profileId);
+        }
+
+        $result = [];
+
+        if ($userType === 'healthcare') {
+            $result['new'] = (clone $baseQuery)
                 ->where('status', 'pending')
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
-                ->get(),
+                ->get();
 
-            'upcoming' => (clone $baseQuery)
+            $result['upcoming'] = (clone $baseQuery)
                 ->where('status', 'upcoming')
                 ->where('date', '>=', now()->toDateString())
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
-                ->get(),
+                ->get();
+        } elseif ($userType === 'patient') {
+            $result['upcoming'] = (clone $baseQuery)
+                ->whereIn('status', ['pending', 'upcoming'])
+                ->where('date', '>=', now()->toDateString())
+                ->orderBy('date', 'asc')
+                ->orderBy('time', 'asc')
+                ->get();
+        }
 
-            'history' => (clone $baseQuery)
-                ->whereIn('status', ['cancelled', 'rejected', 'completed'])
-                ->orderBy('date', 'desc')
-                ->orderBy('time', 'desc')
-                ->limit(50) // Limit history to last 50 records for performance
-                ->get(),
-        ];
+        $result['history'] = (clone $baseQuery)
+            ->whereIn('status', ['cancelled', 'rejected', 'completed'])
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc')
+            ->limit(50)
+            ->get();
+
+        return $result;
     }
 
     /**
@@ -114,18 +132,13 @@ class AppointmentService
      */
     public function calculatePatientStatistics($appointments)
     {
-        $upcoming = $appointments->whereIn('status', ['pending', 'upcoming'])
-            ->where('date', '>=', now()->toDateString())
-            ->count();
+        $upcoming = $appointments['upcoming']->count();
 
-        $completed = $appointments->where('status', 'completed')->count();
-        $cancelled = $appointments->where('status', 'cancelled')->count();
+        $history = $appointments['history']->count();
 
         return [
             'total_upcoming' => $upcoming,
-            'total_completed' => $completed,
-            'total_cancelled' => $cancelled,
-            'total_appointments' => $appointments->count(),
+            'total_history' => $history,
         ];
     }
 
@@ -315,7 +328,7 @@ class AppointmentService
         $officeAddress = $doctorProfile->office_address;
 
         // Fetch different types of appointments
-        $appointments = $this->getAppointmentsByType($doctorProfile->id);
+        $appointments = $this->getAppointmentsByType($doctorProfile->id, 'healthcare');
 
         return [
             'officeAddress' => $officeAddress,
@@ -345,21 +358,11 @@ class AppointmentService
             ];
         }
 
-        $appointments = Appointment::with(['doctorProfile.user', 'service', 'bill'])
-            ->where('patient_profile_id', $patientProfile->id)
-            ->orderBy('date', 'desc')
-            ->orderBy('time', 'desc')
-            ->get();
-
-        $groupedAppointments = [
-            'upcoming' => $appointments->whereIn('status', ['pending', 'upcoming'])
-                ->where('date', '>=', now()->toDateString()),
-            'history' => $appointments->whereIn('status', ['cancelled', 'rejected', 'completed'])
-        ];
+        $appointments = $this->getAppointmentsByType($patientProfile->id, 'patient');
 
         return [
-            'upcomingAppointments' => DoctorAppointmentResource::collection($groupedAppointments['upcoming']),
-            'historyAppointments' => DoctorAppointmentResource::collection($groupedAppointments['history']),
+            'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
+            'historyAppointments' => DoctorAppointmentResource::collection($appointments['history']),
             'statistics' => $this->calculatePatientStatistics($appointments),
         ];
     }
