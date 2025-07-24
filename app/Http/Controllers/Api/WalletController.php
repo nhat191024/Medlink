@@ -81,10 +81,10 @@ class WalletController extends Controller
                 'buyerPhone' => $user->phone,
                 'items' => [
                     [
-                        'name' => `Nạp Tiền Vào Vì Ứng Dụng Medlink - {$user->name}`,
+                        'name' => "Nạp Tiền Vào Vì Ứng Dụng Medlink - {$user->name}",
                         'price' => $request->input('amount'),
                         'quantity' => 1,
-                    ],
+                    ]
                 ],
                 'expiryTime' => intval(now()->addMinutes(10)->timestamp)
             ];
