@@ -101,6 +101,7 @@ class WalletController extends Controller
                     'transactionId' => $transaction->id,
                     'billId' => $response['orderCode'],
                     'amount' => $request->input('amount'),
+                    'url' => $response['url']
                 ]
             ], Response::HTTP_OK);
         } catch (\Exception $e) {
