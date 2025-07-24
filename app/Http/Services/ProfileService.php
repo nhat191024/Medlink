@@ -149,17 +149,11 @@ class ProfileService
             return $this->formatReview($review);
         });
 
-        // Calculate rating distribution
-        $ratingDistribution = $this->reviewService->getTestimonials($reviews);
-
-        dd($ratingDistribution);
-
         return [
             'count' => $reviewCount,
             'average' => $avgTotal,
             'top_reviews' => $topReviews,
             'all_reviews' => $allReviews,
-            'rating_distribution' => $ratingDistribution,
         ];
     }
 
