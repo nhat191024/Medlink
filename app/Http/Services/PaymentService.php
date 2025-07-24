@@ -121,6 +121,8 @@ class PaymentService
 
         $response = $this->payOS->createPaymentLink($paymentRequest);
 
+        $response['url'] = $url;
+
         return $response;
     }
 
