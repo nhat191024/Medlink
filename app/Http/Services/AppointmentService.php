@@ -39,7 +39,7 @@ class AppointmentService
             $baseQuery = Appointment::with(['patient.user', 'service', 'bill'])
                 ->where('doctor_profile_id', $profileId);
         } elseif ($userType === 'patient') {
-            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill'])
+            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory'])
                 ->where('patient_profile_id', $profileId);
         }
 
@@ -132,6 +132,7 @@ class AppointmentService
      */
     public function calculatePatientStatistics($appointments)
     {
+        // Count appointments based on their status
         $upcoming = $appointments['upcoming']->count();
 
         $history = $appointments['history']->count();
@@ -360,8 +361,10 @@ class AppointmentService
 
         $appointments = $this->getAppointmentsByType($patientProfile->id, 'patient');
 
+        // dd($appointments['upcoming'][1]['doctor']['user']['avatar']);
+
         return [
-            'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
+            // 'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
             'historyAppointments' => DoctorAppointmentResource::collection($appointments['history']),
             'statistics' => $this->calculatePatientStatistics($appointments),
         ];
