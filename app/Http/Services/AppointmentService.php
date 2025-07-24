@@ -364,7 +364,7 @@ class AppointmentService
         // dd($appointments['upcoming'][1]['doctor']['user']['avatar']);
 
         return [
-            // 'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
+            'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
             'historyAppointments' => DoctorAppointmentResource::collection($appointments['history']),
             'statistics' => $this->calculatePatientStatistics($appointments),
         ];
