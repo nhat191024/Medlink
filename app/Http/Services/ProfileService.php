@@ -473,7 +473,7 @@ class ProfileService
         // Move file to upload directory
         $avatarFile->move(storage_path('app/public/upload/avatar'), $imageName);
 
-        return "/upload/avatar/{$imageName}";
+        return "storage/upload/avatar/{$imageName}";
     }
 
     /**
