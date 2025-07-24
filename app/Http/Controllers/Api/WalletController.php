@@ -44,7 +44,7 @@ class WalletController extends Controller
     public function getTransactionHistory()
     {
         $user = Auth::user();
-        $data = $user->wallet->transactions;
+        $data = $user->wallet->transactions()->orderBy('created_at', 'desc')->get();
         $transactions = new TransactionResourceCollection($data);
 
         return response()->json($transactions, Response::HTTP_OK);
