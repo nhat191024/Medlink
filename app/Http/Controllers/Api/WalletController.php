@@ -89,7 +89,7 @@ class WalletController extends Controller
                 'expiryTime' => intval(now()->addMinutes(10)->timestamp)
             ];
 
-            $response = $this->paymentService->processAppointmentPayment($data, 'qr_transfer', true);
+            $response = $this->paymentService->processAppointmentPayment($data, 'qr_transfer', true, true);
 
             DB::commit();
 
