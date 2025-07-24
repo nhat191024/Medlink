@@ -17,6 +17,7 @@ class TransactionResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->payable_id,
+            'type' => $this->type,
             'wallet_id' => $this->wallet_id,
             'amount' => $this->amount,
             'description' => $this->meta['description'] ?? null,
