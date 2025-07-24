@@ -331,6 +331,8 @@ class ProfileService
         $cacheKeys = [
             $this->cacheKey::DOCTOR_PROFILE . $userId,
             $this->cacheKey::PATIENT_PROFILE . $userId,
+            $this->cacheKey::DOCTOR_SUMMARY . $userId,
+            $this->cacheKey::PATIENT_SUMMARY . $userId,
         ];
 
         foreach ($cacheKeys as $key) {
