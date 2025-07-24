@@ -82,12 +82,14 @@ class WalletController extends Controller
                 'items' => [
                     [
                         'name' => "Nạp Tiền Vào Vì Ứng Dụng Medlink - {$user->name}",
-                        'price' => $request->input('amount'),
+                        'price' => intval($request->input('amount')),
                         'quantity' => 1,
                     ]
                 ],
                 'expiryTime' => intval(now()->addMinutes(10)->timestamp)
             ];
+
+            dd($data);
 
             $response = $this->paymentService->processAppointmentPayment($data, 'qr_transfer', true, true);
 
