@@ -172,7 +172,7 @@ class AppointmentController extends Controller
 
         // Check permissions
         $user = Auth::user();
-        if (!$this->appointmentService->canModifyAppointment($user, $appointment)) {
+        if ($request->input('status') != "cancelled" && !$this->appointmentService->canModifyAppointment($user, $appointment)) {
             return response()->json([
                 'message' => 'Unauthorized access'
             ], Response::HTTP_FORBIDDEN);
