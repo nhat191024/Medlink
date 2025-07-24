@@ -481,7 +481,7 @@ class ProfileService
      */
     private function removeOldAvatar($avatarPath)
     {
-        if ($avatarPath->startsWith('https://') || str_starts_with($avatarPath, 'storage/upload/avatar/default.png')) {
+        if (str_starts_with($avatarPath, 'https://') || str_starts_with($avatarPath, 'storage/upload/avatar/default.png')) {
             return;
         }
 
