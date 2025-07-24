@@ -23,9 +23,9 @@ class TransactionResource extends JsonResource
             'description' => $this->meta['description'] ?? null,
             'confirmed' => $this->confirmed,
             'uuid' => $this->uuid,
-            'created_at' => $this->created_at->diffForHumans(),
-            'updated_at' => $this->updated_at->diffForHumans(),
-            'deleted_at' => $this->deleted_at ? $this->deleted_at->diffForHumans() : null,
+            'created_at_time_human' => $this->created_at->diffForHumans(),
+            'updated_at_time_human' => $this->updated_at->diffForHumans(),
+            'created_at' => $this->created_at,
         ];
     }
 }
