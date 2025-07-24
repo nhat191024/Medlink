@@ -18,7 +18,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('patient_profile_id');
             $table->unsignedBigInteger('doctor_profile_id');
             $table->unsignedBigInteger('service_id');
-            $table->enum('status', ['cancelled', 'rejected', 'pending', 'upcoming', 'Completed'])->default('pending');
+            $table->enum('status', ['cancelled', 'rejected', 'pending', 'upcoming', 'completed'])->default('pending');
             $table->text('medical_problem');
             $table->string('medical_problem_file')->nullable();
             $table->integer('duration');
