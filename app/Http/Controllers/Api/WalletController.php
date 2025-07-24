@@ -96,10 +96,10 @@ class WalletController extends Controller
             return response()->json([
                 'message' => 'QR code created successfully',
                 'data' => [
-                    'qrCodeUrl' => $response['data']['checkoutUrl'],
-                    'qrCode' => $response['data']['qrCode'],
+                    'qrCodeUrl' => $response['checkoutUrl'],
+                    'qrCode' => $response['qrCode'],
                     'transactionId' => $transaction->id,
-                    'billId' => $response['data']['orderCode'],
+                    'billId' => $response['orderCode'],
                     'amount' => $request->input('amount'),
                 ]
             ], Response::HTTP_OK);
