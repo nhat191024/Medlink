@@ -40,7 +40,7 @@ class AppointmentFactory extends Factory
             'patient_profile_id' => $patientID,
             'doctor_profile_id' => $doctorID,
             'service_id' => $serviceID,
-            'status' => $this->faker->randomElement(['cancelled', 'rejected', 'pending', 'upcoming', 'Completed']),
+            'status' => $this->faker->randomElement(['cancelled', 'rejected', 'pending', 'upcoming', 'completed']),
             'medical_problem' => $this->faker->sentence(),
             'medical_problem_file' => 'documents/' . $this->faker->uuid() . '.pdf',
             'duration' => 30,
@@ -82,7 +82,7 @@ class AppointmentFactory extends Factory
     private function getBillStatusBasedOnAppointment(string $appointmentStatus): string
     {
         return match ($appointmentStatus) {
-            'Completed' => 'paid',
+            'completed' => 'paid',
             'upcoming' => $this->faker->randomElement(['paid', 'pending']),
             'pending' => 'pending',
             default => 'pending'
@@ -109,7 +109,7 @@ class AppointmentFactory extends Factory
             $this->shouldCreateBill = true;
             return [];
         })->afterCreating(function ($appointment) use ($billStatus) {
-            if (in_array($appointment->status, ['Completed', 'upcoming', 'pending'])) {
+            if (in_array($appointment->status, ['completed', 'upcoming', 'pending'])) {
                 $servicePrice = $appointment->service->price ?? $this->faker->randomFloat(2, 100, 800);
 
                 Bill::factory()
