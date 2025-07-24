@@ -76,6 +76,7 @@ class ProfileService
 
         // Get reviews data
         $reviewsData = $this->processReviews($doctorProfile->reviews);
+        $testimonials = $this->reviewService->getTestimonials($doctorProfile->reviews);
 
         return [
             'profile' => $doctorProfile,
@@ -86,7 +87,7 @@ class ProfileService
             'avgTotal' => $reviewsData['average'],
             'reviews' => $reviewsData['top_reviews'],
             'allReviews' => $reviewsData['all_reviews'],
-            'testimonials' => $reviewsData['rating_distribution'],
+            'testimonials' => $testimonials,
             'statistics' => $this->calculateProfileStatistics($doctorProfile),
         ];
     }
@@ -150,6 +151,8 @@ class ProfileService
 
         // Calculate rating distribution
         $ratingDistribution = $this->reviewService->getTestimonials($reviews);
+
+        dd($ratingDistribution);
 
         return [
             'count' => $reviewCount,
