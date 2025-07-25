@@ -107,6 +107,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'profile' => new PatientProfileResource($profileData['profile']),
+            'insurance' => $profileData['insurance'],
             'languages' => $profileData['languages'],
             'statistics' => $profileData['statistics'],
         ], Response::HTTP_OK);

@@ -174,6 +174,22 @@ class ProfileService
     }
 
     /**
+     * Format insurance
+     */
+    public function formatInsurance($insurance)
+    {
+        if ($insurance->insurance_type == "vietnamese") {
+            return [
+                "insurance_type" => $insurance->insurance_type,
+                "insurance_number" => $insurance->insurance_number,
+                "registry" => $insurance->registry,
+                "issuer" => $insurance->registered_address,
+                "valid_from" => $insurance->valid_from ? date('d-m-Y', strtotime($insurance->valid_from)) : null,
+            ];
+        }
+    }
+
+    /**
      * Calculate rating distribution
      */
     public function calculateRatingDistribution($reviews)
@@ -295,11 +311,13 @@ class ProfileService
             ];
         }
 
+        $insurance = $this->formatInsurance($patientProfile->insurance);
         $languages = $this->formatLanguages($user->languages);
         $statistics = $this->calculatePatientStatistics($user);
 
         return [
             'profile' => $patientProfile,
+            'insurance' => $insurance,
             'languages' => $languages,
             'statistics' => $statistics,
         ];
