@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
+ * @property int|null $appointment_id
  * @property string $message
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -30,7 +29,7 @@ class Support extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'message', 'status'];
+    protected $fillable = ['user_id', 'appointment_id', 'message', 'status'];
 
     public function user()
     {
