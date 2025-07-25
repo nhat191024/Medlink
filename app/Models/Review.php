@@ -62,4 +62,9 @@ class Review extends Model
     {
         return $this->belongsTo(Appointment::class);
     }
+
+    public static function isAppointmentReviewed($appointmentId)
+    {
+        return self::where('appointment_id', $appointmentId)->exists();
+    }
 }
