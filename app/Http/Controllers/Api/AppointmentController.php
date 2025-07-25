@@ -288,7 +288,7 @@ class AppointmentController extends Controller
             'appointment_id' => 'required|integer|exists:appointments,id',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'required|string|max:500',
-            'recommend' => 'required|boolean',
+            'recommend' => 'required|string|in:true,false',
         ]);
 
         if ($validator->fails()) {
@@ -311,7 +311,7 @@ class AppointmentController extends Controller
             'appointment_id' => $appointmentId,
             'rate' => $request->input('rating'),
             'review' => $request->input('review'),
-            'recommend' => $request->input('recommend'),
+            'recommend' => $request->input('recommend') == 'true' ? true : false,
         ]);
 
         return response()->json([
