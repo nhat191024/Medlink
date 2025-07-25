@@ -36,10 +36,10 @@ class AppointmentService
         $baseQuery = null;
 
         if ($userType === 'healthcare') {
-            $baseQuery = Appointment::with(['patient.user', 'service', 'bill'])
+            $baseQuery = Appointment::with(['patient.user', 'service', 'bill', 'review'])
                 ->where('doctor_profile_id', $profileId);
         } elseif ($userType === 'patient') {
-            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory'])
+            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory', 'review'])
                 ->where('patient_profile_id', $profileId);
         }
 
