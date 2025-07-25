@@ -185,6 +185,11 @@ class UserFactory extends Factory
             $patientProfile = PatientProfile::factory()->make();
             $user->patientProfile()->save($patientProfile);
 
+            $user->languages()->create([
+                'user_id' => $user->id,
+                'language_id' => $this->faker->randomElement([1, 2]),
+            ]);
+
             if ($patientProfile->exists) {
                 $patientProfile->insurance()->save(
                     UserInsurance::factory()->vietnameseInsurance()->make()
