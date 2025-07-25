@@ -275,4 +275,48 @@ class AppointmentController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
     }
+
+    /**
+     * Add a review for an appointment
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addReview(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'appointment_id' => 'required|integer|exists:appointments,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:500',
+            'recommend' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $appointmentId = $request->input('appointment_id');
+        $appointment = Appointment::find($appointmentId);
+        $user = Auth::user();
+        $patientProfileId = $user->patientProfile->id;
+        $doctorProfileId = $appointment->doctorProfile->id;
+
+        // Create the review
+        $review = Review::create([
+            'doctor_profile_id' => $doctorProfileId,
+            'patient_profile_id' => $patientProfileId,
+            'appointment_id' => $appointmentId,
+            'rate' => $request->input('rating'),
+            'review' => $request->input('review'),
+            'recommend' => $request->input('recommend'),
+        ]);
+
+        return response()->json([
+            'message' => 'Review added successfully',
+            'data' => $review
+        ], Response::HTTP_CREATED);
+    }
 }
