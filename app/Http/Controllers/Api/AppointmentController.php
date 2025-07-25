@@ -302,7 +302,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::find($appointmentId);
         $user = Auth::user();
         $patientProfileId = $user->patientProfile->id;
-        $doctorProfileId = $appointment->doctorProfile->id;
+        $doctorProfileId = $appointment->doctor_profile_id;
 
         // Create the review
         $review = Review::create([
