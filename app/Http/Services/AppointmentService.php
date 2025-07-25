@@ -361,8 +361,6 @@ class AppointmentService
 
         $appointments = $this->getAppointmentsByType($patientProfile->id, 'patient');
 
-        // dd($appointments['upcoming'][1]['doctor']['user']['avatar']);
-
         return [
             'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
             'historyAppointments' => DoctorAppointmentResource::collection($appointments['history']),
