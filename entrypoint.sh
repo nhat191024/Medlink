@@ -26,10 +26,11 @@ composer install --optimize-autoloader
 
 # storage link
 php artisan storage:link
-
 # optimize the application
 php artisan optimize:clear
 # generate application key
 php artisan key:generate
+#start the queue worker
+php artisan queue:work --daemon --sleep=3 --tries=3 --timeout=60
 
 exec "$@"
