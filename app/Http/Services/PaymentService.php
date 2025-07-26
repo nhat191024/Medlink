@@ -95,7 +95,7 @@ class PaymentService
         } elseif ($isAppRequest && $isRecharge) {
             $url = env("APP_SETTING_DEEPLINK_URL");
         } else {
-            $url = env("APP_URL");
+            $url = route('appointment.process-payment');
         }
 
         $paymentRequest = [
