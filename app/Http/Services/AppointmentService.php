@@ -68,7 +68,8 @@ class AppointmentService
         }
 
         $result['history'] = (clone $baseQuery)
-            ->whereIn('status', ['cancelled', 'rejected', 'completed'])
+            ->whereIn('status', ['cancelled', 'rejected', 'completed', 'waiting'])
+            ->orderByRaw("FIELD(status, 'waiting') DESC")
             ->orderBy('date', 'desc')
             ->orderBy('time', 'desc')
             ->limit(50)
