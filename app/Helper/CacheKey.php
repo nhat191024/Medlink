@@ -6,6 +6,8 @@ class CacheKey
 {
     //use in DashboardController & UserService
     public const string PATIENT_SUMMARY = 'patient_summary_';
+    public const string PATIENT_PROFILE_DATA = 'patient_profile_data_';
+    public const string PATIENT_NOTIFICATIONS = 'patient_notifications_';
     public const string DOCTOR_SUMMARY = 'doctor_summary_';
     public const string DOCTOR_APPOINTMENTS_SUMMARY = 'doctor_appointments_summary_';
     public const string DOCTOR_NOTIFICATIONS = 'doctor_notifications_';
