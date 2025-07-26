@@ -1,0 +1,170 @@
+
+/* Updated CSS for dynamic appointment scheduler */
+
+.time-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.section-title {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.month-year {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.nav-btn:hover {
+    background: #2980b9;
+}
+
+.calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.day-item {
+    flex: 0 0 auto;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 70px;
+}
+
+.day-item.selected {
+    background: #dc3545;
+    color: white;
+    border-color: #c92838;
+}
+
+.day-item.unavailable {
+    background: #f8f8f8;
+    color: #bbb;
+    cursor: not-allowed;
+    border-color: #f0f0f0;
+}
+
+.day-item.unavailable:hover {
+    background: #f8f8f8;
+}
+
+.day-item:not(.unavailable):hover {
+    border-color: #dc3545;
+    transform: translateY(-2px);
+}
+
+.day-radio {
+    display: none;
+}
+
+.day-name {
+    font-size: 12px;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.day-number {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.time-slot {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.time-slot:hover {
+    border-color: #dc3545;
+    transform: translateY(-1px);
+}
+
+.time-slot.selected {
+    background: #dc3545;
+    color: white;
+    border-color: #c92838;
+}
+
+.time-slot.unavailable {
+    background: #f8f8f8;
+    color: #bbb;
+    cursor: not-allowed;
+    border-color: #f0f0f0;
+}
+
+.time-slot.unavailable:hover {
+    transform: none;
+    border-color: #f0f0f0;
+}
+
+.time-radio {
+    display: none;
+}
+
+.no-slots-message {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+
+    .calendar-days {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .time-slots {
+        justify-content: center;
+    }
+
+}
