@@ -84,8 +84,10 @@
                         <div class="profile-item" data-id="{{ $item->doctorProfile->id }}">
                             <button class="favorite-btn">♡</button>
                             <div class="card-header">
-                                <img src="/{{ $item->avatar }}?height=80&width=80" alt="{{ $item->name }}"
-                                    class="doctor-avatar">
+                                <img src="{{ $item->avatar ? Storage::url($item->avatar) . '?height=80&width=80' : asset('storage/upload/avatar/default.png') }}"
+                                    alt="{{ $item->name }}"
+                                    class="doctor-avatar"
+                                    onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
                                 <div class="doctor-info">
                                     <h3 class="doctor-name">{{ $item->name }}</h3>
                                     <p class="doctor-specialty">
@@ -121,9 +123,17 @@
                                 </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Price from</div>
-                                    <div class="detail-value">${{ $item->doctorProfile->services->min('price') }} -
-                                        ${{ $item->doctorProfile->services->max('price') }}</div>
-                                </div>
+                                        @if ($item->doctorProfile->services->count() > 0)
+                                            <div class="detail-value">
+                                                {{ number_format($item->doctorProfile->services->min('price')) }}đ -
+                                                {{ number_format($item->doctorProfile->services->max('price')) }}đ
+                                            </div>
+                                        @else
+                                            <div class="detail-value">
+                                                No service
+                                            </div>
+                                        @endif
+                                    </div>
                                 <div class="detail-item">
                                     <div class="detail-label">Schedule</div>
                                     @php
@@ -137,7 +147,7 @@
                             </div>
                         </div>
                         <button class="book-btn"
-                            onclick="location.href='{{ route('appointment.step.one', ['user_id' => $item->id]) }}'">
+                            onclick="location.href='{{ route('appointment.step.one', ['doctor_profile_id' => $item->doctorProfile->id]) }}'">
                             Book Appointment
                         </button>
                     </div>
@@ -170,7 +180,7 @@
             document.querySelectorAll('.favorite-btn').forEach(button => {
                 button.addEventListener('click',
                     function() {
-                        alert('thinh gay');
+                        // alert('thinh gay');
                     });
             });
             document.querySelectorAll('.profile-item').forEach(element => {
