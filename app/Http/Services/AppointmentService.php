@@ -273,7 +273,7 @@ class AppointmentService
 
         // Clear doctor appointments cache
         if ($appointment->doctor && $appointment->doctor->user) {
-            $doctorUserId = $appointment->doctorProfile->user->id;
+            $doctorUserId = $appointment->doctor->user->id;
             Cache::forget($this->cacheKey::DOCTOR_APPOINTMENTS . $doctorUserId);
             Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $doctorUserId);
         }
