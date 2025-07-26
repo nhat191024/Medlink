@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserInsurance;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -227,27 +228,36 @@ class AuthController extends Controller
             'avatar.max' => __('client/auth.validation.avatar_max'),
         ]);
         $newUser = $request->session()->get('user');
-        $user = new User();
-        $user->phone = $newUser['phone'];
-        $user->country_code = $newUser['country_code'];
-        $user->user_type = "patient";
-        $user->email = $newUser['email'];
-        $user->password = Hash::make($newUser['password']);
-        $user->name = $newUser['full_name'];
-        $user->address = $newUser['address'];
-        if ($request->hasFile('avatar')) {
-            $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-            $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
-            $user->avatar = "/upload/avatar/{$imageName}";
-        } else {
-            $user->avatar = "/upload/avatar/default.png";
+        DB::beginTransaction();
+        try {
+            $user = new User();
+            $user->phone = $newUser['phone'];
+            $user->country_code = $newUser['country_code'];
+            $user->user_type = "patient";
+            $user->email = $newUser['email'];
+            $user->password = Hash::make($newUser['password']);
+            $user->name = $newUser['full_name'];
+            $user->address = $newUser['address'];
+            $user->gender = $newUser['gender'];
+            if ($request->hasFile('avatar')) {
+                $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
+                $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
+                $user->avatar = "/upload/avatar/{$imageName}";
+            } else {
+                $user->avatar = "/upload/avatar/default.png";
+            }
+            $user->save();
+            // Handle avatar upload logic here
+            // For example, save the avatar to storage and update the user's profile
+            $this->patientCreate($user->id, $request, $newUser);
+            $request->session()->forget('user');
+            DB::commit();
+            return redirect()->route('register.progress');
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
         }
-        $user->save();
-        // Handle avatar upload logic here
-        // For example, save the avatar to storage and update the user's profile
-        $this->patientCreate($user->id, $request, $newUser);
-        $request->session()->forget('user');
-        return redirect()->route('register.progress');
+        return back();
     }
 
 
@@ -351,7 +361,7 @@ class AuthController extends Controller
         $profile = new PatientProfile();
         $profile->user_id = $userId;
         $profile->age = $newUser['age'];
-        $profile->gender = $newUser['gender'];
+        // $profile->gender = $newUser['gender'];
         $profile->height = $newUser['height'];
         $profile->weight = $newUser['weight'];
         $profile->blood_group = $newUser['blood_group'];
@@ -382,5 +392,19 @@ class AuthController extends Controller
         }
 
         $insurance->save();
+    }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->tokens()->delete();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect('/login');
+        } else {
+            return redirect('/login');
+        }
     }
 }
