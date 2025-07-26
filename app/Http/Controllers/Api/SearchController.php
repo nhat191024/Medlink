@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DoctorProfile;
 use App\Models\WorkSchedule;
+use App\Models\MedicalCategory;
 
 use App\Http\Resources\ServiceCollection;
 use App\Http\Services\ReviewService;
@@ -18,16 +19,22 @@ use Illuminate\Support\Facades\Cache;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class SearchController extends Controller
 {
     private $workScheduleService;
     private $reviewService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->workScheduleService = app(WorkScheduleService::class);
         $this->reviewService = app(ReviewService::class);
+        $this->cacheKey = new CacheKey();
     }
+
+    /* #region category count */
 
     /**
      * Get the number of each healthcare category
@@ -36,7 +43,7 @@ class SearchController extends Controller
      */
     public function getNumberOfEachCategory()
     {
-        $cacheKey = 'healthcare_categories_count';
+        $cacheKey = $this->cacheKey::HEALTH_CATEGORIES_COUNT;
 
         // Cache for 15 minutes (900 seconds)
         $categories = Cache::remember($cacheKey, 900, function () {
@@ -79,12 +86,14 @@ class SearchController extends Controller
      */
     public function clearCategoriesCache()
     {
-        Cache::forget('healthcare_categories_count');
+        Cache::forget($this->cacheKey::HEALTH_CATEGORIES_COUNT);
 
         return response()->json([
             'message' => 'Categories cache cleared successfully'
         ], Response::HTTP_OK);
     }
+
+    /* #endregion */
 
     /**
      * Get doctor list with proper User and DoctorProfile relationships
@@ -98,7 +107,7 @@ class SearchController extends Controller
         $location = $request->input('location', '');
 
         // Create cache key including search parameters
-        $cacheKey = "doctor_list_page_{$page}_per_{$perPage}_search_" . md5($search . $specialty . $location);
+        $cacheKey = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . "{$page}_" . md5("{$search}_{$specialty}_{$location}_{$perPage}");
 
         // Cache for 10 minutes
         $result = Cache::remember($cacheKey, 600, fn() => $this->fetchDoctorList($perPage, $search, $specialty, $location));
@@ -276,25 +285,6 @@ class SearchController extends Controller
     }
 
     /**
-     * Clear doctor list cache
-     */
-    public function clearDoctorListCache()
-    {
-        // Clear all doctor list cache keys
-        $cacheKeys = Cache::get('doctor_list_cache_keys', []);
-
-        foreach ($cacheKeys as $key) {
-            Cache::forget($key);
-        }
-
-        Cache::forget('doctor_list_cache_keys');
-
-        return response()->json([
-            'message' => 'Doctor list cache cleared successfully'
-        ], Response::HTTP_OK);
-    }
-
-    /**
      * Search doctors by name and other criteria
      */
     public function searchDoctors(Request $request)
@@ -309,7 +299,7 @@ class SearchController extends Controller
         $isAvailable = $request->input('is_available', false);
 
         // Create cache key for search results
-        $cacheKey = "doctor_search_" . md5($searchQuery . $specialty . $location . $minRating . $maxPrice . $isAvailable . $page . $perPage);
+        $cacheKey = $this->cacheKey::DOCTOR_SEARCH . md5($searchQuery . $specialty . $location . $minRating . $maxPrice . $isAvailable . $page . $perPage);
 
         // Cache search results for 5 minutes
         $result = Cache::remember($cacheKey, 300, function () use (
@@ -465,7 +455,7 @@ class SearchController extends Controller
             ->toArray();
 
         // Get specialty suggestions
-        $specialties = \App\Models\MedicalCategory::where('name', 'LIKE', "%{$query}%")
+        $specialties = MedicalCategory::where('name', 'LIKE', "%{$query}%")
             ->pluck('name')
             ->unique()
             ->take(3)
@@ -475,38 +465,5 @@ class SearchController extends Controller
             'doctors' => $doctorNames,
             'specialties' => $specialties,
         ];
-    }
-
-    /**
-     * Get popular search terms
-     */
-    public function getPopularSearchTerms()
-    {
-        $cacheKey = 'popular_search_terms';
-
-        return Cache::remember($cacheKey, 3600, function () {
-            // Get most common specialties
-            $popularSpecialties = \App\Models\MedicalCategory::withCount('doctorProfiles')
-                ->orderBy('doctor_profiles_count', 'desc')
-                ->take(5)
-                ->pluck('name')
-                ->toArray();
-
-            // Get most common locations
-            $popularLocations = User::where('identity', 'doctor')
-                ->where('status', 'active')
-                ->whereNotNull('city')
-                ->groupBy('city')
-                ->selectRaw('city, COUNT(*) as count')
-                ->orderBy('count', 'desc')
-                ->take(5)
-                ->pluck('city')
-                ->toArray();
-
-            return [
-                'specialties' => $popularSpecialties,
-                'locations' => $popularLocations,
-            ];
-        });
     }
 }

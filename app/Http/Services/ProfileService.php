@@ -4,30 +4,31 @@ namespace App\Http\Services;
 
 use App\Models\User;
 use App\Models\Language;
+use App\Models\MedicalCategory;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 
+use App\Http\Services\ReviewService;
+use phpDocumentor\Reflection\PseudoTypes\LowercaseString;
+
+use App\Helper\CacheKey;
+
 class ProfileService
 {
-    /**
-     * Get doctor profile data with caching
-     */
-    public function getDoctorProfileData($user, $cacheKey = null)
-    {
-        if ($cacheKey) {
-            return Cache::remember($cacheKey, 600, function () use ($user) {
-                return $this->fetchDoctorProfileData($user);
-            });
-        }
+    private $reviewService;
+    private $cacheKey;
 
-        return $this->fetchDoctorProfileData($user);
+    public function __construct()
+    {
+        $this->reviewService = app(ReviewService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
      * Fetch doctor profile data from database
      */
-    private function fetchDoctorProfileData($user)
+    public function fetchDoctorProfileData($user)
     {
         // Load necessary relationships
         $user->load([
@@ -59,23 +60,23 @@ class ProfileService
         $workSchedules = $this->formatWorkSchedules($doctorProfile->workSchedules);
 
         // Get services
-        $services = $doctorProfile->services->map(function ($service) {
-            return [
-                'id' => $service->id,
-                'name' => $service->name,
-                'description' => $service->description,
-                'price' => $service->price,
-                'duration' => $service->duration,
-                'buffer_time' => $service->buffer_time,
-                'is_active' => $service->is_active,
-                'icon' => $service->icon,
-                'created_at' => $service->created_at,
-                'updated_at' => $service->updated_at,
-            ];
-        });
+        $services = $doctorProfile->services->map(fn($service) => [
+            'id' => $service->id,
+            'name' => $service->name,
+            'description' => $service->description,
+            'price' => $service->price,
+            'duration' => $service->duration,
+            'buffer_time' => $service->buffer_time,
+            'is_active' => $service->is_active == 1 ? true : false,
+            'icon' => $service->icon,
+            'seat' => $service->seat,
+            'created_at' => $service->created_at,
+            'updated_at' => $service->updated_at,
+        ]);
 
         // Get reviews data
         $reviewsData = $this->processReviews($doctorProfile->reviews);
+        $testimonials = $this->reviewService->getTestimonials($doctorProfile->reviews);
 
         return [
             'profile' => $doctorProfile,
@@ -86,7 +87,7 @@ class ProfileService
             'avgTotal' => $reviewsData['average'],
             'reviews' => $reviewsData['top_reviews'],
             'allReviews' => $reviewsData['all_reviews'],
-            'averageRatings' => $reviewsData['rating_distribution'],
+            'testimonials' => $testimonials,
             'statistics' => $this->calculateProfileStatistics($doctorProfile),
         ];
     }
@@ -99,7 +100,7 @@ class ProfileService
         return $userLanguages->map(function ($userLanguage) {
             return [
                 'code' => $userLanguage->language->code ?? null,
-                'language' => $userLanguage->language->name ?? null,
+                'name' => $userLanguage->language->name ?? null,
             ];
         })->values();
     }
@@ -148,15 +149,11 @@ class ProfileService
             return $this->formatReview($review);
         });
 
-        // Calculate rating distribution
-        $ratingDistribution = $this->calculateRatingDistribution($reviews);
-
         return [
             'count' => $reviewCount,
             'average' => $avgTotal,
             'top_reviews' => $topReviews,
             'all_reviews' => $allReviews,
-            'rating_distribution' => $ratingDistribution,
         ];
     }
 
@@ -174,6 +171,22 @@ class ProfileService
             'created_at' => $review->created_at,
             'formatted_date' => $review->created_at->diffForHumans(),
         ];
+    }
+
+    /**
+     * Format insurance
+     */
+    public function formatInsurance($insurance)
+    {
+        if ($insurance->insurance_type == "vietnamese") {
+            return [
+                "insurance_type" => $insurance->insurance_type,
+                "insurance_number" => $insurance->insurance_number,
+                "registry" => $insurance->registry,
+                "issuer" => $insurance->registered_address,
+                "valid_from" => $insurance->valid_from ? date('d-m-Y', strtotime($insurance->valid_from)) : null,
+            ];
+        }
     }
 
     /**
@@ -277,23 +290,9 @@ class ProfileService
     }
 
     /**
-     * Get patient profile data
-     */
-    public function getPatientProfileData($user, $cacheKey = null)
-    {
-        if ($cacheKey) {
-            return Cache::remember($cacheKey, 600, function () use ($user) {
-                return $this->fetchPatientProfileData($user);
-            });
-        }
-
-        return $this->fetchPatientProfileData($user);
-    }
-
-    /**
      * Fetch patient profile data from database
      */
-    private function fetchPatientProfileData($user)
+    public function fetchPatientProfileData($user)
     {
         $user->load([
             'patientProfile.insurance',
@@ -312,15 +311,18 @@ class ProfileService
             ];
         }
 
+        $insurance = $this->formatInsurance($patientProfile->insurance);
         $languages = $this->formatLanguages($user->languages);
         $statistics = $this->calculatePatientStatistics($user);
 
         return [
             'profile' => $patientProfile,
+            'insurance' => $insurance,
             'languages' => $languages,
             'statistics' => $statistics,
         ];
     }
+
     /**
      * Calculate patient statistics
      */
@@ -345,8 +347,10 @@ class ProfileService
     public function clearProfileCache($userId)
     {
         $cacheKeys = [
-            "doctor_profile_{$userId}",
-            "patient_profile_{$userId}",
+            $this->cacheKey::DOCTOR_PROFILE . $userId,
+            $this->cacheKey::PATIENT_PROFILE . $userId,
+            $this->cacheKey::DOCTOR_SUMMARY . $userId,
+            $this->cacheKey::PATIENT_SUMMARY . $userId,
         ];
 
         foreach ($cacheKeys as $key) {
@@ -379,20 +383,22 @@ class ProfileService
             ]);
 
             // Handle avatar upload
-            if (isset($validatedData['avatar']) && $validatedData['useDefaultAvatar'] == false) {
+            if (isset($validatedData['avatar']) && $validatedData['useDefaultAvatar'] == "0") {
                 $avatarPath = $this->handleAvatarUpload($validatedData['avatar'], $user->avatar);
                 $user->update(['avatar' => $avatarPath]);
-            } elseif ($validatedData['useDefaultAvatar'] == true) {
+            } elseif ($validatedData['useDefaultAvatar'] == "1") {
                 $this->removeOldAvatar($user->avatar);
                 $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name)]);
             }
 
             $doctorProfile = $user->doctorProfile;
 
+            $medicalCategoryId = MedicalCategory::where('name', $validatedData['medical_category_name'])->value('id');
+
             $doctorProfile->update([
                 'professional_number' => $validatedData['professional_number'],
                 'introduce' => $validatedData['introduce'],
-                'medical_category_id' => $validatedData['medical_category_id'],
+                'medical_category_id' => $medicalCategoryId,
                 'office_address' => $validatedData['office_address'],
                 'company_name' => $validatedData['company_name'],
             ]);
@@ -443,7 +449,7 @@ class ProfileService
                 $user->update(['avatar' => $avatarPath]);
             } elseif ($validatedData['useDefaultAvatar'] == '1') {
                 $this->removeOldAvatar($user->avatar);
-                $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name)]);
+                $user->update(['avatar' => 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . "&background=random&size=512"]);
             }
 
             $patientProfile = $user->patientProfile;
@@ -485,7 +491,7 @@ class ProfileService
         $imageName = time() . '_' . uniqid() . '.' . $avatarFile->getClientOriginalExtension();
 
         // Move file to upload directory
-        $avatarFile->move(storage_path('upload/avatar'), $imageName);
+        $avatarFile->move(storage_path('app/public/upload/avatar'), $imageName);
 
         return "storage/upload/avatar/{$imageName}";
     }
@@ -495,6 +501,10 @@ class ProfileService
      */
     private function removeOldAvatar($avatarPath)
     {
+        if (str_starts_with($avatarPath, 'https://') || str_starts_with($avatarPath, 'storage/upload/avatar/default.png')) {
+            return;
+        }
+
         if ($avatarPath) {
             $fullPath = storage_path($avatarPath);
             if (file_exists($fullPath)) {
@@ -506,25 +516,49 @@ class ProfileService
     /**
      * Update user languages
      */
-    private function updateUserLanguages($user, $languagesString)
+    private function updateUserLanguages($user, $languagesJson)
     {
         // Delete existing languages
         $user->languages()->delete();
 
         // Parse and create new languages
-        $languageList = explode(',', $languagesString);
+        $languageList = json_decode($languagesJson, true);
 
-        foreach ($languageList as $languageName) {
-            $languageName = trim($languageName);
-            if (!empty($languageName)) {
-                // Find or create language
-                $language = Language::firstOrCreate(['name' => $languageName]);
+        foreach ($languageList as $language) {
+            if (!empty($language)) {
+                $languageId = Language::where(['name' => $language['name']])->first()->id;
 
-                // Create user language relationship
                 $user->languages()->create([
-                    'language_id' => $language->id
+                    'language_id' => $languageId,
                 ]);
             }
         }
+    }
+
+    /**
+     * calculate profile completion
+     */
+    public function calculateProfileCompletion($user)
+    {
+        $profile = $user->doctorProfile;
+
+        $totalFields = 12;
+        $filledFields = 0;
+
+        if ($user->avatar) $filledFields++;
+        if ($user->name) $filledFields++;
+        if ($profile->professional_number) $filledFields++;
+        if ($user->gender) $filledFields++;
+        if ($profile->introduce) $filledFields++;
+        if ($profile->medical_category_id) $filledFields++;
+        if ($user->languages()->count() > 0) $filledFields++;
+        if ($profile->office_address) $filledFields++;
+        if ($user->latitude && $user->longitude) $filledFields++;
+        if ($profile->company_name) $filledFields++;
+        if ($user->email) $filledFields++;
+        if ($user->phone) $filledFields++;
+
+
+        return round(($filledFields / $totalFields) * 100, 1);
     }
 }

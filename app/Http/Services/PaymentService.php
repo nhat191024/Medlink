@@ -25,7 +25,7 @@ class PaymentService
      * @param string $paymentMethod
      * @return array
      */
-    public function processAppointmentPayment(array $data, $paymentMethod, bool $isAppRequest)
+    public function processAppointmentPayment(array $data, $paymentMethod, bool $isAppRequest, bool $isRecharge = false)
     {
         // This would integrate with your payment gateway
         // For now, we'll simulate payment processing
@@ -45,7 +45,8 @@ class PaymentService
                     $data['buyerAddress'] ?? null,
                     $data['items'] ?? null,
                     $data['expiryTime'] ?? null,
-                    $isAppRequest
+                    $isAppRequest,
+                    $isRecharge
                 );
             default:
                 throw new \Exception('Invalid payment method');
@@ -82,14 +83,20 @@ class PaymentService
         ?string $buyerAddress = null,
         ?array $items = null,
         ?int $expiryTime = null,
-        bool $isAppRequest
+        bool $isAppRequest,
+        bool $isRecharge,
     ) {
         $orderCode = $billId;
         $expiryTime ??= intval(now()->addMinutes(5)->timestamp);
 
-        $url = $isAppRequest
-            ? env("APP_DEEPLINK_URL")
-            : env("APP_URL");
+        $url = null;
+        if ($isAppRequest && !$isRecharge) {
+            $url = env("APP_PAYMENT_RESULT_DEEPLINK_URL");
+        } elseif ($isAppRequest && $isRecharge) {
+            $url = env("APP_SETTING_DEEPLINK_URL");
+        } else {
+            $url = env("APP_URL");
+        }
 
         $paymentRequest = [
             'orderCode' => $orderCode,
@@ -113,6 +120,8 @@ class PaymentService
         $paymentRequest['signature'] = $signature;
 
         $response = $this->payOS->createPaymentLink($paymentRequest);
+
+        $response['url'] = $url;
 
         return $response;
     }

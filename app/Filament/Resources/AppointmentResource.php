@@ -122,7 +122,7 @@ class AppointmentResource extends Resource
                     ->options([
                         'pending' => __('appointment.status.pending'),
                         'upcoming' => __('appointment.status.upcoming'),
-                        'Completed' => __('appointment.status.completed'),
+                        'completed' => __('appointment.status.completed'),
                         'cancelled' => __('appointment.status.cancelled'),
                         'rejected' => __('appointment.status.rejected'),
                     ])
@@ -160,21 +160,21 @@ class AppointmentResource extends Resource
                         'rejected' => __('appointment.status.rejected'),
                         'pending' => __('appointment.status.pending'),
                         'upcoming' => __('appointment.status.upcoming'),
-                        'Completed' => __('appointment.status.completed'),
+                        'completed' => __('appointment.status.completed'),
                     ][$state] ?? $state)
                     ->color(fn(string $state): string => [
                         'cancelled' => 'warning',
                         'rejected' => 'danger',
                         'pending' => 'warning',
                         'upcoming' => 'info',
-                        'Completed' => 'success',
+                        'completed' => 'success',
                     ][$state] ?? 'secondary')
                     ->icon(fn(string $state): string => [
                         'cancelled' => 'heroicon-o-x-circle',
                         'rejected' => 'heroicon-o-x-circle',
                         'pending' => 'heroicon-o-clock',
                         'upcoming' => 'heroicon-o-clock',
-                        'Completed' => 'heroicon-o-check-circle',
+                        'completed' => 'heroicon-o-check-circle',
                     ][$state] ?? 'heroicon-o-question-mark-circle'),
                 TextColumn::make('duration')
                     ->label(__('appointment.fields.duration'))
@@ -245,7 +245,7 @@ class AppointmentResource extends Resource
                             ->options([
                                 'pending' => __('appointment.status.pending'),
                                 'upcoming' => __('appointment.status.upcoming'),
-                                'Completed' => __('appointment.status.completed'),
+                                'completed' => __('appointment.status.completed'),
                                 'cancelled' => __('appointment.status.cancelled'),
                                 'rejected' => __('appointment.status.rejected'),
                             ])

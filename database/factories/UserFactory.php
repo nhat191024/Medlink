@@ -9,6 +9,7 @@ use App\Models\PatientProfile;
 use App\Models\WorkSchedule;
 use App\Models\UserInsurance;
 use App\Models\Notification;
+use App\Models\UserSetting;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -69,6 +70,9 @@ class UserFactory extends Factory
         })->afterCreating(function (User $user) {
             // Create 4 notifications for admin (2 unread, 2 read)
             $this->createNotificationsForUser($user);
+
+            // Create user settings
+            $this->createUserSettings($user);
         });
     }
 
@@ -116,6 +120,9 @@ class UserFactory extends Factory
 
             // Create 4 notifications for each doctor (2 unread, 2 read)
             $this->createNotificationsForUser($user);
+
+            // Create user settings
+            $this->createUserSettings($user);
         });
     }
 
@@ -136,6 +143,9 @@ class UserFactory extends Factory
 
             // Create 4 notifications for each pharmacy (2 unread, 2 read)
             $this->createNotificationsForUser($user);
+
+            // Create user settings
+            $this->createUserSettings($user);
         });
     }
 
@@ -156,6 +166,9 @@ class UserFactory extends Factory
 
             // Create 4 notifications for each hospital (2 unread, 2 read)
             $this->createNotificationsForUser($user);
+
+            // Create user settings
+            $this->createUserSettings($user);
         });
     }
 
@@ -172,6 +185,11 @@ class UserFactory extends Factory
             $patientProfile = PatientProfile::factory()->make();
             $user->patientProfile()->save($patientProfile);
 
+            $user->languages()->create([
+                'user_id' => $user->id,
+                'language_id' => $this->faker->randomElement([1, 2]),
+            ]);
+
             if ($patientProfile->exists) {
                 $patientProfile->insurance()->save(
                     UserInsurance::factory()->vietnameseInsurance()->make()
@@ -180,6 +198,9 @@ class UserFactory extends Factory
 
             // Create 4 notifications for each patient (2 unread, 2 read)
             $this->createNotificationsForUser($user);
+
+            // Create user settings
+            $this->createUserSettings($user);
         });
     }
 
@@ -199,5 +220,31 @@ class UserFactory extends Factory
             'user_id' => $user->id,
             'appointment_id' => null, // You can set this to a random appointment if needed
         ]);
+    }
+
+    /**
+     * Create user settings with default values
+     */
+    private function createUserSettings(User $user)
+    {
+        $defaultSettings = [
+            'notification' => true,
+            'promotion' => true,
+            'sms' => true,
+            'appNotification' => true,
+            'message' => true,
+            'customMessage' => true,
+            'messagePrivacy' => true,
+            'messageBackup' => true,
+        ];
+
+        foreach ($defaultSettings as $name => $value) {
+            UserSetting::create([
+                'user_id' => $user->id,
+                'name' => $name,
+                'value' => $value,
+                'description' => null,
+            ]);
+        }
     }
 }

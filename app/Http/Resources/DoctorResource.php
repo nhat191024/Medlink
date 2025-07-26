@@ -16,23 +16,13 @@ class DoctorResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "phone" => $this->country_code . " " . $this->phone,
-            "email" => $this->email,
-            "latitude" => $this->latitude,
-            "longitude" => $this->longitude,
-            "full_name" => $this->full_name,
-            "avatar" => $this->avatar ? asset($this->avatar) : '',
-            "age" => $this->age,
-            "gender" => $this->gender,
-            "height" => $this->height,
-            "weight" => $this->weight,
-            "blood_group" => $this->blood_group,
-            "medical_history" => $this->medical_history,
-            "insurance_type" => $this->insurance_type,
-            "insurance_number" => $this->insurance_number,
-            "main_insured" => $this->main_insured,
-            "entitled_insured" => $this->entitled_insured,
-            "assurance_type" => $this->assurance_type,
+            "avatar" => $this->user->avatar ?
+                asset($this->user->avatar) : '',
+            "full_name" => $this->user->name,
+            "medical_category_name" => $this->medicalCategory->name,
+            "phone" => "{$this->user->country_code} {$this->user->phone}",
+            "email" => $this->user->email,
+            "gender" => $this->user->gender,
             "office_address" => $this->office_address
         ];
     }

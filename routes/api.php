@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\AuthController;
-
-use App\Http\Middleware\LocalizationMiddleware;
 use App\Http\Middleware\LogRouteAccess;
+
+use App\Http\Controllers\Api\TestController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Middleware\LocalizationMiddleware;
 
 // Define API routes that require authentication
 Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess::class])->group(function () {
@@ -23,6 +24,12 @@ Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess
     require __DIR__ . '/api/profile.php';
     require __DIR__ . '/api/farvorite.php';
     require __DIR__ . '/api/payment.php';
+    require __DIR__ . '/api/wallet.php';
+    require __DIR__ . '/api/setting.php';
+    require __DIR__ . '/api/service.php';
+    require __DIR__ . '/api/workSchedule.php';
+    require __DIR__ . '/api/medicalCategory.php';
+    require __DIR__ . '/api/support.php';
 });
 
 // Define API routes that do not require authentication

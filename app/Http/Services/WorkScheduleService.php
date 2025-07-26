@@ -122,8 +122,11 @@ class WorkScheduleService
 
                             // Kiểm tra nếu time slot đã qua so với thời gian hiện tại (chỉ cho ngày hôm nay)
                             if ($day['full_date'] === Carbon::now()->format('Y-m-d')) {
-                                $slotDateTime = Carbon::parse($day['full_date'] . ' ' . $schedule->start_time);
-                                if ($slotDateTime->isPast()) {
+                                //! i just added endtime checking here
+                                //! it cloud break something... so ye.... may be i gonna revoke this if something wrong
+                                $slotDateStartTime = Carbon::parse($day['full_date'] . ' ' . $schedule->start_time);
+                                $slotDateEndTime = Carbon::parse($day['full_date'] . ' ' . $schedule->end_time);
+                                if ($slotDateStartTime->isPast() && $slotDateEndTime->isPast()) {
                                     $isAvailable = false;
                                 }
                             }

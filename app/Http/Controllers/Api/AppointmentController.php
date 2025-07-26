@@ -23,13 +23,17 @@ use App\Http\Resources\PatientAppointmentResource;
 use App\Http\Requests\BookAppointment;
 use App\Models\Review;
 
+use App\Helper\CacheKey;
+
 class AppointmentController extends Controller
 {
     private $appointmentService;
+    private $cacheKey;
 
     public function __construct(AppointmentService $appointmentService)
     {
         $this->appointmentService = $appointmentService;
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -41,7 +45,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "doctor_appointments_{$userId}";
+        $cacheKey = $this->cacheKey::DOCTOR_APPOINTMENTS . $userId;
 
         // Cache for 5 minutes (300 seconds)
         $appointmentData = Cache::remember($cacheKey, 300, function () use ($user) {
@@ -60,7 +64,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "patient_appointments_{$userId}";
+        $cacheKey = $this->cacheKey::PATIENT_APPOINTMENTS . $userId;
 
         // Cache for 5 minutes
         $appointmentData = Cache::remember($cacheKey, 300, function () use ($user) {
@@ -83,9 +87,9 @@ class AppointmentController extends Controller
         $cacheKeys = [];
 
         if ($user->user_type === 'healthcare' && $user->identity === 'doctor') {
-            $cacheKeys[] = "doctor_appointments_{$userId}";
+            $cacheKeys[] = $this->cacheKey::DOCTOR_APPOINTMENTS . $userId;
         } elseif ($user->user_type === 'patient') {
-            $cacheKeys[] = "patient_appointments_{$userId}";
+            $cacheKeys[] = $this->cacheKey::PATIENT_APPOINTMENTS . $userId;
         }
 
         foreach ($cacheKeys as $key) {
@@ -106,7 +110,7 @@ class AppointmentController extends Controller
      */
     public function getAppointmentDetails($appointmentId)
     {
-        $cacheKey = "appointment_details_{$appointmentId}";
+        $cacheKey = $this->cacheKey::APPOINTMENT_DETAILS . $appointmentId;
 
         $appointment = Cache::remember($cacheKey, 600, function () use ($appointmentId) {
             return Appointment::with([
@@ -143,9 +147,10 @@ class AppointmentController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateAppointmentStatus($appointmentId, Request $request)
+    public function updateAppointmentStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'appointment_id' => 'required|integer|exists:appointments,id',
             'status' => 'required|in:pending,upcoming,completed,cancelled,rejected',
             'reason' => 'nullable|string|max:255',
         ]);
@@ -157,7 +162,7 @@ class AppointmentController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
-        $appointment = Appointment::find($appointmentId);
+        $appointment = Appointment::find($request->input('appointment_id'));
 
         if (!$appointment) {
             return response()->json([
@@ -167,7 +172,7 @@ class AppointmentController extends Controller
 
         // Check permissions
         $user = Auth::user();
-        if (!$this->appointmentService->canModifyAppointment($user, $appointment)) {
+        if ($request->input('status') != "cancelled" && !$this->appointmentService->canModifyAppointment($user, $appointment)) {
             return response()->json([
                 'message' => 'Unauthorized access'
             ], Response::HTTP_FORBIDDEN);
@@ -184,7 +189,6 @@ class AppointmentController extends Controller
 
         return response()->json([
             'message' => 'Appointment status updated successfully',
-            'appointment' => new DoctorAppointmentResource($appointment->fresh())
         ], Response::HTTP_OK);
     }
 
@@ -197,7 +201,7 @@ class AppointmentController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "appointment_statistics_{$userId}";
+        $cacheKey = $this->cacheKey::APPOINTMENT_STATISTICS . $userId;
 
         $statistics = Cache::remember($cacheKey, 900, function () use ($user) {
             return $this->appointmentService->calculateDetailedStatistics($user);
@@ -217,9 +221,9 @@ class AppointmentController extends Controller
 
         // Define cache patterns to clear
         $cachePatterns = [
-            "doctor_appointments_{$user->id}",
-            "patient_appointments_{$user->id}",
-            "appointment_statistics_{$user->id}",
+            $this->cacheKey::DOCTOR_APPOINTMENTS . $user->id,
+            $this->cacheKey::PATIENT_APPOINTMENTS . $user->id,
+            $this->cacheKey::APPOINTMENT_STATISTICS . $user->id,
         ];
 
         foreach ($cachePatterns as $pattern) {
@@ -250,10 +254,10 @@ class AppointmentController extends Controller
         try {
             // Validate appointment availability
             $this->appointmentService->validateAppointmentAvailability(
-                $request->doctor_profile_id,
-                $request->date,
-                $request->start_time,
-                $request->service_id
+                $request->input('doctor_profile_id'),
+                $request->input('date'),
+                $request->input('start_time'),
+                $request->input('service_id')
             );
 
             // Create the appointment
@@ -272,19 +276,18 @@ class AppointmentController extends Controller
     }
 
     /**
-     *  Appointment feedback
+     * Add a review for an appointment
      *
-     * @param int $appointmentId
-     * @param Request $request
-     *
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function appointmentFeedback($appointmentId, Request $request)
+    public function addReview(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'rating' => 'required|float|between:1,5',
-            'feedback' => 'nullable|string|max:1000',
-            'is_recommended' => 'nullable|boolean',
+            'appointment_id' => 'required|integer|exists:appointments,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:500',
+            'recommend' => 'required|string|in:true,false',
         ]);
 
         if ($validator->fails()) {
@@ -294,31 +297,25 @@ class AppointmentController extends Controller
             ], Response::HTTP_BAD_REQUEST);
         }
 
+        $appointmentId = $request->input('appointment_id');
         $appointment = Appointment::find($appointmentId);
+        $user = Auth::user();
+        $patientProfileId = $user->patientProfile->id;
+        $doctorProfileId = $appointment->doctor_profile_id;
 
-        if (!$appointment) {
-            return response()->json([
-                'message' => 'Appointment not found'
-            ], Response::HTTP_NOT_FOUND);
-        }
-
-        if ($appointment->review()) {
-            return response()->json([
-                'message' => 'Feedback already submitted for this appointment'
-            ], Response::HTTP_CONFLICT);
-        }
-
-        $appointment->review()->create([
-            'doctor_profile_id' => $appointment->doctor_profile_id,
-            'patient_id' => Auth::id(),
-            'review' => $request->input('feedback', null),
+        // Create the review
+        $review = Review::create([
+            'doctor_profile_id' => $doctorProfileId,
+            'patient_profile_id' => $patientProfileId,
+            'appointment_id' => $appointmentId,
             'rate' => $request->input('rating'),
-            'recommend' => $request->input('is_recommended', false),
-        ])->save();
+            'review' => $request->input('review'),
+            'recommend' => $request->input('recommend') == 'true' ? true : false,
+        ]);
 
         return response()->json([
-            'message' => 'Feedback submitted successfully',
-            'appointment' => new PatientAppointmentResource($appointment)
-        ], Response::HTTP_OK);
+            'message' => 'Review added successfully',
+            'data' => $review
+        ], Response::HTTP_CREATED);
     }
 }

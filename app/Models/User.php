@@ -13,6 +13,11 @@ use Filament\Panel;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
 
+use Bavix\Wallet\Traits\HasWallet;
+use Bavix\Wallet\Traits\CanConfirm;
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Interfaces\Confirmable;
+
 /**
  *
  *
@@ -23,6 +28,7 @@ use Filament\Models\Contracts\FilamentUser;
  * @property string $password
  * @property string|null $avatar
  * @property string|null $name
+ * @property string|null $gender
  * @property string|null $country_code
  * @property string|null $phone
  * @property string|null $latitude
@@ -89,9 +95,9 @@ use Filament\Models\Contracts\FilamentUser;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, Wallet, Confirmable
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -189,7 +195,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $firstLanguage ? $firstLanguage->language->code : config('app.locale');
     }
 
-    public function setting()
+    public function settings()
     {
         return $this->hasMany(UserSetting::class);
     }

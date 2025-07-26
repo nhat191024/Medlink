@@ -15,44 +15,67 @@ use App\Http\Resources\DoctorAppointmentResource;
 use App\Http\Services\PaymentService;
 use Carbon\Carbon;
 
+use App\Helper\CacheKey;
+
 class AppointmentService
 {
     private $paymentService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->paymentService = app(PaymentService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
      * Get appointments by type for a doctor profile
      */
-    public function getAppointmentsByType($doctorProfileId)
+    public function getAppointmentsByType($profileId, $userType)
     {
-        $baseQuery = Appointment::with(['patient.user', 'service', 'bill'])
-            ->where('doctor_profile_id', $doctorProfileId);
+        $baseQuery = null;
 
-        return [
-            'new' => (clone $baseQuery)
+        if ($userType === 'healthcare') {
+            $baseQuery = Appointment::with(['patient.user', 'service', 'bill', 'review'])
+                ->where('doctor_profile_id', $profileId);
+        } elseif ($userType === 'patient') {
+            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory', 'review'])
+                ->where('patient_profile_id', $profileId);
+        }
+
+        $result = [];
+
+        if ($userType === 'healthcare') {
+            $result['new'] = (clone $baseQuery)
                 ->where('status', 'pending')
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
-                ->get(),
+                ->get();
 
-            'upcoming' => (clone $baseQuery)
+            $result['upcoming'] = (clone $baseQuery)
                 ->where('status', 'upcoming')
                 ->where('date', '>=', now()->toDateString())
                 ->orderBy('date', 'asc')
                 ->orderBy('time', 'asc')
-                ->get(),
+                ->get();
+        } elseif ($userType === 'patient') {
+            $result['upcoming'] = (clone $baseQuery)
+                ->whereIn('status', ['pending', 'upcoming'])
+                ->where('date', '>=', now()->toDateString())
+                ->orderBy('date', 'asc')
+                ->orderBy('time', 'asc')
+                ->get();
+        }
 
-            'history' => (clone $baseQuery)
-                ->whereIn('status', ['cancelled', 'rejected', 'completed'])
-                ->orderBy('date', 'desc')
-                ->orderBy('time', 'desc')
-                ->limit(50) // Limit history to last 50 records for performance
-                ->get(),
-        ];
+        $result['history'] = (clone $baseQuery)
+            ->whereIn('status', ['cancelled', 'rejected', 'completed', 'waiting'])
+            ->orderByRaw("FIELD(status, 'waiting') DESC")
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'desc')
+            ->limit(50)
+            ->get();
+
+        return $result;
     }
 
     /**
@@ -110,18 +133,14 @@ class AppointmentService
      */
     public function calculatePatientStatistics($appointments)
     {
-        $upcoming = $appointments->whereIn('status', ['pending', 'upcoming'])
-            ->where('date', '>=', now()->toDateString())
-            ->count();
+        // Count appointments based on their status
+        $upcoming = $appointments['upcoming']->count();
 
-        $completed = $appointments->where('status', 'completed')->count();
-        $cancelled = $appointments->where('status', 'cancelled')->count();
+        $history = $appointments['history']->count();
 
         return [
             'total_upcoming' => $upcoming,
-            'total_completed' => $completed,
-            'total_cancelled' => $cancelled,
-            'total_appointments' => $appointments->count(),
+            'total_history' => $history,
         ];
     }
 
@@ -250,61 +269,25 @@ class AppointmentService
     public function clearAppointmentRelatedCache($appointment)
     {
         // Clear appointment details cache
-        Cache::forget("appointment_details_{$appointment->id}");
+        Cache::forget($this->cacheKey::APPOINTMENT_DETAILS . $appointment->id);
 
         // Clear doctor appointments cache
-        if ($appointment->doctorProfile && $appointment->doctorProfile->user) {
-            $doctorUserId = $appointment->doctorProfile->user->id;
-            Cache::forget("doctor_appointments_{$doctorUserId}");
-            Cache::forget("appointment_statistics_{$doctorUserId}");
+        if ($appointment->doctor && $appointment->doctor->user) {
+            $doctorUserId = $appointment->doctor->user->id;
+            Cache::forget($this->cacheKey::DOCTOR_APPOINTMENTS . $doctorUserId);
+            Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $doctorUserId);
         }
 
         // Clear patient appointments cache
         if ($appointment->patient && $appointment->patient->user) {
             $patientUserId = $appointment->patient->user->id;
-            Cache::forget("patient_appointments_{$patientUserId}");
-            Cache::forget("appointment_statistics_{$patientUserId}");
+            Cache::forget($this->cacheKey::PATIENT_APPOINTMENTS . $patientUserId);
+            Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $patientUserId);
         }
 
-        // Clear doctor list cache (since appointment counts affect popularity and statistics)
-        $this->clearDoctorListCache();
-    }
-
-    /**
-     * Clear doctor list related cache
-     */
-    private function clearDoctorListCache()
-    {
-        $cacheKeys = Cache::get('doctor_list_cache_keys', []);
-        foreach ($cacheKeys as $key) {
-            Cache::forget($key);
+        foreach (Cache::getRedis()->keys($this->cacheKey::DOCTOR_LIST_SEARCH_PAGE) as $key) {
+            Cache::forget(str_replace(config('cache.prefix') . ':', '', $key));
         }
-        Cache::forget('doctor_list_cache_keys');
-
-        $searchCacheKeys = Cache::get('doctor_search_cache_keys', []);
-        foreach ($searchCacheKeys as $key) {
-            Cache::forget($key);
-        }
-        Cache::forget('doctor_search_cache_keys');
-
-        $commonPatterns = [
-            'doctor_list_page_*',
-            'doctor_search_*',
-            'popular_search_terms',
-            'healthcare_categories_count'
-        ];
-
-        for ($page = 1; $page <= 10; $page++) {
-            for ($perPage = 4; $perPage <= 20; $perPage += 4) {
-                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5(''));
-                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5('doctor'));
-                Cache::forget("doctor_list_page_{$page}_per_{$perPage}_search_" . md5('specialist'));
-            }
-        }
-
-        // Clear popular search terms cache
-        Cache::forget('popular_search_terms');
-        Cache::forget('healthcare_categories_count');
     }
 
     /**
@@ -347,7 +330,7 @@ class AppointmentService
         $officeAddress = $doctorProfile->office_address;
 
         // Fetch different types of appointments
-        $appointments = $this->getAppointmentsByType($doctorProfile->id);
+        $appointments = $this->getAppointmentsByType($doctorProfile->id, 'healthcare');
 
         return [
             'officeAddress' => $officeAddress,
@@ -377,21 +360,11 @@ class AppointmentService
             ];
         }
 
-        $appointments = Appointment::with(['doctorProfile.user', 'service', 'bill'])
-            ->where('patient_profile_id', $patientProfile->id)
-            ->orderBy('date', 'desc')
-            ->orderBy('time', 'desc')
-            ->get();
-
-        $groupedAppointments = [
-            'upcoming' => $appointments->whereIn('status', ['pending', 'upcoming'])
-                ->where('date', '>=', now()->toDateString()),
-            'history' => $appointments->whereIn('status', ['cancelled', 'rejected', 'completed'])
-        ];
+        $appointments = $this->getAppointmentsByType($patientProfile->id, 'patient');
 
         return [
-            'upcomingAppointments' => DoctorAppointmentResource::collection($groupedAppointments['upcoming']),
-            'historyAppointments' => DoctorAppointmentResource::collection($groupedAppointments['history']),
+            'upcomingAppointments' => DoctorAppointmentResource::collection($appointments['upcoming']),
+            'historyAppointments' => DoctorAppointmentResource::collection($appointments['history']),
             'statistics' => $this->calculatePatientStatistics($appointments),
         ];
     }
@@ -450,7 +423,7 @@ class AppointmentService
                 'payment_method' => $request->payment_method,
                 'taxVAT' => $price * 0.10, // Assuming VAT is 10%
                 'total' => $price + $price * 0.10,
-                'status' => 'unpaid',
+                'status' => 'pending',
             ]);
 
             $total = $bill->total;
@@ -475,7 +448,7 @@ class AppointmentService
                         'quantity' => 1
                     ]
                 ],
-                'expiryTime' => intval(now()->addMinutes(5)->timestamp) // 5 minutes expiry
+                'expiryTime' => intval(now()->addMinutes(10)->timestamp)
             ];
 
             $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method, $isAppRequest);
@@ -504,45 +477,50 @@ class AppointmentService
      */
     public function validateAppointmentAvailability($doctorProfileId, $date, $time, $serviceId)
     {
-
-        // Check if the appointment date is in the past
-        if ($date < now()->toDateString()) {
-            throw new \Exception('Cannot book appointment for past dates');
-        }
-
-        // Check if the appointment is too far in the future (e.g., 3 months)
-        if ($date > now()->addMonths(3)->toDateString()) {
-            throw new \Exception('Cannot book appointment more than 3 months in advance');
-        }
-
-        $existingAppointments = Appointment::with('service')
-            ->where('doctor_profile_id', $doctorProfileId)
-            ->where('date', $date)
-            ->whereIn('status', ['pending', 'upcoming'])
-            ->get();
-
-        $service = Service::find($serviceId);
-        $duration = $service ? $service->duration : 30;
-        $duration += 5; // Add 5 minutes buffer to avoid conflicts
-
-        $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
-        $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
-
-        // dd($newAppointmentEnd);
-
-        // Check for time conflicts with each existing appointment
-        foreach ($existingAppointments as $appointment) {
-            $existingDuration = $appointment->service ? $appointment->service->duration : 30;
-            $existingAppointmentStart = Carbon::parse("{$date} {$appointment->time}");
-            $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
-
-            // Check if appointments overlap
-            if ($this->isTimeOverlapping($newAppointmentStart, $newAppointmentEnd, $existingAppointmentStart, $existingAppointmentEnd)) {
-                throw new \Exception("This time slot conflicts with an existing appointment from {$existingAppointmentStart->format('H:i')} to {$existingAppointmentEnd->format('H:i')}");
+        try {
+            // Check if the appointment date is in the past
+            if ($date < now()->toDateString()) {
+                throw new \Exception('Cannot book appointment for past dates');
             }
-        }
 
-        return true;
+            // Check if the appointment is too far in the future (e.g., 3 months)
+            if ($date > now()->addMonths(3)->toDateString()) {
+                throw new \Exception('Cannot book appointment more than 3 months in advance');
+            }
+
+            $existingAppointments = Appointment::with('service')
+                ->where('doctor_profile_id', $doctorProfileId)
+                ->where('date', $date)
+                ->whereIn('status', ['pending', 'upcoming'])
+                ->get();
+
+            $service = Service::find($serviceId);
+            $duration = $service ? $service->duration : 30;
+            $duration += 5; // Add 5 minutes buffer to avoid conflicts
+
+            $newAppointmentStart = Carbon::parse($time)->setDateFrom($date);
+            $newAppointmentEnd = $newAppointmentStart->copy()->addMinutes($duration);
+
+            // Check for time conflicts with each existing appointment
+            foreach ($existingAppointments as $appointment) {
+                $existingDuration = $appointment->service ? $appointment->service->duration : 30;
+
+                $timeRange = $appointment->time;
+                $startTime = trim(explode(' - ', $timeRange)[0]);
+                $existingAppointmentStart = Carbon::parse("{$date} {$startTime}");
+                $existingAppointmentEnd = $existingAppointmentStart->copy()->addMinutes($existingDuration);
+
+                // Check if appointments overlap
+                if ($this->isTimeOverlapping($newAppointmentStart, $newAppointmentEnd, $existingAppointmentStart, $existingAppointmentEnd)) {
+                    throw new \Exception("This time slot conflicts with an existing appointment from {$existingAppointmentStart->format('H:i')} to {$existingAppointmentEnd->format('H:i')}");
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            // Optionally log the error here
+            throw new \Exception('Error validating appointment availability: ' . $e->getMessage());
+        }
     }
 
     /**

@@ -23,24 +23,24 @@ class DoctorEditProfileRequest extends FormRequest
             // Basic user information
             'avatar' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'useDefaultAvatar' => 'required|boolean',
+            'user_type' => 'required|string|in:healthcare,patient',
+            'identity' => 'required|string|in:doctor,pharmacies,hospital,ambulance',
             'name' => 'required|string|max:255',
             'gender' => 'required|string|in:male,female,other',
-            'languages' => 'required|string',
+            'languages' => 'required|json',
             'country_code' => 'required|string|max:10',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user()->id,
             'latitude' => 'nullable|string',
             'longitude' => 'nullable|string',
-            'address' => 'nullable|string|max:500',
             'city' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
             'country' => 'nullable|string|max:100',
             'zip_code' => 'nullable|string|max:20',
 
             // Doctor profile information
             'professional_number' => 'required|string|max:100',
             'introduce' => 'required|string|max:1000',
-            'medical_category_id' => 'required|integer|exists:medical_categories,id',
+            'medical_category_name' => 'required|string|exists:medical_categories,name',
             'office_address' => 'required|string|max:500',
             'company_name' => 'required|string|max:255',
         ];
@@ -52,16 +52,24 @@ class DoctorEditProfileRequest extends FormRequest
     public function messages(): array
     {
         return [
+            // Avatar validation messages
             'avatar.image' => 'The avatar must be an image.',
             'avatar.mimes' => 'The avatar must be a file of type: png, jpg, jpeg.',
             'avatar.max' => 'The avatar may not be greater than 2MB.',
+
+            // Basic user information messages
             'useDefaultAvatar.required' => 'The use default avatar field is required.',
-            'useDefaultAvatar.in' => 'The use default avatar must be 0 or 1.',
+            'useDefaultAvatar.boolean' => 'The use default avatar must be true or false.',
+            'user_type.required' => 'The user type is required.',
+            'user_type.in' => 'The user type must be either healthcare or patient.',
+            'indentity.required' => 'The identity is required.',
+            'indentity.in' => 'The identity must be one of: doctor, pharmacies, hospital, ambulance.',
             'name.required' => 'The name is required.',
-            'name.string' => 'The name must be a string.',
             'name.max' => 'The name may not be greater than 255 characters.',
+            'gender.required' => 'The gender is required.',
+            'gender.in' => 'The gender must be male, female, or other.',
             'languages.required' => 'The languages field is required.',
-            'languages.string' => 'The languages must be a string.',
+            'languages.json' => 'The languages must be a valid JSON format.',
             'country_code.required' => 'The country code is required.',
             'country_code.max' => 'The country code may not be greater than 10 characters.',
             'phone.required' => 'The phone is required.',
@@ -69,12 +77,18 @@ class DoctorEditProfileRequest extends FormRequest
             'email.required' => 'The email is required.',
             'email.email' => 'The email must be a valid email address.',
             'email.unique' => 'The email has already been taken.',
+            'city.max' => 'The city may not be greater than 100 characters.',
+            'country.max' => 'The country may not be greater than 100 characters.',
+            'zip_code.max' => 'The zip code may not be greater than 20 characters.',
+
+            // Doctor profile information messages
             'professional_number.required' => 'The professional number is required.',
             'professional_number.max' => 'The professional number may not be greater than 100 characters.',
             'introduce.required' => 'The introduction is required.',
             'introduce.max' => 'The introduction may not be greater than 1000 characters.',
-            'medical_category_id.required' => 'The medical category is required.',
-            'medical_category_id.exists' => 'The selected medical category is invalid.',
+            'medical_category_ name.required' => 'The medical category name is required.',
+            'medical_category_ name.string' => 'The medical category name must be a string.',
+            'medical_category_ name.exists' => 'The selected medical category name is invalid.',
             'office_address.required' => 'The office address is required.',
             'office_address.max' => 'The office address may not be greater than 500 characters.',
             'company_name.required' => 'The company name is required.',
@@ -93,7 +107,6 @@ class DoctorEditProfileRequest extends FormRequest
             'professional_number' => 'professional number',
             'office_address' => 'office address',
             'company_name' => 'company name',
-            'id_card' => 'ID card',
         ];
     }
 }

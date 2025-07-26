@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\WorkSchedule;
+
 use App\Http\Controllers\Controller;
 
 use App\Http\Resources\DoctorProfileResource;
@@ -15,13 +17,17 @@ use Illuminate\Support\Facades\Cache;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Helper\CacheKey;
+
 class ProfileController extends Controller
 {
     private $profileService;
+    private $cacheKey;
 
     public function __construct(ProfileService $profileService)
     {
         $this->profileService = $profileService;
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -33,10 +39,13 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "doctor_profile_{$userId}";
+        $doctorProfile = $user->doctorProfile;
+        $cacheKey = $this->cacheKey::DOCTOR_PROFILE . $userId;
+
+        $isAvailable = WorkSchedule::isAvailable($doctorProfile->id);
 
         // Cache for 10 minutes
-        $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->getDoctorProfileData($user));
+        $profileData = Cache::remember($cacheKey, 600, fn() => $this->profileService->fetchDoctorProfileData($user));
 
         if (isset($profileData['error'])) {
             return response()->json([
@@ -60,6 +69,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'profile' => new DoctorProfileResource($profileData['profile']),
+            'isAvailable' => $isAvailable,
             'languages' => $profileData['languages'],
             'workSchedule' => $profileData['workSchedule'],
             'services' => $profileData['services'],
@@ -67,7 +77,7 @@ class ProfileController extends Controller
             'avgTotal' => $profileData['avgTotal'],
             'reviews' => $profileData['reviews'],
             'allReviews' => $profileData['allReviews'],
-            'averageRatings' => $profileData['averageRatings'],
+            'testimonials' => $profileData['testimonials'],
             'statistics' => $profileData['statistics'],
         ], Response::HTTP_OK);
     }
@@ -81,11 +91,11 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "patient_profile_{$userId}";
+        $cacheKey = $this->cacheKey::PATIENT_PROFILE . $userId;
 
         // Cache for 10 minutes
         $profileData = Cache::remember($cacheKey, 600, function () use ($user) {
-            return $this->profileService->getPatientProfileData($user);
+            return $this->profileService->fetchPatientProfileData($user);
         });
 
         if (isset($profileData['error'])) {
@@ -97,6 +107,7 @@ class ProfileController extends Controller
 
         return response()->json([
             'profile' => new PatientProfileResource($profileData['profile']),
+            'insurance' => $profileData['insurance'],
             'languages' => $profileData['languages'],
             'statistics' => $profileData['statistics'],
         ], Response::HTTP_OK);
@@ -127,7 +138,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $cacheKey = "profile_statistics_{$userId}";
+        $cacheKey = $this->cacheKey::PROFILE_STATISTICS . $userId;
 
         $statistics = Cache::remember($cacheKey, 600, function () use ($user) {
             if ($user->user_type === 'healthcare' && $user->identity === 'doctor') {

@@ -19,7 +19,7 @@ class CreateBillsTable extends Migration
             $table->enum('payment_method', ['wallet', 'credit_card', 'qr_transfer'])->default('wallet');
             $table->double('taxVAT')->default(0);
             $table->double('total')->default(0);
-            $table->enum('status', ['unpaid', 'paid'])->default('unpaid');
+            $table->enum('status', ['pending', 'paid', 'cancelled', 'refunded'])->default('pending');
             $table->timestamps();
 
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('restrict')->onUpdate('cascade');

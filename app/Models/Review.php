@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $doctor_profile_id
@@ -50,16 +50,21 @@ class Review extends Model
 
     public function patient()
     {
-        return $this->belongsTo(DoctorProfile::class, 'doctor_profile_id');
+        return $this->belongsTo(PatientProfile::class, 'patient_profile_id');
     }
 
     public function doctor()
     {
-        return $this->belongsTo(PatientProfile::class, 'patient_profile_id');
+        return $this->belongsTo(DoctorProfile::class, 'doctor_profile_id');
     }
 
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public static function isAppointmentReviewed($appointmentId)
+    {
+        return self::where('appointment_id', $appointmentId)->exists();
     }
 }

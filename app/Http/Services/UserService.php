@@ -5,6 +5,8 @@ namespace App\Http\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
+use App\Helper\CacheKey;
+
 class UserService
 {
     /**
@@ -53,12 +55,18 @@ class UserService
     public static function clearUserSummaryCache($userId = null)
     {
         $userId ??= Auth::id();
+        $cacheKey = new CacheKey();
 
         if ($userId) {
-            Cache::forget("patient_summary_{$userId}");
-            Cache::forget("doctor_profile_{$userId}");
-            Cache::forget("doctor_appointments_{$userId}");
-            Cache::forget("doctor_notifications_{$userId}");
+            // Patient caches
+            Cache::forget($cacheKey::PATIENT_SUMMARY . $userId);
+            Cache::forget($cacheKey::PATIENT_PROFILE_DATA . $userId);
+            Cache::forget($cacheKey::PATIENT_NOTIFICATIONS . $userId);
+
+            // Doctor caches
+            Cache::forget($cacheKey::DOCTOR_SUMMARY . $userId);
+            Cache::forget($cacheKey::DOCTOR_APPOINTMENTS_SUMMARY . $userId);
+            Cache::forget($cacheKey::DOCTOR_NOTIFICATIONS . $userId);
         }
     }
 
@@ -71,9 +79,10 @@ class UserService
     public static function clearAppointmentCache($userId = null)
     {
         $userId ??= Auth::id();
+        $cacheKey = new CacheKey();
 
         if ($userId) {
-            Cache::forget("doctor_appointments_{$userId}");
+            Cache::forget($cacheKey::DOCTOR_APPOINTMENTS_SUMMARY . $userId);
         }
     }
 
@@ -86,9 +95,10 @@ class UserService
     public static function clearNotificationCache($userId = null)
     {
         $userId ??= Auth::id();
+        $cacheKey = new CacheKey();
 
         if ($userId) {
-            Cache::forget("doctor_notifications_{$userId}");
+            Cache::forget($cacheKey::DOCTOR_NOTIFICATIONS . $userId);
         }
     }
 }

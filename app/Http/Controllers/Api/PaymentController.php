@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\Appointment;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,31 +34,29 @@ class PaymentController extends Controller
 
     public function changePaymentStatus(Request $request)
     {
-        $bill = Bill::findOrFail($request->input('bill_id'));
-        $status = $request->input('status');
+        // Validate the request
+        $request->validate([
+            'id' => 'required|exists:bills,id',
+            'status' => 'required|in:PAID,UNPAID,CANCELLED',
+        ]);
 
-        $bill->status = $status == 'PAID' ? 'paid' : 'unpaid';
-        $bill->save();
+        try {
+            DB::beginTransaction();
 
-        $appointment = Appointment::where('id', $bill->appointment_id)->load('doctor', 'doctor.user', 'doctor.services', 'doctor.medicalCategory')->first();
+            $bill = Bill::find($request->input('id'));
+            $status = $request->input('status');
 
-        $appointmentData = [
-            'id' => $appointment->id,
-            'doctor' => [
-                'id' => $appointment->doctor->id,
-                'name' => $appointment->doctor->user->name,
-                'avatar' => $appointment->doctor->user->avatar,
-                'specialization' => $appointment->doctor->medicalCategory->name,
-            ],
-            'service' => [
-                'icon' => $appointment->service->icon,
-                'name' => $appointment->service->name,
-            ],
-            'time' => `{$appointment->day_of_week}, {$appointment->date}, {$appointment->time}`,
-            'appointmentPlace' => $appointment->link ?? $appointment->address,
-            'status' => $appointment->status,
-        ];
+            $status = strtolower($status);
 
-        return response()->json(['message' => 'Payment status changed successfully', $appointmentData], Response::HTTP_OK);
+            $bill->status = $status;
+            $bill->save();
+
+            DB::commit();
+
+            return response()->json(['message' => 'Payment status changed successfully'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Failed to change payment status', 'error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Bill;
 use App\Models\DoctorProfile;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -14,6 +15,7 @@ class AppointmentFactory extends Factory
 {
     protected $seedDoctorsID = null;
     protected $seedPatientsID = null;
+    protected $shouldCreateBill = true;
 
     public function withSeedData(array $doctorsID, array $patientsID)
     {
@@ -38,7 +40,7 @@ class AppointmentFactory extends Factory
             'patient_profile_id' => $patientID,
             'doctor_profile_id' => $doctorID,
             'service_id' => $serviceID,
-            'status' => $this->faker->randomElement(['cancelled', 'rejected', 'pending', 'upcoming', 'Completed']),
+            'status' => $this->faker->randomElement(['cancelled', 'rejected', 'pending', 'upcoming', 'completed']),
             'medical_problem' => $this->faker->sentence(),
             'medical_problem_file' => 'documents/' . $this->faker->uuid() . '.pdf',
             'duration' => 30,
@@ -55,5 +57,68 @@ class AppointmentFactory extends Factory
             'link' => $this->faker->url(),
             'address' => str_replace("\n", " ", $this->faker->address()),
         ];
+    }
+
+    /**
+     * Configure the model factory để tạo bill cùng với appointment.
+     */
+    public function configure()
+    {
+        return $this->afterCreating(function ($appointment) {
+            $servicePrice = $appointment->service->price ?? $this->faker->randomFloat(2, 100, 800);
+
+            Bill::factory()
+                ->withAmount($servicePrice)
+                ->create([
+                    'appointment_id' => $appointment->id,
+                    'status' => $this->getBillStatusBasedOnAppointment($appointment->status),
+                ]);
+        });
+    }
+
+    /**
+     * Xác định trạng thái bill dựa trên trạng thái appointment
+     */
+    private function getBillStatusBasedOnAppointment(string $appointmentStatus): string
+    {
+        return match ($appointmentStatus) {
+            'completed' => 'paid',
+            'upcoming' => $this->faker->randomElement(['paid', 'pending']),
+            'pending' => 'pending',
+            default => 'pending'
+        };
+    }
+
+    /**
+     * Tạo appointment mà không có bill
+     */
+    public function withoutBill(): static
+    {
+        return $this->state(function (array $attributes) {
+            $this->shouldCreateBill = false;
+            return [];
+        });
+    }
+
+    /**
+     * Tạo appointment với bill có trạng thái cụ thể
+     */
+    public function withBillStatus(string $billStatus): static
+    {
+        return $this->state(function (array $attributes) use ($billStatus) {
+            $this->shouldCreateBill = true;
+            return [];
+        })->afterCreating(function ($appointment) use ($billStatus) {
+            if (in_array($appointment->status, ['completed', 'upcoming', 'pending'])) {
+                $servicePrice = $appointment->service->price ?? $this->faker->randomFloat(2, 100, 800);
+
+                Bill::factory()
+                    ->withAmount($servicePrice)
+                    ->create([
+                        'appointment_id' => $appointment->id,
+                        'status' => $billStatus,
+                    ]);
+            }
+        });
     }
 }

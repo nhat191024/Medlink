@@ -90,7 +90,12 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        /** @var \App\Models\User $user **/  $user = Auth::user();
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        // Check if user already has tokens, delete them before creating a new one
+        if ($user->tokens()->count() > 0) {
+            $user->tokens()->delete();
+        }
         $token = $user->createToken('token')->plainTextToken;
 
         return response()->json([
@@ -138,13 +143,16 @@ class AuthController extends Controller
             $user->user_type = $request->input('userType');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('password'));
+            $user->gender = $request->input('gender');
+
+            $emailFirstLetter = strtolower(substr($user->email, 0, 1));
 
             if ($request->hasFile('avatar')) {
                 $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
                 $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
-                $user->avatar = "/upload/avatar/{$imageName}";
+                $user->avatar = "storage/upload/avatar/{$imageName}";
             } else {
-                $user->avatar = "/upload/avatar/default.png";
+                $user->avatar = "https://ui-avatars.com/api/?name=" . urlencode($emailFirstLetter) . "&background=random&size=512";
             }
 
             switch ($request->input('userType')) {
@@ -247,7 +255,6 @@ class AuthController extends Controller
         $profile = new PatientProfile();
         $profile->user_id = $userId;
         $profile->age = $request->input('age');
-        $profile->gender = $request->input('gender');
         $profile->height = $request->input('height');
         $profile->weight = $request->input('weight');
         $profile->blood_group = $request->input('bloodGroup');

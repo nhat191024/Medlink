@@ -9,6 +9,8 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
+    Route::get('/database-erd', fn() => view('database.erd'));
+
     require __DIR__ . '/web/register.php';
     require __DIR__ . '/web/forgot-password.php';
 });

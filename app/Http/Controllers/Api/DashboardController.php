@@ -9,16 +9,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\UserService;
+use App\Http\Services\ProfileService;
 
 use Symfony\Component\HttpFoundation\Response;
+
+use App\Helper\CacheKey;
 
 class DashboardController extends Controller
 {
     private $userService;
+    private $profileService;
+    private $cacheKey;
 
     public function __construct()
     {
         $this->userService = app(UserService::class);
+        $this->profileService = app(ProfileService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     /**
@@ -30,21 +37,15 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $cacheKey = "patient_summary_{$user->id}";
-
-        $summary = Cache::rememberForever($cacheKey, function () use ($user) {
-            // Fresh load để đảm bảo có notification mới nhất
-            $user = $user->fresh(['notification']);
-
+        // Cache profile data (rarely changes)
+        $profileCacheKey = $this->cacheKey::PATIENT_PROFILE_DATA . $user->id;
+        $profileData = Cache::rememberForever($profileCacheKey, function () use ($user) {
             $userAvatar = $user->avatar ? asset($user->avatar) : null;
             $location = trim(($user->city ?? '') . ', ' . ($user->country ?? ''), ', ');
 
-            $notifications = $user->notification ?? collect();
-            $isHaveNotification = $notifications->where('status', 'unread')->count() > 0;
-
             return [
-                'userAvatar' => $userAvatar,
-                'userName' => $user->name ?? 'Not provided',
+                'avatar' => $userAvatar,
+                'name' => $user->name ?? 'Not provided',
                 'email' => $user->email ?? 'Not provided',
                 'phone' => $user->phone ?? 'Not provided',
                 'address' => $user->address ?? 'Not provided',
@@ -55,9 +56,24 @@ class DashboardController extends Controller
                 'zip_code' => $user->zip_code ?? 'Not provided',
                 'userType' => $user->user_type ?? 'Not provided',
                 'location' => $location ?: 'Not provided',
-                'isHaveNotification' => $isHaveNotification,
             ];
         });
+
+        // Cache notification data for 2 minutes (frequently changes)
+        $notificationCacheKey = $this->cacheKey::PATIENT_NOTIFICATIONS . $user->id;
+        $notificationData = Cache::remember($notificationCacheKey, now()->addMinutes(2), function () use ($user) {
+            $user = $user->fresh(['notification']);
+            $notifications = $user->notification ?? collect();
+
+            return [
+                'isHaveNotification' => $notifications->where('status', 'unread')->count() > 0,
+            ];
+        });
+
+        $userBalance = ['balance' => $user->balance];
+
+        // Merge all cached data
+        $summary = array_merge($profileData, $notificationData, $userBalance);
 
         return response()->json($summary, Response::HTTP_OK);
     }
@@ -71,7 +87,7 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $profileCacheKey = "doctor_profile_{$user->id}";
+        $profileCacheKey = $this->cacheKey::DOCTOR_SUMMARY . $user->id;
         $profileData = Cache::rememberForever($profileCacheKey, function () use ($user) {
             $user = $user->load([
                 'doctorProfile',
@@ -85,11 +101,14 @@ class DashboardController extends Controller
             $identity = $user->identity ?? 'Not specified';
             $name = $this->userService->formatDoctorName($user->name, $identity);
             $specialty = $doctorProfile->medicalCategory->name ?? 'Not specified';
-            $hasIntroduction = empty($doctorProfile->introduce);
+            $hasIntroduction = !empty($doctorProfile->introduce);
+            $introduction = $doctorProfile->introduce ?? null;
 
             // Reviews (ít thay đổi)
             $reviewsCount = $doctorProfile->reviews->count();
             $reviewerAvatars = $this->userService->getReviewerAvatars($doctorProfile->reviews);
+
+            $profileSetupPoint = $this->profileService->calculateProfileCompletion($user);
 
             return [
                 'avatar' => $avatar,
@@ -97,14 +116,16 @@ class DashboardController extends Controller
                 'identity' => $identity,
                 'specialty' => $specialty,
                 'userType' => $user->user_type ?? 'Not provided',
-                'introduce' => $hasIntroduction,
+                'introduce' => $introduction,
                 'reviews' => $reviewsCount,
                 'reviewer' => $reviewerAvatars,
+                'hasIntroduction' => $hasIntroduction,
+                'profileSetupPoint' => $profileSetupPoint,
             ];
         });
 
         // Cache appointment data for 5 minutes
-        $appointmentCacheKey = "doctor_appointments_{$user->id}";
+        $appointmentCacheKey = $this->cacheKey::DOCTOR_APPOINTMENTS_SUMMARY . $user->id;
         $appointmentData = Cache::remember($appointmentCacheKey, now()->addMinutes(5), function () use ($user) {
             $user = $user->load(['doctorProfile.appointments']);
             $appointments = $user->doctorProfile->appointments ?? collect();
@@ -116,7 +137,7 @@ class DashboardController extends Controller
         });
 
         // Cache notification data for 2 minutes
-        $notificationCacheKey = "doctor_notifications_{$user->id}";
+        $notificationCacheKey = $this->cacheKey::DOCTOR_NOTIFICATIONS . $user->id;
         $notificationData = Cache::remember($notificationCacheKey, now()->addMinutes(2), function () use ($user) {
             $user = $user->fresh(['notification']);
             $notifications = $user->notification ?? collect();
@@ -126,8 +147,10 @@ class DashboardController extends Controller
             ];
         });
 
+        $userBalance = ['balance' => $user->balance];
+
         // Merge all cached data
-        $summary = array_merge($profileData, $appointmentData, $notificationData);
+        $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance);
 
         return response()->json($summary, Response::HTTP_OK);
     }
