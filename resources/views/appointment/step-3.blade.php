@@ -30,7 +30,7 @@
 
         <!-- Doctor Info -->
         <div class="doctor-info">
-            <img src="/placeholder.svg?height=60&width=60" alt="{{ $doctorProfile->user->name }}" class="doctor-avatar">
+            <img src="/{{ $doctorProfile->user->avatar }}?height=60&width=60" alt="{{ $doctorProfile->user->name }}" class="doctor-avatar" onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
             <div class="doctor-name">{{ $doctorProfile->user->name }}</div>
         </div>
 
@@ -43,11 +43,11 @@
                 <div class="info-row">
                     <div>
                         <div class="info-label">📅 Date</div>
-                        <div class="info-value">Thu, 05 Sep 2025</div>
+                        <div class="info-value">{{ $schedule['date'] }}</div>
                     </div>
                     <div>
                         <div class="info-label">🕐 Time</div>
-                        <div class="info-value">11:30 - 14:00 pm</div>
+                        <div class="info-value">{{ $schedule['time'] }}</div>
                     </div>
                     <button type="button" class="edit-btn" onclick="editSchedule()">✏️</button>
                 </div>
@@ -55,13 +55,37 @@
 
             <!-- Home Visit -->
             <div class="review-section">
-                <h3 class="section-title">Home visit</h3>
-                <div class="info-row">
+                <h3 class="section-title">Detailed info</h3>
+                {{-- <div class="info-row">
                     <div>
                         <div class="info-label">📍 Address</div>
-                        <div class="info-value">---</div>
+                        <div class="info-value">{{ $address }}</div>
                     </div>
-                    <button type="button" class="edit-btn" onclick="editAddress()">✏️</button>
+                </div> --}}
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">💼 Service</div>
+                        <div class="info-value">{{ $bill['service']['name'] }}</div>
+                    </div>
+                    <button type="button" class="edit-btn" onclick="editSchedule()">✏️</button>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">📝 Summary</div>
+                        <div class="info-value">{{ $summarize }}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">🗒️ Note</div>
+                        <div class="info-value">{{ $note }}</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div>
+                        <div class="info-label">📎 File uploaded</div>
+                        <div class="info-value">{{ $fileName }}</div>
+                    </div>
                 </div>
             </div>
 
@@ -72,16 +96,16 @@
                 <div class="bill-details">
                     <div class="info-label" style="margin-bottom: 10px;">Bill details</div>
                     <div class="bill-row">
-                        <span class="bill-label">Home visit</span>
-                        <span class="bill-value">150$</span>
+                        <span class="bill-label">{{ $bill['service']['name'] }}</span>
+                        <span class="bill-value">{{ $bill['service']['price'] }}</span>
                     </div>
                     <div class="bill-row">
                         <span class="bill-label">Tax VAT</span>
-                        <span class="bill-value">-1$</span>
+                        <span class="bill-value">{{ $bill['vat'] }}</span>
                     </div>
                     <div class="bill-row">
                         <span class="bill-label">Total pay</span>
-                        <span class="bill-value total">154$</span>
+                        <span class="bill-value total">{{ $bill['total'] }}</span>
                     </div>
                 </div>
 
@@ -109,26 +133,26 @@
 
         <div class="confirmation-bill">
             <div class="bill-row">
-                <span class="bill-label">Home visit</span>
-                <span class="bill-value">150$</span>
+                <span class="bill-label">{{ $bill['service']['name'] }}</span>
+                <span class="bill-value">{{ $bill['service']['price'] }}</span>
             </div>
             <div class="bill-row">
                 <span class="bill-label">Tax VAT</span>
-                <span class="bill-value">-1$</span>
+                <span class="bill-value">{{ $bill['vat'] }}</span>
             </div>
             <div class="bill-row">
                 <span class="bill-label">Total pay</span>
-                <span class="bill-value total">154$</span>
+                <span class="bill-value total">{{ $bill['total'] }}</span>
             </div>
         </div>
 
         <div class="selected-payment-method">
             <div class="payment-method-info">
-                <div class="payment-method-icon">💳</div>
+                <div class="payment-method-icon">💵</div>
                 <div class="payment-method-details">
-                    <h4>Credit card</h4>
-                    <p>**** **** **** 1234</p>
-                    <p>Exp: 05/26</p>
+                    <h4>QR</h4>
+                    <p>Pay with Bank Transfer</p>
+                    <p>Selected</p>
                 </div>
             </div>
             <button type="button" class="edit-btn" onclick="editPaymentMethod()">✏️</button>
@@ -148,6 +172,16 @@
 
         <div class="payment-options">
             <div class="payment-option selected" data-method="qr_transfer">
+                <div class="payment-icon">💵</div>
+                <div class="payment-info">
+                    <h4>QR</h4>
+                    <p>Pay with Bank Transfer</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-options">
+            <div class="payment-option" data-method="qr_transfer">
                 <div class="payment-icon">💵</div>
                 <div class="payment-info">
                     <h4>QR</h4>
@@ -267,7 +301,7 @@
 
     // Edit functions
     function editSchedule() {
-        location.href="{{ route('appointment.step.one') }}";
+        location.href="{{ route('appointment.step.one', ['doctor_profile_id' => $doctorProfile->id]) }}";
     }
 
     function editAddress() {
@@ -275,11 +309,11 @@
     }
 
     function editLocation() {
-        alert('Open GPS location picker');
+        // alert('Open GPS location picker');
     }
 
     function addPaymentMethod() {
-        alert('Redirect to add payment method page');
+        // alert('Redirect to add payment method page');
     }
 
     function editPaymentMethod() {

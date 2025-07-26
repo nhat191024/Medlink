@@ -30,7 +30,7 @@
 
         <!-- Doctor Info -->
         <div class="doctor-info">
-            <img src="/{{ $doctorProfile->user->avatar }}?height=60&width=60" alt="{{ $doctorProfile->user->name }}" class="doctor-avatar">
+            <img src="/{{ $doctorProfile->user->avatar }}?height=60&width=60" alt="{{ $doctorProfile->user->name }}" class="doctor-avatar" onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
             <div class="doctor-name">{{ $doctorProfile->user->name }}</div>
         </div>
 
