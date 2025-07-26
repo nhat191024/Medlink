@@ -18,7 +18,13 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('patient_profile_id');
             $table->unsignedBigInteger('doctor_profile_id');
             $table->unsignedBigInteger('service_id');
-            $table->enum('status', ['cancelled', 'rejected', 'pending', 'upcoming', 'completed'])->default('pending');
+            //cancelled - appointment was cancelled by patient or doctor
+            //rejected - appointment was rejected by doctor
+            //pending - appointment is waiting for confirmation
+            //upcoming - appointment is confirmed and upcoming
+            //waiting - appointment is in progress and waiting for doctor to confirm completion
+            //completed - appointment has been completed
+            $table->enum('status', ['cancelled', 'rejected', 'pending', 'upcoming', 'waiting', 'completed'])->default('pending');
             $table->text('medical_problem');
             $table->string('medical_problem_file')->nullable();
             $table->integer('duration');
