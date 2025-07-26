@@ -18,23 +18,23 @@
                     <div class="info-icon-bg">
                         <img src="{{ asset('img/iconhome.png') }}" alt="Home Icon" class="info-icon-img">
                     </div>
-                    <div>Home visit</div>
+                    <div>{{ session('serviceName') }}</div>
                 </div>
                 <div class="info-row">
                     <div class="info-icon-bg">
                         <img src="{{ asset('img/iconclock.png') }}" alt="Clock Icon" class="info-icon-img">
                     </div>
                     <div>
-                        Thursday, 05 September 2025<br>
-                        11:30 - 14:00 PM
+                        {{ session('date') }}<br>
+                        {{ session('time') }}
                     </div>
                 </div>
-                <div class="info-row">
+                {{-- <div class="info-row">
                     <div class="info-icon-bg">
                         <img src="{{ asset('img/iconlocation.png') }}" alt="Location Icon" class="info-icon-img">
                     </div>
                     <div>Location</div>
-                </div>
+                </div> --}}
             </div>
             <div class="action-btns">
                 <button class="action-btn">
@@ -43,9 +43,12 @@
                 <button class="action-btn">
                     <img src="{{ asset('img/iconmessage.png') }}" alt="Message Icon" class="info-icon-img"> Message
                 </button>
+                <a href="{{ route('appointment.index') }}" class="action-btn">
+                    Back
+                </a>
             </div>
-            <a href="#" class="see-details">See all details</a>
-            <a href="#" class="back-btn">Back</a>
+            {{-- <a href="#" class="see-details">See all details</a> --}}
+            {{-- <a href="#" class="back-btn">Back</a> --}}
         </div>
     </div>
 @endsection
