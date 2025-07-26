@@ -189,7 +189,6 @@ class AppointmentController extends Controller
 
         return response()->json([
             'message' => 'Appointment status updated successfully',
-            'appointment' => new DoctorAppointmentResource($appointment->fresh())
         ], Response::HTTP_OK);
     }
 
