@@ -50,12 +50,12 @@ class Review extends Model
 
     public function patient()
     {
-        return $this->belongsTo(DoctorProfile::class, 'patient_profile_id');
+        return $this->belongsTo(PatientProfile::class, 'patient_profile_id');
     }
 
     public function doctor()
     {
-        return $this->belongsTo(PatientProfile::class, 'doctor_profile_id');
+        return $this->belongsTo(DoctorProfile::class, 'doctor_profile_id');
     }
 
     public function appointment()
