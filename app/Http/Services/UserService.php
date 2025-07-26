@@ -58,7 +58,12 @@ class UserService
         $cacheKey = new CacheKey();
 
         if ($userId) {
+            // Patient caches
             Cache::forget($cacheKey::PATIENT_SUMMARY . $userId);
+            Cache::forget($cacheKey::PATIENT_PROFILE_DATA . $userId);
+            Cache::forget($cacheKey::PATIENT_NOTIFICATIONS . $userId);
+
+            // Doctor caches
             Cache::forget($cacheKey::DOCTOR_SUMMARY . $userId);
             Cache::forget($cacheKey::DOCTOR_APPOINTMENTS_SUMMARY . $userId);
             Cache::forget($cacheKey::DOCTOR_NOTIFICATIONS . $userId);

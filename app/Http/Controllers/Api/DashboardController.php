@@ -37,17 +37,11 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        $cacheKey = $this->cacheKey::PATIENT_SUMMARY . $user->id;
-
-        $summary = Cache::rememberForever($cacheKey, function () use ($user) {
-            // Fresh load để đảm bảo có notification mới nhất
-            $user = $user->fresh(['notification']);
-
+        // Cache profile data (rarely changes)
+        $profileCacheKey = $this->cacheKey::PATIENT_PROFILE_DATA . $user->id;
+        $profileData = Cache::rememberForever($profileCacheKey, function () use ($user) {
             $userAvatar = $user->avatar ? asset($user->avatar) : null;
             $location = trim(($user->city ?? '') . ', ' . ($user->country ?? ''), ', ');
-
-            $notifications = $user->notification ?? collect();
-            $isHaveNotification = $notifications->where('status', 'unread')->count() > 0;
 
             return [
                 'avatar' => $userAvatar,
@@ -62,9 +56,24 @@ class DashboardController extends Controller
                 'zip_code' => $user->zip_code ?? 'Not provided',
                 'userType' => $user->user_type ?? 'Not provided',
                 'location' => $location ?: 'Not provided',
-                'isHaveNotification' => $isHaveNotification,
             ];
         });
+
+        // Cache notification data for 2 minutes (frequently changes)
+        $notificationCacheKey = $this->cacheKey::PATIENT_NOTIFICATIONS . $user->id;
+        $notificationData = Cache::remember($notificationCacheKey, now()->addMinutes(2), function () use ($user) {
+            $user = $user->fresh(['notification']);
+            $notifications = $user->notification ?? collect();
+
+            return [
+                'isHaveNotification' => $notifications->where('status', 'unread')->count() > 0,
+            ];
+        });
+
+        $userBalance = ['balance' => $user->balance];
+
+        // Merge all cached data
+        $summary = array_merge($profileData, $notificationData, $userBalance);
 
         return response()->json($summary, Response::HTTP_OK);
     }
