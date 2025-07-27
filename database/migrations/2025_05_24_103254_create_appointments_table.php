@@ -34,8 +34,8 @@ class CreateAppointmentsTable extends Migration
             $table->string('reason')->nullable();
             $table->string('link')->nullable();
             $table->string('address')->nullable();
-            $table->boolean('status_job_scheduled')->default(false)->after('status');
-            $table->timestamp('status_job_scheduled_at')->nullable()->after('status_job_scheduled');
+            $table->boolean('status_job_scheduled')->default(false);
+            $table->timestamp('status_job_scheduled_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
