@@ -68,7 +68,7 @@
         {
             "icon": "assets/icons/home_2.svg",
             "name": "Khám tại nhà",
-            "description": "Đặt lịch khám tại nhà",
+            "description": "khám tại nhà",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -78,7 +78,7 @@
         {
             "icon": "assets/icons/video_on.svg",
             "name": "Khám qua video",
-            "description": "Đặt lịch khám qua video",
+            "description": "khám qua video",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
@@ -88,7 +88,7 @@
         {
             "icon": "assets/icons/first_aid_kit.svg",
             "name": "Khám tại phòng khám",
-            "description": "Đặt lịch khám tại phòng khám",
+            "description": "khám tại phòng khám",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -98,206 +98,12 @@
         {
             "icon": "assets/icons/online.svg",
             "name": "Khám qua cuộc gọi",
-            "description": "Đặt lịch khám qua cuộc gọi",
+            "description": "khám qua cuộc gọi",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
             "seat": 3,
             "is_active": true
-        }
-    ],
-    "appointments": [
-        {
-            "status": "2",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "status": "2",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "link": "https://zoom.us/j/1234567890"
-        },
-        {
-            "status": "2",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "status": "2",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "link": "https://zoom.us/j/1234567890"
-        },
-        {
-            "status": "3",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "status": "3",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "link": "https://zoom.us/j/1234567890"
-        },
-        {
-            "status": "4",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "status": "4",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "link": "https://zoom.us/j/1234567890"
-        },
-        {
-            "status": "1",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "status": "1",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "link": "https://zoom.us/j/1234567890"
-        },
-        {
-            "patient_id": 13,
-            "doctor_id": 1,
-            "service_id": 3,
-            "status": "0",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "address": "123 Main St, New York, NY 10030"
-        },
-        {
-            "patient_id": 4,
-            "doctor_id": 1,
-            "service_id": 4,
-            "status": "0",
-            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "duration": 30,
-            "date": "2024-12-02",
-            "day_of_week": "Monday",
-            "time": "10:00 AM - 10:30 AM",
-            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
-            "link": "https://zoom.us/j/1234567890"
-        }
-    ],
-    "bills": [
-        {
-            "appointment_id": 1,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 2,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 3,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 4,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 5,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 6,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 7,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 8,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 9,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 10,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 11,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
-        },
-        {
-            "appointment_id": 12,
-            "taxVAT": 4,
-            "total": 204,
-            "status": 1
         }
     ],
     "languages": [
@@ -310,48 +116,293 @@
             "code": "vi"
         }
     ],
-    "notifications": [
+    "users": [
         {
-            "title": "Nikko Monahan something long has made an appointment",
-            "user_id": 1,
-            "appointment_id": 1,
-            "status": "unread"
+            "user_type": "patient",
+            "identity": "none",
+            "email": "phamvantrung@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",
+            "name": "Phạm Văn Trung",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "927384514",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hưng Yên",
+            "state": null,
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "zip_code": "160000"
         },
         {
-            "title": "Kieran Jakubowski has made an appointment",
-            "user_id": 1,
-            "appointment_id": 1,
-            "status": "unread"
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "email": "thinh12os@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",
+            "name": "Nguyễn Quí Thịnh",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "338851988",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Quảng Ninh",
+            "state": null,
+            "address": "123 Main St, Quảng Ninh, Việt Nam",
+            "zip_code": "160000"
+        }
+    ],
+    "patients": [
+        {
+            "birth_date": "2004-01-17",
+            "age": 21,
+            "height": 170,
+            "weight": 52,
+            "blood_group": "O+",
+            "medical_history": "có tiền sử bệnh lmao",
+            "insurances": {
+                "insurance_type": "vietnamese",
+                "insurance_number": "VN-INS-342307",
+                "registry": "123 Main St, Hưng Yên, Việt Nam",
+                "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                "vaild_from": "2024-01-01"
+            },
+            "languages": [
+                {
+                    "name": "Tiếng Anh",
+                    "code": "en"
+                },
+                {
+                    "name": "Tiếng Việt",
+                    "code": "vi"
+                }
+            ]
+        }
+    ],
+    "doctors": [
+        {
+            "medical_category_id": 1,
+            "id_card_path": "storage/upload/doctor_assets/id-card.png",
+            "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+            "professional_card_path": null,
+            "exploitation_license_path": null,
+            "professional_number": "PROF-17416",
+            "introduce": "Tôi là bác sĩ chuyên khoa nội tổng quát với hơn 10 năm kinh nghiệm trong lĩnh vực y tế. Tôi đã từng làm việc tại các bệnh viện lớn và có chuyên môn sâu về các bệnh lý nội khoa.",
+            "office_address": "123 Main St, Quảng Ninh, Việt Nam",
+            "company_name": "Bệnh viện Đa khoa Quảng Ninh",
+            "work_schedules": [
+                {
+                    "day_of_week": "Sunday",
+                    "start_time": "08:00",
+                    "end_time": "08:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Sunday",
+                    "start_time": "09:00",
+                    "end_time": "09:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Sunday",
+                    "start_time": "10:00",
+                    "end_time": "10:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Tuesday",
+                    "all_day": 1
+                },
+                {
+                    "day_of_week": "Wednesday",
+                    "start_time": "08:00",
+                    "end_time": "08:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Wednesday",
+                    "start_time": "09:00",
+                    "end_time": "09:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Thursday",
+                    "start_time": "08:00",
+                    "end_time": "08:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Thursday",
+                    "start_time": "09:00",
+                    "end_time": "09:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Friday",
+                    "start_time": "08:00",
+                    "end_time": "08:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Friday",
+                    "start_time": "09:00",
+                    "end_time": "09:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Friday",
+                    "start_time": "10:00",
+                    "end_time": "10:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Saturday",
+                    "start_time": "12:00",
+                    "end_time": "12:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Saturday",
+                    "start_time": "12:30",
+                    "end_time": "13:00",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Saturday",
+                    "start_time": "13:00",
+                    "end_time": "13:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Saturday",
+                    "start_time": "14:00",
+                    "end_time": "14:30",
+                    "all_day": 0
+                },
+                {
+                    "day_of_week": "Monday",
+                    "all_day": 1
+                }
+            ],
+            "languages": [
+                {
+                    "name": "Tiếng Anh",
+                    "code": "en"
+                },
+                {
+                    "name": "Tiếng Việt",
+                    "code": "vi"
+                }
+            ]
+        }
+    ],
+    "appointments": [
+        {
+            "doctor_profile_id": 1,
+            "patient_profile_id": 1,
+            "service_id": 1,
+            "status": "pending",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "07:30 AM - 8:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
         },
         {
-            "title": "Alford Mitchell canceled your appointment",
-            "user_id": 1,
-            "appointment_id": 4,
-            "status": "unread"
+            "doctor_profile_id": 1,
+            "patient_profile_id": 1,
+            "service_id": 2,
+            "status": "upcoming",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
         },
         {
-            "title": "Nikko Monahan something long canceled your appointment",
-            "user_id": 1,
-            "appointment_id": 5,
-            "status": "unread"
+            "doctor_profile_id": 1,
+            "patient_profile_id": 1,
+            "service_id": 3,
+            "status": "cancelled",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
         },
         {
-            "title": "Your appointment with Nikko Monahan something long will arrive in 1 hour",
-            "user_id": 1,
-            "appointment_id": 6,
-            "status": "unread"
+            "doctor_profile_id": 1,
+            "patient_profile_id": 1,
+            "service_id": 4,
+            "status": "rejected",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
         },
         {
-            "title": "Nikko Monahan something long has made an appointment",
-            "user_id": 1,
-            "appointment_id": 7,
-            "status": "read"
-        },
-        {
-            "title": "Alford Mitchell has made an appointment",
-            "user_id": 1,
-            "appointment_id": 1,
-            "status": "read"
+            "doctor_profile_id": 1,
+            "patient_profile_id": 1,
+            "service_id": 1,
+            "status": "completed",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
         }
     ]
 }
