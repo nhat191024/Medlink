@@ -8,8 +8,10 @@ use App\Models\Appointment;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 use App\Jobs\ProcessAppointmentPayment;
+use App\Jobs\UpdateAppointmentStatus;
 use App\Http\Resources\DoctorAppointmentResource;
 
 use App\Http\Services\PaymentService;
@@ -453,6 +455,9 @@ class AppointmentService
 
             $response = $this->paymentService->processAppointmentPayment($data, $request->payment_method, $isAppRequest);
 
+            // Schedule job to update appointment status when appointment time arrives
+            $this->scheduleAppointmentStatusUpdate($appointment);
+
             // Clear appointment and doctor list cache after successful creation
             $this->clearAppointmentRelatedCache($appointment);
 
@@ -536,5 +541,108 @@ class AppointmentService
     private function isTimeOverlapping($start1, $end1, $start2, $end2)
     {
         return $start1->lt($end2) && $end1->gt($start2);
+    }
+
+    /**
+     * Update appointment status from pending to upcoming if payment is successful
+     *
+     * @param int $appointmentId
+     * @return bool
+     */
+    public function updateAppointmentToUpcoming($appointmentId)
+    {
+        try {
+            $appointment = Appointment::find($appointmentId);
+
+            if (!$appointment) {
+                Log::error("Appointment not found for status update: {$appointmentId}");
+                return false;
+            }
+
+            if ($appointment->status === 'pending') {
+                $appointment->update(['status' => 'upcoming']);
+
+                // Schedule the status update job when appointment becomes upcoming
+                $this->scheduleAppointmentStatusUpdate($appointment);
+
+                Log::info("Updated appointment {$appointmentId} status from 'pending' to 'upcoming' and scheduled status update job");
+                return true;
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            Log::error("Error updating appointment status to upcoming: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Schedule job to update appointment status when appointment time arrives
+     *
+     * @param Appointment $appointment
+     * @return void
+     */
+    private function scheduleAppointmentStatusUpdate($appointment)
+    {
+        try {
+            // Check if job already scheduled
+            if ($appointment->status_job_scheduled) {
+                Log::info("Status update job already scheduled for appointment {$appointment->id}");
+                return;
+            }
+
+            // Parse appointment datetime
+            $appointmentDateTime = $this->parseAppointmentDateTime($appointment->date, $appointment->time);
+
+            if (!$appointmentDateTime) {
+                Log::error("Could not parse appointment datetime for scheduling job. Appointment ID: {$appointment->id}");
+                return;
+            }
+
+            // Schedule job to run at appointment time (minus 5 minutes for early processing)
+            $jobDelay = $appointmentDateTime->subMinutes(5);
+
+            // Only schedule if the appointment is in the future
+            if ($jobDelay->gt(now())) {
+                UpdateAppointmentStatus::dispatch($appointment->id)->delay($jobDelay);
+
+                // Mark job as scheduled
+                $appointment->update([
+                    'status_job_scheduled' => true,
+                    'status_job_scheduled_at' => now()
+                ]);
+
+                Log::info("Scheduled UpdateAppointmentStatus job for appointment {$appointment->id} at {$jobDelay}");
+            } else {
+                Log::info("Appointment {$appointment->id} is scheduled for the past or very soon, not scheduling status update job");
+            }
+        } catch (\Exception $e) {
+            Log::error("Error scheduling appointment status update job for appointment {$appointment->id}: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Parse appointment date and time to Carbon instance
+     *
+     * @param string $date Format: 2026-06-25
+     * @param string $time Format: 01:00 PM - 01:30 PM
+     * @return Carbon|null
+     */
+    private function parseAppointmentDateTime($date, $time)
+    {
+        try {
+            // Extract start time from time range (01:00 PM - 01:30 PM -> 01:00 PM)
+            $timeRange = explode(' - ', $time);
+            $startTime = trim($timeRange[0]);
+
+            // Combine date and start time
+            $dateTimeString = $date . ' ' . $startTime;
+
+            // Parse using Carbon
+            return Carbon::createFromFormat('Y-m-d h:i A', $dateTimeString);
+        } catch (\Exception $e) {
+            Log::error("Error parsing appointment datetime. Date: {$date}, Time: {$time}, Error: " . $e->getMessage());
+            return null;
+        }
     }
 }

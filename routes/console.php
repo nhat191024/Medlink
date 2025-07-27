@@ -9,3 +9,8 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('app:cleanup-temporary-uploads')->daily();
+
+Schedule::command('appointments:check-status')
+    ->everyMinute()
+    ->withoutOverlapping()
+    ->onOneServer();

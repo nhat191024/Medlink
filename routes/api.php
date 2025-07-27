@@ -7,7 +7,12 @@ use App\Http\Middleware\LogRouteAccess;
 
 use App\Http\Controllers\Api\TestController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\HealthController;
 use App\Http\Middleware\LocalizationMiddleware;
+
+// Health check routes (no authentication required)
+Route::get('/health', [HealthController::class, 'health']);
+Route::get('/ping', [HealthController::class, 'ping']);
 
 // Define API routes that require authentication
 Route::middleware(['auth:sanctum', LocalizationMiddleware::class, LogRouteAccess::class])->group(function () {

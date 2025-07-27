@@ -16,7 +16,7 @@ class CreateSupportsTable extends Migration
         Schema::create('supports', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->ussignedBigInteger('appointment_id')->nullable();
+            $table->unsignedBigInteger('appointment_id')->nullable();
             $table->text('message');
             $table->enum('status', ['open', 'closed'])->default('open');
             $table->timestamps();

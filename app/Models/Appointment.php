@@ -24,6 +24,8 @@ use Carbon\Carbon;
  * @property string|null $reason
  * @property string|null $link
  * @property string|null $address
+ * @property bool $status_job_scheduled
+ * @property \Illuminate\Support\Carbon|null $status_job_scheduled_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -75,6 +77,13 @@ class Appointment extends Model
         'reason',
         'link',
         'address',
+        'status_job_scheduled',
+        'status_job_scheduled_at',
+    ];
+
+    protected $casts = [
+        'status_job_scheduled' => 'boolean',
+        'status_job_scheduled_at' => 'datetime',
     ];
 
     public function patient()

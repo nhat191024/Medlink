@@ -25,6 +25,8 @@ use App\Models\Review;
 
 use App\Helper\CacheKey;
 
+use App\Jobs\ProcessDoctorPayment;
+
 class AppointmentController extends Controller
 {
     private $appointmentService;
@@ -179,10 +181,24 @@ class AppointmentController extends Controller
         }
 
         // Update appointment
+        $oldStatus = $appointment->status;
         $appointment->update([
             'status' => $request->input('status'),
             'reason' => $request->input('reason', null),
         ]);
+
+        if ($appointment->status === 'cancelled' || $appointment->status === 'rejected') {
+            $patient = $appointment->patient->user;
+            $total = $appointment->bill->total;
+            $patient->deposit($total, [
+                'description' => 'Refund for cancelled appointment',
+                'appointmentId' => $appointment->id
+            ], true);
+
+            $appointment->bill->update(['status' => 'refunded']);
+        } else if ($appointment->status === 'completed' && $oldStatus == 'waiting') {
+            ProcessDoctorPayment::dispatch($appointment->id)->delay(now()->addHours(12));
+        }
 
         // Clear relevant caches
         $this->appointmentService->clearAppointmentRelatedCache($appointment);
