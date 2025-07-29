@@ -64,6 +64,47 @@
             "name": "Khoa y học cổ truyền"
         }
     ],
+    "hospitals": [
+        {
+            "name": "Bệnh viện Bạch Mai",
+            "address": "78 Giải Phóng",
+            "city": "Hà Nội",
+            "ward": "Kim liên",
+            "email": null,
+            "phone": "096.985.1616",
+            "website": "https://bachmai.gov.vn/",
+            "logo": "https://bachmai.gov.vn/logo/logo.png",
+            "description": "BBệnh viện Bạch Mai là bệnh viện Đa khoa hoàn chỉnh hạng đặc biệt đầu tiên tại Việt Nam, với tầm nhìn trở thành bệnh viện uy tín trong khu vực và trên thế giới. Chúng tôi cam kết chăm sóc sức khỏe toàn diện cho mọi người dân bằng tài năng, y đức và sự tận tâm.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Hữu nghị Việt Đức",
+            "address": "40 Tràng Thi",
+            "city": "Hà Nội",
+            "ward": "Hoàn Kiếm",
+            "email": null,
+            "phone": "038.253.531",
+            "website": "https://benhvienvietduc.org/",
+            "logo": "https://tracuu.benhvienvietduc.org/_next/static/media/logo.1902b4ec.png",
+            "description": "Bệnh viện Việt Đức là tuyến cao nhất của ngành Ngoại khoa miền Bắc, Việt Nam. Với hơn 150 giáo sư, bác sĩ của bệnh viện và của Trường Đại học Y Hà Nội, Trường Đại học Y Dược, ĐHQGHN mỗi năm bệnh viện tiến hành khoảng 28.000 ca phẫu thuật thuộc nhiều chuyên khoa sâu khác nhau.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Chợ Rẫy",
+            "address": "201B Nguyễn Chí Thanh",
+            "city": "Hồ Chí Minh",
+            "ward": "Phường 12",
+            "email": null,
+            "phone": "028.3865.4249",
+            "website": "https://choray.vn/",
+            "logo": "https://banner2.cleanpng.com/20190305/pxl/kisspng-cho-ray-hospital-logo-organization-brand-trang-ch-mediworld-1713903149677.webp",
+            "description": "Bệnh viện Chợ Rẫy là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại TP.HCM và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        }
+    ],
     "services": [
         {
             "icon": "assets/icons/home_2.svg",
