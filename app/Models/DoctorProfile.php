@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $user_id
+ * @property int $hospital_id
  * @property string|null $id_card_path
  * @property string|null $medical_degree_path
  * @property string|null $professional_card_path
@@ -23,6 +24,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Appointment> $appointments
  * @property-read int|null $appointments_count
+ * @property-read float|null $average_rating
+ * @property-read \App\Models\Hospital $hospital
  * @property-read \App\Models\MedicalCategory|null $medicalCategory
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
  * @property-read int|null $reviews_count
@@ -38,6 +41,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereCompanyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereExploitationLicensePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereHospitalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereIdCardPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereIntroduce($value)
@@ -61,6 +65,7 @@ class DoctorProfile extends Model
      */
     protected $fillable = [
         'user_id',
+        'hospital_id',
         'id_card_path',
         'medical_degree_path',
         'professional_card_path',
@@ -78,6 +83,11 @@ class DoctorProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
     }
 
     public function medicalCategory()

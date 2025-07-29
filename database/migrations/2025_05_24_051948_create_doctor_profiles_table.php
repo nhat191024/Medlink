@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('doctor_profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->unique();
+            $table->unsignedBigInteger('hospital_id');
             $table->string('id_card_path')->nullable();
             $table->string('medical_degree_path')->nullable();
             $table->string('professional_card_path')->nullable();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('medical_category_id')->references('id')->on('medical_categories')->onDelete('restrict')->onUpdate('cascade');
         });
     }
