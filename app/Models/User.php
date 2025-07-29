@@ -19,7 +19,7 @@ use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Interfaces\Confirmable;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property string $user_type
@@ -32,7 +32,7 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @property string|null $country_code
  * @property string|null $phone
  * @property string|null $latitude
- * @property string|{{ city }} $longitude
+ * @property string|null $longitude
  * @property string|null $country
  * @property string|null $city
  * @property string|null $state
@@ -49,6 +49,9 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @property-read int|null $favorite_doctors_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Favorite> $favoritePatients
  * @property-read int|null $favorite_patients_count
+ * @property-read non-empty-string $balance
+ * @property-read int $balance_int
+ * @property-read \Bavix\Wallet\Models\Wallet $wallet
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserLanguage> $languages
  * @property-read int|null $languages_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notification
@@ -56,14 +59,22 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\PatientProfile|null $patientProfile
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserSetting> $setting
- * @property-read int|null $setting_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transfer> $receivedTransfers
+ * @property-read int|null $received_transfers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserSetting> $settings
+ * @property-read int|null $settings_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Support> $support
  * @property-read int|null $support_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TransactionHistory> $transactionHistory
  * @property-read int|null $transaction_history_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transaction> $transactions
+ * @property-read int|null $transactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transfer> $transfers
+ * @property-read int|null $transfers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transaction> $walletTransactions
+ * @property-read int|null $wallet_transactions_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -77,6 +88,7 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIdentity($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLogin($value)
@@ -95,27 +107,9 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements FilamentUser, HasAvatar, Wallet, Confirmable
+class User extends Authenticatable implements Wallet, Confirmable
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm;
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        if ($this->user_type === 'admin') {
-            return true;
-        }
-        return false;
-    }
-
-
-    public function getFilamentAvatarUrl(): ?string
-    {
-        if ($this->avatar) {
-            return asset($this->avatar);
-        }
-
-        return null;
-    }
 
     /**
      * The attributes that are mass assignable.

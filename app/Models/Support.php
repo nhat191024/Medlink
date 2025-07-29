@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * 
+ *
  * @property int $id
  * @property int $user_id
  * @property int|null $appointment_id
@@ -17,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Support whereAppointmentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Support whereMessage($value)

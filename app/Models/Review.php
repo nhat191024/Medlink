@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $doctor_profile_id
@@ -18,8 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Appointment $appointment
- * @property-read \App\Models\PatientProfile $doctor
- * @property-read \App\Models\DoctorProfile $patient
+ * @property-read \App\Models\DoctorProfile $doctor
+ * @property-read \App\Models\PatientProfile $patient
  * @method static \Database\Factories\ReviewFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Review newQuery()

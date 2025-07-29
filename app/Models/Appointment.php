@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
 /**
- *
+ * 
  *
  * @property int $id
  * @property int $patient_profile_id
@@ -29,6 +29,7 @@ use Carbon\Carbon;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Bill|null $bill
  * @property-read \App\Models\DoctorProfile $doctor
  * @property-read \App\Models\PatientProfile $patient
  * @property-read \App\Models\Review|null $review
@@ -53,6 +54,8 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatusJobScheduled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatusJobScheduledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withTrashed()
