@@ -52,6 +52,10 @@ return [
 
         'view_account' => 'Tài khoản',
         'account_info' => 'Thông tin tài khoản',
+
+        'action' => 'Hành động',
+        'model' => 'Đối tượng',
+        'admin_id' => 'Tác nhân'
     ],
 
     'mobile_app_url' => 'URL Ứng dụng di động',

@@ -52,6 +52,10 @@ return [
 
         'view_account' => 'Account',
         'account_info' => 'Account Information',
+
+        'action' => 'Action',
+        'model' => 'Model',
+        'admin_id' => 'Admin ID',
     ],
 
     'mobile_app_url' => 'Mobile App URL',
