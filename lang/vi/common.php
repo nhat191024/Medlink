@@ -1,6 +1,8 @@
 <?php
 return [
     'admin' => [
+        'id' => 'ID',
+
         'doctor' => 'Bác sĩ',
         'patient' => 'Bệnh nhân',
         'pharmacy' => 'Nhà thuốc',
