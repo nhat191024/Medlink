@@ -6,12 +6,19 @@ return [
         'pharmacy' => 'Pharmacies',
         'hospital' => 'Hospitals',
 
+        'username' => 'Name',
         'name' => 'Name',
         'email' => 'Email',
         'phone' => 'Phone',
         'country' => 'Country',
         'city' => 'City',
-        'state' => 'State/Province',
+        'ward' => 'Ward',
+        'address' => 'Address',
+        'website' => 'Website',
+        'logo' => 'Logo',
+        'description' => 'Description',
+        'contract_start_date' => 'Contract Start Date',
+        'contract_end_date' => 'Contract End Date',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
 
@@ -42,6 +49,9 @@ return [
         'delete_modal_heading' => 'Delete Account Permanently',
         'delete_modal_description' => 'Are you sure you want to delete this account permanently? This action cannot be undone.',
         'delete_success' => 'Account deleted permanently.',
+
+        'view_account' => 'Account',
+        'account_info' => 'Account Information',
     ],
 
     'mobile_app_url' => 'Mobile App URL',
@@ -49,5 +59,14 @@ return [
     'play_store_url' => 'Play Store URL',
     'app_store_url' => 'App Store URL',
 
+    'system' => 'System',
+    'my_profile' => 'My Profile',
+
     'close' => 'Close',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'create' => 'Create',
+    'update' => 'Update',
 ];

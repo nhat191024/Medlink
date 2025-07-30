@@ -6,12 +6,19 @@ return [
         'pharmacy' => 'Nhà thuốc',
         'hospital' => 'Bệnh viện',
 
+        'username' => 'Tên',
         'name' => 'Họ tên',
         'email' => 'Email',
         'phone' => 'Số điện thoại',
         'country' => 'Quốc gia',
         'city' => 'Thành phố',
-        'state' => 'Tỉnh/Thành phố',
+        'ward' => 'Phường',
+        'address' => 'Địa chỉ',
+        'website' => 'Trang web',
+        'logo' => 'Logo',
+        'description' => 'Mô tả',
+        'contract_start_date' => 'Ngày bắt đầu hợp đồng',
+        'contract_end_date' => 'Ngày kết thúc hợp đồng',
         'created_at' => 'Ngày tạo',
         'updated_at' => 'Ngày cập nhật',
 
@@ -42,6 +49,9 @@ return [
         'delete_modal_heading' => 'Xóa tài khoản vĩnh viễn',
         'delete_modal_description' => 'Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản này? Hành động này không thể hoàn tác.',
         'delete_success' => 'Đã xóa tài khoản thành công.',
+
+        'view_account' => 'Tài khoản',
+        'account_info' => 'Thông tin tài khoản',
     ],
 
     'mobile_app_url' => 'URL Ứng dụng di động',
@@ -49,5 +59,14 @@ return [
     'play_store_url' => 'URL cửa hàng Google Play',
     'app_store_url' => 'URL cửa hàng App Store',
 
+    'system' => 'Hệ thống',
+    'my_profile' => 'Hồ sơ của tôi',
+
     'close' => 'Đóng',
+    'save' => 'Lưu',
+    'cancel' => 'Hủy bỏ',
+    'edit' => 'Chỉnh sửa',
+    'delete' => 'Xóa',
+    'create' => 'Tạo mới',
+    'update' => 'Cập nhật',
 ];
