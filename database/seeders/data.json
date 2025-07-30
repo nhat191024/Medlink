@@ -70,7 +70,7 @@
             "address": "78 Giải Phóng",
             "city": "Hà Nội",
             "ward": "Kim liên",
-            "email": null,
+            "email": "bachmai@gmail.com",
             "phone": "096.985.1616",
             "website": "https://bachmai.gov.vn/",
             "logo": "https://bachmai.gov.vn/logo/logo.png",
@@ -83,7 +83,7 @@
             "address": "40 Tràng Thi",
             "city": "Hà Nội",
             "ward": "Hoàn Kiếm",
-            "email": null,
+            "email": "huunghi@gmail.com",
             "phone": "038.253.531",
             "website": "https://benhvienvietduc.org/",
             "logo": "https://tracuu.benhvienvietduc.org/_next/static/media/logo.1902b4ec.png",
@@ -96,13 +96,21 @@
             "address": "201B Nguyễn Chí Thanh",
             "city": "Hồ Chí Minh",
             "ward": "Phường 12",
-            "email": null,
+            "email": "choray@gmail.com",
             "phone": "028.3865.4249",
             "website": "https://choray.vn/",
             "logo": "https://banner2.cleanpng.com/20190305/pxl/kisspng-cho-ray-hospital-logo-organization-brand-trang-ch-mediworld-1713903149677.webp",
             "description": "Bệnh viện Chợ Rẫy là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại TP.HCM và các tỉnh lân cận.",
             "contract_start_date": "2025-01-01",
             "contract_end_date": "2025-12-31"
+        }
+    ],
+    "admins": [
+        {
+            "name": "admin",
+            "password": "Password1$",
+            "email": "admin@gmail.com",
+            "role": "admin"
         }
     ],
     "services": [
