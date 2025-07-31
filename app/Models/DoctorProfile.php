@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -56,7 +59,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class DoctorProfile extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +79,21 @@ class DoctorProfile extends Model
         'office_address',
         'company_name',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+    /**
+     * Get the average rating (rate) from related reviews.
+     *
+     * @return float|null
+     */
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rate');
+    }
 
     /**
      *  Models relationships
@@ -113,15 +131,5 @@ class DoctorProfile extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'doctor_profile_id');
-    }
-
-    /**
-     * Get the average rating (rate) from related reviews.
-     *
-     * @return float|null
-     */
-    public function getAverageRatingAttribute()
-    {
-        return $this->reviews()->avg('rate');
     }
 }

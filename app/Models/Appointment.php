@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $patient_profile_id
@@ -64,7 +67,7 @@ use Carbon\Carbon;
  */
 class Appointment extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'patient_profile_id',
@@ -88,6 +91,11 @@ class Appointment extends Model
         'status_job_scheduled' => 'boolean',
         'status_job_scheduled_at' => 'datetime',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     public function patient()
     {

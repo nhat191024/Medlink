@@ -5,8 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -42,7 +45,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class PatientProfile extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +61,11 @@ class PatientProfile extends Model
         'blood_group',
         'medical_history',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     /**
      *  Models relationships
