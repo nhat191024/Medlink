@@ -19,7 +19,8 @@
         "laravel/tinker": "^2.10.1",
         "livewire/livewire": "^3.6",
         "payos/payos": "^1.0",
-        "predis/predis": "^3.0"
+        "predis/predis": "^3.0",
+        "spatie/laravel-activitylog": "^4.10"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
