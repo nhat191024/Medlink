@@ -134,7 +134,7 @@ class DatabaseSeeder extends Seeder
 
         DoctorProfile::create([
             "user_id" => 2,
-            'hospital_id' => rand(1, 3), // Randomly assign a hospital ID from 1 to 3
+            'hospital_id' => 1,
             "medical_category_id" => $doctorData[0]['medical_category_id'],
             "id_card_path" => $doctorData[0]['id_card_path'],
             "medical_degree_path" => $doctorData[0]['medical_degree_path'],
