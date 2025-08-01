@@ -66,6 +66,10 @@ class DoctorResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label(__('common.admin.id')),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable()
