@@ -457,8 +457,9 @@
     "supports": [
         {
             "patient_id": 1,
-            "doctor_id": 1,
+            "doctor_id": 2,
             "appointment_id": 1,
+            "hospital_id": 1,
             "message": "Tôi cần hỗ trợ về lịch hẹn khám bệnh.",
             "status": "open"
         }
