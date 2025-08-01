@@ -85,6 +85,10 @@ class SupportResource extends Resource
                     ->label(__('support.fields.appointment_id')),
                 TextColumn::make('message')
                     ->label(__('support.fields.message')),
+                TextColumn::make('hospital.name')
+                    ->searchable()
+                    ->sortable()
+                    ->label(__('common.admin.hospital')),
                 TextColumn::make('status')
                     ->label(__('support.fields.status'))
                     ->badge()
@@ -171,6 +175,6 @@ class SupportResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()
-            ->with(['patient', 'doctor']);
+            ->with(['patient', 'doctor', 'hospital']);
     }
 }
