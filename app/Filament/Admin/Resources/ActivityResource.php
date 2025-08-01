@@ -68,7 +68,7 @@ class ActivityResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label(__('common.admin.id')),
-                TextColumn::make('description')
+                TextColumn::make('event')
                     ->searchable()
                     ->sortable()
                     ->label(__('common.admin.action')),
@@ -91,9 +91,11 @@ class ActivityResource extends Resource
                 TextColumn::make('causer_type')
                     ->searchable()
                     ->sortable()
-                    ->label(__('common.admin.causer')),
+                    ->label(__('common.admin.causer'))
+                    ->placeholder('N/A'),
                 TextColumn::make('causer_id')
-                    ->label(__('common.admin.causer_id')),
+                    ->label(__('common.admin.causer_id'))
+                    ->placeholder('N/A'),
                 TextColumn::make('causer_name')
                     ->searchable()
                     ->sortable()
