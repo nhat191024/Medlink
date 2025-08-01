@@ -63,6 +63,7 @@ class ActivityResource extends Resource
     {
         return $table
             ->query(Activity::with(['subject', 'causer']))
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('id')
                     ->searchable()
@@ -77,6 +78,7 @@ class ActivityResource extends Resource
                     ->sortable()
                     ->label(__('common.admin.subject')),
                 TextColumn::make('subject_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label(__('common.admin.subject_id')),
                 TextColumn::make('subject_name')
                     ->searchable()
@@ -93,6 +95,7 @@ class ActivityResource extends Resource
                     ->label(__('common.admin.causer'))
                     ->placeholder('N/A'),
                 TextColumn::make('causer_id')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label(__('common.admin.causer_id'))
                     ->placeholder('N/A'),
                 TextColumn::make('causer_name')
@@ -104,6 +107,8 @@ class ActivityResource extends Resource
                         }
                         return $record->causer?->name ?? 'N/A';
                     }),
+                TextColumn::make('description')
+                    ->label(__('common.admin.description')),
                 TextColumn::make('created_at')
                     ->sortable()
                     ->label(__('common.admin.created_at')),
