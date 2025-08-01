@@ -18,8 +18,11 @@ use Bavix\Wallet\Traits\CanConfirm;
 use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Interfaces\Confirmable;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $user_type
@@ -67,8 +70,6 @@ use Bavix\Wallet\Interfaces\Confirmable;
  * @property-read int|null $support_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TransactionHistory> $transactionHistory
- * @property-read int|null $transaction_history_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transaction> $transactions
  * @property-read int|null $transactions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Bavix\Wallet\Models\Transfer> $transfers
@@ -109,7 +110,7 @@ use Bavix\Wallet\Interfaces\Confirmable;
  */
 class User extends Authenticatable implements Wallet, Confirmable
 {
-    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm;
+    use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -162,6 +163,21 @@ class User extends Authenticatable implements Wallet, Confirmable
     //     'email_verified_at' => 'datetime',
     // ];
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+
+    /**
+     * Get the user's preferred locale
+     */
+    public function getPreferredLocale()
+    {
+        $firstLanguage = $this->languages()->with('language')->first();
+        return $firstLanguage ? $firstLanguage->language->code : config('app.locale');
+    }
+
     /**
      *  Models relationships
      */
@@ -180,15 +196,6 @@ class User extends Authenticatable implements Wallet, Confirmable
         return $this->hasMany(UserLanguage::class);
     }
 
-    /**
-     * Get the user's preferred locale
-     */
-    public function getPreferredLocale()
-    {
-        $firstLanguage = $this->languages()->with('language')->first();
-        return $firstLanguage ? $firstLanguage->language->code : config('app.locale');
-    }
-
     public function settings()
     {
         return $this->hasMany(UserSetting::class);
@@ -202,11 +209,6 @@ class User extends Authenticatable implements Wallet, Confirmable
     public function favoritePatients()
     {
         return $this->hasMany(Favorite::class, 'doctor_id')->where('type', 'patient');
-    }
-
-    public function transactionHistory()
-    {
-        return $this->hasMany(TransactionHistory::class);
     }
 
     public function notification()
