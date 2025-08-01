@@ -36,7 +36,7 @@ class Support extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['patient_id', 'doctor_id', 'appointment_id', 'message', 'status'];
+    protected $fillable = ['patient_id', 'doctor_id', 'appointment_id', 'hospital_id', 'message', 'status'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -51,5 +51,15 @@ class Support extends Model
     public function doctor()
     {
         return $this->belongsTo(User::class, 'doctor_id');
+    }
+
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class, 'appointment_id');
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id');
     }
 }
