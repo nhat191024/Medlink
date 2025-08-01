@@ -3,13 +3,17 @@ return [
     'admin' => [
         'id' => 'ID',
 
+        'admin' => 'Admins',
         'doctor' => 'Doctors',
         'patient' => 'Patients',
         'pharmacy' => 'Pharmacies',
         'hospital' => 'Hospitals',
 
+        'avatar' => 'Avatar',
+
         'username' => 'Name',
         'name' => 'Name',
+        'hospital_name' => 'Hospital Name',
         'email' => 'Email',
         'phone' => 'Phone',
         'country' => 'Country',
@@ -32,6 +36,7 @@ return [
         'view_image' => 'View Image',
         'approve' => 'Approve',
         'suspend' => 'Suspend',
+        'lock_account' => 'Lock Account',
         'restore' => 'Restore',
         'reactivate' => 'Reactivate',
         'delete_permanently' => 'Delete Permanently',
@@ -55,9 +60,35 @@ return [
         'view_account' => 'Account',
         'account_info' => 'Account Information',
 
+        'activity' => 'Activity',
         'action' => 'Action',
-        'model' => 'Model',
-        'admin_id' => 'Admin ID',
+        'subject' => 'Subject',
+        'subject_id' => 'Subject ID',
+        'subject_name' => 'Subject Name',
+        'causer' => 'Causer',
+        'causer_id' => 'Causer ID',
+        'causer_name' => 'Causer Name',
+    ],
+
+    'basic_info' => 'Basic Information',
+    'hospital_basic_info_description' => 'Update the basic information of the hospital',
+    'address_info_description' => 'Update the address information of the hospital',
+    'description_info' => 'Description Information',
+    'hospital_description_details' => 'Hospital Description Details',
+    'contact_info' => 'Contact Information',
+    'contact_info_description' => 'Information about the contract term',
+
+    'success' => 'Success!',
+    'notifation' => [
+        'update_success' => 'The information of :name has been updated.',
+    ],
+
+    'event' => [
+        'created' => 'Created',
+        'updated' => 'Updated',
+        'deleted' => 'Deleted',
+        'restored' => 'Restored',
+        'force_deleted' => 'Force Deleted',
     ],
 
     'mobile_app_url' => 'Mobile App URL',
