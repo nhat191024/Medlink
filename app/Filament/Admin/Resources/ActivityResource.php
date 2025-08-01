@@ -90,7 +90,6 @@ class ActivityResource extends Resource
                     }),
                 TextColumn::make('causer_type')
                     ->searchable()
-                    ->sortable()
                     ->label(__('common.admin.causer'))
                     ->placeholder('N/A'),
                 TextColumn::make('causer_id')
@@ -98,7 +97,6 @@ class ActivityResource extends Resource
                     ->placeholder('N/A'),
                 TextColumn::make('causer_name')
                     ->searchable()
-                    ->sortable()
                     ->label(__('common.admin.causer_name'))
                     ->getStateUsing(function ($record) {
                         if (!$record->causer_id) {
@@ -106,6 +104,9 @@ class ActivityResource extends Resource
                         }
                         return $record->causer?->name ?? 'N/A';
                     }),
+                TextColumn::make('created_at')
+                    ->sortable()
+                    ->label(__('common.admin.created_at')),
             ])
             ->filters([
                 //
