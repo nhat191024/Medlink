@@ -38,7 +38,7 @@ use Spatie\Activitylog\LogOptions;
  * @property string|null $longitude
  * @property string|null $country
  * @property string|null $city
- * @property string|null $state
+ * @property string|null $ward
  * @property string|null $address
  * @property string|null $zip_code
  * @property string $status
@@ -135,7 +135,7 @@ class User extends Authenticatable implements Wallet, Confirmable
 
         'country',
         'city',
-        'state',
+        'ward',
         'address',
         'zip_code',
 
