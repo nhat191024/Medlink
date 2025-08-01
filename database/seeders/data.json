@@ -180,7 +180,7 @@
             "longitude": "106.0578",
             "country": "Việt Nam",
             "city": "Hưng Yên",
-            "state": null,
+            "ward": "Hồng Châu",
             "address": "123 Main St, Hưng Yên, Việt Nam",
             "zip_code": "160000"
         },
@@ -198,7 +198,7 @@
             "longitude": "106.0578",
             "country": "Việt Nam",
             "city": "Quảng Ninh",
-            "state": null,
+            "ward": "Ngô Quyền",
             "address": "123 Main St, Quảng Ninh, Việt Nam",
             "zip_code": "160000"
         }
