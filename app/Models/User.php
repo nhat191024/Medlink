@@ -216,8 +216,13 @@ class User extends Authenticatable implements Wallet, Confirmable
         return $this->hasMany(Notification::class);
     }
 
-    public function support()
+    public function patientSupport()
     {
-        return $this->hasMany(Support::class);
+        return $this->hasMany(Support::class, 'patient_id');
+    }
+
+    public function doctorSupport()
+    {
+        return $this->hasMany(Support::class, 'doctor_id');
     }
 }
