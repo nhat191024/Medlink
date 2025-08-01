@@ -453,5 +453,14 @@
                 "status": "paid"
             }
         }
+    ],
+    "supports": [
+        {
+            "patient_id": 1,
+            "doctor_id": 1,
+            "appointment_id": 1,
+            "message": "Tôi cần hỗ trợ về lịch hẹn khám bệnh.",
+            "status": "open"
+        }
     ]
 }
