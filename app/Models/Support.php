@@ -12,7 +12,8 @@ use Spatie\Activitylog\LogOptions;
  *
  *
  * @property int $id
- * @property int $user_id
+ * @property int $patient_id
+ * @property int|null $doctor_id
  * @property int|null $appointment_id
  * @property string $message
  * @property string $status
@@ -35,15 +36,20 @@ class Support extends Model
 {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['user_id', 'appointment_id', 'message', 'status'];
+    protected $fillable = ['patient_id', 'doctor_id', 'appointment_id', 'message', 'status'];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
     }
 
-    public function user()
+    public function patient()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'patient_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
     }
 }
