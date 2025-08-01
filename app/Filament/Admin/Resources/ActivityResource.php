@@ -109,7 +109,15 @@ class ActivityResource extends Resource
                     ->label(__('common.admin.created_at')),
             ])
             ->filters([
-                //
+                SelectFilter::make('event')
+                    ->label(__('common.admin.action'))
+                    ->options([
+                        'created' => __('common.event.created'),
+                        'updated' => __('common.event.updated'),
+                        'deleted' => __('common.event.deleted'),
+                        'restored' => __('common.event.restored'),
+                        'force_deleted' => __('common.event.force_deleted'),
+                    ]),
             ])
             ->actions([])
             ->bulkActions([
