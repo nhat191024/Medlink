@@ -17,6 +17,7 @@ use App\Models\UserLanguage;
 use App\Models\WorkSchedule;
 use App\Models\DoctorProfile;
 use App\Models\Hospital;
+use App\Models\Support;
 use App\Models\UserInsurance;
 use App\Models\PatientProfile;
 use App\Models\MedicalCategory;
@@ -64,6 +65,7 @@ class DatabaseSeeder extends Seeder
         $doctorData = $dataArray['doctors'];
         $workSchedulesData = $doctorData[0]['work_schedules'];
         $appointments = $dataArray['appointments'];
+        $supports = $dataArray['supports'];
 
         foreach ($usersData as $userData) {
             $user = User::create([
@@ -191,6 +193,10 @@ class DatabaseSeeder extends Seeder
                 'total' => $data['bill']['total'],
                 'status' => $data['bill']['status'],
             ]);
+        }
+
+        foreach ($supports as $data) {
+            Support::create($data);
         }
 
         //user factory
