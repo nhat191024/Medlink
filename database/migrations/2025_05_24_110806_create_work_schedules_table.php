@@ -23,6 +23,10 @@ class CreateWorkSchedulesTable extends Migration
             $table->timestamps();
 
             $table->foreign('doctor_profile_id')->references('id')->on('doctor_profiles')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['doctor_profile_id', 'day_of_week'], 'idx_work_schedules_doctor_day');
+            $table->index(['day_of_week', 'start_time'], 'idx_work_schedules_day_time');
         });
     }
 

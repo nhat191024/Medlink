@@ -28,6 +28,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
+
+            // Performance indexes
+            $table->index(['city', 'created_at'], 'idx_hospitals_city_created');
+            $table->index(['name'], 'idx_hospitals_name');
+            $table->index(['email'], 'idx_hospitals_email');
         });
     }
 

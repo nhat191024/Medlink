@@ -23,6 +23,10 @@ class CreateNotificationsTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['user_id', 'status', 'created_at'], 'idx_notifications_user_status_created');
+            $table->index(['status', 'created_at'], 'idx_notifications_status_created');
         });
     }
 

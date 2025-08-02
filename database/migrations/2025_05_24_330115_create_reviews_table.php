@@ -26,6 +26,12 @@ class CreateReviewsTable extends Migration
             $table->foreign('doctor_profile_id')->references('id')->on('doctor_profiles')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('patient_profile_id')->references('id')->on('patient_profiles')->onDelete('restrict')->onUpdate('cascade');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['doctor_profile_id', 'created_at'], 'idx_reviews_doctor_created');
+            $table->index(['patient_profile_id', 'created_at'], 'idx_reviews_patient_created');
+            $table->index(['rate', 'created_at'], 'idx_reviews_rating_created');
+            $table->unique(['appointment_id'], 'uk_reviews_appointment');
         });
     }
 

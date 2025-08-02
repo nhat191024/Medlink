@@ -42,6 +42,14 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // Performance indexes
+            $table->index(['user_type', 'status'], 'idx_users_type_status');
+            $table->index(['status', 'created_at'], 'idx_users_status_created');
+            $table->index(['email', 'status'], 'idx_users_email_status');
+            $table->index(['phone'], 'idx_users_phone');
+            $table->index(['city', 'status'], 'idx_users_city_status');
+            $table->index(['last_login'], 'idx_users_last_login');
         });
 
         Schema::create('sessions', function (Blueprint $table) {

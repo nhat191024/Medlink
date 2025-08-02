@@ -23,6 +23,12 @@ class CreateBillsTable extends Migration
             $table->timestamps();
 
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['status', 'created_at'], 'idx_bills_status_created');
+            $table->index(['appointment_id', 'status'], 'idx_bills_appointment_status');
+            $table->index(['payment_method', 'status'], 'idx_bills_payment_status');
+            $table->index(['total', 'status'], 'idx_bills_total_status');
         });
     }
 

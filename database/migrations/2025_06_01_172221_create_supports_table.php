@@ -27,6 +27,11 @@ class CreateSupportsTable extends Migration
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('set null')->onUpdate('cascade');
             $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('set null')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['patient_id', 'status'], 'idx_supports_patient_status');
+            $table->index(['doctor_id', 'status'], 'idx_supports_doctor_status');
+            $table->index(['status', 'created_at'], 'idx_supports_status_created');
         });
     }
 

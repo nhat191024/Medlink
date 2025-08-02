@@ -24,6 +24,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['user_id', 'created_at'], 'idx_patient_profiles_user_created');
         });
     }
 

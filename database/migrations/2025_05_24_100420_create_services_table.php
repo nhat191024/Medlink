@@ -27,6 +27,11 @@ class CreateServicesTable extends Migration
             $table->timestamps();
 
             $table->foreign('doctor_profile_id')->references('id')->on('doctor_profiles')->onDelete('cascade')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['doctor_profile_id', 'is_active'], 'idx_services_doctor_active');
+            $table->index(['is_active', 'price'], 'idx_services_active_price');
+            $table->index(['name'], 'idx_services_name');
         });
     }
 
