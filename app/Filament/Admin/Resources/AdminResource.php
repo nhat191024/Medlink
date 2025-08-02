@@ -18,6 +18,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -159,6 +160,9 @@ class AdminResource extends Resource
                     ->native(false),
             ])
             ->actions([
+                EditAction::make()
+                    ->color('warning')
+                    ->visible(fn(Admin $record): bool => auth()->id() !== $record->id && $record->hospital_id === null),
                 DeleteAction::make()
                     ->icon('heroicon-o-no-symbol')
                     ->label(__('common.admin.suspend'))
@@ -166,7 +170,7 @@ class AdminResource extends Resource
                     ->modalHeading(__('common.admin.suspend_modal_heading'))
                     ->modalDescription(__('common.admin.suspend_modal_description'))
                     ->successNotificationTitle(__('common.admin.suspend_success'))
-                    ->visible(fn(Admin $record): bool => !$record->trashed() && auth()->id() !== $record->id),
+                    ->visible(fn(Admin $record): bool => !$record->trashed() && auth()->id() !== $record->id && $record->hospital_id === null),
                 RestoreAction::make()
                     ->icon('heroicon-o-arrow-path')
                     ->label(__('common.admin.reactivate'))
