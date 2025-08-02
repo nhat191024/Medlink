@@ -54,7 +54,7 @@ class AdminPanelProvider extends PanelProvider
                     ->setTitle(__('common.my_profile'))
                     ->setNavigationLabel(__('common.my_profile'))
                     ->setNavigationGroup(__('common.system'))
-                    ->setIcon('heroicon-o-cog-6-tooth')
+                    ->setIcon('heroicon-o-user-circle')
                     ->shouldShowAvatarForm(true)
                     ->shouldShowDeleteAccountForm(false)
             ])
