@@ -65,21 +65,7 @@ class BillResource extends Resource
     {
         return $form
             ->schema([
-                // Forms\Components\TextInput::make('appointment_id')
-                //     ->required()
-                //     ->numeric(),
-                // Forms\Components\TextInput::make('payment_method')
-                //     ->required(),
-                // Forms\Components\TextInput::make('taxVAT')
-                //     ->required()
-                //     ->numeric()
-                //     ->default(0),
-                // Forms\Components\TextInput::make('total')
-                //     ->required()
-                //     ->numeric()
-                //     ->default(0),
-                // Forms\Components\TextInput::make('status')
-                //     ->required(),
+                //
             ]);
     }
 
@@ -169,9 +155,7 @@ class BillResource extends Resource
                 //
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                //
             ]);
     }
 
