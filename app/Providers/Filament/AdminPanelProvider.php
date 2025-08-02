@@ -21,33 +21,42 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
 use CWSPS154\AppSettings\AppSettingsPlugin;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
             ->id('admin')
             ->path('admin')
             ->login()
+            ->default(true)
 
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Red,
             ])
             ->maxContentWidth(MaxWidth::Full)
 
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
+            ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
+            ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
+            ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
 
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->pages([
                 Pages\Dashboard::class,
             ])
+
             ->widgets([])
 
             ->plugins([
-                AppSettingsPlugin::make()
+                AppSettingsPlugin::make(),
+                FilamentEditProfilePlugin::make()
+                    ->setTitle(__('common.my_profile'))
+                    ->setNavigationLabel(__('common.my_profile'))
+                    ->setNavigationGroup(__('common.system'))
+                    ->setIcon('heroicon-o-cog-6-tooth')
+                    ->shouldShowAvatarForm(true)
+                    ->shouldShowDeleteAccountForm(false)
             ])
 
             ->middleware([
@@ -63,6 +72,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->authGuard('admin');
     }
 }
