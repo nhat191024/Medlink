@@ -187,6 +187,7 @@ class DatabaseSeeder extends Seeder
 
             Bill::create([
                 'id' => now()->timestamp . rand(1000, 9999),
+                'hospital_id' => 1,
                 'appointment_id' => $appointment->id,
                 'payment_method' => $data['bill']['payment_method'],
                 'taxVAT' => $data['bill']['taxVAT'],
