@@ -14,6 +14,8 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Columns\TextColumn;
 
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
@@ -63,7 +65,38 @@ class AdminResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')
+                    ->label(__('admin.fields.name'))
+                    ->required()
+                    ->maxLength(255)
+                    ->placeholder(__('admin.placeholders.name')),
+                TextInput::make('email')
+                    ->label(__('admin.fields.email'))
+                    ->email()
+                    ->required()
+                    ->maxLength(255)
+                    ->placeholder(__('admin.placeholders.email')),
+                TextInput::make('password')
+                    ->label(__('admin.fields.password'))
+                    ->password()
+                    ->required(fn($context) => $context === 'create')
+                    ->maxLength(255)
+                    ->placeholder(__('admin.placeholders.password'))
+                    ->dehydrateStateUsing(fn($state) => bcrypt($state)),
+                Select::make('role')
+                    ->label(__('admin.fields.role'))
+                    ->options([
+                        'admin' => __('common.admin.admin'),
+                        'hr' => __('common.admin.hr'),
+                        'supervisor' => __('common.admin.supervisor'),
+                    ])
+                    ->default('admin')
+                    ->disabled(),
+                FileUpload::make('avatar')
+                    ->image()
+                    ->directory('uploads/avatars')
+                    ->label(__('admin.placeholders.avatar'))
+                    ->columnSpan('full'),
             ]);
     }
 
