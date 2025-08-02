@@ -24,7 +24,7 @@ class CreateBillsTable extends Migration
             $table->timestamps();
 
             $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('restrict')->onUpdate('cascade');
 
             // Performance indexes
             $table->index(['status', 'created_at'], 'idx_bills_status_created');
