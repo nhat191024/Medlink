@@ -36,7 +36,7 @@ use App\Filament\Admin\Resources\MedicalCategoryResource\Pages\CreateMedicalCate
 class MedicalCategoryResource extends Resource
 {
     protected static ?string $model = MedicalCategory::class;
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-folder-open';
 
     // public static function getNavigationGroup(): string
     // {
