@@ -17,6 +17,9 @@ return [
         'reason' => 'Lý do',
         'link' => 'Liên kết',
         'address' => 'Địa chỉ',
+        'bill_id' => 'ID hóa đơn',
+        'created_at' => 'Ngày tạo',
+        'updated_at' => 'Ngày cập nhật',
     ],
 
     'status' => [

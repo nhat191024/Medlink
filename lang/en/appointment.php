@@ -17,6 +17,9 @@ return [
         'reason' => 'Reason',
         'link' => 'Link',
         'address' => 'Address',
+        'bill_id' => 'Bill ID',
+        'created_at' => 'Created At',
+        'updated_at' => 'Updated At',
     ],
 
     'status' => [
