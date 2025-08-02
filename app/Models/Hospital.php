@@ -134,6 +134,16 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
     }
 
     /**
+     * Get the logo URL for the hospital.
+     *
+     * @return string|null
+     */
+    public function getLogoUrlAttribute()
+    {
+        return $this->logo ? asset($this->logo) : null;
+    }
+
+    /**
      * Get the admins associated with the hospital.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -154,12 +164,12 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
     }
 
     /**
-     * Get the logo URL for the hospital.
+     * Get the bills associated with the hospital.
      *
-     * @return string|null
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getLogoUrlAttribute()
+    public function bills()
     {
-        return $this->logo ? asset($this->logo) : null;
+        return $this->hasMany(Bill::class);
     }
 }

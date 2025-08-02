@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property string $id
  * @property int $appointment_id
+ * @property int $hospital_id
  * @property string $payment_method
  * @property float $taxVAT
  * @property float $total
@@ -42,6 +43,7 @@ class Bill extends Model
     protected $fillable = [
         'id',
         'appointment_id',
+        'hospital_id',
         'payment_method',
         'taxVAT',
         'total',
@@ -51,5 +53,10 @@ class Bill extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
     }
 }
