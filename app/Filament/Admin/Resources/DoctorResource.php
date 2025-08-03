@@ -78,7 +78,7 @@ class DoctorResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->label(__('common.admin.email')),
-                TextColumn::make('doctorProfile.hospital.name')
+                TextColumn::make('hospital.name')
                     ->searchable()
                     ->sortable()
                     ->label(__('common.admin.hospital')),
@@ -231,7 +231,7 @@ class DoctorResource extends Resource
             ->with([
                 'doctorProfile',
                 'doctorProfile.medicalCategory',
-                'doctorProfile.hospital',
+                'hospital',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
