@@ -169,6 +169,7 @@
         {
             "user_type": "patient",
             "identity": "none",
+            "hospital_id": null,
             "email": "phamvantrung@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",
@@ -187,6 +188,7 @@
         {
             "user_type": "healthcare",
             "identity": "doctor",
+            "hospital_id": 1,
             "email": "thinh12os@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",

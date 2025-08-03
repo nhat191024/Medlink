@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             $user = User::create([
                 "user_type" => $userData['user_type'],
                 "identity" => $userData['identity'],
+                "hospital_id" => $userData['hospital_id'],
                 "email" => $userData['email'],
                 "password" => bcrypt($userData['password']),
                 "avatar" => $userData['avatar'],
@@ -134,7 +135,6 @@ class DatabaseSeeder extends Seeder
 
         DoctorProfile::create([
             "user_id" => 2,
-            'hospital_id' => 1,
             "medical_category_id" => $doctorData[0]['medical_category_id'],
             "id_card_path" => $doctorData[0]['id_card_path'],
             "medical_degree_path" => $doctorData[0]['medical_degree_path'],
