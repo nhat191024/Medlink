@@ -107,6 +107,11 @@ class Appointment extends Model
         return $this->belongsTo(DoctorProfile::class, 'doctor_profile_id');
     }
 
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id');
+    }
+
     public function service()
     {
         return $this->belongsTo(Service::class, 'service_id');

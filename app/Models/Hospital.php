@@ -164,6 +164,16 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
     }
 
     /**
+     * Get the appointments associated with the hospital.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    /**
      * Get the bills associated with the hospital.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
