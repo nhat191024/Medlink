@@ -36,6 +36,11 @@ class Admin extends Authenticatable implements FilamentUser, HasAvatar
                 $name = urlencode($admin->username);
                 $admin->avatar = "https://ui-avatars.com/api/?name={$name}&background=random&size=512";
             }
+
+            if ($admin->role != 'admin' && $admin->hospital_id == null) {
+                $admin->hospital_id = auth()->guard('hospital')->user()->id;
+            }
+            $admin->save();
         });
     }
 

@@ -96,10 +96,6 @@ class AdminResource extends Resource
                     ])
                     ->native(false)
                     ->required(),
-                TextInput::make('hospital_id')
-                    ->default(fn() => Auth::guard('hospital')->user()->id)
-                    ->hidden()
-                    ->dehydrated(true),
                 FileUpload::make('avatar')
                     ->image()
                     ->directory('uploads/avatars')
