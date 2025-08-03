@@ -87,9 +87,9 @@ class AdminResource extends Resource
                 Select::make('role')
                     ->label(__('admin.fields.role'))
                     ->options([
-                        'admin' => __('common.admin.admin'),
-                        'hr' => __('common.admin.hr'),
-                        'supervisor' => __('common.admin.supervisor'),
+                        'admin' => __('admin.roles.admin'),
+                        'hr' => __('admin.roles.hr'),
+                        'supervisor' => __('admin.roles.supervisor'),
                     ])
                     ->default('admin')
                     ->disabled(),
@@ -120,7 +120,19 @@ class AdminResource extends Resource
                     })
                     ->html()
                     ->placeholder('N/A'),
-                TextColumn::make('role'),
+                TextColumn::make('role')
+                    ->label(__('admin.fields.role'))
+                    ->badge()
+                    ->formatStateUsing(fn(string $state): string => [
+                        'admin' => __('admin.roles.admin'),
+                        'hr' => __('admin.roles.hr'),
+                        'supervisor' => __('admin.roles.supervisor'),
+                    ][$state] ?? $state)
+                    ->color(fn(string $state): string => [
+                        'admin' => 'primary',
+                        'hr' => 'info',
+                        'supervisor' => 'warning',
+                    ][$state] ?? 'secondary'),
                 TextColumn::make('hospital.name')
                     ->searchable()
                     ->label(__('common.admin.hospital_name'))
