@@ -5,6 +5,7 @@ return [
         'email' => 'Email',
         'password' => 'Mật khẩu',
         'role' => 'Vai trò',
+        'hospital' => 'Bệnh viện',
         'avatar' => 'Ảnh đại diện',
     ],
 

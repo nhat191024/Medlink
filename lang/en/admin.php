@@ -5,6 +5,7 @@ return [
         'email' => 'Email',
         'password' => 'Password',
         'role' => 'Role',
+        'hospital' => 'Hospital',
         'avatar' => 'Avatar',
     ],
 
