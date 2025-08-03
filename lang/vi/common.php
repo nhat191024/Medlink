@@ -4,6 +4,8 @@ return [
         'id' => 'ID',
 
         'admin' => 'Quản trị viên',
+        'hr' => 'Nhân sự',
+        'supervisor' => 'Trưởng phòng',
         'doctor' => 'Bác sĩ',
         'patient' => 'Bệnh nhân',
         'pharmacy' => 'Nhà thuốc',

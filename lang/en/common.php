@@ -4,6 +4,8 @@ return [
         'id' => 'ID',
 
         'admin' => 'Admins',
+        'hr' => 'Human Resources',
+        'supervisor' => 'Supervisors',
         'doctor' => 'Doctors',
         'patient' => 'Patients',
         'pharmacy' => 'Pharmacies',
