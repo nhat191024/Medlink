@@ -3,9 +3,6 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Models\Appointment;
-use App\Models\PatientProfile;
-use App\Models\DoctorProfile;
-use App\Models\Service;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
