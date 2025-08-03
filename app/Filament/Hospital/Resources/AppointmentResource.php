@@ -32,7 +32,7 @@ use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use App\Filament\Admin\Resources\AppointmentResource\RelationManagers;
+use App\Filament\Hospital\Resources\AppointmentResource\RelationManagers;
 use App\Filament\Hospital\Resources\AppointmentResource\Pages\EditAppointment;
 use App\Filament\Hospital\Resources\AppointmentResource\Pages\ListAppointments;
 use App\Filament\Hospital\Resources\AppointmentResource\Pages\CreateAppointment;
