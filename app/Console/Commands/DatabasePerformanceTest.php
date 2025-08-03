@@ -105,7 +105,7 @@ class DatabasePerformanceTest extends Command
         // Test 6: User notifications
         $testResults['user_notifications'] = $this->testQuery(
             'User Notifications Query',
-            "SELECT * FROM notifications
+            "SELECT * FROM user_notifications
              WHERE user_id IN (1,2,3,4,5)
              AND status = 'unread'
              ORDER BY created_at DESC
