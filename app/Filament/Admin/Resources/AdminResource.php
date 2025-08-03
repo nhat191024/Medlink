@@ -165,6 +165,14 @@ class AdminResource extends Resource
                     ->label(__('common.admin.updated_at')),
             ])
             ->filters([
+                SelectFilter::make('role')
+                    ->label(__('admin.fields.role'))
+                    ->options([
+                        'admin' => __('admin.roles.admin'),
+                        'hr' => __('admin.roles.hr'),
+                        'supervisor' => __('admin.roles.supervisor'),
+                    ])
+                    ->native(false),
                 TrashedFilter::make()
                     ->label(__('common.admin.suspend_filter'))
                     ->trueLabel(__('common.admin.suspend_filter_all'))
