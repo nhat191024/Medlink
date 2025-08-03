@@ -4,8 +4,10 @@ return [
         'id' => 'ID',
 
         'admin' => 'Quản trị viên',
-        'hr' => 'Nhân sự',
-        'supervisor' => 'Trưởng phòng',
+        'accounts' => 'Tài khoản',
+
+        'hr' => 'Ban nhân sự',
+        'supervisor' => 'Trưởng khoa',
         'doctor' => 'Bác sĩ',
         'patient' => 'Bệnh nhân',
         'pharmacy' => 'Nhà thuốc',
