@@ -25,7 +25,7 @@ use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-use App\Filament\Resources\DoctorResource\RelationManagers;
+use App\Filament\Hospital\Resources\DoctorResource\RelationManagers;
 use App\Filament\Hospital\Resources\DoctorResource\Pages\ListDoctors;
 
 use Illuminate\Support\Facades\Auth;
