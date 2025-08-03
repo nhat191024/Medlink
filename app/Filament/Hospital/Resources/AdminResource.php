@@ -197,6 +197,13 @@ class AdminResource extends Resource
                     ->modalHeading(__('common.admin.restore_modal_heading'))
                     ->modalDescription(__('common.admin.restore_modal_description'))
                     ->successNotificationTitle(__('common.admin.restore_success')),
+                ForceDeleteAction::make()
+                    ->icon('heroicon-o-trash')
+                    ->label(__('common.admin.delete_permanently'))
+                    ->requiresConfirmation()
+                    ->modalHeading(__('common.admin.delete_modal_heading'))
+                    ->modalDescription(__('common.admin.delete_modal_description'))
+                    ->successNotificationTitle(__('common.admin.delete_success')),
             ])
             ->bulkActions([
                 //
