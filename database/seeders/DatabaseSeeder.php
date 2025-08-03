@@ -173,6 +173,7 @@ class DatabaseSeeder extends Seeder
                 'patient_profile_id' => 1,
                 'doctor_profile_id' => 1,
                 'service_id' => $data['service_id'],
+                'hospital_id' => 1,
                 'status' => $data['status'],
                 'medical_problem' => $data['medical_problem'],
                 'medical_problem_file' => $data['medical_problem_file'],
