@@ -12,9 +12,11 @@
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/home.css') }}" rel="stylesheet" >
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
     @stack('styles')
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Example: Add page-specific styles -->
     {{-- @push('styles')
