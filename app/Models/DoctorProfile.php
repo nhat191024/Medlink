@@ -68,7 +68,6 @@ class DoctorProfile extends Model
      */
     protected $fillable = [
         'user_id',
-        'hospital_id',
         'id_card_path',
         'medical_degree_path',
         'professional_card_path',
@@ -101,11 +100,6 @@ class DoctorProfile extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function hospital()
-    {
-        return $this->belongsTo(Hospital::class);
     }
 
     public function medicalCategory()

@@ -160,7 +160,7 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
      */
     public function doctors()
     {
-        return $this->hasMany(DoctorProfile::class);
+        return $this->hasMany(User::class);
     }
 
     /**

@@ -121,6 +121,8 @@ class User extends Authenticatable implements Wallet, Confirmable
         'user_type',
         'identity',
 
+        'hospital_id',
+
         'email',
         'password',
 
@@ -189,6 +191,11 @@ class User extends Authenticatable implements Wallet, Confirmable
     public function doctorProfile()
     {
         return $this->hasOne(DoctorProfile::class, 'user_id');
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
     }
 
     public function languages()
