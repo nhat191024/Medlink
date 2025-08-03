@@ -3,10 +3,12 @@
 namespace App\Filament\Hospital\Resources;
 
 use App\Models\MedicalCategory;
+use App\Models\DoctorProfile;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Notifications\Notification;
 
 // use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -19,6 +21,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\RestoreAction;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
@@ -90,17 +93,35 @@ class MedicalCategoryResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                DeleteAction::make(),
+                Action::make('delete')
+                    ->label(__('filament-actions::delete.single.label'))
+                    ->icon('heroicon-m-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(function (MedicalCategory $record) {
+                        // Kiểm tra xem có bác sĩ nào đang sử dụng danh mục này không
+                        $doctorsCount = DoctorProfile::where('medical_category_id', $record->id)->count();
+
+                        if ($doctorsCount > 0) {
+                            Notification::make()
+                                ->title(__('medicalCategory.messages.cannot_delete_title'))
+                                ->body(__('medicalCategory.messages.cannot_delete_body', ['count' => $doctorsCount]))
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        // Nếu không có bác sĩ nào sử dụng, thực hiện xóa
+                        $record->delete();
+
+                        Notification::make()
+                            ->title(__('medicalCategory.messages.delete_success_title'))
+                            ->success()
+                            ->send();
+                    }),
                 RestoreAction::make(),
-                ForceDeleteAction::make(),
             ])
-            ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

@@ -3,10 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Models\MedicalCategory;
+use App\Models\DoctorProfile;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Notifications\Notification;
 
 // use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
@@ -15,7 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 
 use Filament\Forms\Components\TextInput;
 
-// use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\RestoreAction;
@@ -90,16 +92,53 @@ class MedicalCategoryResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                DeleteAction::make(),
+                Action::make('delete')
+                    ->label(__('filament-actions::delete.single.label'))
+                    ->icon('heroicon-m-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(function (MedicalCategory $record) {
+                        $doctorsCount = DoctorProfile::where('medical_category_id', $record->id)->count();
+                        if ($doctorsCount > 0) {
+                            Notification::make()
+                                ->title(__('medicalCategory.messages.cannot_delete_title'))
+                                ->body(__('medicalCategory.messages.cannot_delete_body', ['count' => $doctorsCount]))
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+                        $record->delete();
+                        Notification::make()
+                            ->title(__('medicalCategory.messages.delete_success_title'))
+                            ->success()
+                            ->send();
+                    }),
                 RestoreAction::make(),
-                ForceDeleteAction::make(),
+                Action::make('forceDelete')
+                    ->label(__('filament-actions::force-delete.single.label'))
+                    ->icon('heroicon-m-x-mark')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->visible(fn(MedicalCategory $record): bool => $record->trashed())
+                    ->action(function (MedicalCategory $record) {
+                        $doctorsCount = DoctorProfile::withTrashed()->where('medical_category_id', $record->id)->count();
+                        if ($doctorsCount > 0) {
+                            Notification::make()
+                                ->title(__('medicalCategory.messages.cannot_force_delete_title'))
+                                ->body(__('medicalCategory.messages.cannot_force_delete_body', ['count' => $doctorsCount]))
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+                        $record->forceDelete();
+                        Notification::make()
+                            ->title(__('medicalCategory.messages.force_delete_success_title'))
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
+                //
             ]);
     }
 
