@@ -59,6 +59,9 @@ class AdminPanelProvider extends PanelProvider
                     ->shouldShowDeleteAccountForm(false)
             ])
 
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
