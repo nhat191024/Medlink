@@ -22,6 +22,7 @@ return [
         'hospital_name' => 'Hospital Name',
         'email' => 'Email',
         'password' => 'Password',
+        'leave_blank_to_keep_current_password' => 'Leave blank to keep current password',
         'phone' => 'Phone',
         'country_code' => 'Country Code',
         'country' => 'Country',

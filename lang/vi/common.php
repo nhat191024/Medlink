@@ -22,6 +22,7 @@ return [
         'hospital_name' => 'Tên bệnh viện',
         'email' => 'Email',
         'password' => 'Mật khẩu',
+        'leave_blank_to_keep_current_password' => 'Để trống để giữ mật khẩu hiện tại',
         'phone' => 'Số điện thoại',
         'country_code' => 'Mã quốc gia',
         'country' => 'Quốc gia',
