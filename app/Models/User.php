@@ -57,7 +57,7 @@ use Spatie\Activitylog\LogOptions;
  * @property-read \Bavix\Wallet\Models\Wallet $wallet
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserLanguage> $languages
  * @property-read int|null $languages_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notification
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserNotification> $notification
  * @property-read int|null $notification_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -156,6 +156,18 @@ class User extends Authenticatable implements Wallet, Confirmable
         'remember_token',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::created(function ($user) {
+            if ($user->identity == 'doctor' &&  $user->hospital_id == null) {
+                $user->hospital_id = auth()->guard('hospital')->user()->hospital_id;
+            }
+            $user->save();
+        });
+    }
+
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -220,7 +232,7 @@ class User extends Authenticatable implements Wallet, Confirmable
 
     public function notification()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(UserNotification::class);
     }
 
     public function patientSupport()
