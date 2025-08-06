@@ -3,6 +3,7 @@ return [
     'review' => 'Đánh giá',
 
     'fields' => [
+        'id' => 'ID',
         'doctor' => 'Tên bác sĩ',
         'patient' => 'Tên bệnh nhân',
         'appointment' => 'ID cuộc hẹn',

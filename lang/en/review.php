@@ -3,6 +3,7 @@ return [
     'review' => 'Review',
 
     'fields' => [
+        'id' => 'ID',
         'doctor' => 'Doctor name',
         'patient' => 'Patient name',
         'appointment' => 'Appointment ID',
