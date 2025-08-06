@@ -34,7 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->default(true)
 
             ->colors([
-                'primary' => Color::Red,
+                'primary' => Color::Amber,
             ])
             ->maxContentWidth(MaxWidth::Full)
 
