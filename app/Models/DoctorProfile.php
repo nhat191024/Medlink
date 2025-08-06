@@ -13,7 +13,6 @@ use Spatie\Activitylog\LogOptions;
  *
  * @property int $id
  * @property int $user_id
- * @property int $hospital_id
  * @property string|null $id_card_path
  * @property string|null $medical_degree_path
  * @property string|null $professional_card_path
