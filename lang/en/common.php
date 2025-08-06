@@ -120,4 +120,7 @@ return [
     'delete' => 'Delete',
     'create' => 'Create',
     'update' => 'Update',
+
+    'download_template' => 'Download Template',
+    'import_doctors' => 'Import Doctors',
 ];

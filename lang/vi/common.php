@@ -126,4 +126,7 @@ return [
     'delete' => 'Xóa',
     'create' => 'Tạo mới',
     'update' => 'Cập nhật',
+
+    'download_template' => 'Tải Template',
+    'import_doctors' => 'Import Bác Sĩ',
 ];
