@@ -21,6 +21,8 @@ use Bavix\Wallet\Interfaces\Confirmable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
+use Illuminate\Support\Facades\Auth;
+
 /**
  *
  *
@@ -161,7 +163,9 @@ class User extends Authenticatable implements Wallet, Confirmable
         parent::boot();
         static::created(function ($user) {
             if ($user->identity == 'doctor' &&  $user->hospital_id == null) {
-                $user->hospital_id = auth()->guard('hospital')->user()->hospital_id;
+                $userId = Auth::user()->id;
+                $hospitalId = Admin::find($userId, 'id')->hospital_id;
+                $user->hospital_id = $hospitalId;
             }
             $user->save();
         });
