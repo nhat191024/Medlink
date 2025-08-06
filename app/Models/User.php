@@ -110,7 +110,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
  */
-class User extends Authenticatable implements Wallet, Confirmable
+class User extends Authenticatable implements Wallet, Confirmable, FilamentUser, HasAvatar
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes, HasWallet, CanConfirm, LogsActivity;
 
@@ -169,6 +169,23 @@ class User extends Authenticatable implements Wallet, Confirmable
             }
             $user->save();
         });
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($this->identity === 'doctor' && $panel->getId() === 'doctor') {
+            return true;
+        }
+        return false;
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        if ($this->avatar) {
+            return asset($this->avatar);
+        }
+
+        return null;
     }
 
 
