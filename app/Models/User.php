@@ -17,11 +17,13 @@ use Bavix\Wallet\Traits\HasWallet;
 use Bavix\Wallet\Traits\CanConfirm;
 use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Interfaces\Confirmable;
-
+use BeyondCode\QueryDetector\Outputs\Log;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Log as FacadesLog;
 
 /**
  *
@@ -161,13 +163,11 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
     public static function boot()
     {
         parent::boot();
-        static::created(function ($user) {
-            if ($user->identity == 'doctor' &&  $user->hospital_id == null) {
-                $userId = Auth::user()->id;
-                $hospitalId = Admin::find($userId, 'id')->hospital_id;
-                $user->hospital_id = $hospitalId;
+        static::creating(function ($user) {
+            if (empty($user->avatar)) {
+                $name = urlencode($user->name);
+                $user->avatar = "https://ui-avatars.com/api/?name={$name}&background=random&size=512";
             }
-            $user->save();
         });
     }
 
