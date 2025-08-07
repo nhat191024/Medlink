@@ -5,9 +5,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $doctor_profile_id
@@ -42,6 +43,16 @@ class WorkSchedule extends Model
         'end_time',
         'all_day',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($workSchedule) {
+            if (empty($workSchedule->doctor_profile_id)) {
+                $workSchedule->doctor_profile_id = Auth::user()->doctorProfile->id;
+            }
+        });
+    }
 
     public static function isAvailable($doctorProfileId)
     {
