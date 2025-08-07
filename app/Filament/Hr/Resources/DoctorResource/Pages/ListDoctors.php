@@ -2,11 +2,12 @@
 
 namespace App\Filament\Hr\Resources\DoctorResource\Pages;
 
-use App\Filament\Hr\Resources\DoctorResource;
-use App\Filament\Hr\Imports\DoctorImporter;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use HayderHatem\FilamentExcelImport\Actions\FullImportAction;
+
+use App\Filament\Hr\Resources\DoctorResource;
+
+use App\Filament\Actions\DoctorImporter;
 
 class ListDoctors extends ListRecords
 {
@@ -15,20 +16,25 @@ class ListDoctors extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            Actions\CreateAction::make()
+                ->label('Thêm bác sĩ'),
             Actions\Action::make('download_template')
-                ->label('Download Template')
+                ->label('Tải mẫu CSV')
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('info')
                 ->action(function () {
-                    $templatePath = storage_path('app/public/templates/doctors_import_template.csv');
-                    return response()->download($templatePath, 'doctors_import_template.csv');
+                    $templatePath = storage_path('app/templates/doctor_import_template.csv');
+                    if (file_exists($templatePath)) {
+                        return response()->download($templatePath, 'mau_import_bac_si.csv');
+                    } else {
+                        // Generate template nếu chưa có
+                        return redirect()->route('admin.doctor.download-template');
+                    }
                 }),
-            FullImportAction::make()
-                ->importer(DoctorImporter::class)
-                ->label('Import Doctors')
-                ->color('success')
-                ->icon('heroicon-o-arrow-up-tray'),
-            Actions\CreateAction::make(),
+            DoctorImporter::make('import_doctors')
+                ->label('Nhập bác sĩ từ Excel')
+                ->icon('heroicon-o-arrow-up-tray')
+                ->color('primary')
         ];
     }
 }
