@@ -28,6 +28,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Actions\ImportAction;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -36,6 +37,7 @@ use App\Filament\Hr\Resources\DoctorResource\RelationManagers;
 use App\Filament\Hr\Resources\DoctorResource\Pages\ListDoctors;
 use App\Filament\Hr\Resources\DoctorResource\Pages\CreateDoctor;
 use App\Filament\Hr\Resources\DoctorResource\Pages\EditDoctor;
+use App\Filament\Imports\DoctorImporter;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
