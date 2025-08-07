@@ -47,9 +47,26 @@ class WorkSchedule extends Model
     public static function boot()
     {
         parent::boot();
+
         static::creating(function ($workSchedule) {
             if (empty($workSchedule->doctor_profile_id)) {
                 $workSchedule->doctor_profile_id = Auth::user()->doctorProfile->id;
+            }
+            if ($workSchedule->all_day == true) {
+                self::where('doctor_profile_id', $workSchedule->doctor_profile_id)
+                    ->where('day_of_week', $workSchedule->day_of_week)
+                    ->delete();
+            }
+        });
+
+        static::updating(function ($workSchedule) {
+            if ($workSchedule->all_day == true) {
+                $workSchedule->start_time = null;
+                $workSchedule->end_time = null;
+                self::where('doctor_profile_id', $workSchedule->doctor_profile_id)
+                    ->where('day_of_week', $workSchedule->day_of_week)
+                    ->where('id', '!=', $workSchedule->id)
+                    ->delete();
             }
         });
     }
