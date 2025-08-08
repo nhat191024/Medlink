@@ -54,7 +54,7 @@ class BookingController extends Controller
 
     public function showDoctorInfo($doctorProfileId)
     {
-        $doctorProfile = DoctorProfile::where('id',$doctorProfileId)->with(['medicalCategory', 'services', 'reviews',  'user'])->first();
+        $doctorProfile = DoctorProfile::where('id', $doctorProfileId)->with(['medicalCategory', 'services', 'reviews',  'user'])->first();
         $workSchedules = new WorkScheduleService()->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
         // dd($doctorProfile->user->languages[0]->language);
         return view('appointment.doctor-detail', [
@@ -176,55 +176,55 @@ class BookingController extends Controller
         $doctorProfile = DoctorProfile::findOrFail($doctorProfileId);
 
         // todo: build data here
-            // array:9 [
-            // "doctor_profile_id" => 2
-            // "service_id" => "5"
-            // "date" => "2025-07-27"
-            // "time" => "07:00 AM - 07:40 AM"
-            // "day_of_week" => "Sunday"
-            // "temporary_file_name" => "file-sample_150kB.pdf"
-            // "temporary_file_path" => "fd333e07-38ad-49dd-8338-36631fea927c.pdf"
-            // "note" => "I feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats all"
-            // "medical_problem" => "I feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats all"
-            // ]
-            $serviceId = $request->session()->get('appointment.service_id');
-            $service = Service::findOrFail($serviceId);
+        // array:9 [
+        // "doctor_profile_id" => 2
+        // "service_id" => "5"
+        // "date" => "2025-07-27"
+        // "time" => "07:00 AM - 07:40 AM"
+        // "day_of_week" => "Sunday"
+        // "temporary_file_name" => "file-sample_150kB.pdf"
+        // "temporary_file_path" => "fd333e07-38ad-49dd-8338-36631fea927c.pdf"
+        // "note" => "I feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats all"
+        // "medical_problem" => "I feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats allI feel sick thats all"
+        // ]
+        $serviceId = $request->session()->get('appointment.service_id');
+        $service = Service::findOrFail($serviceId);
 
-            $date = $request->session()->get('appointment.date');
-            $time = $request->session()->get('appointment.time');
-            $note = $request->session()->get('appointment.note', '');
-            $medicalProblem = $request->session()->get('appointment.medical_problem', '');
-            // Calculate total with VAT
-            $servicePrice = $service->price;
-            $vat = $servicePrice * 0.1; // 10% VAT
-            $total = $servicePrice + $vat;
+        $date = $request->session()->get('appointment.date');
+        $time = $request->session()->get('appointment.time');
+        $note = $request->session()->get('appointment.note', '');
+        $medicalProblem = $request->session()->get('appointment.medical_problem', '');
+        // Calculate total with VAT
+        $servicePrice = $service->price;
+        $vat = $servicePrice * 0.1; // 10% VAT
+        $total = $servicePrice + $vat;
 
-            // Format prices to VND
-            $formattedServicePrice = number_format($servicePrice, 0, ',', '.') . ' đ';
-            $formattedVat = number_format($vat, 0, ',', '.') . ' đ';
-            $formattedTotal = number_format($total, 0, ',', '.') . ' đ';
+        // Format prices to VND
+        $formattedServicePrice = number_format($servicePrice, 0, ',', '.') . ' đ';
+        $formattedVat = number_format($vat, 0, ',', '.') . ' đ';
+        $formattedTotal = number_format($total, 0, ',', '.') . ' đ';
 
-            $fileName = $request->session()->get('appointment.temporary_file_name', 'No file uploaded');
+        $fileName = $request->session()->get('appointment.temporary_file_name', 'No file uploaded');
 
-            return view('appointment.step-3', [
-                'doctorProfile' => $doctorProfile,
-                'schedule' => [
-                    'date' => $date,
-                    'time' => $time
+        return view('appointment.step-3', [
+            'doctorProfile' => $doctorProfile,
+            'schedule' => [
+                'date' => $date,
+                'time' => $time
+            ],
+            'address' => $doctorProfile->address ?? '',
+            'note' => $note,
+            'summarize' => $medicalProblem,
+            'fileName' => $fileName,
+            'bill' => [
+                'service' => [
+                    'name' => $service->name,
+                    'price' => $formattedServicePrice
                 ],
-                'address' => $doctorProfile->address ?? '',
-                'note' => $note,
-                'summarize' => $medicalProblem,
-                'fileName' => $fileName,
-                'bill' => [
-                    'service' => [
-                        'name' => $service->name,
-                        'price' => $formattedServicePrice
-                    ],
-                    'vat' => $formattedVat,
-                    'total' => $formattedTotal
-                ]
-            ]);
+                'vat' => $formattedVat,
+                'total' => $formattedTotal
+            ]
+        ]);
     }
 
     public function storeStepThree(Request $request)
@@ -278,6 +278,7 @@ class BookingController extends Controller
             'time' => $time,
             'medical_problem' => $medicalProblem,
             'payment_method' => $paymentMethod,
+            'medical_problem_files' => $recreatedFile ? [$recreatedFile] : null,
             'medical_problem_file' => $recreatedFile,
         ]);
 
@@ -320,7 +321,7 @@ class BookingController extends Controller
         $pendingStatuses = ['PENDING', 'PROCESSING'];
 
         // todo: translate to multilang
-        $errorMessage = match($status) {
+        $errorMessage = match ($status) {
             'CANCELLED' => 'Payment was cancelled',
             'UNDERPAID' => 'The payment amount was insufficient',
             'EXPIRED' => 'The payment session has expired',
