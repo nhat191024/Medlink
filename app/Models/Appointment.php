@@ -127,6 +127,11 @@ class Appointment extends Model
         return $this->hasOne(Bill::class, 'appointment_id');
     }
 
+    public function examResult()
+    {
+        return $this->hasOne(ExamResult::class, 'appointment_id');
+    }
+
     public static function isDoctorBusy($doctorProfileId)
     {
         $now = Carbon::now();
