@@ -266,6 +266,19 @@ class AppointmentResource extends Resource
                     ->modalDescription(
                         __('appointment.modals.change_status.description')
                     ),
+                Action::make('view_exam_result')
+                    ->label(__('appointment.actions.view_exam_result'))
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->visible(fn(Appointment $record) => $record->status === 'completed' && (bool) $record->examResult)
+                    ->modalHeading(__('appointment.modals.view_exam_result.title'))
+                    ->modalContent(fn(Appointment $record) => view('filament.resources.appointment-resource.partials.view-exam-result', [
+                        'record' => $record,
+                        'examResult' => $record->examResult,
+                    ]))
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel(__('common.close'))
+                    ->closeModalByClickingAway(true),
             ]);
     }
 
