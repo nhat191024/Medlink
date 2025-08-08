@@ -46,7 +46,7 @@
             @if(!empty(optional($examResult)->medication))
                 <div class="rounded-md border p-3 text-sm whitespace-pre-wrap">{{ $examResult->medication }}</div>
             @else
-                <div class="text-sm text-gray-500">{{ __('appointment.modals.view_exam_result.fields.nothing') }}</div>
+                <div class="text-sm text-gray-500">{{ __('appointment.modals.view_exam_result.nothing') }}</div>
             @endif
         </div>
 
@@ -68,7 +68,7 @@
                         @endforeach
                     </ul>
                 @else
-            <div class="text-sm text-gray-500">{{ __('appointment.modals.view_exam_result.fields.nothing') }}</div>
+            <div class="text-sm text-gray-500">{{ __('appointment.modals.view_exam_result.nothing') }}</div>
             @endif
         </div>
     </div>
