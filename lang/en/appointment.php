@@ -32,6 +32,7 @@ return [
 
     'actions' => [
         'change_status' => 'Change Status',
+        'view_exam_result' => 'View Exam Result',
     ],
 
     'modals' => [
@@ -39,6 +40,24 @@ return [
             'title' => 'Change Appointment Status',
             'description' => 'Are you sure you want to change the status of this appointment?',
             'status' => 'Status',
+        ],
+
+        'view_exam_result' => [
+            'title' => 'Exam Result',
+            'description' => 'View the exam result of this appointment.',
+
+            'fields' => [
+                'patient' => 'Patient',
+                'doctor' => 'Doctor',
+                'service' => 'Service',
+                'date' => 'Date',
+                'time' => 'Time',
+                'exam_result' => 'Exam Result',
+                'medical_information' => 'Medical Information',
+                'attachments' => 'Attachments',
+            ],
+
+            'nothing' => 'Nothing'
         ],
     ],
 ];

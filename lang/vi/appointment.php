@@ -32,6 +32,7 @@ return [
 
     'actions' => [
         'change_status' => 'Thay đổi trạng thái',
+        'view_exam_result' => 'Xem kết quả khám',
     ],
 
     'modals' => [
@@ -39,6 +40,24 @@ return [
             'title' => 'Thay đổi trạng thái cuộc hẹn',
             'description' => 'Bạn có chắc chắn muốn thay đổi trạng thái cuộc hẹn này không?',
             'status' => 'Trạng thái',
+        ],
+
+        'view_exam_result' => [
+            'title' => 'Kết quả khám',
+            'description' => 'Xem kết quả khám của cuộc hẹn này.',
+
+            'fields' => [
+                'patient' => 'Bệnh nhân',
+                'doctor' => 'Bác sĩ',
+                'service' => 'Dịch vụ',
+                'date' => 'Ngày',
+                'time' => 'Mốc thời gian',
+                'exam_result' => 'Kết quả khám',
+                'medical_information' => 'Thông tin y tế',
+                'attachments' => 'Tệp đính kèm',
+            ],
+
+            'nothing' => 'Không có gì',
         ],
     ],
 ];
