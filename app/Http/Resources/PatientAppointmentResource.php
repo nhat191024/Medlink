@@ -18,7 +18,18 @@ class PatientAppointmentResource extends JsonResource
             "id" => $this->id,
             "status" => $this->status,
             "medical_problem" => $this->medical_problem,
-            "medical_problem_file" => $this->medical_problem_file,
+            "medical_problem_file" => null,
+            "files" => $this->whenLoaded('files', function () {
+                return $this->files->map(function ($file) {
+                    return [
+                        'id' => $file->id,
+                        'name' => $file->original_name,
+                        'mime_type' => $file->mime_type,
+                        'size' => $file->size,
+                        'url' => $file->url,
+                    ];
+                });
+            }),
             "duration" => $this->duration,
             "date" => $this->date,
             "day_of_week" => $this->day_of_week,
