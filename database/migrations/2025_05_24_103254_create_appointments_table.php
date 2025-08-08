@@ -27,7 +27,6 @@ class CreateAppointmentsTable extends Migration
             //completed - appointment has been completed
             $table->enum('status', ['cancelled', 'rejected', 'pending', 'upcoming', 'waiting', 'completed'])->default('pending');
             $table->text('medical_problem');
-            $table->string('medical_problem_file')->nullable();
             $table->integer('duration');
             $table->date('date');
             $table->string('day_of_week');

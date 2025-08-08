@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\File;
 
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
@@ -19,7 +20,6 @@ use Spatie\Activitylog\LogOptions;
  * @property int $service_id
  * @property string $status
  * @property string $medical_problem
- * @property string|null $medical_problem_file
  * @property int $duration
  * @property string $date
  * @property string $day_of_week
@@ -75,7 +75,6 @@ class Appointment extends Model
         'service_id',
         'status',
         'medical_problem',
-        'medical_problem_file',
         'duration',
         'date',
         'day_of_week',
@@ -130,6 +129,11 @@ class Appointment extends Model
     public function examResult()
     {
         return $this->hasOne(ExamResult::class, 'appointment_id');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public static function isDoctorBusy($doctorProfileId)
