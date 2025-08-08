@@ -176,7 +176,6 @@ class DatabaseSeeder extends Seeder
                 'hospital_id' => 1,
                 'status' => $data['status'],
                 'medical_problem' => $data['medical_problem'],
-                'medical_problem_file' => $data['medical_problem_file'],
                 'duration' => $data['duration'],
                 'date' => $data['date'],
                 'day_of_week' => $data['day_of_week'],
