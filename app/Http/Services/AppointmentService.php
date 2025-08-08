@@ -424,6 +424,7 @@ class AppointmentService
                 'date' => $request->date,
                 'day_of_week' => $request->day_of_week,
                 'time' => $request->time,
+                'reason' => $request->input('note') ?? null,
                 'link' => $link,
                 'address' => $address,
             ]);
