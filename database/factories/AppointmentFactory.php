@@ -42,7 +42,6 @@ class AppointmentFactory extends Factory
             'service_id' => $serviceID,
             'status' => $this->faker->randomElement(['cancelled', 'rejected', 'pending', 'upcoming', 'completed']),
             'medical_problem' => $this->faker->sentence(),
-            'medical_problem_file' => 'documents/' . $this->faker->uuid() . '.pdf',
             'duration' => 30,
             'date' => $this->faker->dateTimeBetween('2025-05-01', '+2 years')->format('Y-m-d'),
             'day_of_week' => $this->faker->dayOfWeek(),
