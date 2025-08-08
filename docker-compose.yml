@@ -10,9 +10,9 @@ services:
             - "10002:80"
         volumes:
             - .:/var/www/html
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost/api/health"]
-            interval: 30s
-            timeout: 10s
-            retries: 3
-            start_period: 40s
+        # healthcheck:
+        #     test: ["CMD", "curl", "-f", "http://localhost/api/health"]
+        #     interval: 30s
+        #     timeout: 10s
+        #     retries: 3
+        #     start_period: 40s
