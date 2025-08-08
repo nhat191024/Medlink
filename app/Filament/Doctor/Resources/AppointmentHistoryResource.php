@@ -214,7 +214,7 @@ class AppointmentHistoryResource extends Resource
                             ->directory('exam-results')
                             ->disk('public'),
                     ])
-                    ->mountUsing(function (\Filament\Forms\Form $form, Appointment $record) {
+                    ->mountUsing(function (Form $form, Appointment $record) {
                         $form->fill([
                             'result' => optional($record->examResult)->result,
                             'medication' => optional($record->examResult)->medication,
@@ -239,8 +239,7 @@ class AppointmentHistoryResource extends Resource
                                     ->whereIn('path', $toDelete)
                                     ->get()
                                     ->each(function (AppFile $file) {
-                                        // Optionally also delete from storage
-                                        // Storage::disk($file->disk)->delete($file->path);
+                                        Storage::disk($file->disk)->delete($file->path);
                                         $file->delete();
                                     });
                             }
