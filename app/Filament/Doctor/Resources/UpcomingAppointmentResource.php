@@ -19,6 +19,8 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
@@ -39,6 +41,11 @@ use App\Filament\Doctor\Resources\UpcomingAppointmentResource\Pages\ListUpcoming
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
+use App\Models\ExamResult;
+use App\Models\File as AppFile;
 
 class UpcomingAppointmentResource extends Resource
 {
@@ -229,12 +236,52 @@ class UpcomingAppointmentResource extends Resource
                     ->label('Hoàn thành')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
-                    ->action(function (Appointment $record): void {
-                        $record->update(['status' => 'completed']);
+                    ->form([
+                        RichEditor::make('result')
+                            ->label('Kết quả khám')
+                            ->required()
+                            ->columnSpanFull(),
+                        Textarea::make('medication')
+                            ->label('Thông tin thuốc (không bắt buộc)')
+                            ->rows(3),
+                        FileUpload::make('files')
+                            ->label('Tệp đính kèm kết quả')
+                            ->multiple()
+                            ->downloadable()
+                            ->previewable(true)
+                            ->openable()
+                            ->directory('exam-results')
+                            ->disk('public'),
+                    ])
+                    ->action(function (array $data, Appointment $record): void {
+                        DB::transaction(function () use ($data, $record) {
+                            // Update status
+                            $record->update(['status' => 'completed']);
+
+                            // Create or update exam result
+                            $examResult = $record->examResult()->updateOrCreate([], [
+                                'result' => $data['result'],
+                                'medication' => $data['medication'] ?? null,
+                            ]);
+
+                            // Attach uploaded files
+                            $paths = $data['files'] ?? [];
+                            foreach ($paths as $path) {
+                                $mime = Storage::disk('public')->mimeType($path) ?? null;
+                                $size = Storage::disk('public')->size($path) ?? null;
+                                $examResult->files()->create([
+                                    'disk' => 'public',
+                                    'path' => $path,
+                                    'original_name' => basename($path),
+                                    'mime_type' => $mime,
+                                    'size' => $size,
+                                    'uploaded_by' => Auth::id(),
+                                ]);
+                            }
+                        });
                     })
-                    ->requiresConfirmation()
-                    ->modalHeading('Hoàn thành lịch hẹn')
-                    ->modalDescription('Bạn có chắc chắn muốn đánh dấu lịch hẹn này là đã hoàn thành?'),
+                    ->modalHeading('Nhập kết quả khám')
+                    ->modalSubmitActionLabel('Lưu và hoàn thành'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
