@@ -19,6 +19,9 @@ use Filament\Tables\Columns\TextColumn;
 
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
@@ -39,6 +42,11 @@ use App\Filament\Doctor\Resources\AppointmentHistoryResource\Pages\ListAppointme
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
+use App\Models\ExamResult;
+use App\Models\File as AppFile;
 
 class AppointmentHistoryResource extends Resource
 {
@@ -185,13 +193,74 @@ class AppointmentHistoryResource extends Resource
                     ]),
             ])
             ->actions([
-                // Action::make('view_bill')
-                //     ->label('Xem hóa đơn')
-                //     ->icon('heroicon-o-document-text')
-                //     ->color('info')
-                //     ->url(fn($record) => route('filament.admin.resources.bills.view', $record->bill->id))
-                //     ->openUrlInNewTab()
-                //     ->visible(fn($record) => $record->bill !== null),
+                Action::make('edit_result')
+                    ->label('Sửa kết quả khám')
+                    ->icon('heroicon-o-pencil-square')
+                    ->visible(fn($record) => $record->status === 'completed')
+                    ->form([
+                        RichEditor::make('result')
+                            ->label('Kết quả khám')
+                            ->required()
+                            ->columnSpanFull(),
+                        Textarea::make('medication')
+                            ->label('Thông tin thuốc (không bắt buộc)')
+                            ->rows(3),
+                        FileUpload::make('files')
+                            ->label('Tệp đính kèm kết quả')
+                            ->multiple()
+                            ->downloadable()
+                            ->previewable(true)
+                            ->openable()
+                            ->directory('exam-results')
+                            ->disk('public'),
+                    ])
+                    ->mountUsing(function (\Filament\Forms\Form $form, Appointment $record) {
+                        $form->fill([
+                            'result' => optional($record->examResult)->result,
+                            'medication' => optional($record->examResult)->medication,
+                            'files' => optional(optional($record->examResult)->files)->pluck('path')->toArray() ?? [],
+                        ]);
+                    })
+                    ->action(function (array $data, Appointment $record): void {
+                        DB::transaction(function () use ($data, $record) {
+                            $examResult = $record->examResult()->updateOrCreate([], [
+                                'result' => $data['result'],
+                                'medication' => $data['medication'] ?? null,
+                            ]);
+
+                            $newPaths = $data['files'] ?? [];
+                            $existingPaths = $examResult->files()->pluck('path')->toArray();
+
+                            $toDelete = array_diff($existingPaths, $newPaths);
+                            $toAdd = array_diff($newPaths, $existingPaths);
+
+                            if (!empty($toDelete)) {
+                                $examResult->files()
+                                    ->whereIn('path', $toDelete)
+                                    ->get()
+                                    ->each(function (AppFile $file) {
+                                        // Optionally also delete from storage
+                                        // Storage::disk($file->disk)->delete($file->path);
+                                        $file->delete();
+                                    });
+                            }
+
+                            foreach ($toAdd as $path) {
+                                $mime = Storage::disk('public')->mimeType($path) ?? null;
+                                $size = Storage::disk('public')->size($path) ?? null;
+                                $examResult->files()->create([
+                                    'disk' => 'public',
+                                    'path' => $path,
+                                    'original_name' => basename($path),
+                                    'mime_type' => $mime,
+                                    'size' => $size,
+                                    'uploaded_by' => Auth::id(),
+                                ]);
+                            }
+                        });
+                    })
+                    ->modalHeading('Chỉnh sửa kết quả khám')
+                    ->modalSubmitActionLabel('Lưu thay đổi'),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
@@ -224,7 +293,9 @@ class AppointmentHistoryResource extends Resource
                 'patient',
                 'patient.user',
                 'service',
-                'bill'
+                'bill',
+                'examResult',
+                'examResult.files'
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
