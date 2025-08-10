@@ -7,9 +7,7 @@
             <div class="flex flex-col items-center text-center gap-3 mb-6">
                 <div class="avatar">
                     <div class="w-24 rounded-full ring ring-base-100 ring-offset-2">
-                        <img src="/{{ $doctorProfile->user->avatar }}?height=120&width=120"
-                            alt="{{ $doctorProfile->user->name }}"
-                            onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
+                        <img src="{{ asset($doctorProfile->user->avatar) }}" alt="{{ $doctorProfile->user->name }}">
                     </div>
                 </div>
 
@@ -69,8 +67,8 @@
                 <div class="bg-base-100 rounded-2xl p-4 flex flex-wrap items-center gap-3 mb-8">
                     @foreach ($doctorProfile->user->languages as $item)
                         <span class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-base-200">
-                            <img src="https://flagcdn.com/{{ $item->language->code }}.svg"
-                                class="w-6 h-6 rounded-full object-cover" alt="{{ $item->language->name }}">
+                            <img src="https://flagcdn.com/{{ $item->language->code }}.svg" class="w-6 h-6 rounded-full object-cover"
+                                alt="{{ $item->language->name }}">
                             <span class="text-sm font-medium">{{ $item->language->name }}</span>
                         </span>
                     @endforeach
@@ -138,13 +136,11 @@
 
                 {{-- Days row like the mock (labels + red underline on active) --}}
                 <div class="mb-4 border-b border-base-200 pb-2">
-                    <div id="calendarDays"
-                        class="grid grid-cols-7 gap-2 items-end"></div>
+                    <div id="calendarDays" class="grid grid-cols-7 gap-2 items-end"></div>
                 </div>
 
                 {{-- Time pills --}}
-                <div id="timeSlots"
-                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
+                <div id="timeSlots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
 
                 <div id="noSlotsMessage" class="hidden mt-4">
                     <div class="alert">
@@ -258,7 +254,7 @@
         }
 
         // Initialize calendar
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initCalendar();
         });
 
@@ -293,11 +289,11 @@
                 if (!isAvailable) btn.classList.add('opacity-40', 'pointer-events-none');
 
                 btn.innerHTML = `
-            <input type="radio" name="date" class="hidden day-radio">
-            <span class="day-name text-[11px] text-base-content/60 font-medium">${dayNames[date.getDay()]}</span>
-            <span class="day-num text-sm font-semibold">${date.getDate().toString().padStart(2,'0')}</span>
-            <span class="day-underline block h-0.5 w-8 rounded bg-transparent"></span>
-            `;
+                        <input type="radio" name="date" class="hidden day-radio">
+                        <span class="day-name text-[11px] text-base-content/60 font-medium">${dayNames[date.getDay()]}</span>
+                        <span class="day-num text-sm font-semibold">${date.getDate().toString().padStart(2, '0')}</span>
+                        <span class="day-underline block h-0.5 w-8 rounded bg-transparent"></span>
+                        `;
 
                 // default select first available
                 if (isAvailable && firstAvailableDay === -1) {
@@ -307,9 +303,9 @@
                 }
 
                 if (isAvailable) {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         document.querySelectorAll('#calendarDays .day-item').forEach(d => markDaySelected(d,
-                        false));
+                            false));
                         markDaySelected(this, true);
                         this.querySelector('.day-radio').checked = true;
                         updateTimeSlots(date);
@@ -328,11 +324,11 @@
             }
         }
 
-        document.getElementById('prevMonth').addEventListener('click', function() {
+        document.getElementById('prevMonth').addEventListener('click', function () {
             selectedDateOffset -= 7;
             updateCalendar();
         });
-        document.getElementById('nextMonth').addEventListener('click', function() {
+        document.getElementById('nextMonth').addEventListener('click', function () {
             selectedDateOffset += 7;
             updateCalendar();
         });
@@ -397,13 +393,13 @@
                 // Base label: time on first line; second line small note if "full"
                 const secondary = isFull ? '<br><span class="text-xs opacity-90">Full</span>' : '';
                 btn.innerHTML = `
-            <input type="radio" name="time" value="${timeValue}" class="hidden time-radio" ${isAvailable ? '' : 'disabled'}>
-            <span class="inline-block">${timeValue}${secondary}</span>
-            `;
+                        <input type="radio" name="time" value="${timeValue}" class="hidden time-radio" ${isAvailable ? '' : 'disabled'}>
+                        <span class="inline-block">${timeValue}${secondary}</span>
+                        `;
 
                 if (isAvailable) {
                     btn.classList.add('btn-outline', 'border-base-300', 'text-base-content');
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         document.querySelectorAll('#timeSlots .time-slot').forEach(s => markTimeSelected(s,
                             false));
                         markTimeSelected(this, true);
@@ -435,7 +431,7 @@
             let [hours, minutes] = time.split(':');
             if (period === 'PM' && hours !== '12') hours = (parseInt(hours) + 12).toString();
             else if (period === 'AM' && hours === '12') hours = '00';
-            return `${hours.padStart(2,'0')}:${minutes}`;
+            return `${hours.padStart(2, '0')}:${minutes}`;
         }
 
         function formatTimeForDisplay(timeStr) {
