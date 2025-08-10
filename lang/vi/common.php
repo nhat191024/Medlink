@@ -118,6 +118,7 @@ return [
 
     'system' => 'Hệ thống',
     'my_profile' => 'Hồ sơ của tôi',
+    'back' => 'Quay lại',
 
     'close' => 'Đóng',
     'save' => 'Lưu',

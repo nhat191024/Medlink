@@ -112,6 +112,7 @@ return [
 
     'system' => 'System',
     'my_profile' => 'My Profile',
+    'back' => 'Back',
 
     'close' => 'Close',
     'save' => 'Save',
