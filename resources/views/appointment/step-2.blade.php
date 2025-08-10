@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-5xl px-4 my-3 md:py-8">
+    <div class="mx-auto my-3 max-w-5xl px-4 md:py-8">
         <!-- Progress Steps -->
         <div class="mb-8 flex justify-center">
             <ul class="steps steps-horizontal">
@@ -20,36 +20,32 @@
         <!-- Main Card -->
         <div class="card">
             <div class="card-body px-0 py-0 md:px-5 md:py-5">
-                <h1 class="card-title text-2xl font-bold">Book appointment</h1>
+                <h1 class="card-title text-2xl font-bold">Đặt lịch hẹn</h1>
 
                 <!-- Doctor Info -->
                 <div class="mt-4 flex items-center gap-6">
                     <div class="avatar">
-                        <div class="w-26 rounded-full ring ring-error ring-offset-base-100 ring-offset-2">
-                            <img src="/{{ $doctorProfile->user->avatar }}?height=80&width=80"
-                                alt="{{ $doctorProfile->user->name }}"
-                                onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
+                        <div class="w-26 ring-error ring-offset-base-100 rounded-full ring ring-offset-2">
+                            <img src="{{ asset($doctorProfile->user->avatar) }}" alt="{{ $doctorProfile->user->name }}">
                         </div>
                     </div>
                     <div class="text-xl">{{ $doctorProfile->user->name }}</div>
                 </div>
 
-                <div class="card bg-[#F6F6F6] px-5 pb-3 pt-0 md:px-10 md:py-10 shadow-lg">
+                <div class="card bg-[#F6F6F6] px-5 pb-3 pt-0 shadow-lg md:px-10 md:py-10">
                     <!-- Form -->
-                    <form id="medicalForm" method="POST" action="{{ route('appointment.step.two.store') }}"
-                        enctype="multipart/form-data" class="mt-6 space-y-6">
+                    <form id="medicalForm" class="mt-6 space-y-6" method="POST" action="{{ route('appointment.step.two.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <!-- Medical Problem -->
                         <div>
-                            <label for="medical_problem" class="label">
-                                <span class="label-text text-base md:font-medium mb-1 ml-2 text-wrap">
-                                    Summarize your medical problem
+                            <label class="label" for="medical_problem">
+                                <span class="label-text mb-1 ml-2 text-wrap text-base md:font-medium">
+                                    Tóm tắt vấn đề y tế của bạn
                                     <span class="text-error">*</span>
                                 </span>
                             </label>
-                            <textarea id="medical_problem" name="medical_problem" class="p-3 px-5 textarea bg-base-200 min-h-52 w-full"
-                                placeholder="Enter your history medical..." required>{{ old('medical_problem') }}</textarea>
+                            <textarea id="medical_problem" class="textarea bg-base-200 min-h-52 w-full p-3 px-5" name="medical_problem" required placeholder="Nhập lịch sử y tế của bạn...">{{ old('medical_problem') }}</textarea>
 
                             @error('medical_problem')
                                 <div class="label">
@@ -59,40 +55,35 @@
                         </div>
 
                         <!-- Attach files -->
-                        <div x-data="filePicker()" class="space-y-3">
+                        <div class="space-y-3" x-data="filePicker()">
                             <label class="label">
-                                <span class="label-text text-base md:font-medium mb-1 ml-2">Attach files</span>
+                                <span class="label-text mb-1 ml-2 text-base md:font-medium">Đính kèm tệp</span>
                             </label>
 
                             <!-- Hidden input (the real one) -->
-                            <input id="medical_files" name="medical_files[]" type="file" class="file-input hidden"
-                                multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" x-ref="input"
-                                @change="addFiles($event)" />
+                            <input id="medical_files" class="file-input hidden" name="medical_files[]" type="file" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" x-ref="input" @change="addFiles($event)" />
 
                             <!-- Dropzone -->
-                            <div class="rounded-box border-2 border-dashed border-base-300 bg-base-200 p-6 text-center cursor-pointer hover:bg-red-50 transition"
-                                @click="$refs.input.click()" @dragover.prevent="dragging = true"
-                                @dragleave.prevent="dragging = false" @drop.prevent="handleDrop($event)"
-                                :class="dragging ? 'border-error' : ''"
-                                :class="(files.length>=10) ? 'pointer-events-none opacity-60' : ''">
+                            <div class="rounded-box border-base-300 bg-base-200 cursor-pointer border-2 border-dashed p-6 text-center transition hover:bg-red-50" @click="$refs.input.click()" @dragover.prevent="dragging = true" @dragleave.prevent="dragging = false" @drop.prevent="handleDrop($event)"
+                                :class="dragging ? 'border-error' : ''" :class="(files.length >= 10) ? 'pointer-events-none opacity-60' : ''">
                                 <div class="flex flex-col items-center gap-2">
-                                    <x-bi-cloud-arrow-up class="w-8 h-8 opacity-70" />
+                                    <x-bi-cloud-arrow-up class="h-8 w-8 opacity-70" />
                                     <div class="text-sm opacity-80">
-                                        Drag & drop files here, or <span class="link text-red-700">browse</span>
+                                        Kéo và thả tệp tại đây hoặc <span class="link text-red-700">Duyệt</span>
                                     </div>
-                                    <div class="text-xs opacity-60">PDF, DOC, DOCX, JPG, JPEG, PNG. Max 5.48 MB each.</div>
+                                    <div class="text-xs opacity-60">PDF, JPG, JPEG, PNG. Tối Đa 5.48 MB với mỗi file.</div>
                                     <div class="mt-1 text-xs text-red-700" x-show="maxError" x-text="maxError"></div>
                                     <!-- Rejected summary alert -->
                                     <div class="alert alert-error mt-2 bg-red-100" x-show="rejected.length">
-                                    <x-bi-exclamation-triangle class="w-5 h-5" />
-                                    <div>
-                                        <h3 class="font-semibold text-sm">Một số tệp đã bị loại bỏ</h3>
-                                        <ul class="text-xs mt-1 list-disc ml-5 space-y-0.5">
-                                        <template x-for="r in rejected" :key="r.name + r.reason">
-                                            <li><span x-text="r.name"></span>: <span x-text="r.reason"></span></li>
-                                        </template>
-                                        </ul>
-                                    </div>
+                                        <x-bi-exclamation-triangle class="h-5 w-5" />
+                                        <div>
+                                            <h3 class="text-sm font-semibold">Một số tệp đã bị loại bỏ</h3>
+                                            <ul class="ml-5 mt-1 list-disc space-y-0.5 text-xs">
+                                                <template x-for="r in rejected" :key="r.name + r.reason">
+                                                    <li><span x-text="r.name"></span>: <span x-text="r.reason"></span></li>
+                                                </template>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -103,43 +94,43 @@
                                     <span x-text="`${files.length} file(s), ${human(totalBytes)}`"></span>
                                 </div>
                                 <div class="join" x-show="files.length">
-                                    <button type="button" class="btn btn-ghost btn-xs join-item" @click="clearAll()">
-                                        <x-bi-x-circle class="w-4 h-4 mr-1" /> Clear all
+                                    <button class="btn btn-ghost btn-xs join-item" type="button" @click="clearAll()">
+                                        <x-bi-x-circle class="mr-1 h-4 w-4" />Rõ ràng tất cả
                                     </button>
                                 </div>
                             </div>
 
                             <!-- File list -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3" x-show="files.length">
+                            <div class="grid grid-cols-1 gap-3 md:grid-cols-2" x-show="files.length">
                                 <template x-for="(f, idx) in files" :key="f._id">
                                     <div class="card bg-base-100 shadow-sm">
                                         <div class="card-body p-4">
                                             <div class="flex items-center gap-3">
                                                 <!-- Preview/Icon -->
                                                 <template x-if="f._isImage">
-                                                    <div class="w-12 h-12 grid place-content-center rounded bg-base-200">
-                                                        <x-bi-file-earmark-image class="w-6 h-6 opacity-80" />
+                                                    <div class="bg-base-200 grid h-12 w-12 place-content-center rounded">
+                                                        <x-bi-file-earmark-image class="h-6 w-6 opacity-80" />
                                                     </div>
                                                     {{-- <div class="avatar">
                                                     </div> --}}
                                                 </template>
                                                 <template x-if="!f._isImage">
-                                                    <div class="w-12 h-12 grid place-content-center rounded bg-base-200">
+                                                    <div class="bg-base-200 grid h-12 w-12 place-content-center rounded">
                                                         <template x-if="f._ext === 'pdf'">
-                                                            <x-bi-file-earmark-pdf class="w-6 h-6 opacity-80" />
+                                                            <x-bi-file-earmark-pdf class="h-6 w-6 opacity-80" />
                                                         </template>
                                                         <template x-if="['doc','docx'].includes(f._ext)">
-                                                            <x-bi-file-earmark-word class="w-6 h-6 opacity-80" />
+                                                            <x-bi-file-earmark-word class="h-6 w-6 opacity-80" />
                                                         </template>
                                                         <template x-if="!['pdf','doc','docx'].includes(f._ext)">
-                                                            <x-bi-file-earmark class="w-6 h-6 opacity-80" />
+                                                            <x-bi-file-earmark class="h-6 w-6 opacity-80" />
                                                         </template>
                                                     </div>
                                                 </template>
 
                                                 <!-- Meta -->
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="font-medium truncate" x-text="f.name"></div>
+                                                <div class="min-w-0 flex-1">
+                                                    <div class="truncate font-medium" x-text="f.name"></div>
                                                     <div class="text-xs opacity-60">
                                                         <span x-text="human(f.size)"></span>
                                                         <span class="mx-1">•</span>
@@ -148,15 +139,13 @@
 
                                                     <!-- Warnings -->
                                                     <div class="mt-1">
-                                                        <span class="badge badge-error badge-sm" x-show="f._error"
-                                                            x-text="f._error"></span>
+                                                        <span class="badge badge-error badge-sm" x-show="f._error" x-text="f._error"></span>
                                                     </div>
                                                 </div>
 
                                                 <!-- Remove -->
-                                                <button type="button" class="btn btn-ghost btn-xs" @click="remove(idx)"
-                                                    :disabled="submitting">
-                                                    <x-bi-trash class="w-4 h-4" />
+                                                <button class="btn btn-ghost btn-xs" type="button" @click="remove(idx)" :disabled="submitting">
+                                                    <x-bi-trash class="h-4 w-4" />
                                                 </button>
                                             </div>
                                         </div>
@@ -166,12 +155,12 @@
 
                             <!-- Backend validation errors -->
                             @error('medical_files')
-                                <div class="mt-1 text-xs text-error">{{ $message }}</div>
+                                <div class="text-error mt-1 text-xs">{{ $message }}</div>
                             @enderror
                             @if ($errors->has('medical_files.*'))
                                 @foreach ($errors->get('medical_files.*') as $messages)
                                     @foreach ($messages as $msg)
-                                        <div class="mt-1 text-xs text-error">{{ $msg }}</div>
+                                        <div class="text-error mt-1 text-xs">{{ $msg }}</div>
                                     @endforeach
                                 @endforeach
                             @endif
@@ -180,11 +169,10 @@
 
                         <!-- Note -->
                         <div>
-                            <label for="note" class="label">
-                                <span class="label-text text-base font-medium mb-1 ml-2">Note</span>
+                            <label class="label" for="note">
+                                <span class="label-text mb-1 ml-2 text-base font-medium">Ghi chú</span>
                             </label>
-                            <input id="note" name="note" type="text" value="{{ old('note') }}"
-                                placeholder="Enter" class="input input-bordered w-full" />
+                            <input id="note" class="input input-bordered w-full" name="note" type="text" value="{{ old('note') }}" placeholder="Nhập" />
                             @error('note')
                                 <div class="label">
                                     <span class="label-text-alt text-error">{{ $message }}</span>
@@ -193,17 +181,15 @@
                         </div>
 
                         <!-- Footer -->
-                        <div
-                            class="card-actions mt-8 flex flex-col-reverse gap-3 md:flex-row md:justify-between items-center">
-                            <a onclick="history.back()" class="btn btn-outline btn-error rounded-full">
+                        <div class="card-actions mt-8 flex flex-col-reverse items-center gap-3 md:flex-row md:justify-between">
+                            <a class="btn btn-outline btn-error rounded-full" onclick="history.back()">
                                 <x-bi-arrow-left class="h-4 w-4" />
-                                Back
+                                Mặt sau
                             </a>
 
-                            <button type="submit" class="btn continue-btn"
-                                style="background-color: #DF1D32; color: #fff;">
+                            <button class="btn continue-btn" type="submit" style="background-color: #DF1D32; color: #fff;">
                                 <x-bi-arrow-right-circle class="mr-2 h-5 w-5" />
-                                Continue
+                                Tiếp tục
                             </button>
                         </div>
                     </form>
@@ -352,7 +338,7 @@
             const btn = document.querySelector('.continue-btn');
             btn.disabled = true;
             btn.classList.add('btn-disabled');
-            btn.innerText = 'Processing...';
+            btn.innerText = 'Đang xử lý...';
         });
 
         // auto-resize textarea

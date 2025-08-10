@@ -7,22 +7,22 @@
 @section('content')
     <div class="success-bg">
         <div class="success-main">
-            <div class="success-icon-top border-[#3bb54a] border-2">
-                <img src="{{ asset('img/Partypopper.png') }}" alt="Party Icon" class="info-icon-img">
+            <div class="success-icon-top border-2 border-[#3bb54a]">
+                <img class="info-icon-img" src="{{ asset('img/Partypopper.png') }}" alt="Party Icon">
             </div>
-            <div class="success-title">Thank you</div>
-            <div class="success-desc">Your appointment has been booked successfully!</div>
-            <div class="success-note">Please check your appointment history for receipt and looking details</div>
+            <div class="success-title">Cảm ơn bạn</div>
+            <div class="success-desc">Cuộc hẹn của bạn đã được đặt thành công!</div>
+            <div class="success-note">Vui lòng kiểm tra lịch sử cuộc hẹn của bạn để nhận và xem chi tiết </div>
             <div class="info-card">
                 <div class="info-row">
                     <div class="info-icon-bg">
-                        <img src="{{ asset('img/iconhome.png') }}" alt="Home Icon" class="info-icon-img">
+                        <img class="info-icon-img" src="{{ asset('img/iconhome.png') }}" alt="Home Icon">
                     </div>
                     <div>{{ session('serviceName') }}</div>
                 </div>
                 <div class="info-row">
                     <div class="info-icon-bg">
-                        <img src="{{ asset('img/iconclock.png') }}" alt="Clock Icon" class="info-icon-img">
+                        <img class="info-icon-img" src="{{ asset('img/iconclock.png') }}" alt="Clock Icon">
                     </div>
                     <div>
                         {{ session('date') }}<br>
@@ -38,13 +38,11 @@
             </div>
             <div class="action-btns">
                 <button class="action-btn">
-                    <img src="{{ asset('img/iconphone.png') }}" alt="Call Icon" class="info-icon-img"> Call
+                    <img class="info-icon-img" src="{{ asset('img/iconmessage.png') }}" alt="Message Icon">
+                    Nhắn tin
                 </button>
-                <button class="action-btn">
-                    <img src="{{ asset('img/iconmessage.png') }}" alt="Message Icon" class="info-icon-img"> Message
-                </button>
-                <a href="{{ route('appointment.index') }}" class="action-btn">
-                    Back
+                <a class="action-btn" href="{{ route('appointment.index') }}">
+                    Quay lại
                 </a>
             </div>
             {{-- <a href="#" class="see-details">See all details</a> --}}

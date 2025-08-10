@@ -6,20 +6,18 @@
 
 @section('content')
     <div class="min-h-screen bg-gray-50">
-        <div class="container mx-auto px-4 py-10 max-w-7xl">
+        <div class="container mx-auto max-w-7xl px-4 py-10">
             <!-- Search Section -->
             <div class="search-section">
                 <form id="search-form">
                     <div class="search-bar">
-                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
                             <path d="m21 21-4.35-4.35"></path>
                         </svg>
-                        <input type="text" class="search-input bg-white" placeholder="Search..." name="q"
-                            value="{{ request('q') }}">
-                        <button type="submit" class="search-btn">
-                            Search
+                        <input class="search-input bg-white" name="q" type="text" value="{{ request('q') }}" placeholder="Search...">
+                        <button class="search-btn" type="submit">
+                            Tìm kiếm
                         </button>
                     </div>
 
@@ -28,72 +26,53 @@
                             $identity = session('identity');
                         @endphp
 
-                        <input type="hidden" name="identity" id="identity-input"
-                            value="{{ request('identity', 'doctor') }}">
-                        <button type="button"
-                            class="filter-btn {{ request('identity', $identity) == 'doctor' ? 'active' : '' }}"
-                            data-identity="doctor">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <input id="identity-input" name="identity" type="hidden" value="{{ request('identity', 'doctor') }}">
+                        <button class="filter-btn {{ request('identity', $identity) == 'doctor' ? 'active' : '' }}" data-identity="doctor" type="button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            Doctors
+                            Bác sĩ
                         </button>
-                        <button type="button"
-                            class="filter-btn {{ request('identity', $identity) == 'hospital' ? 'active' : '' }}"
-                            data-identity="hospital">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <button class="filter-btn {{ request('identity', $identity) == 'hospital' ? 'active' : '' }}" data-identity="hospital" type="button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
-                            Hospital
+                            Bệnh viện
                         </button>
-                        <button type="button"
-                            class="filter-btn {{ request('identity', $identity) == 'pharmacies' ? 'active' : '' }}"
-                            data-identity="pharmacies">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <button class="filter-btn {{ request('identity', $identity) == 'pharmacies' ? 'active' : '' }}" data-identity="pharmacies" type="button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                                 <line x1="8" y1="21" x2="16" y2="21"></line>
                                 <line x1="12" y1="17" x2="12" y2="21"></line>
                             </svg>
-                            Pharmacy
+                            Nhà thuốc
                         </button>
-                        <button type="button"
-                            class="filter-btn {{ request('identity', $identity) == 'ambulance' ? 'active' : '' }}"
-                            data-identity="ambulance">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
+                        <button class="filter-btn {{ request('identity', $identity) == 'ambulance' ? 'active' : '' }}" data-identity="ambulance" type="button">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M9 12l2 2 4-4"></path>
-                                <path
-                                    d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z">
+                                <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z">
                                 </path>
                             </svg>
-                            Ambulance
+                            Xe cấp cứu
                         </button>
                     </div>
                 </form>
             </div>
 
             <!-- Main Content -->
-            <div class="mt-20 rounded-[20px] p-10 bg-white">
-                <h2 class="section-title">Browse doctors nearby!</h2>
-                <div
-                    class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10 mb-10 justify-self-center-safe">
+            <div class="mt-20 rounded-[20px] bg-white p-10">
+                <h2 class="section-title">Tìm bác sĩ ở gần</h2>
+                <div class="justify-self-center-safe mb-10 grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
                     @forelse ($userProfiles as $item)
                         <!-- Doctor Card -->
-                        <div
-                            class="card bg-base-100 w-full shadow-xl border-1 rounded-4xl px-5 py-6 border-gray-100 gap-3 md:w-100 lg:w-90 xl:w-80">
+                        <div class="card bg-base-100 border-1 rounded-4xl md:w-100 lg:w-90 w-full gap-3 border-gray-100 px-5 py-6 shadow-xl xl:w-80">
                             <div id="info-section" class="flex grow items-start gap-4">
-                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}"
-                                    class="doctor-profile-item cursor-pointer w-20 h-20 shrink-0 rounded-full border border-gray-300 block">
-                                    <img src="{{ asset($item->avatar) }}" alt="{{ $item->name }}"
-                                        class="flex grow rounded-full object-cover">
+                                <a class="doctor-profile-item block h-20 w-20 shrink-0 cursor-pointer rounded-full border border-gray-300" href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}">
+                                    <img class="flex grow rounded-full object-cover" src="{{ asset($item->avatar) }}" alt="{{ $item->name }}">
                                 </a>
-                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}"
-                                    class="doctor-profile-item cursor-pointer flex flex-col grow">
+                                <a class="doctor-profile-item flex grow cursor-pointer flex-col" href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}">
                                     <h3 class="doctor-name">{{ $item->name }}</h3>
                                     <p class="doctor-specialty">
                                         {{ $item->doctorProfile->medicalCategory ? $item->doctorProfile->medicalCategory->name : '' }}
@@ -114,30 +93,28 @@
                                             @svg('bi-star', 'text-gray-600 w-4 h-4')
                                         @endif
                                         <span class="ml-1 text-sm text-gray-600">
-                                            {{ $rate > 0 ? number_format($roundedRate, 1) : 'Not rated' }}
+                                            {{ $rate > 0 ? number_format($roundedRate, 1) : 'Chưa được đánh giá' }}
                                         </span>
                                     </div>
                                 </a>
-                                <button type="button"
-                                    class="mt-2 mr-2 w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 hover:bg-red-100 transition-colors"
-                                    aria-label="Add to favorites">
+                                <button class="mr-2 mt-2 flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 transition-colors hover:bg-red-100" type="button" aria-label="Add to favorites">
                                     @svg('bi-heart', 'pt-[3px] w-5 h-5 text-red-500')
                                 </button>
                             </div>
-                            <div class="flex grow gap-3 justify-evenly">
+                            <div class="flex grow justify-evenly gap-3">
                                 <div>
-                                    <div class="text-[0.8em] text-gray-600 flex items-center">
+                                    <div class="flex items-center text-[0.8em] text-gray-600">
                                         @svg('ionicon-location-outline', 'text-gray-600 w-4 h-4 mr-1')
-                                        Location
+                                        Địa điểm
                                     </div>
                                     <div class="text-sm text-gray-900">
                                         <span>{{ Str::limit($item->city . ' - ' . $item->country, 50, '...') }}</span>
                                     </div>
                                 </div>
                                 <div class="">
-                                    <div class="text-[0.8em] text-gray-600 flex items-center">
+                                    <div class="flex items-center text-[0.8em] text-gray-600">
                                         @svg('bi-currency-dollar', 'text-gray-600 w-4 h-4 mr-1')
-                                        Price from
+                                        Giá từ
                                     </div>
                                     @if ($item->doctorProfile->services->count() > 0)
                                         <div class="text-sm">
@@ -146,30 +123,26 @@
                                         </div>
                                     @else
                                         <div class="text-sm">
-                                            No service
+                                            Không có dịch vụ
                                         </div>
                                     @endif
                                 </div>
                                 <div>
-                                    <div class="text-[0.8em] text-gray-600 flex items-center">
+                                    <div class="flex items-center text-[0.8em] text-gray-600">
                                         @svg('ionicon-calendar-number-sharp', 'text-gray-600 w-4 h-4 mr-1')
-                                        Schedule
+                                        Lịch
                                     </div>
                                     @php
-                                        $isAvailable =
-                                            \App\Models\WorkSchedule::isAvailable($item->doctorProfile->id) == 1
-                                            ? 'Available'
-                                            : 'Not Available';
+                                        $isAvailable = \App\Models\WorkSchedule::isAvailable($item->doctorProfile->id) == 1 ? 'Available' : 'Not Available';
                                     @endphp
-                                    <div class="text-sm {{ $isAvailable ? 'text-green-700' : 'text-red-700' }}">
-                                        {{ $isAvailable == 1 ? 'Available' : 'Not Available' }}
+                                    <div class="{{ $isAvailable ? 'text-green-700' : 'text-red-700' }} text-sm">
+                                        {{ $isAvailable == 1 ? 'Đang trống' : 'Đang bận' }}
                                     </div>
                                 </div>
                             </div>
                             <div id="btn-section" class="flex items-center space-x-2">
-                                <button class="book-btn"
-                                    onclick="location.href='{{ route('appointment.step.one', ['doctor_profile_id' => $item->doctorProfile->id]) }}'">
-                                    Book Appointment
+                                <button class="book-btn" onclick="location.href='{{ route('appointment.step.one', ['doctor_profile_id' => $item->doctorProfile->id]) }}'">
+                                    Đặt lịch cho hẹn
                                 </button>
                             </div>
                         </div>
@@ -182,18 +155,18 @@
                 </div>
             </div>
         </div>
-@endsection
+    @endsection
 
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded',
-                function () {
+                function() {
                     const searchForm = document.getElementById('search-form');
                     const identityInput = document.getElementById('identity-input');
                     const identityButtons = document.querySelectorAll('.filter-btn');
                     identityButtons.forEach(button => {
                         button.addEventListener('click',
-                            function () {
+                            function() {
                                 const selectedIdentity = this.dataset.identity;
                                 identityInput.value = selectedIdentity;
                                 searchForm.submit();
@@ -202,7 +175,7 @@
                 });
             document.querySelectorAll('.favorite-btn').forEach(button => {
                 button.addEventListener('click',
-                    function () {
+                    function() {
                         // alert('thinh gay');
                     });
             });

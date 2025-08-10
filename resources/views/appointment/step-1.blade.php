@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto max-w-5xl px-4 my-3 md:py-8">
+    <div class="mx-auto my-3 max-w-5xl px-4 md:py-8">
         <!-- Progress Steps -->
         <div class="mb-8 flex justify-center">
             <ul class="steps steps-horizontal">
@@ -20,107 +20,89 @@
         <!-- Main Card -->
         <div class="card">
             <div class="card-body px-0 py-0 md:px-5 md:py-5">
-                <h1 class="card-title text-2xl font-bold">Book appointment</h1>
+                <h1 class="card-title text-2xl font-bold">Đặt lịch hẹn</h1>
 
-                <!-- Doctor Info -->
                 <div class="mt-4 flex items-center gap-6">
                     <div class="avatar">
-                        <div class="w-26 rounded-full ring ring-error ring-offset-base-100 ring-offset-2">
-                            <img src="/{{ $doctorProfile->user->avatar }}?height=80&width=80"
-                                alt="{{ $doctorProfile->user->name }}"
-                                onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
+                        <div class="w-26 ring-error ring-offset-base-100 rounded-full ring ring-offset-2">
+                            <img src="{{ asset($doctorProfile->user->avatar) }}" alt="{{ $doctorProfile->user->name }}">
                         </div>
                     </div>
                     <div class="text-xl">{{ $doctorProfile->user->name }}</div>
                 </div>
 
-                <div class="card bg-[#F6F6F6] px-5 pb-3 pt-0 md:px-10 md:py-10 shadow-lg">
-                    <!-- Booking Form -->
-                    <form id="bookingForm" method="POST" action="{{ route('appointment.step.one.store') }}" class="mt-6">
+                <div class="card bg-[#F6F6F6] px-5 pb-3 pt-0 shadow-lg md:px-10 md:py-10">
+                    <form id="bookingForm" class="mt-6" method="POST" action="{{ route('appointment.step.one.store') }}">
                         @csrf
                         <!-- Services Section -->
                         <div class="mb-8">
-                            <h2 class="mb-4 text-xl">Choose services</h2>
+                            <h2 class="mb-4 text-xl">Chọn dịch vụ</h2>
 
                             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                                 @foreach ($doctorProfile->services as $service)
-                                    <label
-                                        class="group relative cursor-pointer rounded-3xl border border-base-200 bg-base-100
-                                            p-4 sm:p-6 transition hover:shadow-md
-                                            has-[input:checked]:border-error has-[input:checked]:bg-[#DF1D32] has-[input:checked]:text-error-content">
+                                    <label class="border-base-200 bg-base-100 has-[input:checked]:border-error has-[input:checked]:text-error-content group relative cursor-pointer rounded-3xl border p-4 transition hover:shadow-md has-[input:checked]:bg-[#DF1D32] sm:p-6">
 
-                                        <input type="radio" name="service" value="{{ $service->id }}"
-                                            class="peer sr-only" data-price="{{ $service->price }}"
-                                            {{ $loop->first ? 'checked' : '' }} />
+                                        <input class="peer sr-only" name="service" data-price="{{ $service->price }}" type="radio" value="{{ $service->id }}" {{ $loop->first ? 'checked' : '' }} />
 
                                         <!-- Icon bubble -->
-                                        <div
-                                            class="mb-3 sm:mb-4 inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full
-                                                bg-error/10 text-error
-                                                group-has-[input:checked]:bg-white group-has-[input:checked]:text-error">
-                                            <x-bi-camera-video class="h-4 w-4 sm:h-5 sm:w-5 font-bold"
-                                                style="stroke-width:2; color:#DF1D32;" />
+                                        <div class="bg-error/10 text-error group-has-[input:checked]:text-error mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full group-has-[input:checked]:bg-white sm:mb-4 sm:h-10 sm:w-10">
+                                            <x-bi-camera-video class="h-4 w-4 font-bold sm:h-5 sm:w-5" style="stroke-width:2; color:#DF1D32;" />
                                         </div>
 
                                         <!-- Title -->
-                                        <div class="text-base sm:text-lg font-semibold leading-5 sm:leading-6
-                                                    text-black group-has-[input:checked]:text-white">
+                                        <div class="text-base font-semibold leading-5 text-black group-has-[input:checked]:text-white sm:text-lg sm:leading-6">
                                             {{ $service->name }}
                                         </div>
 
                                         <!-- Description -->
                                         @if ($service->description)
-                                            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-black/60 group-has-[input:checked]:text-white">
+                                            <p class="mt-1 text-xs text-black/60 group-has-[input:checked]:text-white sm:mt-2 sm:text-sm">
                                                 {{ $service->description }}
                                             </p>
                                         @endif
 
                                         <!-- Price -->
-                                        <div class="mt-3 sm:mt-4 text-sm sm:text-base font-semibold
-                                                    text-black group-has-[input:checked]:text-white">
+                                        <div class="mt-3 text-sm font-semibold text-black group-has-[input:checked]:text-white sm:mt-4 sm:text-base">
                                             {{ number_format($service->price) }}đ
                                         </div>
 
                                         <!-- Focus ring for keyboard users -->
-                                        <span class="pointer-events-none absolute inset-0 rounded-3xl ring-2 ring-transparent
-                                                    peer-focus-visible:ring-error/60"></span>
+                                        <span class="peer-focus-visible:ring-error/60 pointer-events-none absolute inset-0 rounded-3xl ring-2 ring-transparent"></span>
                                     </label>
                                 @endforeach
                             </div>
                         </div>
 
-
-
                         {{-- Available time --}}
-                        <h2 class="text-xl mb-3">Available time</h2>
-                        <div class="bg-base-100 rounded-2xl p-4 md:p-6 mb-8">
+                        <h2 class="mb-3 text-xl">Thời gian</h2>
+                        <div class="bg-base-100 mb-8 rounded-2xl p-4 md:p-6">
                             {{-- Calendar header with Prev/Next --}}
                             <div class="mb-3 flex items-center justify-between">
                                 <div id="monthYear" class="text-lg font-semibold"></div>
                                 <div class="flex gap-2">
-                                    <button type="button" id="prevMonth" class="btn btn-sm btn-ghost">
-                                        <x-bi-chevron-left class="w-4 h-4" />
-                                        Prev
+                                    <button id="prevMonth" class="btn btn-sm btn-ghost" type="button">
+                                        <x-bi-chevron-left class="h-4 w-4" />
+                                        Trước
                                     </button>
-                                    <button type="button" id="nextMonth" class="btn btn-sm btn-ghost">
-                                        Next
-                                        <x-bi-chevron-right class="w-4 h-4" />
+                                    <button id="nextMonth" class="btn btn-sm btn-ghost" type="button">
+                                        Sau
+                                        <x-bi-chevron-right class="h-4 w-4" />
                                     </button>
                                 </div>
                             </div>
 
                             {{-- Days row like the mock (labels + red underline on active) --}}
-                            <div class="mb-4 border-b border-base-200 pb-2">
-                                <div id="calendarDays" class="grid grid-cols-7 gap-2 items-end"></div>
+                            <div class="border-base-200 mb-4 border-b pb-2">
+                                <div id="calendarDays" class="grid grid-cols-7 items-end gap-2"></div>
                             </div>
 
                             {{-- Time pills --}}
-                            <div id="timeSlots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
+                            <div id="timeSlots" class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6"></div>
 
-                            <div id="noSlotsMessage" class="hidden mt-4">
+                            <div id="noSlotsMessage" class="mt-4 hidden">
                                 <div class="alert">
-                                    <x-bi-info-circle class="w-5 h-5" />
-                                    <span>No available time slots for this date.</span>
+                                    <x-bi-info-circle class="h-5 w-5" />
+                                    <span>Không có thời gian có sẵn cho ngày này.</span>
                                 </div>
                             </div>
                         </div>
@@ -128,16 +110,16 @@
                         <!-- Footer -->
                         <div class="mt-6 flex items-center justify-between gap-4">
                             <div class="text-sm opacity-70">
-                                <span>Total:</span>
-                                <span class="font-semibold" id="totalPrice">
+                                <span>Tổng cộng:</span>
+                                <span id="totalPrice" class="font-semibold">
                                     {{-- If you want it to show first service price by default: --}}
                                     {{ number_format(optional($doctorProfile->services->first())->price) }}đ
                                 </span>
                             </div>
 
-                            <button type="submit" class="btn" style="background-color: #DF1D32; color: #fff;">
+                            <button class="btn" type="submit" style="background-color: #DF1D32; color: #fff;">
                                 <x-bi-arrow-right-circle class="mr-2 h-5 w-5" />
-                                Continue
+                                Tiếp tục
                             </button>
                         </div>
                     </form>
@@ -204,45 +186,45 @@
 
             // generate 7 days
             for (let i = 0; i < 7; i++) {
-            const date = new Date(currentDate);
-            date.setDate(date.getDate() + selectedDateOffset + i);
+                const date = new Date(currentDate);
+                date.setDate(date.getDate() + selectedDateOffset + i);
 
-            const isAvailable = isDayAvailable(date);
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'day-item flex flex-col items-center gap-1 text-xs transition';
-            if (!isAvailable) btn.classList.add('opacity-40', 'pointer-events-none');
+                const isAvailable = isDayAvailable(date);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'day-item flex flex-col items-center gap-1 text-xs transition';
+                if (!isAvailable) btn.classList.add('opacity-40', 'pointer-events-none');
 
-            btn.innerHTML = `
-                <input type="radio" name="date" class="hidden day-radio">
-                <span class="day-name text-[11px] text-base-content/60 font-medium">${dayNames[date.getDay()]}</span>
-                <span class="day-num text-sm font-semibold">${date.getDate().toString().padStart(2,'0')}</span>
-                <span class="day-underline block h-0.5 w-8 rounded bg-transparent"></span>
-            `;
+                btn.innerHTML = `
+                            <input type="radio" name="date" class="hidden day-radio">
+                            <span class="day-name text-[11px] text-base-content/60 font-medium">${dayNames[date.getDay()]}</span>
+                            <span class="day-num text-sm font-semibold">${date.getDate().toString().padStart(2, '0')}</span>
+                            <span class="day-underline block h-0.5 w-8 rounded bg-transparent"></span>
+                        `;
 
-            const yyyy = date.getFullYear();
-            const mm = String(date.getMonth() + 1).padStart(2, '0');
-            const dd = String(date.getDate()).padStart(2, '0');
-            const isoLocal = `${yyyy}-${mm}-${dd}`;
-            btn.querySelector('.day-radio').value = isoLocal;
+                const yyyy = date.getFullYear();
+                const mm = String(date.getMonth() + 1).padStart(2, '0');
+                const dd = String(date.getDate()).padStart(2, '0');
+                const isoLocal = `${yyyy}-${mm}-${dd}`;
+                btn.querySelector('.day-radio').value = isoLocal;
 
-            // default select first available
-            if (isAvailable && firstAvailableDay === -1) {
-                firstAvailableDay = i;
-                markDaySelected(btn, true);
-                btn.querySelector('.day-radio').checked = true;
-            }
+                // default select first available
+                if (isAvailable && firstAvailableDay === -1) {
+                    firstAvailableDay = i;
+                    markDaySelected(btn, true);
+                    btn.querySelector('.day-radio').checked = true;
+                }
 
-            if (isAvailable) {
-                btn.addEventListener('click', function () {
-                document.querySelectorAll('#calendarDays .day-item').forEach(d => markDaySelected(d, false));
-                markDaySelected(this, true);
-                this.querySelector('.day-radio').checked = true;
-                updateTimeSlots(date);
-                });
-            }
+                if (isAvailable) {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('#calendarDays .day-item').forEach(d => markDaySelected(d, false));
+                        markDaySelected(this, true);
+                        this.querySelector('.day-radio').checked = true;
+                        updateTimeSlots(date);
+                    });
+                }
 
-            calendarDays.appendChild(btn);
+                calendarDays.appendChild(btn);
             }
 
             if (firstAvailableDay !== -1) {
@@ -335,9 +317,9 @@
                 // Base label: time on first line; second line small note if "full"
                 const secondary = isFull ? '<br><span class="text-xs opacity-90">Full</span>' : '';
                 btn.innerHTML = `
-            <input type="radio" name="time" value="${timeValue}" class="hidden time-radio" ${isAvailable ? '' : 'disabled'}>
-            <span class="inline-block">${timeValue}${secondary}</span>
-            `;
+                        <input type="radio" name="time" value="${timeValue}" class="hidden time-radio" ${isAvailable ? '' : 'disabled'}>
+                        <span class="inline-block">${timeValue}${secondary}</span>
+                        `;
 
                 if (isAvailable) {
                     btn.classList.add('btn-outline', 'border-base-300', 'text-base-content');
@@ -373,7 +355,7 @@
             let [hours, minutes] = time.split(':');
             if (period === 'PM' && hours !== '12') hours = (parseInt(hours) + 12).toString();
             else if (period === 'AM' && hours === '12') hours = '00';
-            return `${hours.padStart(2,'0')}:${minutes}`;
+            return `${hours.padStart(2, '0')}:${minutes}`;
         }
 
         function formatTimeForDisplay(timeStr) {
