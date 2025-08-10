@@ -87,12 +87,13 @@
                         <div
                             class="card bg-base-100 w-full shadow-xl border-1 rounded-4xl px-5 py-6 border-gray-100 gap-3 md:w-100 lg:w-90 xl:w-80">
                             <div id="info-section" class="flex grow items-start gap-4">
-                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}" class="doctor-profile-item cursor-pointer w-20 h-20 shrink-0 rounded-full border border-gray-300 block">
-                                    <img src="{{ $item->avatar ? Storage::url($item->avatar) . '?height=80&width=80' : asset('storage/upload/avatar/1753441532_688364fc1e3ca.png') }}"
-                                        alt="{{ $item->name }}" class="flex grow rounded-full object-cover"
-                                        onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/1753441532_688364fc1e3ca.png') }}';">
+                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}"
+                                    class="doctor-profile-item cursor-pointer w-20 h-20 shrink-0 rounded-full border border-gray-300 block">
+                                    <img src="{{ asset($item->avatar) }}" alt="{{ $item->name }}"
+                                        class="flex grow rounded-full object-cover">
                                 </a>
-                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}" class="doctor-profile-item cursor-pointer flex flex-col grow">
+                                <a href="{{ route('appointment.info', ['doctor_profile_id' => $item->doctorProfile->id]) }}"
+                                    class="doctor-profile-item cursor-pointer flex flex-col grow">
                                     <h3 class="doctor-name">{{ $item->name }}</h3>
                                     <p class="doctor-specialty">
                                         {{ $item->doctorProfile->medicalCategory ? $item->doctorProfile->medicalCategory->name : '' }}
@@ -157,8 +158,8 @@
                                     @php
                                         $isAvailable =
                                             \App\Models\WorkSchedule::isAvailable($item->doctorProfile->id) == 1
-                                                ? 'Available'
-                                                : 'Not Available';
+                                            ? 'Available'
+                                            : 'Not Available';
                                     @endphp
                                     <div class="text-sm {{ $isAvailable ? 'text-green-700' : 'text-red-700' }}">
                                         {{ $isAvailable == 1 ? 'Available' : 'Not Available' }}
@@ -181,18 +182,18 @@
                 </div>
             </div>
         </div>
-    @endsection
+@endsection
 
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded',
-                function() {
+                function () {
                     const searchForm = document.getElementById('search-form');
                     const identityInput = document.getElementById('identity-input');
                     const identityButtons = document.querySelectorAll('.filter-btn');
                     identityButtons.forEach(button => {
                         button.addEventListener('click',
-                            function() {
+                            function () {
                                 const selectedIdentity = this.dataset.identity;
                                 identityInput.value = selectedIdentity;
                                 searchForm.submit();
@@ -201,7 +202,7 @@
                 });
             document.querySelectorAll('.favorite-btn').forEach(button => {
                 button.addEventListener('click',
-                    function() {
+                    function () {
                         // alert('thinh gay');
                     });
             });
