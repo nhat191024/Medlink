@@ -11,7 +11,7 @@ return [
     'subtitle' => [
         'home' => 'Medlink Home',
         'services' => 'Our Services',
-        'booking' => 'Online Doctor Consultation',
+        'doctor_consultation' => 'Online Doctor Consultation',
         'pharmacy' => 'Online Medicine Purchase',
         'support' => 'Support Center',
     ],
