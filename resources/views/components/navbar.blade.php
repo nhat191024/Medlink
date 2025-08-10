@@ -56,7 +56,7 @@
                     {{ __('client/navbar.button.register') }}</a>
             @else
                 <!-- Hiển thị khi đã đăng nhập -->
-                <form method="POST" action="{{ route('logout') }}" class="auth-form">
+                <form class="auth-form" method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button class="auth-button" type="submit">{{ __('client/navbar.button.logout') }}</button>
                 </form>
