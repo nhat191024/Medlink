@@ -14,6 +14,8 @@
     <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
     @stack('styles')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -30,6 +32,16 @@
 
     <!-- Main Content -->
     <main>
+        @if (session('error'))
+            <div class="alert alert-error m-3">
+                <span>{{ session('error') }}</span>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success m-3">
+                <span>{{ session('success') }}</span>
+            </div>
+        @endif
         @yield('content')
     </main>
 
