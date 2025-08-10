@@ -7,7 +7,7 @@
 @section('content')
     <div class="success-bg">
         <div class="success-main">
-            <div class="success-icon-top">
+            <div class="success-icon-top border-[#3bb54a] border-2">
                 <img src="{{ asset('img/Partypopper.png') }}" alt="Party Icon" class="info-icon-img">
             </div>
             <div class="success-title">Thank you</div>
