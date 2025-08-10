@@ -50,19 +50,43 @@ class BookingController extends Controller
 
     public function showDoctorInfo($doctorProfileId)
     {
-        $doctorProfile = DoctorProfile::where('id', $doctorProfileId)->with(['medicalCategory', 'services', 'reviews',  'user'])->first();
-        $workSchedules = new WorkScheduleService()->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+        $doctorProfile = DoctorProfile::where('id', $doctorProfileId)
+            ->with(['medicalCategory', 'services', 'reviews', 'user'])
+            ->first();
+
+        if (!$doctorProfile) {
+            return redirect()->back()->with('error', 'Doctor profile not found');
+        }
+
+        $workSchedules = null;
+        if ($doctorProfile->workSchedules) {
+            $workSchedules = (new WorkScheduleService())->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+        }
+
         return view('appointment.doctor-detail', [
             'doctorProfile' => $doctorProfile,
             'workSchedules' => $workSchedules,
         ]);
     }
 
+
     public function showStepOne(Request $request, $doctorProfileId)
     {
-        $doctorProfile = DoctorProfile::findOrFail($doctorProfileId);
+        $doctorProfile = DoctorProfile::find($doctorProfileId);
+        if (!$doctorProfile) {
+            return redirect()->route('appointment.failed')->with('error', 'Doctor profile not found');
+        }
         $request->session()->put('appointment.doctor_profile_id', $doctorProfile->id);
-        $workSchedules = new WorkScheduleService()->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+
+        $workSchedules = null;
+        try {
+            if ($doctorProfile->workSchedules) {
+                $workSchedules = (new WorkScheduleService())->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Error retrieving doctor schedule');
+        }
+
         return view('appointment.step-1', [
             'doctorProfile' => $doctorProfile,
             'workSchedules' => $workSchedules,
@@ -71,6 +95,9 @@ class BookingController extends Controller
 
     public function storeStepOne(Request $request)
     {
+        // $doctorProfileId = $request->session()->get('appointment.doctor_profile_id');
+        // $doctorProfile = DoctorProfile::findOrFail($doctorProfileId);
+
         // validate
         $request->validate([
             'service' => 'required|integer',
@@ -112,6 +139,71 @@ class BookingController extends Controller
     }
 
     public function storeStepTwo(Request $request)
+    {
+        // dd($request->all());
+        // array:4 [▼ // app/Http/Controllers/BookingController.php:156
+        //     "_token" => "EHSmCZbjRd44QIVpsehkGSVTCibwTrmWxpQC6ydu"
+        //     "medical_problem" => "asasasasasaas"
+        //     "note" => "asasasassasa"
+        //     "medical_files" => array:2 [▼
+        //         0 =>
+        //     Illuminate\Http
+        //     \
+        //     UploadedFile
+        //     {#2038 ▶}
+        //         1 =>
+        //     Illuminate\Http
+        //     \
+        //     UploadedFile
+        //     {#2037 ▶}
+        //     ]
+        //     ]
+        $request->validate([
+            'medical_problem' => 'required|string',
+            'medical_files' => 'nullable|array|max:10',
+            'medical_files.*' => [
+                'nullable',
+                'file',
+                'mimes:pdf,doc,docx,jpg,jpeg,png', // <- allow images (matches UI)
+                'max:5480', // KB
+            ],
+            'note' => 'nullable|string',
+        ]);
+
+        try {
+            $stored = [];
+
+            if ($request->hasFile('medical_files')) {
+                foreach ($request->file('medical_files') as $uploadedFile) {
+                    if (!$uploadedFile) continue; // in case of empty slots
+
+                    $filename = Str::uuid() . '.' . $uploadedFile->getClientOriginalExtension();
+                    $path = $uploadedFile->storeAs('', $filename, 'tmp_uploads');
+
+                    $stored[] = [
+                        'original_name' => $uploadedFile->getClientOriginalName(),
+                        'stored_path'   => $path,
+                        'mime'          => $uploadedFile->getClientMimeType(),
+                        'size'          => $uploadedFile->getSize(),
+                    ];
+                }
+
+                // Keep everything in session for step three
+                $request->session()->put('appointment.temporary_files', $stored);
+            }
+
+            $request->session()->put('appointment.note', $request->input('note', ''));
+            $request->session()->put('appointment.medical_problem', $request->input('medical_problem'));
+
+            return redirect(route('appointment.step.three'));
+        } catch (\Throwable $th) {
+            return redirect()
+                ->route('appointment.step.two')
+                ->with('error', 'Đã xảy ra lỗi, vui lòng thử lại. ' . $th->getMessage());
+        }
+    }
+
+    public function storeStepTwo_old(Request $request)
     {
         $request->validate([
             'medical_problem' => 'required|string',

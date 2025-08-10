@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="auth-container">
         <div class="left">
             <div class="welcome-text"></div>
             <img class="doctor-img" src="{{ asset('img/bacsi.png') }}" alt="Doctor">
@@ -42,7 +42,7 @@
                         @error('email')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
-                        </div>
+                    </div>
 
                     <div class="form-group input-icon-group">
                         <input id="password" name="password" type="password"
@@ -50,7 +50,7 @@
                         @error('password')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
-                            <button type="button" class="toggle-password-btn" onclick="togglePassword()">
+                        <button type="button" class="toggle-password-btn" onclick="togglePassword()">
                             @svg('heroicon-o-eye', 'toggle-password-icon', ['style' => 'width: 24px; height: 24px; color: #888;'])
                         </button>
                     </div>

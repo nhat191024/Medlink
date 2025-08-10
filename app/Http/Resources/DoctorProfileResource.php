@@ -88,12 +88,13 @@ class DoctorProfileResource extends JsonResource
         ];
 
         if ($doctorProfile) {
-            $fields = array_merge($fields, [
-                'professional_number' => !empty($doctorProfile->professional_number),
-                'introduce' => !empty($doctorProfile->introduce),
-                'medical_category' => !empty($doctorProfile->medical_category_id),
-                'office_address' => !empty($doctorProfile->office_address),
-            ]);
+            $fields = [];
+            // $fields = array_merge($fields, [
+            //     'professional_number' => !empty($doctorProfile->professional_number),
+            //     'introduce' => !empty($doctorProfile->introduce),
+            //     'medical_category' => !empty($doctorProfile->medical_category_id),
+            //     'office_address' => !empty($doctorProfile->office_address),
+            // ]);
 
             // Add identity-specific fields
             if ($user->identity === 'doctor') {

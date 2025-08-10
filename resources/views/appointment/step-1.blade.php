@@ -1,95 +1,148 @@
 @extends('layouts.app')
 
-@push('styles')
-    <link href="{{ asset('css/appointment/step-1.css') }}?v=1.1" rel="stylesheet">
-    <link href="{{ asset('css/appointment/time-selector.css') }}?v=1.1" rel="stylesheet">
-@endpush
-
 @section('content')
-    <div class="booking-container">
+    <div class="mx-auto max-w-5xl px-4 my-3 md:py-8">
         <!-- Progress Steps -->
-        <div class="progress-steps">
-            <div class="step active">
-                <div class="step-number">1</div>
-                <div class="step-label">Chọn dịch vụ</div>
-            </div>
-            <div class="step-connector"></div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-label">Điền thông tin</div>
-            </div>
-            <div class="step-connector"></div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-label">Thanh toán & xác nhận</div>
-            </div>
+        <div class="mb-8 flex justify-center">
+            <ul class="steps steps-horizontal">
+                <li class="step step-error">
+                    <span class="text-xs">Chọn dịch vụ</span>
+                </li>
+                <li class="step">
+                    <span class="text-xs">Điền thông tin</span>
+                </li>
+                <li class="step">
+                    <span class="text-xs">Thanh toán & xác nhận</span>
+                </li>
+            </ul>
         </div>
 
-        <!-- Main Content -->
-        <div class="booking-content">
-            <h1 class="booking-title">Book appointment</h1>
+        <!-- Main Card -->
+        <div class="card">
+            <div class="card-body px-0 py-0 md:px-5 md:py-5">
+                <h1 class="card-title text-2xl font-bold">Book appointment</h1>
 
-            <!-- Doctor Info -->
-            <div class="doctor-info">
-                <img src="/{{ $doctorProfile->user->avatar }}?height=80&width=80" alt="{{ $doctorProfile->user->name }}"
-                    onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';"
-                    class="doctor-avatar">
-                <div class="doctor-name">{{ $doctorProfile->user->name }}</div>
-            </div>
-
-            <!-- Booking Form -->
-            <form id="bookingForm" method="POST" action="{{ route('appointment.step.one.store') }}">
-                @csrf
-
-                <!-- Services Section -->
-                <div class="services-section">
-                    <h2 class="section-title">Choose services</h2>
-                    <div class="services-grid">
-                        @foreach ($doctorProfile->services as $service)
-                            <div class="service-card {{ $loop->first ? 'first-service' : '' }} {{ $loop->first ? 'selected' : '' }}"
-                                data-price="{{ $service->price }}">
-                                <input type="radio" name="service" value="{{ $service->id }}" class="service-radio"
-                                    data-price="{{ $service->price }}" {{ $loop->first ? 'checked' : '' }}>
-                                <div class="service-icon">🏥</div>
-                                <div class="service-name">{{ $service->name }}</div>
-                                <div class="service-description">{{ $service->description }}</div>
-                                <div class="service-price">{{ number_format($service->price) }}đ</div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                <!-- Time Section -->
-                <div class="time-section">
-                    <h2 class="section-title">Choose time</h2>
-
-                    <div class="calendar-header">
-                        <div class="month-year" id="monthYear"></div>
-                        <div class="nav-buttons">
-                            <button type="button" class="nav-btn" id="prevMonth">‹</button>
-                            <button type="button" class="nav-btn" id="nextMonth">›</button>
+                <!-- Doctor Info -->
+                <div class="mt-4 flex items-center gap-6">
+                    <div class="avatar">
+                        <div class="w-26 rounded-full ring ring-error ring-offset-base-100 ring-offset-2">
+                            <img src="/{{ $doctorProfile->user->avatar }}?height=80&width=80"
+                                alt="{{ $doctorProfile->user->name }}"
+                                onerror="this.onerror=null;this.src='{{ asset('storage/upload/avatar/default.png') }}';">
                         </div>
                     </div>
-
-                    <div class="calendar-days" id="calendarDays">
-                        <!-- Days will be generated here -->
-                    </div>
-
-                    <div class="time-slots" id="timeSlots">
-                        <!-- Time slots will be generated here -->
-                    </div>
-
-                    <div class="no-slots-message" id="noSlotsMessage" style="display: none;">
-                        No available time slots for this date.
-                    </div>
+                    <div class="text-xl">{{ $doctorProfile->user->name }}</div>
                 </div>
 
-                <!-- Footer -->
-                <div class="booking-footer">
-                    <button type="submit" class="continue-btn">Continue</button>
-                    <div class="total-price"></div>
+                <div class="card bg-[#F6F6F6] px-5 pb-3 pt-0 md:px-10 md:py-10 shadow-lg">
+                    <!-- Booking Form -->
+                    <form id="bookingForm" method="POST" action="{{ route('appointment.step.one.store') }}" class="mt-6">
+                        @csrf
+                        <!-- Services Section -->
+                        <div class="mb-8">
+                            <h2 class="mb-4 text-xl">Choose services</h2>
+
+                            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                                @foreach ($doctorProfile->services as $service)
+                                    <label
+                                        class="group relative cursor-pointer rounded-3xl border border-base-200 bg-base-100
+                                            p-4 sm:p-6 transition hover:shadow-md
+                                            has-[input:checked]:border-error has-[input:checked]:bg-[#DF1D32] has-[input:checked]:text-error-content">
+
+                                        <input type="radio" name="service" value="{{ $service->id }}"
+                                            class="peer sr-only" data-price="{{ $service->price }}"
+                                            {{ $loop->first ? 'checked' : '' }} />
+
+                                        <!-- Icon bubble -->
+                                        <div
+                                            class="mb-3 sm:mb-4 inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full
+                                                bg-error/10 text-error
+                                                group-has-[input:checked]:bg-white group-has-[input:checked]:text-error">
+                                            <x-bi-camera-video class="h-4 w-4 sm:h-5 sm:w-5 font-bold"
+                                                style="stroke-width:2; color:#DF1D32;" />
+                                        </div>
+
+                                        <!-- Title -->
+                                        <div class="text-base sm:text-lg font-semibold leading-5 sm:leading-6
+                                                    text-black group-has-[input:checked]:text-white">
+                                            {{ $service->name }}
+                                        </div>
+
+                                        <!-- Description -->
+                                        @if ($service->description)
+                                            <p class="mt-1 sm:mt-2 text-xs sm:text-sm text-black/60 group-has-[input:checked]:text-white">
+                                                {{ $service->description }}
+                                            </p>
+                                        @endif
+
+                                        <!-- Price -->
+                                        <div class="mt-3 sm:mt-4 text-sm sm:text-base font-semibold
+                                                    text-black group-has-[input:checked]:text-white">
+                                            {{ number_format($service->price) }}đ
+                                        </div>
+
+                                        <!-- Focus ring for keyboard users -->
+                                        <span class="pointer-events-none absolute inset-0 rounded-3xl ring-2 ring-transparent
+                                                    peer-focus-visible:ring-error/60"></span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+
+                        {{-- Available time --}}
+                        <h2 class="text-xl mb-3">Available time</h2>
+                        <div class="bg-base-100 rounded-2xl p-4 md:p-6 mb-8">
+                            {{-- Calendar header with Prev/Next --}}
+                            <div class="mb-3 flex items-center justify-between">
+                                <div id="monthYear" class="text-lg font-semibold"></div>
+                                <div class="flex gap-2">
+                                    <button type="button" id="prevMonth" class="btn btn-sm btn-ghost">
+                                        <x-bi-chevron-left class="w-4 h-4" />
+                                        Prev
+                                    </button>
+                                    <button type="button" id="nextMonth" class="btn btn-sm btn-ghost">
+                                        Next
+                                        <x-bi-chevron-right class="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{-- Days row like the mock (labels + red underline on active) --}}
+                            <div class="mb-4 border-b border-base-200 pb-2">
+                                <div id="calendarDays" class="grid grid-cols-7 gap-2 items-end"></div>
+                            </div>
+
+                            {{-- Time pills --}}
+                            <div id="timeSlots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3"></div>
+
+                            <div id="noSlotsMessage" class="hidden mt-4">
+                                <div class="alert">
+                                    <x-bi-info-circle class="w-5 h-5" />
+                                    <span>No available time slots for this date.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="mt-6 flex items-center justify-between gap-4">
+                            <div class="text-sm opacity-70">
+                                <span>Total:</span>
+                                <span class="font-semibold" id="totalPrice">
+                                    {{-- If you want it to show first service price by default: --}}
+                                    {{ number_format(optional($doctorProfile->services->first())->price) }}đ
+                                </span>
+                            </div>
+
+                            <button type="submit" class="btn" style="background-color: #DF1D32; color: #fff;">
+                                <x-bi-arrow-right-circle class="mr-2 h-5 w-5" />
+                                Continue
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 @endsection
@@ -98,77 +151,100 @@
     <script>
         const workSchedules = @json($workSchedules);
         let currentDate = new Date();
-        let selectedDateOffset = 0; // Days from today
+        let selectedDateOffset = 0;
 
-        // Initialize calendar
+        function markDaySelected(btn, selected) {
+            const name = btn.querySelector('.day-name');
+            const num = btn.querySelector('.day-num');
+            const underline = btn.querySelector('.day-underline');
+
+            if (selected) {
+                name.classList.add('text-red-700');
+                num.classList.add('text-red-700');
+                underline.classList.add('border-b-2', 'border-red-600', 'bg-transparent');
+            } else {
+                name.classList.remove('text-red-700');
+                num.classList.remove('text-red-700');
+                underline.classList.remove('border-b-2', 'border-red-600', 'bg-transparent');
+            }
+        }
+
+        function markTimeSelected(btn, selected) {
+            if (selected) {
+                // filled red pill (selected)
+                btn.classList.remove('btn-outline', 'border-base-300', 'text-base-content');
+                btn.classList.add('btn-danger', 'text-error-content', 'border-error');
+                btn.dataset.selected = '1';
+            } else {
+                // outlined pill (idle)
+                btn.classList.add('btn-outline', 'border-base-300', 'text-base-content');
+                btn.classList.remove('btn-danger', 'text-error-content', 'border-error');
+                delete btn.dataset.selected;
+            }
+        }
+
         function initCalendar() {
             updateCalendar();
         }
 
         function updateCalendar() {
-            const monthNames = [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-            ];
-
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-            // Update month/year display
+            // month/year
             const displayDate = new Date(currentDate);
             displayDate.setDate(displayDate.getDate() + selectedDateOffset);
             document.getElementById('monthYear').textContent =
                 `${monthNames[displayDate.getMonth()]}, ${displayDate.getFullYear()}`;
 
-            // Generate 7 days starting from current date + offset
+            // generate 7 days
             const calendarDays = document.getElementById('calendarDays');
             calendarDays.innerHTML = '';
-
             let firstAvailableDay = -1;
 
+            // generate 7 days
             for (let i = 0; i < 7; i++) {
-                const date = new Date(currentDate);
-                date.setDate(date.getDate() + selectedDateOffset + i);
+            const date = new Date(currentDate);
+            date.setDate(date.getDate() + selectedDateOffset + i);
 
-                const dayItem = document.createElement('div');
-                const isAvailable = isDayAvailable(date);
+            const isAvailable = isDayAvailable(date);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'day-item flex flex-col items-center gap-1 text-xs transition';
+            if (!isAvailable) btn.classList.add('opacity-40', 'pointer-events-none');
 
-                dayItem.className = 'day-item';
-                if (!isAvailable) {
-                    dayItem.classList.add('unavailable');
-                }
+            btn.innerHTML = `
+                <input type="radio" name="date" class="hidden day-radio">
+                <span class="day-name text-[11px] text-base-content/60 font-medium">${dayNames[date.getDay()]}</span>
+                <span class="day-num text-sm font-semibold">${date.getDate().toString().padStart(2,'0')}</span>
+                <span class="day-underline block h-0.5 w-8 rounded bg-transparent"></span>
+            `;
 
-                // Set first available day as selected
-                if (isAvailable && firstAvailableDay === -1) {
-                    firstAvailableDay = i;
-                    dayItem.classList.add('selected');
-                }
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            const isoLocal = `${yyyy}-${mm}-${dd}`;
+            btn.querySelector('.day-radio').value = isoLocal;
 
-                const formatLocalDate = (date) => {
-                    const year = date.getFullYear();
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const day = date.getDate().toString().padStart(2, '0');
-                    return `${year}-${month}-${day}`;
-                };
-
-                dayItem.innerHTML = `
-                    <input type="radio" name="date" value="${formatLocalDate(date)}" class="day-radio" ${firstAvailableDay === i ? 'checked' : ''}>
-                    <div class="day-name">${dayNames[date.getDay()]}</div>
-                    <div class="day-number">${date.getDate().toString().padStart(2, '0')}</div>
-                `;
-
-                if (isAvailable) {
-                    dayItem.addEventListener('click', function() {
-                        document.querySelectorAll('.day-item').forEach(d => d.classList.remove('selected'));
-                        this.classList.add('selected');
-                        this.querySelector('.day-radio').checked = true;
-                        updateTimeSlots(date);
-                    });
-                }
-
-                calendarDays.appendChild(dayItem);
+            // default select first available
+            if (isAvailable && firstAvailableDay === -1) {
+                firstAvailableDay = i;
+                markDaySelected(btn, true);
+                btn.querySelector('.day-radio').checked = true;
             }
 
-            // Update time slots for the first available day
+            if (isAvailable) {
+                btn.addEventListener('click', function () {
+                document.querySelectorAll('#calendarDays .day-item').forEach(d => markDaySelected(d, false));
+                markDaySelected(this, true);
+                this.querySelector('.day-radio').checked = true;
+                updateTimeSlots(date);
+                });
+            }
+
+            calendarDays.appendChild(btn);
+            }
+
             if (firstAvailableDay !== -1) {
                 const firstDate = new Date(currentDate);
                 firstDate.setDate(firstDate.getDate() + selectedDateOffset + firstAvailableDay);
@@ -178,20 +254,6 @@
             }
         }
 
-        // Service selection
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-
-                // Check the radio button
-                this.querySelector('.service-radio').checked = true;
-
-                // Update price with formatting
-                const price = this.getAttribute('data-price');
-                document.querySelector('.total-price').textContent = Number(price).toLocaleString('vi-VN') + 'đ';
-            });
-        });
 
         // Time slot selection
         document.querySelectorAll('.time-slot').forEach(slot => {
@@ -202,153 +264,165 @@
             });
         });
 
-        // Month navigation
         document.getElementById('prevMonth').addEventListener('click', function() {
-            selectedDateOffset -= 7; // Go back 7 days
+            selectedDateOffset -= 7;
             updateCalendar();
         });
-
         document.getElementById('nextMonth').addEventListener('click', function() {
-            selectedDateOffset += 7; // Go forward 7 days
+            selectedDateOffset += 7;
             updateCalendar();
         });
 
-        // Form submission
-        document.getElementById('bookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
 
-            const formData = new FormData(this);
-            const selectedService = formData.get('service');
-            const selectedDate = formData.get('date');
-            const selectedTime = formData.get('time');
-
-            if (selectedService && selectedDate && selectedTime) {
-                console.log('Booking Data:', {
-                    service: selectedService,
-                    date: selectedDate,
-                    time: selectedTime
-                });
-
-                // You can submit the form or make an AJAX request here
-                // alert(`Booking: ${selectedService} on ${selectedDate} at ${selectedTime}`);
-                this.submit(); // Uncomment to actually submit the form
-            } else {
-                alert('Please select service, date and time');
-            }
-        });
 
         function isDayAvailable(date) {
-            const monthNames = [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-            ];
-
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             const monthKey = monthNames[date.getMonth()];
             const dayKey = date.getDate().toString().padStart(2, '0');
-
-            if (!workSchedules[monthKey] || !workSchedules[monthKey][dayKey]) {
-                return false;
-            }
-
+            if (!workSchedules[monthKey] || !workSchedules[monthKey][dayKey]) return false;
             const daySchedule = workSchedules[monthKey][dayKey];
-
-            // Check if day has available slots
             return daySchedule.some(slot => slot.is_available && slot.time !== null);
         }
 
         function updateTimeSlots(selectedDate) {
             const timeSlotsContainer = document.getElementById('timeSlots');
             const noSlotsMessage = document.getElementById('noSlotsMessage');
-
             timeSlotsContainer.innerHTML = '';
 
             if (!selectedDate) {
-                noSlotsMessage.style.display = 'block';
+                noSlotsMessage.classList.remove('hidden');
                 return;
             }
 
-            const monthNames = [
-                'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-            ];
-
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             const monthKey = monthNames[selectedDate.getMonth()];
             const dayKey = selectedDate.getDate().toString().padStart(2, '0');
 
             if (!workSchedules[monthKey] || !workSchedules[monthKey][dayKey]) {
-                noSlotsMessage.style.display = 'block';
+                noSlotsMessage.classList.remove('hidden');
                 return;
             }
 
-            const daySchedule = workSchedules[monthKey][dayKey];
-            const availableSlots = daySchedule.filter(slot => slot.is_available && slot.time !== null);
+            // Show all slots (available, disabled, full) so UI can mimic the mock
+            const slots = workSchedules[monthKey][dayKey]
+                .filter(s => s.time !== null)
+                .sort((a, b) => convertTo24Hour(a.time).localeCompare(convertTo24Hour(b.time)));
 
-            if (availableSlots.length === 0) {
-                noSlotsMessage.style.display = 'block';
+            if (!slots.length) {
+                noSlotsMessage.classList.remove('hidden');
                 return;
             }
 
-            noSlotsMessage.style.display = 'none';
+            noSlotsMessage.classList.add('hidden');
 
-            // Sort slots by time
-            availableSlots.sort((a, b) => {
-                const timeA = convertTo24Hour(a.time);
-                const timeB = convertTo24Hour(b.time);
-                return timeA.localeCompare(timeB);
-            });
+            let firstSelectableBtn = null;
 
-            availableSlots.forEach((slot, index) => {
-                const timeSlot = document.createElement('div');
-                timeSlot.className = 'time-slot';
+            slots.forEach((slot) => {
+                const timeValue = convertTo24Hour(slot.time);
 
-                // Select first slot by default
-                if (index === 0) {
-                    timeSlot.classList.add('selected');
+                // infer states
+                const isFull = !!(slot.is_full || slot.status === 'full');
+                const isAvailable = !!(slot.is_available && !isFull);
+                const isDisabled = !isAvailable && !isFull;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = [
+                    'time-slot', 'btn', 'btn-sm', 'rounded-2xl', 'px-5', 'py-3', 'leading-tight',
+                    'border-2', 'min-w-[96px]', 'justify-center', 'text-center'
+                ].join(' ');
+
+                // Base label: time on first line; second line small note if "full"
+                const secondary = isFull ? '<br><span class="text-xs opacity-90">Full</span>' : '';
+                btn.innerHTML = `
+            <input type="radio" name="time" value="${timeValue}" class="hidden time-radio" ${isAvailable ? '' : 'disabled'}>
+            <span class="inline-block">${timeValue}${secondary}</span>
+            `;
+
+                if (isAvailable) {
+                    btn.classList.add('btn-outline', 'border-base-300', 'text-base-content');
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('#timeSlots .time-slot').forEach(s => markTimeSelected(s,
+                            false));
+                        markTimeSelected(this, true);
+                        this.querySelector('.time-radio').checked = true;
+                    });
+                    if (!firstSelectableBtn) firstSelectableBtn = btn;
+                } else if (isFull) {
+                    // solid red pill, not selectable
+                    btn.classList.add('bg-danger', 'text-error-content', 'border-error', 'cursor-not-allowed');
+                    btn.disabled = true;
+                } else {
+                    // disabled grey outline
+                    btn.classList.add('btn-outline', 'border-base-300', 'opacity-40', 'cursor-not-allowed');
+                    btn.disabled = true;
                 }
 
-                const timeValue = convertTo24Hour(slot.time);
-                const displayTime = formatTimeForDisplay(slot.time);
-
-                timeSlot.innerHTML = `
-                    <input type="radio" name="time" value="${timeValue}" class="time-radio" ${index === 0 ? 'checked' : ''}>
-                    ${displayTime}
-                `;
-
-                timeSlot.addEventListener('click', function() {
-                    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-                    this.classList.add('selected');
-                    this.querySelector('.time-radio').checked = true;
-                });
-
-                timeSlotsContainer.appendChild(timeSlot);
+                timeSlotsContainer.appendChild(btn);
             });
+
+            // Auto-select the first available slot
+            if (firstSelectableBtn) {
+                markTimeSelected(firstSelectableBtn, true);
+                firstSelectableBtn.querySelector('.time-radio').checked = true;
+            }
         }
 
         function convertTo24Hour(timeStr) {
-            // Convert "07:00 AM" to "07:00"
             const [time, period] = timeStr.split(' ');
             let [hours, minutes] = time.split(':');
-
-            if (period === 'PM' && hours !== '12') {
-                hours = (parseInt(hours) + 12).toString();
-            } else if (period === 'AM' && hours === '12') {
-                hours = '00';
-            }
-
-            return `${hours.padStart(2, '0')}:${minutes}`;
+            if (period === 'PM' && hours !== '12') hours = (parseInt(hours) + 12).toString();
+            else if (period === 'AM' && hours === '12') hours = '00';
+            return `${hours.padStart(2,'0')}:${minutes}`;
         }
 
         function formatTimeForDisplay(timeStr) {
-            // Format for display with line break
             const [time, period] = timeStr.split(' ');
-            return `${time}<br>${period}`;
+            return `${time}<br><span class="text-xs opacity-70">${period}</span>`;
         }
 
-        // Initialize calendar on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', () => {
             initCalendar();
-            document.querySelector('.first-service').click();
-        });
+            const form = document.getElementById('bookingForm');
+            const totalEl = document.getElementById('totalPrice') || document.querySelector('.total-price');
+            const radios = [...document.querySelectorAll('input[name="service"]')];
 
+            function updateTotalFrom(radio) {
+                if (!radio || !totalEl) return;
+                const price = Number(radio.dataset.price || 0);
+                totalEl.textContent = price.toLocaleString('vi-VN') + 'đ';
+            }
+
+            // Update when a service is selected
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => updateTotalFrom(radio));
+            });
+
+            // Init default selection & price
+            const checked = radios.find(r => r.checked) || radios[0];
+            if (checked && !checked.checked) checked.checked = true;
+            updateTotalFrom(checked);
+
+            // Form submission (keep your validation)
+            form?.addEventListener('submit', (e) => {
+                // e.preventDefault(); // <- leave commented if you want normal submit
+                const fd = new FormData(form);
+                const selectedService = fd.get('service');
+                const selectedDate = fd.get('date');
+                const selectedTime = fd.get('time');
+
+                if (!(selectedService && selectedDate && selectedTime)) {
+                    e.preventDefault();
+                    alert('Please select service, date and time');
+                    return;
+                }
+
+                console.log('Booking Data:', {
+                    service: selectedService,
+                    date: selectedDate,
+                    time: selectedTime
+                });
+            });
+        });
     </script>
 @endpush

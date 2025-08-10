@@ -73,7 +73,8 @@ class DashboardController extends Controller
         $userBalance = ['balance' => $user->balance];
 
         // Merge all cached data
-        $summary = array_merge($profileData, $notificationData, $userBalance);
+        // $summary = array_merge($profileData, $notificationData, $userBalance);
+        $summary = [];
 
         return response()->json($summary, Response::HTTP_OK);
     }
@@ -150,7 +151,8 @@ class DashboardController extends Controller
         $userBalance = ['balance' => $user->balance];
 
         // Merge all cached data
-        $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance);
+        // $summary = array_merge($profileData, $appointmentData, $notificationData, $userBalance);
+        $summary = [];
 
         return response()->json($summary, Response::HTTP_OK);
     }

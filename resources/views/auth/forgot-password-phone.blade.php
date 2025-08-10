@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="auth-container">
         <div class="left">
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
@@ -195,8 +195,8 @@
                     const div = document.createElement('div');
                     div.innerHTML =
                         `<span class="country-flag">${country.flag}</span>
-                                <span class="country-name">${country.name}</span>
-                                <span class="country-code">${country.code}</span>`;
+                                    <span class="country-name">${country.name}</span>
+                                    <span class="country-code">${country.code}</span>`;
                     div.addEventListener('click', function () {
                         selectCountry(country);
                     });
@@ -207,7 +207,7 @@
             function selectCountry(country) {
                 selectSelected.innerHTML =
                     `<span class="country-flag">${country.flag}</span>
-                            <span class="country-code">${country.code}</span>`;
+                                <span class="country-code">${country.code}</span>`;
                 hiddenSelect.value = country.code;
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');

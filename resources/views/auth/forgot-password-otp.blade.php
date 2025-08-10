@@ -5,7 +5,7 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="auth-container">
         <div class="left">
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
