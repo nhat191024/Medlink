@@ -29,8 +29,8 @@
         <div class="footer-section footer-connect">
             <h4 class="footer-title">{{ __('client/footer.menu.connect_with_us') }}</h4>
             <div class="footer-social">
-                <img class="footer-icon" src="{{ asset('img/facebook.png') }}" alt="Facebook" />
-                <img class="footer-icon" src="{{ asset('img/youtube.png') }}" alt="Youtube" />
+                <x-bi-facebook class="footer-icon" style="font-size: 2rem; color: #1877f3;" />
+                <x-bi-youtube class="footer-icon" style="font-size: 2rem; color: #ff0000ff;" />
             </div>
             <div class="footer-apps">
                 <img class="footer-app-img" src="{{ asset('img/AppStore.png') }}" alt="App Store" />
