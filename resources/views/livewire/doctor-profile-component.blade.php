@@ -1,13 +1,15 @@
 <div>
-    <form wire:submit="save">
+    <x-filament-panels::form wire:submit="save">
         {{ $this->form }}
 
-        <div class="mt-6">
-            <x-filament::button type="submit" size="sm">
-                {{ __('common.save') }}
-            </x-filament::button>
+        <div class="fi-form-actions">
+            <div class="fi-ac flex flex-row-reverse flex-wrap items-center gap-3">
+                <x-filament::button type="submit">
+                    {{ __('filament-edit-profile::default.save') }}
+                </x-filament::button>
+            </div>
         </div>
-    </form>
+    </x-filament-panels::form>
 
     <x-filament-actions::modals />
 </div>
