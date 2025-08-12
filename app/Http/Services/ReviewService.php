@@ -52,4 +52,31 @@ class ReviewService
             'created_at' => $review->created_at,
         ]);
     }
+
+    public function getFavoriteDoctors($doctors)
+    {
+        $sortedDoctors = $doctors->sortByDesc(function ($doctor) {
+            $averageRating = $doctor->reviews_avg_rate ?? 0;
+            $reviewsCount = $doctor->reviews_count;
+
+            return [$averageRating, $reviewsCount];
+        })->values();
+
+        $favoriteDoctors = $sortedDoctors->filter(fn($doctor) => $doctor->reviews_count > 0);
+
+        return $favoriteDoctors->map(function ($doctor) {
+            return [
+                'id' => $doctor->id,
+                'name' => $doctor->user->name,
+                'avatar' => $doctor->user->avatar ? asset($doctor->user->avatar) : null,
+                'medical_category' => $doctor->medicalCategory->name ?? null,
+                'office_address' => $doctor->office_address,
+                'company_name' => $doctor->company_name,
+                'introduce' => $doctor->introduce,
+                'average_rating' => round($doctor->reviews_avg_rate ?? 0, 1),
+                'total_reviews' => $doctor->reviews_count,
+                'created_at' => $doctor->created_at,
+            ];
+        });
+    }
 }
