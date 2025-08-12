@@ -72,7 +72,8 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->label(__('filament-edit-profile::default.avatar'))
                             ->avatar()
                             ->imageEditor()
-                            ->directory('uploads/doctors/avatars'),
+                            ->directory('uploads/doctors/avatars')
+                            ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']),
 
                         TextInput::make('name')
                             ->label('Họ và tên')
@@ -95,7 +96,8 @@ class DoctorProfileComponent extends Component implements HasForms
                                 'male' => 'Nam',
                                 'female' => 'Nữ',
                                 'other' => 'Khác',
-                            ]),
+                            ])
+                            ->native(false),
                     ]),
 
                 Section::make(__('common.admin.address'))
@@ -104,19 +106,23 @@ class DoctorProfileComponent extends Component implements HasForms
                     ->schema([
                         TextInput::make('address')
                             ->label(__('common.admin.address'))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
 
                         TextInput::make('ward')
                             ->label(__('common.admin.ward'))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
 
                         TextInput::make('city')
                             ->label(__('common.admin.city'))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
 
                         TextInput::make('country')
                             ->label(__('common.admin.country'))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                     ]),
 
                 Section::make('Thông tin chuyên môn')
@@ -133,10 +139,6 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->options(MedicalCategory::pluck('name', 'id'))
                             ->searchable()
                             ->disabled(),
-
-                        TextInput::make('office_address')
-                            ->label('Địa chỉ phòng khám')
-                            ->maxLength(255),
 
                         TextInput::make('company_name')
                             ->label('Tên công ty/Bệnh viện')
@@ -193,24 +195,13 @@ class DoctorProfileComponent extends Component implements HasForms
             'email' => $data['email'],
             'phone' => $data['phone'],
             'gender' => $data['gender'],
-            'country' => $data['country'],
-            'city' => $data['city'],
-            'ward' => $data['ward'],
-            'address' => $data['address'],
             'avatar' => $data['avatar'],
         ]);
 
         // Update or create doctor profile
         $doctorProfileData = [
-            'professional_number' => $data['professional_number'],
             'introduce' => $data['introduce'],
-            'medical_category_id' => $data['medical_category_id'],
-            'office_address' => $data['office_address'],
             'company_name' => $data['company_name'],
-            'id_card_path' => $data['id_card_path'],
-            'medical_degree_path' => $data['medical_degree_path'],
-            'professional_card_path' => $data['professional_card_path'],
-            'exploitation_license_path' => $data['exploitation_license_path'],
         ];
 
         $user->doctorProfile()->updateOrCreate(
