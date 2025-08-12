@@ -453,6 +453,11 @@
                 "taxVAT": 10000,
                 "total": 110000,
                 "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ rất tận tâm và chuyên nghiệp. Tôi cảm thấy hài lòng với dịch vụ khám bệnh.",
+                "recommend": true
             }
         }
     ],

@@ -194,6 +194,17 @@ class DatabaseSeeder extends Seeder
                 'total' => $data['bill']['total'],
                 'status' => $data['bill']['status'],
             ]);
+
+            if (isset($data['review'])) {
+                Review::create([
+                    'patient_profile_id' => 1,
+                    'doctor_profile_id' => 1,
+                    'appointment_id' => $appointment->id,
+                    'rate' => $data['review']['rate'],
+                    'review' => $data['review']['content'],
+                    'recommend' => $data['review']['recommend'] ?? false,
+                ]);
+            }
         }
 
         foreach ($supports as $data) {
