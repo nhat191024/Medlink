@@ -78,6 +78,21 @@ class DoctorProfile extends Model
         'company_name',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function ($doctorProfile) {
+            if ($doctorProfile->user?->hospital) {
+                $doctorProfile->user->hospital->increment('doctor_count');
+            }
+        });
+        static::deleted(function ($doctorProfile) {
+            if ($doctorProfile->user?->hospital) {
+                $doctorProfile->user->hospital->decrement('doctor_count');
+            }
+        });
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
