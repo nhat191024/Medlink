@@ -1,5 +1,8 @@
 <?php
 return [
+    'company_side_1' => 'Công ty cổ phần Taiyo',
+    'copy_right' => 'Bản quyền ©',
+    'all_rights_reserved' => 'Bản quyền thuộc Công Ty Cổ Phần Taiyo | Đại diện pháp luật: Ông Taiyo | Mã số thuế: 123456789',
     'menu' => [
         'service' => 'Dịch vụ',
         'services' => [
@@ -23,24 +26,5 @@ return [
             'extra3' => 'Quy trình về sử dụng dịch vụ',
             'extra4' => 'Quy chế hoạt động',
         ],
-
-        'connect_with_us' => 'Kết nối với chúng tôi',
-        'contact' => 'Liên hệ',
-        'email' => 'Email',
-        'hotline' => 'Hotline',
-
-        'headquarters' => 'Trụ sở Hải Phòng',
-        'branches' => [
-            'branch1' => 'Chi nhánh Hà Nội',
-            'branch2' => 'Chi nhánh Hồ Chí Minh',
-        ],
-
-        'address' => [
-            'address1' => '123 Đường ABC, Quận 1, Hải Phòng',
-            'address2' => '456 Đường DEF, Quận 2, Hà Nội',
-            'address3' => '789 Đường GHI, Quận 3, Hồ Chí Minh',
-        ],
-
-        'company' => 'Công ty cổ phần Taiyo | Đại diện pháp luật: Ông Taiyo | Mã số thuế: 123456789',
     ]
 ];
