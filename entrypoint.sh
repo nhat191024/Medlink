@@ -14,9 +14,6 @@ chown -R www-data:www-data /var/www/html/storage/logs
 chmod -R 775 /var/www/html/vendor
 chown -R www-data:www-data /var/www/html/vendor
 
-# npm install
-# npm run build
-
 # run composer install
 # Cài đặt các dependency của Laravel
 # Cho Production
@@ -36,6 +33,10 @@ php artisan key:generate
 
 # Seed initial data if needed (optional)
 # php artisan db:seed --force
+
+#npm
+npm install
+npm run build
 
 # Start services using supervisor or run in background
 # Create a simple process manager script
