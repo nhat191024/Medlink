@@ -1085,6 +1085,446 @@
                 "content": "Bác sĩ rất tận tâm và chuyên nghiệp. Tôi cảm thấy hài lòng với dịch vụ khám bệnh.",
                 "recommend": true
             }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 5,
+            "status": "pending",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "07:30 AM - 8:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 6,
+            "status": "upcoming",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 7,
+            "status": "cancelled",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 8,
+            "status": "rejected",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 5,
+            "status": "completed",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ rất tận tâm và chuyên nghiệp. Tôi cảm thấy hài lòng với dịch vụ khám bệnh.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 9,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tổng quát để xác định nguyên nhân đau bụng.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 10,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 11,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 12,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 9,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tổng quát đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 4,
+                "content": "Bác sĩ tư vấn kỹ lưỡng, dịch vụ tốt.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 13,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tại nhà để kiểm tra sức khỏe.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 14,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 15,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 16,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 13,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ nhiệt tình, dịch vụ tốt.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 17,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tại nhà để kiểm tra sức khỏe.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 18,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 19,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 20,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 17,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ tận tâm, dịch vụ chuyên nghiệp.",
+                "recommend": true
+            }
         }
     ],
     "supports": [
