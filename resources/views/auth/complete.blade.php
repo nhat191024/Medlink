@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
-    <link rel="stylesheet" href="/css/auth.css">
+    <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,13 +10,13 @@
             <div class="complete-content">
                 <div class="complete-circle-container">
                     <svg class="complete-svg" viewBox="0 0 140 140">
-                        <circle cx="70" cy="70" r="60" class="complete-bg-circle" />
-                        <circle cx="70" cy="70" r="60" class="complete-fill-circle" />
+                        <circle class="complete-bg-circle" cx="70" cy="70" r="60" />
+                        <circle class="complete-fill-circle" cx="70" cy="70" r="60" />
                     </svg>
                     <div class="complete-checkmark-container">
                         <svg class="complete-checkmark-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="24" cy="24" r="24" class="complete-checkmark-bg" />
-                            <path d="M16 25L22 31L33 19" class="complete-checkmark-icon" />
+                            <circle class="complete-checkmark-bg" cx="24" cy="24" r="24" />
+                            <path class="complete-checkmark-icon" d="M16 25L22 31L33 19" />
                         </svg>
                     </div>
                 </div>

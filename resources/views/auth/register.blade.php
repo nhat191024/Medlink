@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
@@ -20,14 +20,14 @@
             </div>
 
             <!-- Progress Indicator -->
-            <div class="progress-indicator" id="progressIndicator">
+            <div id="progressIndicator" class="progress-indicator">
                 <div class="progress-circle">
                     <svg viewBox="0 0 50 50">
                         <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
-                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        <circle id="progressCircle" class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6">
                         </circle>
                     </svg>
-                    <div class="progress-number" id="progressNumber">0</div>
+                    <div id="progressNumber" class="progress-number">0</div>
                 </div>
             </div>
 
@@ -41,18 +41,18 @@
                 <label for="phone">{{ __('client/auth.fields.placeholder.phone') }}</label>
                 <div class="phone-input">
                     <div class="custom-select">
-                        <div class="select-selected" id="selectSelected">
+                        <div id="selectSelected" class="select-selected">
                             <span class="country-flag">🇻🇳</span>
                             <span class="country-code">+84</span>
                         </div>
-                        <div class="select-items select-hide" id="selectItems"></div>
+                        <div id="selectItems" class="select-items select-hide"></div>
                     </div>
                     <select id="country_code" name="country_code" style="display: none;">
                         <option value="+84">🇻🇳 +84</option>
                         <option value="+228">🇹🇬 +228</option>
                         <option value="+1">🇺🇸 +1</option>
                     </select>
-                    <input type="text" id="phone" name="phone" placeholder="456 789 00" value="{{ old('phone') }}">
+                    <input id="phone" name="phone" type="text" value="{{ old('phone') }}" placeholder="456 789 00">
                 </div>
                 @error('phone')
                     <span class="error-message">{{ $message }}</span>
@@ -63,14 +63,14 @@
                 {{ __('client/auth.note') }}
             </p>
 
-            <button type="submit" class="submit-btn">{{ __('client/auth.button.continue') }}</button>
+            <button class="submit-btn" type="submit">{{ __('client/auth.button.continue') }}</button>
         </form>
     </div>
 @endsection
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const selectSelected = document.getElementById('selectSelected');
             const selectItems = document.getElementById('selectItems');
             const hiddenSelect = document.getElementById('country_code');
@@ -91,13 +91,36 @@
                         .sort((a, b) => a.name.localeCompare(b.name));
 
                     // Add popular countries first
-                    const popularCountries = [
-                        { name: 'Vietnam', flag: '🇻🇳', code: '+84' },
-                        { name: 'United States', flag: '🇺🇸', code: '+1' },
-                        { name: 'United Kingdom', flag: '🇬🇧', code: '+44' },
-                        { name: 'China', flag: '🇨🇳', code: '+86' },
-                        { name: 'Japan', flag: '🇯🇵', code: '+81' },
-                        { name: 'South Korea', flag: '🇰🇷', code: '+82' }
+                    const popularCountries = [{
+                            name: 'Vietnam',
+                            flag: '🇻🇳',
+                            code: '+84'
+                        },
+                        {
+                            name: 'United States',
+                            flag: '🇺🇸',
+                            code: '+1'
+                        },
+                        {
+                            name: 'United Kingdom',
+                            flag: '🇬🇧',
+                            code: '+44'
+                        },
+                        {
+                            name: 'China',
+                            flag: '🇨🇳',
+                            code: '+86'
+                        },
+                        {
+                            name: 'Japan',
+                            flag: '🇯🇵',
+                            code: '+81'
+                        },
+                        {
+                            name: 'South Korea',
+                            flag: '🇰🇷',
+                            code: '+82'
+                        }
                     ];
 
                     // Remove duplicates and merge with popular countries
@@ -113,11 +136,26 @@
                 .catch(error => {
                     console.error('Error fetching countries:', error);
                     // Fallback to basic countries
-                    const fallbackCountries = [
-                        { name: 'Vietnam', flag: '🇻🇳', code: '+84' },
-                        { name: 'United States', flag: '🇺🇸', code: '+1' },
-                        { name: 'United Kingdom', flag: '🇬🇧', code: '+44' },
-                        { name: 'Togo', flag: '🇹🇬', code: '+228' }
+                    const fallbackCountries = [{
+                            name: 'Vietnam',
+                            flag: '🇻🇳',
+                            code: '+84'
+                        },
+                        {
+                            name: 'United States',
+                            flag: '🇺🇸',
+                            code: '+1'
+                        },
+                        {
+                            name: 'United Kingdom',
+                            flag: '🇬🇧',
+                            code: '+44'
+                        },
+                        {
+                            name: 'Togo',
+                            flag: '🇹🇬',
+                            code: '+228'
+                        }
                     ];
                     populateDropdown(fallbackCountries);
                 });
@@ -132,7 +170,7 @@
                                                                                             <span class="country-name">${country.name}</span>
                                                                                             <span class="country-code">${country.code}</span>
                                                                                         `;
-                    div.addEventListener('click', function () {
+                    div.addEventListener('click', function() {
                         selectCountry(country);
                     });
                     selectItems.appendChild(div);
@@ -150,7 +188,7 @@
             }
 
             // Toggle dropdown
-            selectSelected.addEventListener('click', function (e) {
+            selectSelected.addEventListener('click', function(e) {
                 console.log('Dropdown clicked');
                 e.stopPropagation();
                 selectItems.classList.toggle('select-hide');
@@ -158,7 +196,7 @@
             });
 
             // Close dropdown when clicking outside
-            document.addEventListener('click', function () {
+            document.addEventListener('click', function() {
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             });
@@ -191,7 +229,7 @@
         }
 
         // Initialize progress when page loads - CHANGE THIS NUMBER FOR EACH PAGE
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             initProgressIndicator(1); // Step 1 for register page
         });
     </script>

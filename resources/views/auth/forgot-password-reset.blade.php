@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
@@ -73,11 +73,11 @@
                 formGroup.classList.remove('has-value');
             }
         }
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const inputs = document.querySelectorAll('#password, #password_confirmation');
-            inputs.forEach(function (input) {
+            inputs.forEach(function(input) {
                 updateHasValueClass(input);
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     updateHasValueClass(input);
                 });
             });
