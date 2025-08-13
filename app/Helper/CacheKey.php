@@ -4,6 +4,9 @@ namespace App\Helper;
 
 class CacheKey
 {
+    //use in HomeController
+    public const string HOME = 'home';
+
     //use in DashboardController & UserService
     public const string PATIENT_SUMMARY = 'patient_summary_';
     public const string PATIENT_PROFILE_DATA = 'patient_profile_data_';
