@@ -6,6 +6,7 @@ use App\Models\Bill;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\Appointment;
+use App\Models\DoctorProfile;
 use Illuminate\Database\Seeder;
 
 class AppointmentSeeder extends Seeder
@@ -25,11 +26,13 @@ class AppointmentSeeder extends Seeder
 
         // Appointment seeder
         foreach ($appointments as $data) {
+            $doctorProfile = DoctorProfile::with('user')->find($data['doctor_profile_id']);
+            $hospitalId = $doctorProfile->user->hospital_id;
             $appointment = Appointment::create([
-                'patient_profile_id' => 1,
-                'doctor_profile_id' => 1,
+                'patient_profile_id' => $data['patient_profile_id'],
+                'doctor_profile_id' => $data['doctor_profile_id'],
                 'service_id' => $data['service_id'],
-                'hospital_id' => 1,
+                'hospital_id' => $hospitalId,
                 'status' => $data['status'],
                 'medical_problem' => $data['medical_problem'],
                 'duration' => $data['duration'],
@@ -43,7 +46,7 @@ class AppointmentSeeder extends Seeder
 
             Bill::create([
                 'id' => now()->timestamp . rand(1000, 9999),
-                'hospital_id' => 1,
+                'hospital_id' => $hospitalId,
                 'appointment_id' => $appointment->id,
                 'payment_method' => $data['bill']['payment_method'],
                 'taxVAT' => $data['bill']['taxVAT'],
@@ -53,8 +56,8 @@ class AppointmentSeeder extends Seeder
 
             if (isset($data['review'])) {
                 Review::create([
-                    'patient_profile_id' => 1,
-                    'doctor_profile_id' => 1,
+                    'patient_profile_id' => $data['patient_profile_id'],
+                    'doctor_profile_id' => $data['doctor_profile_id'],
                     'appointment_id' => $appointment->id,
                     'rate' => $data['review']['rate'],
                     'review' => $data['review']['content'],
