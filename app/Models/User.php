@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log as FacadesLog;
  * @property int $id
  * @property string $user_type
  * @property string $identity
+ * @property int|null $hospital_id
  * @property string $email
  * @property string $password
  * @property string|null $avatar
