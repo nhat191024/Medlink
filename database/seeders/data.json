@@ -201,6 +201,142 @@
             }
         },
         {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "Vuanhnhat@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=N&background=random&size=512",
+            "name": "Vũ Anh Nhật",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "775235650",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hải phòng",
+            "ward": "Lê Chân",
+            "address": "123 Main St, Hải Phòng, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-21",
+                "age": 21,
+                "height": 172,
+                "weight": 100,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh Đại tràng",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "nguyenthilan@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=L&background=random&size=512",
+            "name": "Nguyễn Thị Lan",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 152,
+                "weight": 45,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh trĩ",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "hung@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Văn Hùng",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "987654321",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 180,
+                "weight": 75,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh huyết áp",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Thị Hằng",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 160,
+                "weight": 50,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh tiểu đường",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
             "user_type": "healthcare",
             "identity": "doctor",
             "hospital_id": 1,
@@ -215,7 +351,7 @@
             "longitude": "106.0578",
             "country": "Việt Nam",
             "city": "Quảng Ninh",
-            "ward": "Ngô Quyền",
+            "ward": "Cẩm Phả",
             "address": "123 Main St, Quảng Ninh, Việt Nam",
             "zip_code": "160000",
             "doctor": {
@@ -319,6 +455,482 @@
                     {
                         "day_of_week": "Monday",
                         "all_day": 1
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 2,
+            "email": "nguyenvanhoa@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Văn Hòa",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-23516",
+                "introduce": "Tôi là bác sĩ chuyên khoa tim mạch, đã có hơn 12 năm làm việc trong các trung tâm tim mạch hàng đầu. Tôi am hiểu sâu về chẩn đoán, điều trị và phòng ngừa các bệnh lý về tim, luôn tận tâm mang đến giải pháp tối ưu cho từng bệnh nhân.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 3,
+            "email": "hoangduynam@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=N&background=random&size=512",
+            "name": "Hoàng Duy nam",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hải phòng",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hải Phòng, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-36546",
+                "introduce": "Tôi là bác sĩ chuyên khoa ngoại tổng quát, đã có hơn 8 năm kinh nghiệm trong lĩnh vực phẫu thuật và điều trị các bệnh lý ngoại khoa. Tôi luôn nỗ lực mang đến sự an tâm và hiệu quả cao nhất cho bệnh nhân.",
+                "office_address": "123 Main St, Hải Phòng, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Chợ Rẫy",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 4,
+            "email": "vuhongquan@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=Q&background=random&size=512",
+            "name": "Vũ Hồng Quân",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-51342",
+                "introduce": "Tôi là bác sĩ chuyên khoa nhi, đã có hơn 6 năm kinh nghiệm trong việc chăm sóc sức khỏe trẻ em. Tôi luôn tận tâm và yêu thích công việc của mình, với mục tiêu mang lại sự phát triển toàn diện cho trẻ nhỏ.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 5,
+            "email": "Ha@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Chu Thanh Hà",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Cầu Giấy",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-23516",
+                "introduce": "Tôi là bác sĩ chuyên khoa nội tiết, đã có hơn 10 năm kinh nghiệm trong việc chẩn đoán và điều trị các bệnh lý nội tiết. Tôi luôn nỗ lực mang đến sự chăm sóc tốt nhất cho bệnh nhân của mình.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
                     }
                 ]
             }
