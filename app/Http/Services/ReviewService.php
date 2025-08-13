@@ -2,8 +2,30 @@
 
 namespace App\Http\Services;
 
+use App\Models\Review;
+
 class ReviewService
 {
+    public function getReviewsShowCase()
+    {
+        $reviews = Review::with(['patient.user'])
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function ($review) {
+                return [
+                    'id' => $review->id,
+                    'rate' => $review->rate,
+                    'review' => $review->review,
+                    'name' => $review->patient->user->name,
+                    'avatar' => $review->patient->user->avatar ? asset($review->patient->user->avatar) : null,
+                    'created_at' => $review->created_at,
+                ];
+            });
+
+        return $reviews;
+    }
+
     public function getTestimonials($reviews)
     {
         $testimonialsTitle = [
