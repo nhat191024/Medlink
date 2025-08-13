@@ -609,9 +609,8 @@
                         {{ number_format($statistics['average_rating'], 1) }}/5
                     </div>
                     <h3 class="mb-1 text-lg font-semibold text-black">{{ __('client/home.statistics.avarage_rating') }}</h3>
-                    <p class="text-sm text-gray-600">Từ {{ number_format($statistics['total_reviews']) }} lượt đánh giá
-
-                        {{ __('client/home.statistics.avarage_rating_description') }}
+                    <p class="text-sm text-gray-600">
+                        {{ __('client/home.statistics.avarage_rating_description', ['number' => number_format($statistics['total_reviews'])]) }}
                     </p>
                 </div>
 
