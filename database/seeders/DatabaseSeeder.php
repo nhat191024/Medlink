@@ -61,9 +61,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $usersData = $dataArray['users'];
-        $patientData = $dataArray['patients'];
-        $doctorData = $dataArray['doctors'];
-        $workSchedulesData = $doctorData[0]['work_schedules'];
+        $medicalCategoryIds = MedicalCategory::pluck('id')->toArray();
         $appointments = $dataArray['appointments'];
         $supports = $dataArray['supports'];
 
@@ -112,60 +110,62 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'language_id' => 1,
             ]);
-        }
 
-        PatientProfile::create([
-            "user_id" => 1,
-            "birth_date" => $patientData[0]['birth_date'],
-            "age" => $patientData[0]['age'],
-            "height" => $patientData[0]['height'],
-            "weight" => $patientData[0]['weight'],
-            "blood_group" => $patientData[0]['blood_group'],
-            "medical_history" => $patientData[0]['medical_history']
-        ]);
+            if ($userData['identity'] === 'none') {
+                PatientProfile::create([
+                    "user_id" => $user->id,
+                    "birth_date" => $userData['patient']['birth_date'],
+                    "age" => $userData['patient']['age'],
+                    "height" => $userData['patient']['height'],
+                    "weight" => $userData['patient']['weight'],
+                    "blood_group" => $userData['patient']['blood_group'],
+                    "medical_history" => $userData['patient']['medical_history']
+                ]);
 
-        UserInsurance::create([
-            "patient_profile_id" => 1,
-            "insurance_type" => $patientData[0]['insurances']['insurance_type'],
-            "insurance_number" => $patientData[0]['insurances']['insurance_number'],
-            "registry" => $patientData[0]['insurances']['registry'],
-            "registered_address" => $patientData[0]['insurances']['registered_address'],
-            "valid_from" => $patientData[0]['insurances']['vaild_from'],
-        ]);
+                UserInsurance::create([
+                    "patient_profile_id" => 1,
+                    "insurance_type" => $userData['patient']['insurances']['insurance_type'],
+                    "insurance_number" => $userData['patient']['insurances']['insurance_number'],
+                    "registry" => $userData['patient']['insurances']['registry'],
+                    "registered_address" => $userData['patient']['insurances']['registered_address'],
+                    "valid_from" => $userData['patient']['insurances']['vaild_from'],
+                ]);
+            } else if ($userData['identity'] === 'doctor') {
+                $doctorProfile = DoctorProfile::create([
+                    "user_id" => $user->id,
+                    "medical_category_id" => random_int(1, count($medicalCategoryIds)),
+                    "id_card_path" => $userData['doctor']['id_card_path'],
+                    "medical_degree_path" => $userData['doctor']['medical_degree_path'],
+                    "professional_number" => $userData['doctor']['professional_number'],
+                    "introduce" => $userData['doctor']['introduce'],
+                    "office_address" => $userData['doctor']['office_address'],
+                    "company_name" => $userData['doctor']['company_name'],
+                ]);
 
-        DoctorProfile::create([
-            "user_id" => 2,
-            "medical_category_id" => $doctorData[0]['medical_category_id'],
-            "id_card_path" => $doctorData[0]['id_card_path'],
-            "medical_degree_path" => $doctorData[0]['medical_degree_path'],
-            "professional_number" => $doctorData[0]['professional_number'],
-            "introduce" => $doctorData[0]['introduce'],
-            "office_address" => $doctorData[0]['office_address'],
-            "company_name" => $doctorData[0]['company_name'],
-        ]);
+                foreach ($userData['doctor']['work_schedules'] as $schedule) {
+                    WorkSchedule::create([
+                        'doctor_profile_id' => $doctorProfile->id,
+                        'day_of_week' => $schedule['day_of_week'],
+                        'start_time' => $schedule['start_time'] ?? null,
+                        'end_time' => $schedule['end_time'] ?? null,
+                        "all_day" => $schedule['all_day'],
+                    ]);
+                }
 
-        foreach ($workSchedulesData as $schedule) {
-            WorkSchedule::create([
-                'doctor_profile_id' => 1,
-                'day_of_week' => $schedule['day_of_week'],
-                'start_time' => $schedule['start_time'] ?? null,
-                'end_time' => $schedule['end_time'] ?? null,
-                "all_day" => $schedule['all_day'],
-            ]);
-        }
-
-        foreach ($dataArray['services'] as $data) {
-            Service::create([
-                'icon' => $data['icon'],
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'price' => $data['price'],
-                'duration' => $data['duration'],
-                'buffer_time' => $data['buffer_time'],
-                'seat' => $data['seat'],
-                'is_active' => $data['is_active'],
-                'doctor_profile_id' => 1,
-            ]);
+                foreach ($dataArray['services'] as $data) {
+                    Service::create([
+                        'icon' => $data['icon'],
+                        'name' => $data['name'],
+                        'description' => $data['description'],
+                        'price' => $data['price'],
+                        'duration' => $data['duration'],
+                        'buffer_time' => $data['buffer_time'],
+                        'seat' => $data['seat'],
+                        'is_active' => $data['is_active'],
+                        'doctor_profile_id' => $doctorProfile->id,
+                    ]);
+                }
+            }
         }
 
         foreach ($appointments as $data) {
