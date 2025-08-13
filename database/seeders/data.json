@@ -1,67 +1,67 @@
 {
     "medical_categories": [
         {
-            "name": "Khoa răng hàm mặt"
+            "name": "Răng hàm mặt"
         },
         {
-            "name": "Khoa tim mạch"
+            "name": "Tim mạch"
         },
         {
-            "name": "Khoe da liễu"
+            "name": "Da liễu"
         },
         {
-            "name": "Khoa phụ sản"
+            "name": "Phụ sản"
         },
         {
-            "name": "Khoa thần kinh"
+            "name": "Thần kinh"
         },
         {
-            "name": "Khoa mặc"
+            "name": "Mắt"
         },
         {
-            "name": "Khoa chỉnh hình"
+            "name": "Chỉnh hình"
         },
         {
-            "name": "Khoa nhi"
+            "name": "Nhi"
         },
         {
-            "name": "Khoa âm thần"
+            "name": "Tâm thần"
         },
         {
-            "name": "Khoa tiết niệu"
+            "name": "Tiết niệu"
         },
         {
-            "name": "Khoa tai mũi họng"
+            "name": "Tai mũi họng"
         },
         {
-            "name": "Khoa mắt"
+            "name": "Mắt"
         },
         {
-            "name": "Khoa nội tiết"
+            "name": "Nội tiết"
         },
         {
-            "name": "Khoa tiêu hóa"
+            "name": "Tiêu hóa"
         },
         {
-            "name": "Khoa hô hấp"
+            "name": "Hô hấp"
         },
         {
-            "name": "Khoa dinh dưỡng"
+            "name": "Dinh dưỡng"
         },
         {
-            "name": "Khoa ung bướu"
+            "name": "Ung bướu"
         },
         {
-            "name": "Khoa tâm thần"
+            "name": "Tâm thần"
         },
         {
-            "name": "Khoa nội tổng quát"
+            "name": "Nội tổng quát"
         },
         {
-            "name": "Khoa ngoại tổng quát"
+            "name": "Ngoại tổng quát"
         },
         {
-            "name": "Khoa y học cổ truyền"
+            "name": "Y học cổ truyền"
         }
     ],
     "hospitals": [
@@ -465,7 +465,7 @@
         {
             "patient_id": 1,
             "doctor_id": 2,
-            "appointment_id": 1,
+            "appointment_id": 5,
             "hospital_id": 1,
             "message": "Tôi cần hỗ trợ về lịch hẹn khám bệnh.",
             "status": "open"
