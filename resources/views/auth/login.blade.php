@@ -19,7 +19,9 @@
                 </a>
             </div>
 
-            <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
+            <a href="/">
+                <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
+            </a>
 
             <h1 class="font-bold">{{ __('client/auth.welcome') }}</h1>
 
