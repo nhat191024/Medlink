@@ -6,12 +6,12 @@
 @source '../**/*.js';
 
 @plugin "daisyui" {
-  themes: pastel --default;
-  root: ":root";
-  include: ;
-  exclude: ;
-  prefix: ;
-  logs: true;
+    themes: pastel --default;
+    root: ":root";
+    include: ;
+    exclude: ;
+    prefix: ;
+    logs: true;
 }
 
 @theme {
@@ -20,14 +20,16 @@
 }
 
 @layer components {
-  .textarea:focus,
-  .textarea:focus-within {
-    outline: none !important;
-    outline-offset: 0 !important;
-  }
-  .input:focus,
-  .input:focus-within {
-    outline: none !important;
-    outline-offset: 0 !important;
-  }
+
+    .textarea:focus,
+    .textarea:focus-within {
+        outline: none !important;
+        outline-offset: 0 !important;
+    }
+
+    .input:focus,
+    .input:focus-within {
+        outline: none !important;
+        outline-offset: 0 !important;
+    }
 }
