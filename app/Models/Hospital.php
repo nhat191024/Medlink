@@ -74,6 +74,7 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
         'website',
         'logo',
         'description',
+        'doctor_count',
         'contract_start_date',
         'contract_end_date',
         'status'
@@ -89,7 +90,7 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
         'remember_token',
     ];
 
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
         //automatically generate a default password if not provided
@@ -106,7 +107,6 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
             });
         });
     }
-
 
     public function canAccessPanel(Panel $panel): bool
     {

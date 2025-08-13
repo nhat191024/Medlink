@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('logo')->nullable();
             $table->text('description')->nullable();
+            $table->unsignedInteger('doctor_count')->default(0);
             $table->date('contract_start_date')->nullable();
             $table->date('contract_end_date')->nullable();
             $table->rememberToken();
