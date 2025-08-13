@@ -183,7 +183,22 @@
             "city": "Hưng Yên",
             "ward": "Hồng Châu",
             "address": "123 Main St, Hưng Yên, Việt Nam",
-            "zip_code": "160000"
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 170,
+                "weight": 52,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh lmao",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
         },
         {
             "user_type": "healthcare",
@@ -202,151 +217,111 @@
             "city": "Quảng Ninh",
             "ward": "Ngô Quyền",
             "address": "123 Main St, Quảng Ninh, Việt Nam",
-            "zip_code": "160000"
-        }
-    ],
-    "patients": [
-        {
-            "birth_date": "2004-01-17",
-            "age": 21,
-            "height": 170,
-            "weight": 52,
-            "blood_group": "O+",
-            "medical_history": "có tiền sử bệnh lmao",
-            "insurances": {
-                "insurance_type": "vietnamese",
-                "insurance_number": "VN-INS-342307",
-                "registry": "123 Main St, Hưng Yên, Việt Nam",
-                "registered_address": "Bệnh viện Đa khoa Hưng Yên",
-                "vaild_from": "2024-01-01"
-            },
-            "languages": [
-                {
-                    "name": "Tiếng Anh",
-                    "code": "en"
-                },
-                {
-                    "name": "Tiếng Việt",
-                    "code": "vi"
-                }
-            ]
-        }
-    ],
-    "doctors": [
-        {
-            "medical_category_id": 1,
-            "id_card_path": "storage/upload/doctor_assets/id-card.png",
-            "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
-            "professional_card_path": null,
-            "exploitation_license_path": null,
-            "professional_number": "PROF-17416",
-            "introduce": "Tôi là bác sĩ chuyên khoa nội tổng quát với hơn 10 năm kinh nghiệm trong lĩnh vực y tế. Tôi đã từng làm việc tại các bệnh viện lớn và có chuyên môn sâu về các bệnh lý nội khoa.",
-            "office_address": "123 Main St, Quảng Ninh, Việt Nam",
-            "company_name": "Bệnh viện Đa khoa Quảng Ninh",
-            "work_schedules": [
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "10:00",
-                    "end_time": "10:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Tuesday",
-                    "all_day": 1
-                },
-                {
-                    "day_of_week": "Wednesday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Wednesday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Thursday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Thursday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "10:00",
-                    "end_time": "10:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "12:00",
-                    "end_time": "12:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "12:30",
-                    "end_time": "13:00",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "13:00",
-                    "end_time": "13:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "14:00",
-                    "end_time": "14:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Monday",
-                    "all_day": 1
-                }
-            ],
-            "languages": [
-                {
-                    "name": "Tiếng Anh",
-                    "code": "en"
-                },
-                {
-                    "name": "Tiếng Việt",
-                    "code": "vi"
-                }
-            ]
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-17416",
+                "introduce": "Tôi là bác sĩ chuyên khoa nội tổng quát với hơn 10 năm kinh nghiệm trong lĩnh vực y tế. Tôi đã từng làm việc tại các bệnh viện lớn và có chuyên môn sâu về các bệnh lý nội khoa.",
+                "office_address": "123 Main St, Quảng Ninh, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Quảng Ninh",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Monday",
+                        "all_day": 1
+                    }
+                ]
+            }
         }
     ],
     "appointments": [
@@ -465,7 +440,7 @@
         {
             "patient_id": 1,
             "doctor_id": 2,
-            "appointment_id": 5,
+            "appointment_id": 1,
             "hospital_id": 1,
             "message": "Tôi cần hỗ trợ về lịch hẹn khám bệnh.",
             "status": "open"
