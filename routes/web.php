@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
 
 // Auth routes
 Route::middleware('guest')->group(function () {
@@ -11,17 +13,19 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/database-erd', fn() => view('database.erd'));
 
+    route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
+
     require __DIR__ . '/web/register.php';
     require __DIR__ . '/web/forgot-password.php';
 });
 
 Route::middleware('auth')->group(function () {
     require __DIR__ . '/web/doctor-booking.php';
+
+    Route::get('/profile', fn() => view('user.profile'))->name('profile');
 });
 
-route::get('/', function () {
-    return view('layouts.app');
-});
 
 Route::get('/home/doctor-detail', function () {
     return view('home.doctor-detail');
