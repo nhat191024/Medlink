@@ -3,22 +3,17 @@ return [
     'menu' => [
         'home' => 'Home',
         'services' => 'Services',
-        'doctor_consultation' => 'Doctor Consultation',
-        'pharmacy' => 'Pharmacy',
+        'doctor_consultation' => 'Book Appointment',
         'support' => 'Support',
     ],
 
-    'subtitle' => [
-        'home' => 'Medlink Home',
-        'services' => 'Our Services',
-        'doctor_consultation' => 'Online Doctor Consultation',
-        'pharmacy' => 'Online Medicine Purchase',
-        'support' => 'Support Center',
-    ],
-
     'button' => [
+        'download' => 'Download App',
         'login' => 'Login',
         'register' => 'Register',
         'logout' => 'Logout',
+
+        'profile' => 'Profile',
+        'dashboard' => 'Dashboard',
     ],
 ];

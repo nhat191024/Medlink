@@ -4,21 +4,16 @@ return [
         'home' => 'Trang chủ',
         'services' => 'Dịch vụ',
         'doctor_consultation' => 'Đặt lịch hẹn',
-        'pharmacy' => 'Nhà thuốc',
         'support' => 'Hỗ trợ',
     ],
 
-    'subtitle' => [
-        'home' => 'Trang chủ Medlink',
-        'services' => 'Dịch vụ của chúng tôi',
-        'doctor_consultation' => 'Tư vấn bác sĩ trực tuyến',
-        'pharmacy' => 'Mua thuốc trực tuyến',
-        'support' => 'Trung tâm hỗ trợ',
-    ],
-
     'button' => [
+        'download' => 'Tải xuống ứng dụng',
         'login' => 'Đăng nhập',
         'register' => 'Đăng ký',
         'logout' => 'Đăng xuất',
+
+        'profile' => 'Trang cá nhân',
+        'dashboard' => 'Bảng điều khiển',
     ],
 ];
