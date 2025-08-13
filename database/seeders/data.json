@@ -103,6 +103,45 @@
             "description": "Bệnh viện Chợ Rẫy là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại TP.HCM và các tỉnh lân cận.",
             "contract_start_date": "2025-01-01",
             "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Đa khoa Tỉnh Quảng Ninh",
+            "address": "Tuệ Tĩnh, P. Bạch Đằng, Hạ Long, Quảng Ninh",
+            "city": "Quảng Ninh",
+            "ward": "Phường Bạch Đằng",
+            "email": "bvdkt.syt@quangninh.gov.vn",
+            "phone": "0203 3825 499",
+            "website": "https://www.benhviendakhoatinhquangninh.vn",
+            "logo": "hhttps://www.benhviendakhoatinhquangninh.vn/images/hinhanh/bannerchinh11202552775036.jpg",
+            "description": "Bệnh viện Chợ Đa khoa là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Quảng Ninh và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Đa khoa quốc tế",
+            "address": "124 P. Nguyễn Đức Cảnh",
+            "city": "Hải Phòng",
+            "ward": "Lê Chân",
+            "email": "dakhoaquocte.hih@gmail.com",
+            "phone": "0225 3955 888",
+            "website": "https://hih.vn",
+            "logo": "https://hih.vn/wp-content/uploads/2019/06/logo-bv-01.png",
+            "description": "Bệnh viện Chợ Đa khoa quốc tế  là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Hải phòng và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Hữu nghị Việt Tiệp",
+            "address": "1 P. Nhà Thương, An Biên",
+            "city": "Hải Phòng",
+            "ward": "Lê Chân",
+            "email": "dakhoaquocte.hih@gmail.com",
+            "phone": "1900 232361",
+            "website": "https://hih.vn",
+            "logo": "https://hih.vn/wp-content/uploads/2019/06/logo-bv-01.png",
+            "description": "Bệnh viện Chợ Đa khoa quốc tế  là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Hải phòng và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
         }
     ],
     "admins": [
@@ -306,7 +345,7 @@
             "user_type": "patient",
             "identity": "none",
             "hospital_id": null,
-            "email": "",
+            "email": "hang@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
             "name": "Nguyễn Thị Hằng",
