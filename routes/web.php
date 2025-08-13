@@ -12,8 +12,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
     Route::get('/database-erd', fn() => view('database.erd'));
-
-    route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
 
     require __DIR__ . '/web/register.php';
@@ -26,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', fn() => view('user.profile'))->name('profile');
 });
 
+route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/home/doctor-detail', function () {
     return view('home.doctor-detail');
