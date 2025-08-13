@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
@@ -21,7 +21,7 @@
 
             <img class="logo" src="{{ asset('img/logo.svg') }}" alt="Logo">
 
-            <h1>{{ __('client/auth.welcome') }}</h1>
+            <h1 class="font-bold">{{ __('client/auth.welcome') }}</h1>
 
             @if (session('status'))
                 <div class="alert alert-success" style="color: green; margin-bottom: 1rem; text-align: center;">
@@ -29,7 +29,7 @@
                 </div>
             @endif
 
-            <div class="form-group {{ old('email') ? 'has-value' : '' }}">
+            <div class="form-group {{ old('email') ? 'has-value' : '' }} mt-4">
                 <input id="email" name="email" type="text" value="{{ old('email') }}">
                 <label for="email">{{ __('client/auth.fields.label.login') }}</label>
 
@@ -88,12 +88,12 @@
                 formGroup.classList.remove('has-value');
             }
         }
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
-            [emailInput, passwordInput].forEach(function (input) {
+            [emailInput, passwordInput].forEach(function(input) {
                 updateHasValueClass(input);
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     updateHasValueClass(input);
                 });
             });
