@@ -5,7 +5,7 @@ namespace App\Http\Services;
 use App\Models\Bill;
 use App\Models\Service;
 use App\Models\Appointment;
-use App\Models\File;
+use App\Models\DoctorProfile;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -387,14 +387,14 @@ class AppointmentService
     {
         try {
             DB::beginTransaction();
-            // Get patient profile
+
             $patientProfile = $user->patientProfile;
+            $hospitalId = DoctorProfile::find($request->doctor_profile_id)->first()->user->hospital_id;
 
             if (!$patientProfile) {
                 throw new \Exception('Patient profile not found');
             }
 
-            // Prepare files collection from request (support both single and multiple during transition)
             $incomingFiles = [];
             if ($request->hasFile('medical_problem_files')) {
                 $incomingFiles = $request->file('medical_problem_files');
@@ -405,7 +405,7 @@ class AppointmentService
                 }
             }
 
-            $service = Service::findOrFail($request->service_id); // Ensure service exists
+            $service = Service::findOrFail($request->service_id);
 
             $link = null;
             if ($service->name == "Online visit" || $service->name == "Video Appointment") {
@@ -418,6 +418,7 @@ class AppointmentService
                 'patient_profile_id' => $patientProfile->id,
                 'doctor_profile_id' => $request->doctor_profile_id,
                 'service_id' => $request->service_id,
+                'hospital_id' => $hospitalId,
                 'status' => 'pending',
                 'medical_problem' => $request->medical_problem,
                 'duration' => $service->duration,
@@ -450,6 +451,7 @@ class AppointmentService
             $bill = Bill::create([
                 'id' => time() . mt_rand(100000, 999999),
                 'appointment_id' => $appointment->id,
+                'hospital_id' => $hospitalId,
                 'payment_method' => $request->payment_method,
                 'taxVAT' => $price * 0.10, // Assuming VAT is 10%
                 'total' => $price + $price * 0.10,
