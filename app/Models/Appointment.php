@@ -18,6 +18,7 @@ use Spatie\Activitylog\LogOptions;
  * @property int $patient_profile_id
  * @property int $doctor_profile_id
  * @property int $service_id
+ * @property int $hospital_id
  * @property string $status
  * @property string $medical_problem
  * @property int $duration
@@ -73,6 +74,7 @@ class Appointment extends Model
         'patient_profile_id',
         'doctor_profile_id',
         'service_id',
+        'hospital_id',
         'status',
         'medical_problem',
         'duration',
