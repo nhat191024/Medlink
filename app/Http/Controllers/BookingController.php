@@ -13,38 +13,45 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\AppointmentService;
 use App\Http\Services\WorkScheduleService;
 
 use Carbon\Carbon;
+use App\Helper\CacheKey;
 
 class BookingController extends Controller
 {
     private $appointmentService;
+    private $cacheKey;
 
-    public function __construct(AppointmentService $appointmentService)
+    public function __construct()
     {
-        $this->appointmentService = $appointmentService;
+        $this->appointmentService = app(AppointmentService::class);
+        $this->cacheKey = new CacheKey();
     }
 
     public function showDoctorBookingList(Request $request)
     {
+        $cacheKey = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE;
+        $page = $request->input('page', 1);
+        $perPage = $request->input('per_page', 12);
         $searchQuery = $request->input('q', '');
         $identity = $request->input('identity', 'doctor');
-        $userProfiles = User::where('user_type', 'healthcare')
-            ->when($searchQuery, function ($query, $searchQuery) {
-                return $query->where(function ($q) use ($searchQuery) {
-                    $q->where('name', 'like', '%' . $searchQuery . '%')
-                        ->orWhere('email', 'like', '%' . $searchQuery . '%');
-                });
-            })
-            ->when($identity !== 'doctor', function ($query) use ($identity) {
-                return $query->where('identity', $identity);
-            })
+
+        // Create unique cache key based on search parameters
+        $uniqueCacheKey = $cacheKey . md5($page . $perPage . $searchQuery . $identity);
+
+        $userProfiles = Cache::remember($uniqueCacheKey, 300, fn() => User::where('user_type', 'healthcare')
+            ->when($searchQuery, fn($query, $searchQuery) => $query->where(fn($q) => $q->where('name', 'like', '%' . $searchQuery . '%')
+                ->orWhere('email', 'like', '%' . $searchQuery . '%')))
+            ->when($identity !== 'doctor', fn($query) => $query->where('identity', $identity))
             ->with(['doctorProfile', 'doctorProfile.medicalCategory', 'doctorProfile.services', 'doctorProfile.reviews',  'doctorProfile.user'])
-            ->paginate(10);
+            ->paginate(10));
+
         $request->session()->put('identity', $identity);
+
         return view('appointment.search', [
             'userProfiles' => $userProfiles,
         ]);
