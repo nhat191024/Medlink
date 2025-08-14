@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mx-auto my-3 max-w-5xl px-4 md:py-8">
+    <div class="mx-auto min-h-[95vh] max-w-5xl px-4 md:py-8">
         <!-- Progress Steps -->
         <div class="mb-8 flex justify-center">
             <ul class="steps steps-horizontal">
