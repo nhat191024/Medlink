@@ -21,7 +21,7 @@ class CacheKey
     public const string APPOINTMENT_DETAILS = 'appointment_details_';
     public const string APPOINTMENT_STATISTICS = 'appointment_statistics_';
 
-    //use in SearchController & appointmentService
+    //use in SearchController & appointmentService & BookingController
     public const string HEALTH_CATEGORIES_COUNT = 'health_categories_count';
     public const string DOCTOR_LIST_SEARCH_PAGE = 'doctor_list_search_page_';
     public const string DOCTOR_SEARCH = 'doctor_search_';
