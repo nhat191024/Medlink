@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\DoctorProfile;
 use App\Models\Bill;
 use App\Models\Service;
+use Carbon\Carbon;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -17,19 +18,61 @@ use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\AppointmentService;
 use App\Http\Services\WorkScheduleService;
-
-use Carbon\Carbon;
 use App\Helper\CacheKey;
 
 class BookingController extends Controller
 {
     private $appointmentService;
+    private $workScheduleService;
     private $cacheKey;
 
     public function __construct()
     {
         $this->appointmentService = app(AppointmentService::class);
+        $this->workScheduleService = app(WorkScheduleService::class);
         $this->cacheKey = new CacheKey();
+    }
+
+    /**
+     * Get doctor profile with all necessary relationships and aggregations
+     */
+    private function getDoctorProfileWithStats($doctorProfileId, array $extraRelations = [])
+    {
+        $baseRelations = ['user', 'medicalCategory', 'services'];
+        $relations = array_merge($baseRelations, $extraRelations);
+
+        return DoctorProfile::with($relations)
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rate')
+            ->find($doctorProfileId);
+    }
+
+    /**
+     * Format price with Vietnamese currency format
+     */
+    private function formatPrice($price)
+    {
+        return number_format($price, 0, ',', '.') . ' đ';
+    }
+
+    /**
+     * Calculate bill details
+     */
+    private function calculateBill($servicePrice)
+    {
+        $vat = $servicePrice * 0.1;
+        $total = $servicePrice + $vat;
+
+        return [
+            'service_price' => $servicePrice,
+            'vat' => $vat,
+            'total' => $total,
+            'formatted' => [
+                'service_price' => $this->formatPrice($servicePrice),
+                'vat' => $this->formatPrice($vat),
+                'total' => $this->formatPrice($total)
+            ]
+        ];
     }
 
     public function showDoctorBookingList(Request $request)
@@ -94,9 +137,11 @@ class BookingController extends Controller
 
     public function showDoctorInfo($doctorProfileId)
     {
-        $doctorProfile = DoctorProfile::where('id', $doctorProfileId)
-            ->with(['medicalCategory', 'services', 'reviews', 'user'])
-            ->first();
+        $cacheKey = "doctor_profile_{$doctorProfileId}";
+
+        $doctorProfile = Cache::remember($cacheKey, 300, function () use ($doctorProfileId) {
+            return $this->getDoctorProfileWithStats($doctorProfileId, ['reviews']);
+        });
 
         if (!$doctorProfile) {
             return redirect()->back()->with('error', 'Doctor profile not found');
@@ -104,7 +149,10 @@ class BookingController extends Controller
 
         $workSchedules = null;
         if ($doctorProfile->workSchedules) {
-            $workSchedules = (new WorkScheduleService())->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+            $workSchedules = $this->workScheduleService->getAvailableWorkSchedule(
+                $doctorProfile->workSchedules,
+                $doctorProfile->id
+            );
         }
 
         return view('appointment.doctor-detail', [
@@ -113,21 +161,29 @@ class BookingController extends Controller
         ]);
     }
 
-
     public function showStepOne(Request $request, $doctorProfileId)
     {
-        $doctorProfile = DoctorProfile::find($doctorProfileId);
+        $doctorProfile = $this->getDoctorProfileWithStats($doctorProfileId, ['workSchedules']);
+
         if (!$doctorProfile) {
             return redirect()->route('appointment.failed')->with('error', 'Doctor profile not found');
         }
+
         $request->session()->put('appointment.doctor_profile_id', $doctorProfile->id);
 
         $workSchedules = null;
         try {
             if ($doctorProfile->workSchedules) {
-                $workSchedules = (new WorkScheduleService())->getAvailableWorkSchedule($doctorProfile->workSchedules, $doctorProfile->id);
+                $workSchedules = $this->workScheduleService->getAvailableWorkSchedule(
+                    $doctorProfile->workSchedules,
+                    $doctorProfile->id
+                );
             }
         } catch (\Throwable $th) {
+            Log::error('Error retrieving doctor schedule', [
+                'doctor_profile_id' => $doctorProfileId,
+                'error' => $th->getMessage()
+            ]);
             return redirect()->back()->with('error', 'Error retrieving doctor schedule');
         }
 
@@ -139,38 +195,64 @@ class BookingController extends Controller
 
     public function storeStepOne(Request $request)
     {
-        $request->validate([
-            'service' => 'required|integer',
-            'date' => 'required|date',
+        $validated = $request->validate([
+            'service' => 'required|integer|exists:services,id',
+            'date' => 'required|date|after_or_equal:today',
             'time' => 'required|string',
         ]);
 
-        $serviceId = $request->input('service');
-        $request->session()->put('appointment.service_id', $serviceId);
+        try {
+            // Validate service belongs to doctor
+            $doctorProfileId = $request->session()->get('appointment.doctor_profile_id');
+            $serviceBelongsToDoctor = Service::where('id', $validated['service'])
+                ->where('doctor_profile_id', $doctorProfileId)
+                ->exists();
 
-        $date = $request->input('date');
-        $request->session()->put('appointment.date', $date);
+            if (!$serviceBelongsToDoctor) {
+                return redirect()->back()->with('error', 'Invalid service selection for this doctor.');
+            }
 
-        $selectedService = Service::findOrFail($serviceId);
-        $duration = $selectedService->duration;
-        $endTime = $duration;
-        $time = $request->input('time');
-        $startDateTime = Carbon::createFromFormat('H:i', $time);
-        $endDateTime = (clone $startDateTime)->addMinutes($endTime);
-        $formattedTime = $startDateTime->format('H:i A') . ' - ' . $endDateTime->format('H:i A');
-        $request->session()->put('appointment.time', $formattedTime);
-        $request->session()->put('appointment.start_time', $startDateTime->format('h:i A'));
+            $selectedService = Service::findOrFail($validated['service']);
 
-        $dayOfWeek = Carbon::parse($date)->format('l');
-        $request->session()->put('appointment.day_of_week', $dayOfWeek);
+            // Store service info
+            $request->session()->put('appointment.service_id', $validated['service']);
+            $request->session()->put('appointment.date', $validated['date']);
 
-        return redirect(route('appointment.step.two'));
+            // Calculate time slots
+            $duration = $selectedService->duration;
+            $startDateTime = Carbon::createFromFormat('H:i', $validated['time']);
+            $endDateTime = (clone $startDateTime)->addMinutes($duration);
+            $formattedTime = $startDateTime->format('H:i A') . ' - ' . $endDateTime->format('H:i A');
+
+            $request->session()->put('appointment.time', $formattedTime);
+            $request->session()->put('appointment.start_time', $startDateTime->format('h:i A'));
+
+            $dayOfWeek = Carbon::parse($validated['date'])->format('l');
+            $request->session()->put('appointment.day_of_week', $dayOfWeek);
+
+            return redirect()->route('appointment.step.two');
+        } catch (\Throwable $th) {
+            Log::error('Error storing step one data', [
+                'data' => $validated,
+                'error' => $th->getMessage()
+            ]);
+            return redirect()->back()->with('error', 'An error occurred. Please try again.');
+        }
     }
 
     public function showStepTwo(Request $request)
     {
         $doctorProfileId = $request->session()->get('appointment.doctor_profile_id');
-        $doctorProfile = DoctorProfile::findOrFail($doctorProfileId);
+
+        if (!$doctorProfileId) {
+            return redirect()->route('appointment.step.one')->with('error', 'Session expired. Please start again.');
+        }
+
+        $doctorProfile = $this->getDoctorProfileWithStats($doctorProfileId);
+
+        if (!$doctorProfile) {
+            return redirect()->route('appointment.failed')->with('error', 'Doctor profile not found');
+        }
 
         return view('appointment.step-2', [
             'doctorProfile' => $doctorProfile,
@@ -179,8 +261,8 @@ class BookingController extends Controller
 
     public function storeStepTwo(Request $request)
     {
-        $request->validate([
-            'medical_problem' => 'required|string',
+        $validated = $request->validate([
+            'medical_problem' => 'required|string|min:10|max:1000',
             'medical_files' => 'nullable|array|max:10',
             'medical_files.*' => [
                 'nullable',
@@ -188,7 +270,7 @@ class BookingController extends Controller
                 'mimes:pdf,doc,docx,jpg,jpeg,png',
                 'max:5480',
             ],
-            'note' => 'nullable|string',
+            'note' => 'nullable|string|max:500',
         ]);
 
         try {
@@ -212,164 +294,223 @@ class BookingController extends Controller
                 $request->session()->put('appointment.temporary_files', $stored);
             }
 
-            $request->session()->put('appointment.note', $request->input('note', ''));
-            $request->session()->put('appointment.medical_problem', $request->input('medical_problem'));
+            $request->session()->put('appointment.note', $validated['note'] ?? '');
+            $request->session()->put('appointment.medical_problem', $validated['medical_problem']);
 
-            return redirect(route('appointment.step.three'));
+            return redirect()->route('appointment.step.three');
         } catch (\Throwable $th) {
+            Log::error('Error storing step two data', [
+                'data' => $validated,
+                'error' => $th->getMessage()
+            ]);
             return redirect()
                 ->route('appointment.step.two')
-                ->with('error', 'Đã xảy ra lỗi, vui lòng thử lại. ' . $th->getMessage());
+                ->with('error', 'An error occurred while processing your files. Please try again.');
         }
     }
 
     public function showStepThree(Request $request)
     {
         $doctorProfileId = $request->session()->get('appointment.doctor_profile_id');
-        $doctorProfile = DoctorProfile::findOrFail($doctorProfileId);
-
         $serviceId = $request->session()->get('appointment.service_id');
-        $service = Service::findOrFail($serviceId);
 
-        $date = $request->session()->get('appointment.date');
-        $time = $request->session()->get('appointment.time');
-        $note = $request->session()->get('appointment.note', '');
-        $medicalProblem = $request->session()->get('appointment.medical_problem', '');
+        if (!$doctorProfileId || !$serviceId) {
+            return redirect()->route('appointment.step.one')->with('error', 'Session expired. Please start again.');
+        }
 
-        $servicePrice = $service->price;
-        $vat = $servicePrice * 0.1;
-        $total = $servicePrice + $vat;
+        $doctorProfile = $this->getDoctorProfileWithStats($doctorProfileId);
 
-        $formattedServicePrice = number_format($servicePrice, 0, ',', '.') . ' đ';
-        $formattedVat = number_format($vat, 0, ',', '.') . ' đ';
-        $formattedTotal = number_format($total, 0, ',', '.') . ' đ';
+        if (!$doctorProfile) {
+            return redirect()->route('appointment.failed')->with('error', 'Doctor profile not found');
+        }
 
-        $fileName = $request->session()->get('appointment.temporary_file_name', 'No file uploaded');
+        $service = Service::find($serviceId);
+        if (!$service) {
+            return redirect()->route('appointment.step.one')->with('error', 'Service not found. Please select again.');
+        }
+
+        // Get session data
+        $sessionData = [
+            'date' => $request->session()->get('appointment.date'),
+            'time' => $request->session()->get('appointment.time'),
+            'note' => $request->session()->get('appointment.note', ''),
+            'medicalProblem' => $request->session()->get('appointment.medical_problem', ''),
+        ];
+
+        // Calculate bill
+        $billDetails = $this->calculateBill($service->price);
+
+        // Get temporary files
         $tempFiles = $request->session()->get('appointment.temporary_files', []);
-        $fileNames = array_map(fn($f) => $f['name'] ?? '', $tempFiles);
 
         return view('appointment.step-3', [
             'doctorProfile' => $doctorProfile,
             'schedule' => [
-                'date' => $date,
-                'time' => $time
+                'date' => $sessionData['date'],
+                'time' => $sessionData['time']
             ],
             'address' => $doctorProfile->office_address ?? '',
-            'note' => $note,
-            'summarize' => $medicalProblem,
-            'fileName' => $fileName,
-            'fileNames' => $fileNames,
+            'note' => $sessionData['note'],
+            'summarize' => $sessionData['medicalProblem'],
             'bill' => [
                 'service' => [
                     'name' => $service->name,
-                    'price' => $formattedServicePrice
+                    'price' => $billDetails['formatted']['service_price']
                 ],
-                'vat' => $formattedVat,
-                'total' => $formattedTotal
+                'vat' => $billDetails['formatted']['vat'],
+                'total' => $billDetails['formatted']['total']
             ]
         ]);
     }
 
     public function storeStepThree(Request $request)
     {
-        $request->validate([
-            'payment_method' => 'required|string',
+        $validated = $request->validate([
+            'payment_method' => 'required|string|in:qr_transfer,credit_card',
         ]);
 
-        $paymentMethod = $request->input('payment_method');
-        $doctorProfileId = $request->session()->get('appointment.doctor_profile_id');
-        $serviceId = $request->session()->get('appointment.service_id');
-        $date = $request->session()->get('appointment.date');
-        $time = $request->session()->get('appointment.time');
-        $dayOfWeek = $request->session()->get('appointment.day_of_week');
-        $medicalProblem = $request->session()->get('appointment.medical_problem');
+        try {
+            // Validate session data
+            $sessionData = $this->validateSessionData($request);
+            if (!$sessionData) {
+                return redirect()->route('appointment.step.one')->with('error', 'Session expired. Please start again.');
+            }
 
+            // Validate service belongs to doctor
+            $serviceBelongsToDoctor = Service::where('doctor_profile_id', $sessionData['doctor_profile_id'])
+                ->where('id', $sessionData['service_id'])
+                ->exists();
+
+            if (!$serviceBelongsToDoctor) {
+                return redirect()->route('appointment.step.one')->with('error', 'Invalid service selection.');
+            }
+
+            // Prepare files
+            $recreatedFiles = $this->prepareUploadedFiles($request);
+
+            // Merge all data for appointment creation
+            $appointmentData = array_merge($sessionData, [
+                'payment_method' => $validated['payment_method'],
+                'medical_problem_files' => $recreatedFiles,
+            ]);
+
+            $request->merge($appointmentData);
+
+            // Create appointment
+            $response = $this->appointmentService->createAppointment($request, Auth::user());
+
+            if (!$response) {
+                return redirect()->back()->with('error', 'Failed to create appointment. Please try again.');
+            }
+
+            // Store appointment info in session for success page
+            $service = Service::find($sessionData['service_id']);
+            if ($service) {
+                session()->flash('serviceName', $service->name);
+            }
+            session()->flash('date', Carbon::parse($sessionData['date'])->format('d/m/Y'));
+            session()->flash('time', $sessionData['time']);
+
+            // If payment is required, redirect to payment URL
+            if (isset($response['checkoutUrl'])) {
+                return redirect($response['checkoutUrl']);
+            }
+
+            // Clear appointment session data after success
+            $this->clearAppointmentSession($request);
+
+            return redirect()->route('appointment.success')
+                ->with('success', 'Appointment booked successfully!')
+                ->with('appointment_id', $response['appointment']->id);
+        } catch (\Throwable $th) {
+            Log::error('Error creating appointment', [
+                'user_id' => Auth::id(),
+                'error' => $th->getMessage(),
+                'trace' => $th->getTraceAsString()
+            ]);
+            return redirect()->back()->with('error', 'An error occurred while booking your appointment. Please try again.');
+        }
+    }
+
+    /**
+     * Validate session data for appointment creation
+     */
+    private function validateSessionData(Request $request): ?array
+    {
+        $requiredKeys = [
+            'doctor_profile_id',
+            'service_id',
+            'date',
+            'time',
+            'day_of_week',
+            'medical_problem'
+        ];
+
+        $sessionData = [];
+        foreach ($requiredKeys as $key) {
+            $value = $request->session()->get("appointment.{$key}");
+            if (empty($value)) {
+                return null;
+            }
+            $sessionData[$key] = $value;
+        }
+
+        // Optional fields
+        $sessionData['note'] = $request->session()->get('appointment.note', '');
+
+        return $sessionData;
+    }
+
+    /**
+     * Prepare uploaded files from session
+     */
+    private function prepareUploadedFiles(Request $request): array
+    {
         $tempFiles = $request->session()->get('appointment.temporary_files', []);
         $recreatedFiles = [];
+
         foreach ($tempFiles as $tf) {
-            if (!isset($tf['path'], $tf['name'])) {
+            if (!isset($tf['stored_path'], $tf['original_name'])) {
                 continue;
             }
-            $absolutePath = Storage::disk('tmp_uploads')->path($tf['path']);
+
+            $absolutePath = Storage::disk('tmp_uploads')->path($tf['stored_path']);
             if (!is_file($absolutePath)) {
                 continue;
             }
+
             $recreatedFiles[] = new UploadedFile(
                 $absolutePath,
-                $tf['name'],
-                Storage::mimeType($absolutePath),
+                $tf['original_name'],
+                $tf['mime'] ?? 'application/octet-stream',
                 0,
                 true
             );
         }
 
-        $temporaryFilePath = $request->session()->get('appointment.temporary_file_path');
-        $temporaryFileName = $request->session()->get('appointment.temporary_file_name');
-        $recreatedFile = null;
-        if (!$recreatedFiles && $temporaryFileName && $temporaryFilePath) {
-            $absolutePath = Storage::disk('tmp_uploads')->path($temporaryFilePath);
-            $recreatedFile = new UploadedFile(
-                $absolutePath,
-                $temporaryFileName,
-                Storage::mimeType($absolutePath),
-                0,
-                true
-            );
-        }
-
-        $user = Auth::user();
-
-        $request->merge([
-            'doctor_profile_id' => $doctorProfileId,
-            'service_id' => $serviceId,
-            'date' => $date,
-            'day_of_week' => $dayOfWeek,
-            'time' => $time,
-            'medical_problem' => $medicalProblem,
-            'payment_method' => $paymentMethod,
-            'note' => $request->session()->get('appointment.note', ''),
-            'medical_problem_files' => $recreatedFiles ?: ($recreatedFile ? [$recreatedFile] : null),
-            'medical_problem_file' => $recreatedFile,
-        ]);
-
-        $serviceBelongsToDoctor = Service::where('doctor_profile_id', $doctorProfileId)
-            ->where('id', $serviceId)
-            ->exists();
-        if (!$serviceBelongsToDoctor) {
-            return redirect()->route('appointment.failed')->with('error', 'Invalid service for selected doctor');
-        }
-
-        $startTime = $request->session()->get('appointment.start_time');
-
-        try {
-            $this->appointmentService->validateAppointmentAvailability($doctorProfileId, $date, $startTime, $serviceId);
-        } catch (\Throwable $th) {
-            Log::warning('Appointment not available', [
-                'doctor_profile_id' => $doctorProfileId,
-                'date' => $date,
-                'start_time' => $startTime,
-                'service_id' => $serviceId,
-                'error' => $th->getMessage(),
-            ]);
-            return redirect()->route('appointment.failed')->with('error', $th->getMessage());
-        }
-
-        try {
-            $response = $this->appointmentService->createAppointment($request, $user);
-        } catch (\Throwable $th) {
-            Log::error('Failed to create appointment', ['error' => $th->getMessage()]);
-            return redirect()->route('appointment.failed')->with([
-                'error' => 'This account is not a patient, please re-login using patient account'
-            ]);
-        }
-
-        if ($response && isset($response['checkoutUrl'])) {
-            return redirect($response['checkoutUrl']);
-        }
-
-        return redirect()->route('appointment.failed')->with('error', 'Please try again with correct information');
+        return $recreatedFiles;
     }
 
+    /**
+     * Clear appointment session data
+     */
+    private function clearAppointmentSession(Request $request): void
+    {
+        $keys = [
+            'appointment.doctor_profile_id',
+            'appointment.service_id',
+            'appointment.date',
+            'appointment.time',
+            'appointment.day_of_week',
+            'appointment.medical_problem',
+            'appointment.note',
+            'appointment.temporary_files'
+        ];
+
+        foreach ($keys as $key) {
+            $request->session()->forget($key);
+        }
+    }
 
     public function paymentResultCallback(Request $request)
     {
@@ -414,7 +555,15 @@ class BookingController extends Controller
         if (in_array($status, $successStatuses)) {
             $this->updateBillStatus($bill, 'paid');
             $serviceId = $request->session()->get('appointment.service_id');
-            $service = Service::findOrFail($serviceId);
+            $service = Service::find($serviceId);
+            if (!$service) {
+                Log::error('Service not found for appointment', [
+                    'service_id' => $serviceId,
+                    'bill_id' => $bill->id,
+                    'order_code' => $orderCode
+                ]);
+                return redirect('/');
+            }
             $date = $request->session()->get('appointment.date');
             $time = $request->session()->get('appointment.time');
             $humanReadableDate = Carbon::parse($date)->format('l, d F Y');
@@ -448,7 +597,7 @@ class BookingController extends Controller
         $bill->save();
     }
 
-    public function showSuccess()
+    public function showSuccess(Request $request)
     {
         return view('appointment.success');
     }
