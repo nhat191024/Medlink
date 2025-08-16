@@ -12,7 +12,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
     Route::get('/database-erd', fn() => view('database.erd'));
-    Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
 
     require __DIR__ . '/web/register.php';
     require __DIR__ . '/web/forgot-password.php';
@@ -20,18 +19,17 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     require __DIR__ . '/web/doctor-booking.php';
-
     Route::get('/profile', fn() => view('user.profile'))->name('profile');
 });
 
-route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::get('/home/doctor-detail', function () {
-    return view('home.doctor-detail');
-});
-
-Route::get('/booking', function () {
-    return view('appointment.booking');
-});
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
+
+// Test route for success page
+// Route::get('/test-success', function () {
+//     session()->flash('serviceName', 'Khám tim mạch');
+//     session()->flash('date', '25/12/2024');
+//     session()->flash('time', '09:00 - 10:00');
+//     return redirect()->route('appointment.success');
+// })->name('test.success');
