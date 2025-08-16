@@ -43,12 +43,47 @@ class BookingController extends Controller
         // Create unique cache key based on search parameters
         $uniqueCacheKey = $cacheKey . md5($page . $perPage . $searchQuery . $identity);
 
-        $userProfiles = Cache::remember($uniqueCacheKey, 300, fn() => User::where('user_type', 'healthcare')
-            ->when($searchQuery, fn($query, $searchQuery) => $query->where(fn($q) => $q->where('name', 'like', '%' . $searchQuery . '%')
-                ->orWhere('email', 'like', '%' . $searchQuery . '%')))
-            ->when($identity !== 'doctor', fn($query) => $query->where('identity', $identity))
-            ->with(['doctorProfile', 'doctorProfile.medicalCategory', 'doctorProfile.services', 'doctorProfile.reviews',  'doctorProfile.user'])
-            ->paginate(10));
+        $userProfiles = Cache::remember($uniqueCacheKey, 300, function () use ($searchQuery, $identity) {
+            return User::where('user_type', 'healthcare')
+                ->when($searchQuery, fn($query, $searchQuery) => $query->where(fn($q) => $q->where('name', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'like', '%' . $searchQuery . '%')))
+                ->when($identity !== 'doctor', fn($query) => $query->where('identity', $identity))
+                ->with([
+                    'doctorProfile' => function ($query) {
+                        $query->withCount('reviews')
+                            ->withAvg('reviews', 'rate')
+                            ->with([
+                                'medicalCategory',
+                                'services' => function ($serviceQuery) {
+                                    $serviceQuery->orderBy('price', 'asc');
+                                }
+                            ]);
+                    }
+                ])
+                ->paginate(9);
+        });
+
+        // Transform data to include computed attributes
+        $userProfiles->getCollection()->transform(function ($user) {
+            if ($user->doctorProfile) {
+                // Calculate average rating (rounded to 1 decimal)
+                $user->average_rating = $user->doctorProfile->reviews_avg_rate ? round($user->doctorProfile->reviews_avg_rate, 1) : 0;
+
+                // Total reviews count
+                $user->total_reviews = $user->doctorProfile->reviews_count ?? 0;
+                $user->service_price = $user->doctorProfile->services->isNotEmpty() ? $user->doctorProfile->services->min('price') : 0;
+
+                // Doctor profile ID for easier access
+                $user->doctor_profile_id = $user->doctorProfile->id;
+
+                // Set legacy array access for backward compatibility
+                $user['id'] = $user->doctorProfile->id;
+                $user['average_rating'] = $user->average_rating;
+                $user['total_reviews'] = $user->total_reviews;
+                $user['service_price'] = $user->service_price;
+            }
+            return $user;
+        });
 
         $request->session()->put('identity', $identity);
 
