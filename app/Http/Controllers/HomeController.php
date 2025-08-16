@@ -89,6 +89,7 @@ class HomeController extends Controller
                 ])
                 ->withCount('reviews')
                 ->withAvg('reviews', 'rate')
+                ->limit(10)
                 ->get();
         });
     }
