@@ -109,6 +109,26 @@ class DoctorProfile extends Model
     }
 
     /**
+     * Get the minimum service price for this doctor.
+     *
+     * @return float
+     */
+    public function getMinServicePriceAttribute()
+    {
+        return $this->services()->min('price') ?? 0;
+    }
+
+    /**
+     * Get the total number of reviews for this doctor.
+     *
+     * @return int
+     */
+    public function getTotalReviewsAttribute()
+    {
+        return $this->reviews()->count();
+    }
+
+    /**
      *  Models relationships
      */
     public function user()
