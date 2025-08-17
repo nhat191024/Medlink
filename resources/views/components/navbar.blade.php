@@ -40,7 +40,7 @@
     <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
             <li><a href="/">{{ __('client/navbar.menu.home') }}</a></li>
-            <li><a href="/">{{ __('client/navbar.menu.services') }}</a></li>
+            <li><a href="{{ route('medical-specialties.index') }}">{{ __('client/navbar.menu.medical_category') }}</a></li>
             <li><a href="{{ route('appointment.index') }}">{{ __('client/navbar.menu.doctor_consultation') }}</a></li>
             <li><a href="/">{{ __('client/navbar.menu.support') }}</a></li>
         </ul>
