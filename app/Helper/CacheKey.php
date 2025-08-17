@@ -7,6 +7,11 @@ class CacheKey
     //use in HomeController
     public const string HOME = 'home';
 
+    //use in MedicalCategoryController
+    public const string MEDICAL_CATEGORIES = 'medical_categories';
+    public const string DOCTOR_IN_CATEGORY = 'doctors_in_category_';
+    public const string RELATED_SPECIALTIES = 'related_specialties_';
+
     //use in DashboardController & UserService
     public const string PATIENT_SUMMARY = 'patient_summary_';
     public const string PATIENT_PROFILE_DATA = 'patient_profile_data_';
