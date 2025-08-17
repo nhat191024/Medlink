@@ -37,7 +37,7 @@
                         @foreach ($categories as $index => $category)
                             <div class="swiper-slide overflow-visible">
                                 <div class="group relative">
-                                    <a class="block transform transition-all duration-300 hover:scale-105" href="#">
+                                    <a class="block transform transition-all duration-300 hover:scale-105" href="{{ route('medical-specialties.show', $category->slug) }}">
                                         <div class="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-lg transition-all duration-300 hover:border-red-200 hover:shadow-2xl">
                                             <!-- Background Pattern -->
                                             <div class="absolute inset-0 bg-gradient-to-br from-red-50 to-orange-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
@@ -105,7 +105,7 @@
 
             <!-- View All Categories Button -->
             <div class="mt-12 text-center">
-                <a class="inline-flex items-center rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition-colors duration-200 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" href="#">
+                <a class="inline-flex items-center rounded-lg bg-red-600 px-6 py-3 font-semibold text-white transition-colors duration-200 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" href="{{ route('medical-specialties.index') }}">
                     @svg('bi-grid-3x3-gap', 'w-5 h-5 mr-2')
                     {{ __('client/home.categories.view_all') }}
                 </a>
