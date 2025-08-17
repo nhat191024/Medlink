@@ -25,9 +25,6 @@ class ListDoctors extends ListRecords
                     $templatePath = storage_path('app/templates/doctor_import_template.csv');
                     if (file_exists($templatePath)) {
                         return response()->download($templatePath, 'mau_import_bac_si.csv');
-                    } else {
-                        // Generate template nếu chưa có
-                        return redirect()->route('admin.doctor.download-template');
                     }
                 }),
             DoctorImporter::make('import_doctors')
