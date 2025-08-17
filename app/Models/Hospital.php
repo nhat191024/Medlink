@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -12,8 +12,6 @@ use Spatie\Activitylog\LogOptions;
 use Filament\Panel;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\FilamentUser;
-
-use Illuminate\Support\Str;
 
 /**
  *
@@ -60,7 +58,7 @@ use Illuminate\Support\Str;
  */
 class Hospital extends Authenticatable implements FilamentUser, HasAvatar
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, Notifiable;
 
     protected $fillable = [
         'id',
