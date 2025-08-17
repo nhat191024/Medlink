@@ -18,18 +18,21 @@ use Illuminate\Support\Facades\Cache;
 
 use App\Http\Services\AppointmentService;
 use App\Http\Services\WorkScheduleService;
+use App\Http\Services\ReviewService;
 use App\Helper\CacheKey;
 
 class BookingController extends Controller
 {
     private $appointmentService;
     private $workScheduleService;
+    private $reviewService;
     private $cacheKey;
 
     public function __construct()
     {
         $this->appointmentService = app(AppointmentService::class);
         $this->workScheduleService = app(WorkScheduleService::class);
+        $this->reviewService = app(ReviewService::class);
         $this->cacheKey = new CacheKey();
     }
 
@@ -137,10 +140,18 @@ class BookingController extends Controller
 
     public function showDoctorInfo($doctorProfileId)
     {
-        $cacheKey = "doctor_profile_{$doctorProfileId}";
+        $cacheKey = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . $doctorProfileId;
 
         $doctorProfile = Cache::remember($cacheKey, 300, function () use ($doctorProfileId) {
-            return $this->getDoctorProfileWithStats($doctorProfileId, ['reviews']);
+            return $this->getDoctorProfileWithStats($doctorProfileId, [
+                'services' => function ($query) {
+                    $query->where('is_active', true)->orderBy('price', 'asc');
+                },
+                'reviews' => function ($query) {
+                    $query->latest()->limit(5)->with('patient.user');
+                },
+                'workSchedules'
+            ]);
         });
 
         if (!$doctorProfile) {
@@ -148,12 +159,22 @@ class BookingController extends Controller
         }
 
         $workSchedules = null;
-        if ($doctorProfile->workSchedules) {
-            $workSchedules = $this->workScheduleService->getAvailableWorkSchedule(
-                $doctorProfile->workSchedules,
-                $doctorProfile->id
-            );
+        try {
+            if ($doctorProfile->workSchedules) {
+                $workSchedules = $this->workScheduleService->getAvailableWorkSchedule(
+                    $doctorProfile->workSchedules,
+                    $doctorProfile->id
+                );
+            }
+        } catch (\Throwable $th) {
+            Log::error('Error retrieving doctor schedule for detail page', [
+                'doctor_profile_id' => $doctorProfileId,
+                'error' => $th->getMessage()
+            ]);
         }
+
+        $testimonials = $this->reviewService->getTestimonials($doctorProfile->reviews);
+        $doctorProfile->testimonials = $testimonials;
 
         return view('appointment.doctor-detail', [
             'doctorProfile' => $doctorProfile,
