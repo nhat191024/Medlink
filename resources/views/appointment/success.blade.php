@@ -51,12 +51,6 @@
 @section('content')
     <div class="success-container">
         <div class="success-card">
-            <div class="floating-particles">
-                <div class="particle"></div>
-                <div class="particle"></div>
-                <div class="particle"></div>
-            </div>
-
             <div class="success-icon"></div>
 
             <h1 class="success-title">Chúc mừng!</h1>
