@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link type="image/x-icon" rel="icon" href="{{ asset('storage/assets/site_favicon.ico') }}">
+
     <title>{{ config('app.name', 'Medlink') }}</title>
 
     <!-- Styles -->
