@@ -16,8 +16,11 @@ class CreateMedicalCategoriesTable extends Migration
         Schema::create('medical_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index('slug');
         });
     }
 
