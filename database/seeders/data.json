@@ -156,7 +156,7 @@
         {
             "icon": "assets/icons/home_2.svg",
             "name": "Khám tại nhà",
-            "description": "khám tại nhà",
+            "description": "Bác sĩ sẽ đến tận nhà để khám bệnh cho bạn",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -165,8 +165,8 @@
         },
         {
             "icon": "assets/icons/video_on.svg",
-            "name": "Khám qua video",
-            "description": "khám qua video",
+            "name": "Tư vấn qua video",
+            "description": "Nhận lời khuyên và tư vấn từ bác sĩ qua video call",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
@@ -176,7 +176,7 @@
         {
             "icon": "assets/icons/first_aid_kit.svg",
             "name": "Khám tại phòng khám",
-            "description": "khám tại phòng khám",
+            "description": "Khám bệnh tại cơ sở y tế trực tiếp với bác sĩ",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -185,8 +185,8 @@
         },
         {
             "icon": "assets/icons/online.svg",
-            "name": "Khám qua cuộc gọi",
-            "description": "khám qua cuộc gọi",
+            "name": "Tư vấn cuộc gọi",
+            "description": "Nhận tư vấn qua cuộc gọi điện thoại với bác sĩ",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
