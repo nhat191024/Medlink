@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\PatientProfileController;
 
 // Auth routes
 Route::middleware('guest')->group(function () {
