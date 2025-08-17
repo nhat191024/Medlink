@@ -2,7 +2,7 @@
 return [
     'menu' => [
         'home' => 'Home',
-        'services' => 'Services',
+        'medical_category' => 'Medical Categories',
         'doctor_consultation' => 'Book Appointment',
         'support' => 'Support',
     ],

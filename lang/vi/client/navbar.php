@@ -2,7 +2,7 @@
 return [
     'menu' => [
         'home' => 'Trang chủ',
-        'services' => 'Dịch vụ',
+        'medical_category' => 'Danh mục y tế',
         'doctor_consultation' => 'Đặt lịch hẹn',
         'support' => 'Hỗ trợ',
     ],
