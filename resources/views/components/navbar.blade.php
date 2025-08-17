@@ -82,7 +82,14 @@
                     <li><a>{{ __('client/navbar.button.profile') }}</a></li>
                     <li><a>{{ __('client/navbar.button.dashboard') }}</a></li>
                     <div class="divider my-1"></div>
-                    <li><a>{{ __('client/navbar.button.logout') }}</a></li>
+                    <li>
+                        <form action="{{ route('logout') }}" method="POST" style="margin: 0; padding: 0;">
+                            @csrf
+                            <button class="w-full text-left" type="submit" style="background: none; border: none; padding: 0.75rem 1rem; cursor: pointer;">
+                                {{ __('client/navbar.button.logout') }}
+                            </button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
