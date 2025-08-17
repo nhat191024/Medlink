@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <ul class="menu menu-lg dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 border border-red-600 p-2 shadow" tabindex="0">
-                    <li><a>{{ __('client/navbar.button.profile') }}</a></li>
+                    <li><a href="{{ route('profile.index') }}">{{ __('client/navbar.button.profile') }}</a></li>
                     <li><a>{{ __('client/navbar.button.dashboard') }}</a></li>
                     <div class="divider my-1"></div>
                     <li>
