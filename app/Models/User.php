@@ -252,11 +252,6 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
         return $this->hasMany(Favorite::class, 'doctor_id')->where('type', 'patient');
     }
 
-    public function notification()
-    {
-        return $this->hasMany(UserNotification::class);
-    }
-
     public function patientSupport()
     {
         return $this->hasMany(Support::class, 'patient_id');
