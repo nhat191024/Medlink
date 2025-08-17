@@ -2,17 +2,16 @@
 
 namespace App\Filament\Actions;
 
+use App\Jobs\ImportDoctorsJob;
+
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
 use Filament\Notifications\Notification;
-use Filament\Actions\Concerns\HasForm;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Models\Hospital;
-use App\Jobs\ImportDoctorsJob;
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
+
+use Illuminate\Support\Facades\Auth;
+
 use Throwable;
 
 class DoctorImporter extends Action
@@ -40,8 +39,8 @@ class DoctorImporter extends Action
             // Validate file exists
             if (!file_exists($filePath)) {
                 Notification::make()
-                    ->title('File not found')
-                    ->body('Uploaded file could not be found.')
+                    ->title('Không tìm thấy tập tin')
+                    ->body('Không thể tìm thấy tập tin đã tải lên.')
                     ->danger()
                     ->send();
                 return;
@@ -57,8 +56,8 @@ class DoctorImporter extends Action
 
             if (count($rows) < 3) {
                 Notification::make()
-                    ->title('Invalid file')
-                    ->body('File must contain at least a header row and one data row.')
+                    ->title('Tập tin không hợp lệ')
+                    ->body('Tập tin phải có ít nhất một dòng tiêu đề và một dòng dữ liệu.')
                     ->danger()
                     ->send();
                 return;
@@ -68,14 +67,14 @@ class DoctorImporter extends Action
             ImportDoctorsJob::dispatch($filePath, $user->id);
 
             Notification::make()
-                ->title('Import started')
-                ->body('Doctor import has been queued for processing. You will receive a notification when completed.')
+                ->title('Đã bắt đầu nhập')
+                ->body('Quá trình nhập bác sĩ đã được đưa vào hàng đợi xử lý. Bạn sẽ nhận được thông báo khi hoàn tất.')
                 ->success()
                 ->send();
         } catch (Throwable $e) {
             Notification::make()
-                ->title('Import failed')
-                ->body('An error occurred while starting the import: ' . $e->getMessage())
+                ->title('Nhập thất bại')
+                ->body('Đã xảy ra lỗi khi bắt đầu nhập: ' . $e->getMessage())
                 ->danger()
                 ->send();
         }
