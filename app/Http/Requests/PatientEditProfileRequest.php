@@ -25,8 +25,6 @@ class PatientEditProfileRequest extends FormRequest
             'useDefaultAvatar' => 'required|string|in:0,1',
             'name' => 'required|string|max:255',
             'gender' => 'required|string|in:male,female,other',
-            'languages' => 'required|string',
-            'country_code' => 'required|string|max:10',
             'phone' => 'required|string|max:20',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user()->id,
             'latitude' => 'nullable|string',
