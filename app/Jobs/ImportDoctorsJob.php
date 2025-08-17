@@ -16,9 +16,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 
+use Filament\Notifications\Notification;
+
 use App\Notifications\DoctorImportCompleted;
 use App\Notifications\DoctorImportFailed;
-
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use Throwable;
@@ -165,24 +166,20 @@ class ImportDoctorsJob implements ShouldQueue
             // Gửi thông báo thành công
             $user = Hospital::find($this->userId, 'id');
             if ($user) {
-                $user->notify(new DoctorImportCompleted($importedCount, $errorCount, $errors));
+                $user->notify(
+                    Notification::make()
+                        ->title('Nhập bác sĩ từ excel đã hoàn thành')
+                        ->body("Nhập bác sĩ hoàn thành! Đã nhập thành công {$importedCount} Bác sĩ" .
+                            ($errorCount > 0 ? " và có {$errorCount} lỗi." : "."))
+                        ->success()
+                        ->toDatabase(),
+                );
             }
 
             Log::info("Doctor import completed: {$importedCount} imported, {$errorCount} errors");
         } catch (Throwable $e) {
             DB::rollBack();
-
-            // Gửi thông báo lỗi
-            $user = Hospital::find($this->userId, 'id');
-            if ($user) {
-                $user->notify(new DoctorImportFailed($e->getMessage()));
-            }
-
-            Log::error("Doctor import failed: " . $e->getMessage());
-
-            throw $e;
         } finally {
-            // Xóa file tạm
             if (file_exists($this->filePath)) {
                 unlink($this->filePath);
             }
@@ -198,7 +195,13 @@ class ImportDoctorsJob implements ShouldQueue
 
         $user = Hospital::find($this->userId, 'id');
         if ($user) {
-            $user->notify(new DoctorImportFailed($exception->getMessage()));
+            $user->notify(
+                Notification::make()
+                    ->title('Nhập bác sĩ từ excel thất bại')
+                    ->body('Đã xảy ra lỗi khi nhập bác sĩ: ' . $exception->getMessage())
+                    ->danger()
+                    ->toDatabase()
+            );
         }
 
         // Xóa file tạm nếu job fail
