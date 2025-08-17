@@ -100,7 +100,7 @@
         @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
 
             to {
@@ -110,7 +110,37 @@
         }
 
         .animate-slide-up {
-            animation: slideInUp 0.6s ease-out;
+            animation: slideInUp 0.8s ease-out both;
+        }
+
+        .animate-slide-up-delay-1 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.1s;
+        }
+
+        .animate-slide-up-delay-2 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.2s;
+        }
+
+        .animate-slide-up-delay-3 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.3s;
+        }
+
+        .animate-slide-up-delay-4 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.4s;
+        }
+
+        .animate-slide-up-delay-5 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.5s;
+        }
+
+        .animate-slide-up-delay-6 {
+            animation: slideInUp 0.8s ease-out both;
+            animation-delay: 0.6s;
         }
 
         .avatar-upload {
@@ -176,7 +206,7 @@
 
                 <!-- Thông báo -->
                 @if (session('success'))
-                    <div class="success-alert animate-slide-up mb-6">
+                    <div class="success-alert animate-slide-up-delay-1 mb-6">
                         <div class="flex items-center gap-3">
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -187,7 +217,7 @@
                 @endif
 
                 @if (session('error'))
-                    <div class="error-alert animate-slide-up mb-6">
+                    <div class="error-alert animate-slide-up-delay-1 mb-6">
                         <div class="flex items-center gap-3">
                             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
@@ -203,7 +233,7 @@
                     @method('PUT')
 
                     <!-- Avatar Section -->
-                    <div class="glass-card animate-slide-up mb-8 rounded-3xl p-8 shadow-2xl" style="animation-delay: 0.1s;">
+                    <div class="glass-card animate-slide-up-delay-2 mb-8 rounded-3xl p-8 shadow-2xl">
                         <h2 class="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-800">
                             <svg class="h-7 w-7 text-[#DF1D32]" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
@@ -250,7 +280,7 @@
                     </div>
 
                     <!-- Personal Information -->
-                    <div class="glass-card animate-slide-up mb-8 rounded-3xl p-8 shadow-2xl" style="animation-delay: 0.2s;">
+                    <div class="glass-card animate-slide-up-delay-3 mb-8 rounded-3xl p-8 shadow-2xl">
                         <h2 class="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-800">
                             <svg class="h-7 w-7 text-[#DF1D32]" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
@@ -329,7 +359,7 @@
                     </div>
 
                     <!-- Medical Information -->
-                    <div class="glass-card animate-slide-up mb-8 rounded-3xl p-8 shadow-2xl" style="animation-delay: 0.3s;">
+                    <div class="glass-card animate-slide-up-delay-4 mb-8 rounded-3xl p-8 shadow-2xl">
                         <h2 class="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-800">
                             <svg class="h-7 w-7 text-red-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 4a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V8zm2 2a1 1 0 000 2h8a1 1 0 100-2H5z" clip-rule="evenodd" />
@@ -399,7 +429,7 @@
                     </div>
 
                     <!-- Insurance Information -->
-                    <div class="glass-card animate-slide-up mb-8 rounded-3xl p-8 shadow-2xl" style="animation-delay: 0.4s;">
+                    <div class="glass-card animate-slide-up-delay-5 mb-8 rounded-3xl p-8 shadow-2xl">
                         <h2 class="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-800">
                             <svg class="h-7 w-7 text-[#DF1D32]" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h12a1 1 0 001-1V7l-7-5zM9 9a1 1 0 012 0v4a1 1 0 11-2 0V9z" clip-rule="evenodd" />
@@ -431,7 +461,7 @@
                     </div>
 
                     <!-- Form Actions -->
-                    <div class="animate-slide-up rounded-3xl p-8" style="animation-delay: 0.5s;">
+                    <div class="animate-slide-up-delay-6 rounded-3xl p-8">
                         <div class="flex flex-col justify-end gap-4 sm:flex-row">
                             <a class="rounded-xl bg-gray-500 px-8 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-gray-600" href="{{ route('profile.index') }}">
                                 Hủy
