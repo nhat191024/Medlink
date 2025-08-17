@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MedicalSpecialtyController;
 
 // Auth routes
 Route::middleware('guest')->group(function () {
@@ -20,6 +21,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     require __DIR__ . '/web/doctor-booking.php';
     require __DIR__ . '/web/profile.php';
+    require __DIR__ . '/web/medical-specialties.php';
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
