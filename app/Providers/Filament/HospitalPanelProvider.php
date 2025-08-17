@@ -67,6 +67,9 @@ class HospitalPanelProvider extends PanelProvider
                     ])
             ])
 
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s')
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
