@@ -26,7 +26,7 @@ class CacheKey
     public const string DOCTOR_LIST_SEARCH_PAGE = 'doctor_list_search_page_';
     public const string DOCTOR_SEARCH = 'doctor_search_';
 
-    //use in ProfileController & ProfileService
+    //use in ProfileController & ProfileService & BookingController
     public const string DOCTOR_PROFILE = 'doctor_profile_';
     public const string PATIENT_PROFILE = 'patient_profile_';
     public const string PROFILE_STATISTICS = 'profile_statistics_';
