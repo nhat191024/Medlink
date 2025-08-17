@@ -3,6 +3,7 @@
 namespace App\Filament\Hospital\Resources;
 
 use App\Models\User;
+use App\Models\MedicalCategory;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
@@ -13,7 +14,13 @@ use Filament\Tables\Filters\TrashedFilter;
 
 use Filament\Tables\Columns\TextColumn;
 
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Section;
+
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\RestoreAction;
 use Filament\Tables\Actions\BulkActionGroup;
@@ -27,8 +34,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use App\Filament\Hospital\Resources\DoctorResource\RelationManagers;
 use App\Filament\Hospital\Resources\DoctorResource\Pages\ListDoctors;
+use App\Filament\Hospital\Resources\DoctorResource\Pages\CreateDoctor;
+use App\Filament\Hospital\Resources\DoctorResource\Pages\EditDoctor;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class DoctorResource extends Resource
 {
@@ -60,9 +70,96 @@ class DoctorResource extends Resource
     {
         return $form
             ->schema([
-                //no need form because this is a read-only resource
+                Section::make(__('common.admin.basic_info'))
+                    ->schema([
+                        TextInput::make('name')
+                            ->required()
+                            ->maxLength(255)
+                            ->label(__('common.admin.name')),
+                        TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255)
+                            ->label(__('common.admin.email')),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn(string $context): bool => $context === 'create')
+                            ->minLength(6)
+                            ->maxLength(255)
+                            ->label(__('common.admin.password'))
+                            ->dehydrated(fn($state) => filled($state))
+                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                            ->hint(fn(string $context): string => $context === 'edit' ? __('common.admin.leave_blank_to_keep_current_password') : ''),
+                        Select::make('gender')
+                            ->options([
+                                'male' => __('common.admin.male'),
+                                'female' => __('common.admin.female'),
+                                'other' => __('common.admin.other'),
+                            ])
+                            ->required()
+                            ->native(false)
+                            ->label(__('common.admin.gender')),
+                        TextInput::make('country_code')
+                            ->required()
+                            ->default('+84')
+                            ->maxLength(10)
+                            ->label(__('common.admin.country_code')),
+                        TextInput::make('phone')
+                            ->required()
+                            ->tel()
+                            ->maxLength(20)
+                            ->label(__('common.admin.phone')),
+                    ])
+                    ->columns(2),
+
+                Section::make(__('common.admin.address'))
+                    ->schema([
+                        TextInput::make('address')
+                            ->maxLength(500)
+                            ->label(__('common.admin.address')),
+                        TextInput::make('city')
+                            ->maxLength(100)
+                            ->label(__('common.admin.city')),
+                        TextInput::make('ward')
+                            ->maxLength(100)
+                            ->label(__('common.admin.ward')),
+                        TextInput::make('country')
+                            ->maxLength(100)
+                            ->label(__('common.admin.country')),
+                        TextInput::make('zip_code')
+                            ->maxLength(20)
+                            ->label(__('common.admin.zip_code')),
+                    ])
+                    ->columns(2),
+
+                Section::make(__('doctor.admin.doctor_info'))
+                    ->schema([
+                        TextInput::make('professional_number')
+                            ->required()
+                            ->maxLength(100)
+                            ->label(__('doctor.admin.professional_number')),
+                        Select::make('medical_category_id')
+                            ->options(MedicalCategory::all()->pluck('name', 'id'))
+                            ->required()
+                            ->searchable()
+                            ->native(false)
+                            ->label(__('doctor.admin.medical_category')),
+                        Textarea::make('introduce')
+                            ->maxLength(1000)
+                            ->rows(3)
+                            ->label(__('doctor.admin.introduce')),
+                        TextInput::make('office_address')
+                            ->maxLength(500)
+                            ->label(__('doctor.admin.office_address')),
+                        TextInput::make('company_name')
+                            ->maxLength(255)
+                            ->label(__('doctor.admin.company_name')),
+                    ])
+                    ->columns(1),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
@@ -158,6 +255,7 @@ class DoctorResource extends Resource
                     ->closeModalByClickingAway(false)
                     ->color('info')
                     ->modalIcon('heroicon-o-camera'),
+                EditAction::make(),
                 Action::make('suspend')
                     ->label(__('common.admin.suspend'))
                     ->icon('heroicon-o-no-symbol')
@@ -200,8 +298,8 @@ class DoctorResource extends Resource
     {
         return [
             'index' => ListDoctors::route('/'),
-            // 'create' => CreateDoctor::route('/create'),
-            // 'edit' => EditDoctor::route('/{record}/edit'),
+            'create' => CreateDoctor::route('/create'),
+            'edit' => EditDoctor::route('/{record}/edit'),
         ];
     }
 
