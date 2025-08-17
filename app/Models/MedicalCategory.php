@@ -45,9 +45,8 @@ class MedicalCategory extends Model
         return LogOptions::defaults();
     }
 
-
-    public function users()
+    public function doctorProfiles()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(DoctorProfile::class);
     }
 }
