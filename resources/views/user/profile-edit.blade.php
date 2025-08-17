@@ -162,7 +162,7 @@
                 <!-- Tiêu đề -->
                 <div class="animate-slide-up mb-8">
                     <div class="mb-6 flex items-center gap-4">
-                        <a class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-400 to-red-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" href="{{ route('profile') }}">
+                        <a class="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-red-400 to-red-700 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl" href="{{ route('profile.index') }}">
                             <svg class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
                             </svg>
@@ -433,7 +433,7 @@
                     <!-- Form Actions -->
                     <div class="animate-slide-up rounded-3xl p-8" style="animation-delay: 0.5s;">
                         <div class="flex flex-col justify-end gap-4 sm:flex-row">
-                            <a class="rounded-xl bg-gray-500 px-8 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-gray-600" href="{{ route('profile') }}">
+                            <a class="rounded-xl bg-gray-500 px-8 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-gray-600" href="{{ route('profile.index') }}">
                                 Hủy
                             </a>
                             <button class="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-red-700 px-8 py-3 font-semibold text-white transition-all duration-300 hover:from-red-700 hover:to-red-800" type="submit">
