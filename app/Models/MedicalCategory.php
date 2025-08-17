@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
@@ -38,7 +39,41 @@ class MedicalCategory extends Model
 
     protected $fillable = [
         'name',
+        'slug',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = Str::slug($model->name);
+
+                // Ensure unique slug
+                $originalSlug = $model->slug;
+                $count = 1;
+                while (static::where('slug', $model->slug)->exists()) {
+                    $model->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+
+        static::updating(function ($model) {
+            if ($model->isDirty('name') && empty($model->getOriginal('slug'))) {
+                $model->slug = Str::slug($model->name);
+
+                // Ensure unique slug
+                $originalSlug = $model->slug;
+                $count = 1;
+                while (static::where('slug', $model->slug)->where('id', '!=', $model->id)->exists()) {
+                    $model->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+    }
 
     public function getActivitylogOptions(): LogOptions
     {
