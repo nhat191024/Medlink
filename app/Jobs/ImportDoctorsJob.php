@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\User;
-use App\Models\Admin;
 use App\Models\DoctorProfile;
+use App\Models\Hospital;
 use App\Models\MedicalCategory;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,11 +12,9 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 use App\Notifications\DoctorImportCompleted;
 use App\Notifications\DoctorImportFailed;
@@ -120,14 +118,12 @@ class ImportDoctorsJob implements ShouldQueue
                         ['name' => $medicalCategoryName]
                     );
 
-                    $hospitalId = Admin::find($this->userId)->hospital_id;
-
                     // Tạo user doctor
                     $user = User::create([
                         'user_type' => 'healthcare',
                         'identity' => 'doctor',
 
-                        'hospital_id' => $hospitalId,
+                        'hospital_id' => $this->userId,
 
                         'email' => $doctorEmail,
                         'password' => Hash::make('Password1$'),
@@ -167,7 +163,7 @@ class ImportDoctorsJob implements ShouldQueue
             DB::commit();
 
             // Gửi thông báo thành công
-            $user = Admin::find($this->userId);
+            $user = Hospital::find($this->userId, 'id');
             if ($user) {
                 $user->notify(new DoctorImportCompleted($importedCount, $errorCount, $errors));
             }
@@ -177,7 +173,7 @@ class ImportDoctorsJob implements ShouldQueue
             DB::rollBack();
 
             // Gửi thông báo lỗi
-            $user =  Admin::find($this->userId);
+            $user = Hospital::find($this->userId, 'id');
             if ($user) {
                 $user->notify(new DoctorImportFailed($e->getMessage()));
             }
@@ -200,7 +196,7 @@ class ImportDoctorsJob implements ShouldQueue
     {
         Log::error("ImportDoctorsJob failed: " . $exception->getMessage());
 
-        $user = User::find($this->userId);
+        $user = Hospital::find($this->userId, 'id');
         if ($user) {
             $user->notify(new DoctorImportFailed($exception->getMessage()));
         }
