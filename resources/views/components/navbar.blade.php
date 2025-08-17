@@ -1,6 +1,6 @@
 <div class="navbar bg-base-100 sticky top-0 z-50 shadow-sm">
     <div class="navbar-start">
-        <a class="flex items-center gap-2 text-2xl font-bold text-red-600">
+        <a class="flex items-center gap-2 text-2xl font-bold text-red-600" href="/">
             <img class="hover:animate-shake animate__animated animate__wobble h-10 w-10 transition-transform duration-300 hover:-translate-y-2" src="{{ asset('storage/assets/site_logo.png') }}" alt="logo" style="transform: rotate(-25deg); animate__wobble;" />
             <style>
                 @keyframes shake {
