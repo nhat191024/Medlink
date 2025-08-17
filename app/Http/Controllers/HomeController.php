@@ -51,7 +51,7 @@ class HomeController extends Controller
     private function getCategories(string $baseCacheKey)
     {
         return Cache::remember("{$baseCacheKey}_categories", self::CACHE_TIME_LONG, function () {
-            return MedicalCategory::select(['id', 'name'])
+            return MedicalCategory::select(['id', 'name', 'slug'])
                 ->orderBy('name')
                 ->get();
         });
