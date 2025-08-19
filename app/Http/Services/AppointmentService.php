@@ -395,15 +395,7 @@ class AppointmentService
                 throw new \Exception('Patient profile not found');
             }
 
-            $incomingFiles = [];
-            if ($request->hasFile('medical_problem_files')) {
-                $incomingFiles = $request->file('medical_problem_files');
-            } elseif ($request->hasFile('medical_problem_file')) {
-                $single = $request->file('medical_problem_file');
-                if ($single) {
-                    $incomingFiles = [$single];
-                }
-            }
+            $incomingFiles = $request->medical_problem_files ?? [];
 
             $service = Service::findOrFail($request->service_id);
 
