@@ -146,6 +146,11 @@ class NewAppointmentResource extends Resource
                     ->label(__('appointment.fields.time')),
                 TextColumn::make('medical_problem')
                     ->label(__('appointment.fields.medical_problem')),
+                TextColumn::make('files_count')
+                    ->label('Tệp đính kèm')
+                    ->counts('files')
+                    ->badge()
+                    ->color('info'),
                 TextColumn::make('created_at')
                     ->label('Ngày tạo')
                     ->dateTime('d/m/Y H:i')
@@ -155,6 +160,23 @@ class NewAppointmentResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('view_files')
+                    ->label('Xem files')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Files đính kèm')
+                    ->modalWidth('4xl')
+                    ->modalContent(function (Appointment $record) {
+                        $files = $record->files;
+
+                        if ($files->isEmpty()) {
+                            return view('filament.components.no-files');
+                        }
+
+                        return view('filament.components.appointment-files', compact('files'));
+                    })
+                    ->modalSubmitAction(false)
+                    ->visible(fn(Appointment $record) => $record->files->count() > 0),
                 Action::make('approve')
                     ->label('Đồng ý')
                     ->icon('heroicon-o-check')
@@ -210,10 +232,12 @@ class NewAppointmentResource extends Resource
         return parent::getEloquentQuery()
             ->where('doctor_profile_id', Auth::user()->doctorProfile->id)
             ->where('status', 'pending')
+            ->orderBy('created_at', 'desc')
             ->with([
                 'patient',
                 'patient.user',
                 'service',
+                'files',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
