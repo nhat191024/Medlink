@@ -373,6 +373,7 @@ class BookingController extends Controller
             'address' => $doctorProfile->office_address ?? '',
             'note' => $sessionData['note'],
             'summarize' => $sessionData['medicalProblem'],
+            'files' => $tempFiles,
             'bill' => [
                 'service' => [
                     'name' => $service->name,

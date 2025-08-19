@@ -152,7 +152,6 @@
                                 </div>
                                 <div class="flex-1">
                                     <div class="text-sm font-medium text-gray-500">Tài liệu đính kèm</div>
-                                    @php $files = session('appointment.temporary_files', []); @endphp
                                     @if (count($files))
                                         <div class="mt-3 space-y-2">
                                             @foreach ($files as $f)
