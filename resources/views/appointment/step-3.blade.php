@@ -167,7 +167,7 @@
                                                             <x-bi-file-earmark-word class="h-4 w-4" />
                                                         @endif
                                                     </div>
-                                                    <span class="flex-1 truncate text-sm font-medium text-gray-900">{{ $f['original_name'] }}</span>
+                                                    <a class="flex-1 truncate text-sm font-medium text-gray-900" href="{{ asset('storage/tmp/uploads/' . $f['stored_path']) }}" target="_blank">{{ $f['original_name'] }}</a>
                                                     <span class="rounded-full bg-gray-200 px-2 py-1 text-xs font-medium text-gray-600">{{ strtoupper($ext) }}</span>
                                                 </div>
                                             @endforeach
