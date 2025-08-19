@@ -178,6 +178,74 @@ class PatientProfileController extends Controller
     }
 
     /**
+     * Show appointment history page
+     */
+    public function appointmentHistory(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user->user_type !== 'patient') {
+            abort(403, 'Access denied. This page is only for patients.');
+        }
+
+        $status = $request->get('status');
+        $allowedStatuses = ['completed', 'upcoming', 'confirmed', 'cancelled', 'pending'];
+        if (!in_array($status, $allowedStatuses, true)) {
+            $status = null;
+        }
+
+        // Load only what we need (avoid loading all appointments)
+        $user->loadMissing('patientProfile');
+
+        $appointments = collect();
+        $statistics = [
+            'total' => 0,
+            'completed' => 0,
+            'upcoming' => 0,
+            'cancelled' => 0,
+            'pending' => 0,
+        ];
+
+        if ($user->patientProfile) {
+            $relation = $user->patientProfile->appointments();
+
+            // Paginated list with necessary relationships for current page only
+            $query = $relation->with(['service', 'bill', 'review', 'doctor.user', 'doctor.medicalCategory', 'hospital']);
+
+            if ($status) {
+                if (in_array($status, ['upcoming', 'confirmed'], true)) {
+                    $query->whereIn('status', ['upcoming', 'confirmed']);
+                } else {
+                    $query->where('status', $status);
+                }
+            }
+
+            $appointments = $query
+                ->orderByDesc('date')
+                ->orderByDesc('time')
+                ->paginate(10)
+                ->withQueryString();
+
+            // Efficient statistics (single grouped query, no model hydration)
+            // Use a fresh relation to avoid carrying order/limit from the paginated query (ONLY_FULL_GROUP_BY safe)
+            $counts = $user->patientProfile->appointments()
+                ->selectRaw('status, COUNT(*) as aggregate')
+                ->groupBy('status')
+                ->pluck('aggregate', 'status')
+                ->all();
+
+            $statistics['total'] = array_sum($counts);
+            $statistics['completed'] = $counts['completed'] ?? 0;
+            $statistics['cancelled'] = $counts['cancelled'] ?? 0;
+            $statistics['pending'] = $counts['pending'] ?? 0;
+            $statistics['upcoming'] = ($counts['upcoming'] ?? 0) + ($counts['confirmed'] ?? 0);
+        }
+
+        return view('user.appointment-history', compact('user', 'appointments', 'statistics'));
+    }
+
+
+    /**
      * Clear profile completion cache
      */
     private function clearProfileCompletionCache($userId)
