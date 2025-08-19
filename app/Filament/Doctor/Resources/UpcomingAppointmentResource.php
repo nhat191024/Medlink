@@ -189,6 +189,11 @@ class UpcomingAppointmentResource extends Resource
                             return 'secondary';
                         }
                     }),
+                TextColumn::make('files_count')
+                    ->label('Tệp đính kèm')
+                    ->counts('files')
+                    ->badge()
+                    ->color('info'),
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -200,6 +205,23 @@ class UpcomingAppointmentResource extends Resource
                     ]),
             ])
             ->actions([
+                Action::make('view_files')
+                    ->label('Xem files')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Files đính kèm')
+                    ->modalWidth('4xl')
+                    ->modalContent(function (Appointment $record) {
+                        $files = $record->files;
+
+                        if ($files->isEmpty()) {
+                            return view('filament.components.no-files');
+                        }
+
+                        return view('filament.components.appointment-files', compact('files'));
+                    })
+                    ->modalSubmitAction(false)
+                    ->visible(fn(Appointment $record) => $record->files->count() > 0),
                 Action::make('cancel')
                     ->label('Hủy lịch hẹn')
                     ->icon('heroicon-o-x-mark')
@@ -309,10 +331,12 @@ class UpcomingAppointmentResource extends Resource
         return parent::getEloquentQuery()
             ->where('doctor_profile_id', Auth::user()->doctorProfile->id)
             ->whereIn('status', ['upcoming', 'waiting'])
+            ->orderBy('created_at', 'desc')
             ->with([
                 'patient',
                 'patient.user',
                 'service',
+                'files',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
