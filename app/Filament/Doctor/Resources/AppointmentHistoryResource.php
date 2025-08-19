@@ -160,6 +160,11 @@ class AppointmentHistoryResource extends Resource
                         'cancelled' => 'danger',
                         'refunded' => 'info',
                     ][$state] ?? 'secondary'),
+                TextColumn::make('files_count')
+                    ->label('Tệp đính kèm')
+                    ->counts('files')
+                    ->badge()
+                    ->color('info'),
                 TextColumn::make('updated_at')
                     ->label('Ngày hoàn thành')
                     ->dateTime('d/m/Y H:i')
@@ -193,6 +198,23 @@ class AppointmentHistoryResource extends Resource
                     ]),
             ])
             ->actions([
+                Action::make('view_files')
+                    ->label('Xem files')
+                    ->icon('heroicon-o-document-text')
+                    ->color('info')
+                    ->modalHeading('Files đính kèm')
+                    ->modalWidth('4xl')
+                    ->modalContent(function (Appointment $record) {
+                        $files = $record->files;
+
+                        if ($files->isEmpty()) {
+                            return view('filament.components.no-files');
+                        }
+
+                        return view('filament.components.appointment-files', compact('files'));
+                    })
+                    ->modalSubmitAction(false)
+                    ->visible(fn(Appointment $record) => $record->files->count() > 0),
                 Action::make('edit_result')
                     ->label('Sửa kết quả khám')
                     ->icon('heroicon-o-pencil-square')
@@ -294,7 +316,8 @@ class AppointmentHistoryResource extends Resource
                 'service',
                 'bill',
                 'examResult',
-                'examResult.files'
+                'examResult.files',
+                'files',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
