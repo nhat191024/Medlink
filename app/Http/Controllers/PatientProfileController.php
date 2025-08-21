@@ -210,7 +210,16 @@ class PatientProfileController extends Controller
             $relation = $user->patientProfile->appointments();
 
             // Paginated list with necessary relationships for current page only
-            $query = $relation->with(['service', 'bill', 'review', 'doctor.user', 'doctor.medicalCategory', 'hospital']);
+            $query = $relation->with([
+                'service',
+                'bill',
+                'review',
+                'doctor.user',
+                'doctor.medicalCategory',
+                'hospital',
+                'examResult',
+                'examResult.files'
+            ]);
 
             if ($status) {
                 if (in_array($status, ['upcoming', 'confirmed'], true)) {
