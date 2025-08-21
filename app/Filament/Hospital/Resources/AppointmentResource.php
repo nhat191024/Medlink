@@ -308,7 +308,9 @@ class AppointmentResource extends Resource
                 'doctor',
                 'doctor.user',
                 'service',
-                'bill'
+                'bill',
+                'examResult',
+                'examResult.files',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
