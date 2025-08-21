@@ -1,18 +1,4 @@
 <div class="space-y-6">
-    {{-- Debug Section (Uncomment để debug) --}}
-    @php
-        if (!empty($files)) {
-            // Uncomment dòng dưới để debug
-            // dd([
-            //     'files_count' => count($files),
-            //     'first_file' => $files[0] ?? null,
-            //     'files_type' => gettype($files),
-            //     'first_file_type' => gettype($files[0] ?? null),
-            //     'first_file_keys' => is_object($files[0] ?? null) ? get_object_vars($files[0]) : (is_array($files[0] ?? null) ? array_keys($files[0]) : 'not_array_or_object'),
-            // ]);
-        }
-    @endphp
-
     <style>
         @keyframes slideInUp {
             from {
@@ -200,15 +186,6 @@
     @if (count($files) > 0)
         @foreach ($files as $index => $file)
             @php
-                // Debug để xem structure của $file (uncomment khi cần debug)
-                // dd([
-                //     'index' => $index,
-                //     'file_raw' => $file,
-                //     'file_type' => gettype($file),
-                //     'file_vars' => is_object($file) ? get_object_vars($file) : (is_array($file) ? $file : 'not_array_or_object')
-                // ]);
-
-                // Xử lý trường hợp $file là JSON string
                 if (is_string($file)) {
                     $fileData = json_decode($file, false);
                     if (json_last_error() === JSON_ERROR_NONE) {
@@ -216,12 +193,10 @@
                     }
                 }
 
-                // Xử lý trường hợp $file là array
                 if (is_array($file)) {
                     $file = (object) $file;
                 }
 
-                // Lấy các thông tin cần thiết với fallback values
                 $fileName = $file->original_name ?? ($file->name ?? ($file->filename ?? 'Unknown File'));
                 $filePath = $file->path ?? ($file->file_path ?? '');
                 $fileSize = $file->size ?? ($file->file_size ?? 0);
@@ -240,16 +215,13 @@
                     }
                 }
 
-                // Lấy extension từ original_name hoặc name
                 $fileExtension = '';
                 if ($fileName) {
                     $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
                 }
 
-                // Kiểm tra MIME type nếu có
                 $mimeType = $file->mime_type ?? ($file->type ?? '');
 
-                // Nếu không có extension, thử xác định từ MIME type
                 if (empty($fileExtension) && !empty($mimeType)) {
                     $mimeToExt = [
                         'image/jpeg' => 'jpg',
@@ -340,15 +312,6 @@
     @endif
 </div>
 <script>
-    function downloadImage() {
-        const link = document.createElement('a');
-        link.href = currentImageSrc;
-        link.download = currentImageName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-
     // Đóng modal khi click bên ngoài ảnh
     document.getElementById('imageModal').addEventListener('click', function(e) {
         if (e.target === this) {
