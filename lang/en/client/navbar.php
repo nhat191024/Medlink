@@ -14,6 +14,6 @@ return [
         'logout' => 'Logout',
 
         'profile' => 'Profile',
-        'dashboard' => 'Dashboard',
+        'history' => 'Appointment History',
     ],
 ];

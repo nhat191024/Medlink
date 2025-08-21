@@ -14,6 +14,6 @@ return [
         'logout' => 'Đăng xuất',
 
         'profile' => 'Trang cá nhân',
-        'dashboard' => 'Bảng điều khiển',
+        'history' => 'Lịch sử đặt hẹn',
     ],
 ];
