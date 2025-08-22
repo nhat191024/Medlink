@@ -261,8 +261,7 @@ class UpcomingAppointmentResource extends Resource
                             ->required()
                             ->columnSpanFull(),
                         RichEditor::make('medication')
-                            ->label('Thông tin thuốc (không bắt buộc)')
-                            ->rows(3),
+                            ->label('Thông tin thuốc (không bắt buộc)'),
                         FileUpload::make('files')
                             ->label('Tệp đính kèm kết quả')
                             ->multiple()
