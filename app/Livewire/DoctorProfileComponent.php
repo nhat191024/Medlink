@@ -142,7 +142,8 @@ class DoctorProfileComponent extends Component implements HasForms
 
                         TextInput::make('company_name')
                             ->label('Tên công ty/Bệnh viện')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
 
                         Textarea::make('introduce')
                             ->label('Giới thiệu bản thân')
