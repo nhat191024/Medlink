@@ -620,8 +620,7 @@ class AppointmentService
                 return;
             }
 
-            // Schedule job to run at appointment time (minus 5 minutes for early processing)
-            $jobDelay = $appointmentDateTime->subMinutes(5);
+            $jobDelay = $appointmentDateTime->subMinutes(60);
 
             // Only schedule if the appointment is in the future
             if ($jobDelay->gt(now())) {
