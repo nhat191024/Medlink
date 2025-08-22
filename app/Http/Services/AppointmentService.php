@@ -290,8 +290,7 @@ class AppointmentService
         }
 
         try {
-            $prefix = config('cache.prefix') . ':';
-            $pattern = $prefix . $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . '*';
+            $pattern = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . '*';
             $keys = Redis::keys($pattern);
             foreach ($keys as $key) {
                 Redis::del($key);
