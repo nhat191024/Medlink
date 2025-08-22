@@ -2,6 +2,47 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/appointment-history.css') }}">
+    <style>
+        /* Modal animations */
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Star rating styles */
+        .star {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        /* Ripple animation for buttons */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Modal backdrop blur */
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -255,7 +296,7 @@
                                             @endif
 
                                             @if ($appointment->status === 'completed' && !$appointment->review)
-                                                <button class="flex items-center gap-1 rounded-lg bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700 transition-all duration-300 hover:scale-105 hover:bg-yellow-200 hover:shadow-lg">
+                                                <button class="flex items-center gap-1 rounded-lg bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700 transition-all duration-300 hover:scale-105 hover:bg-yellow-200 hover:shadow-lg" onclick="openReviewModal('{{ $appointment->id }}')">
                                                     <x-heroicon-m-star class="h-3 w-3" />
                                                     Đánh giá
                                                 </button>
@@ -385,13 +426,101 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Đánh giá -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+        <div class="animate-scale-in max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b bg-gradient-to-r from-yellow-500 to-orange-600 p-6 text-white">
+                <div class="flex items-center gap-3">
+                    <x-heroicon-s-star class="h-6 w-6" />
+                    <h2 class="text-xl font-bold">Đánh giá cuộc hẹn</h2>
+                </div>
+                <button class="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 hover:bg-white hover:bg-opacity-20" onclick="closeReviewModal()">
+                    <x-heroicon-s-x-mark class="h-5 w-5" />
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="max-h-[calc(90vh-5rem)] overflow-y-auto p-6">
+                <form id="reviewForm">
+                    <div class="space-y-6">
+                        <div id="doctorInfo" class="rounded-xl bg-gray-50 p-4">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                Đánh giá chất lượng dịch vụ <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex items-center gap-2">
+                                <div id="starRating" class="flex items-center gap-1">
+                                    <button class="star text-3xl text-gray-300 transition-colors hover:text-yellow-400" data-rating="1" type="button">★</button>
+                                    <button class="star text-3xl text-gray-300 transition-colors hover:text-yellow-400" data-rating="2" type="button">★</button>
+                                    <button class="star text-3xl text-gray-300 transition-colors hover:text-yellow-400" data-rating="3" type="button">★</button>
+                                    <button class="star text-3xl text-gray-300 transition-colors hover:text-yellow-400" data-rating="4" type="button">★</button>
+                                    <button class="star text-3xl text-gray-300 transition-colors hover:text-yellow-400" data-rating="5" type="button">★</button>
+                                </div>
+                                <span id="ratingText" class="text-sm text-gray-600"></span>
+                            </div>
+                            <input id="rate" name="rate" type="hidden" required>
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-gray-700" for="review">
+                                Nhận xét của bạn
+                            </label>
+                            <textarea id="review" class="w-full resize-none rounded-xl border border-gray-300 p-3 focus:border-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-200" name="comment" rows="4" placeholder="Chia sẻ trải nghiệm của bạn về cuộc hẹn này..."></textarea>
+                        </div>
+
+                        <div class="space-y-3">
+                            <label class="block text-sm font-semibold text-gray-700">
+                                Bạn có giới thiệu bác sĩ này cho người khác không? <span class="text-red-500">*</span>
+                            </label>
+                            <div class="flex gap-6">
+                                <label class="group flex cursor-pointer items-center gap-2">
+                                    <input class="h-4 w-4 border-gray-300 text-green-600 focus:ring-2 focus:ring-green-500" name="recommend" type="radio" required value="1">
+                                    <span class="text-sm font-medium text-gray-700 transition-colors group-hover:text-green-600">
+                                        <span class="flex items-center gap-2">
+                                            <x-heroicon-s-hand-thumb-up class="h-4 w-4 text-green-600" />
+                                            Có, tôi sẽ giới thiệu
+                                        </span>
+                                    </span>
+                                </label>
+                                <label class="group flex cursor-pointer items-center gap-2">
+                                    <input class="h-4 w-4 border-gray-300 text-red-600 focus:ring-2 focus:ring-red-500" name="recommend" type="radio" required value="0">
+                                    <span class="text-sm font-medium text-gray-700 transition-colors group-hover:text-red-600">
+                                        <span class="flex items-center gap-2">
+                                            <x-heroicon-s-hand-thumb-down class="h-4 w-4 text-red-600" />
+                                            Không giới thiệu
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-50" type="button" onclick="closeReviewModal()">
+                                Hủy bỏ
+                            </button>
+                            <button id="submitReview" class="flex-1 rounded-xl bg-gradient-to-r from-yellow-500 to-orange-600 py-3 text-sm font-semibold text-white transition-all duration-300 hover:from-yellow-600 hover:to-orange-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+                                <span class="flex items-center justify-center gap-2">
+                                    <x-heroicon-s-paper-airplane class="h-4 w-4" />
+                                    Gửi đánh giá
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
         // Global variables
         let appointments = @json($appointments->items());
-        console.log('Appointments data:', appointments);
         let currentAppointmentId = null;
 
         // Modal functions
@@ -445,12 +574,11 @@
                 return;
             }
 
-            // Render exam result
             renderExamResult(appointment);
         }
 
         function renderExamResult(appointment) {
-            const examResult = appointment.exam_result; // Try camelCase first
+            const examResult = appointment.exam_result;
             const doctor = appointment.doctor;
             const service = appointment.service;
 
@@ -465,7 +593,6 @@
                     minute: '2-digit'
                 }) : '';
 
-            // Render files
             let filesHtml = '';
             if (examResult.files && examResult.files.length > 0) {
                 filesHtml = examResult.files.map(file => `
@@ -539,18 +666,18 @@
 
                     <!-- Medical Information -->
                     ${examResult.medication ? `
-                                                    <div class="space-y-4">
-                                                        <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
-                                                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                                            </svg>
-                                                            Thông tin thuốc và điều trị
-                                                        </h4>
-                                                        <div class="prose max-w-none p-4 border rounded-xl bg-white">
-                                                            ${examResult.medication}
-                                                        </div>
-                                                    </div>
-                                                ` : ''}
+                                                                                                                                                <div class="space-y-4">
+                                                                                                                                                    <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                                                                                                                                                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                                                                                                                                        </svg>
+                                                                                                                                                        Thông tin thuốc và điều trị
+                                                                                                                                                    </h4>
+                                                                                                                                                    <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                                                                                                                                                        ${examResult.medication}
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            ` : ''}
 
                     <!-- Attachments -->
                     <div class="space-y-4">
@@ -570,31 +697,311 @@
 
                     <!-- Update Info -->
                     ${updatedAt ? `
-                                                <div class="text-xs text-gray-500 text-right border-t pt-4">
-                                                    Cập nhật lần cuối: ${updatedAt}
-                                                </div>
-                                            ` : ''}
+                                                                                                                                            <div class="text-xs text-gray-500 text-right border-t pt-4">
+                                                                                                                                                Cập nhật lần cuối: ${updatedAt}
+                                                                                                                                            </div>
+                                                                                                                                        ` : ''}
                 </div>
             `;
 
             document.getElementById('examResultContent').innerHTML = content;
         }
 
-        // Close modal when clicking outside
         document.getElementById('examResultModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeExamResultModal();
             }
         });
 
-        // Close modal on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape' && currentAppointmentId) {
                 closeExamResultModal();
             }
+            if (e.key === 'Escape' && currentReviewAppointmentId) {
+                closeReviewModal();
+            }
         });
 
+        let currentReviewAppointmentId = null;
+
+        function openReviewModal(appointmentId) {
+            currentReviewAppointmentId = appointmentId;
+            const modal = document.getElementById('reviewModal');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            loadReviewData(appointmentId);
+        }
+
+        function closeReviewModal() {
+            const modal = document.getElementById('reviewModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentReviewAppointmentId = null;
+
+            // Reset form
+            document.getElementById('reviewForm').reset();
+            document.getElementById('rate').value = '';
+            document.getElementById('review').value = '';
+            updateStarRating(0);
+
+            // Reset radio buttons
+            const radioButtons = document.querySelectorAll('input[name="recommend"]');
+            radioButtons.forEach(radio => radio.checked = false);
+        }
+
+        function loadReviewData(appointmentId) {
+            const appointment = appointments.find(app => app.id == appointmentId);
+
+            if (!appointment) {
+                console.error('Appointment not found:', appointmentId);
+                return;
+            }
+
+            const doctor = appointment.doctor;
+            const service = appointment.service;
+            const appointmentDate = new Date(appointment.date).toLocaleDateString('vi-VN');
+
+            document.getElementById('doctorInfo').innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="h-16 w-16 overflow-hidden rounded-full">
+                        <img class="h-full w-full object-cover" src="${doctor.user.avatar || '/default-avatar.png'}" alt="${doctor.user.name}">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-800">${doctor.user.name}</h3>
+                        <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Khoa khám'}</p>
+                        <p class="text-sm font-medium text-red-600">${service.name}</p>
+                        <p class="text-xs text-gray-500">Ngày khám: ${appointmentDate}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateStarRating(rating) {
+            const stars = document.querySelectorAll('.star');
+            const ratingText = document.getElementById('ratingText');
+
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.remove('text-yellow-400');
+                    star.classList.add('text-gray-300');
+                }
+            });
+
+            // Update rating text
+            const ratingTexts = {
+                1: 'Rất không hài lòng',
+                2: 'Không hài lòng',
+                3: 'Bình thường',
+                4: 'Hài lòng',
+                5: 'Rất hài lòng'
+            };
+
+            ratingText.textContent = rating > 0 ? ratingTexts[rating] : '';
+            document.getElementById('rate').value = rating;
+        }
+
+        // Close review modal when clicking outside
+        document.getElementById('reviewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeReviewModal();
+            }
+        });
+
+        // Submit review function
+        function submitReview(appointmentId, rating, comment, recommend) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            fetch(`/appointment/${appointmentId}/review`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        rate: rating,
+                        review: comment,
+                        recommend: recommend
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessNotification('Đánh giá đã được gửi thành công!', 'Cảm ơn bạn đã chia sẻ trải nghiệm với chúng tôi.');
+                        closeReviewModal();
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        console.error('Error submitting review:', data);
+                        throw new Error(data.message || 'Có lỗi xảy ra');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showErrorNotification('Lỗi gửi đánh giá', 'Có lỗi xảy ra khi gửi đánh giá. Vui lòng thử lại!');
+
+                    const submitBtn = document.getElementById('submitReview');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                    <span class="flex items-center justify-center gap-2">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                        Gửi đánh giá
+                    </span>
+                `;
+                });
+        }
+
+        function showSuccessNotification(title, message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 z-[60] max-w-sm w-full bg-white rounded-xl shadow-2xl border border-green-200 transform translate-x-full transition-transform duration-300 ease-out';
+            notification.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0">
+                            <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                                <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-semibold text-gray-900 mb-1">${title}</h3>
+                            <p class="text-sm text-gray-600">${message}</p>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
+        function showErrorNotification(title, message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 z-[60] max-w-sm w-full bg-white rounded-xl shadow-2xl border border-red-200 transform translate-x-full transition-transform duration-300 ease-out';
+            notification.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-start gap-3">
+                        <div class="flex-shrink-0">
+                            <div class="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center">
+                                <svg class="h-5 w-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-sm font-semibold text-gray-900 mb-1">${title}</h3>
+                            <p class="text-sm text-gray-600">${message}</p>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Star rating event handlers
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    updateStarRating(rating);
+                });
+
+                star.addEventListener('mouseenter', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    const allStars = document.querySelectorAll('.star');
+                    allStars.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('text-gray-300');
+                            s.classList.add('text-yellow-400');
+                        } else {
+                            s.classList.remove('text-yellow-400');
+                            s.classList.add('text-gray-300');
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseleave', function() {
+                    const currentRating = parseInt(document.getElementById('rate').value) || 0;
+                    updateStarRating(currentRating);
+                });
+            });
+
+            // Review form submission
+            document.getElementById('reviewForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const rating = document.getElementById('rate').value;
+                const comment = document.getElementById('review').value;
+                const recommend = document.querySelector('input[name="recommend"]:checked')?.value;
+
+                if (!rating) {
+                    showErrorNotification('Thiếu thông tin', 'Vui lòng chọn đánh giá sao!');
+                    return;
+                }
+
+                if (!recommend) {
+                    showErrorNotification('Thiếu thông tin', 'Vui lòng chọn có giới thiệu bác sĩ hay không!');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = document.getElementById('submitReview');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <span class="flex items-center justify-center gap-2">
+                        <div class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                        Đang gửi...
+                    </span>
+                `;
+
+                // Submit review via fetch
+                submitReview(currentReviewAppointmentId, rating, comment, recommend);
+            });
+
             // Intersection Observer cho stagger animation
             const observerOptions = {
                 threshold: 0.1,
