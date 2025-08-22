@@ -2,13 +2,21 @@
 
 namespace App\Jobs;
 
+use App\Models\Appointment;
+use App\Models\PatientProfile;
+use App\Models\DoctorProfile;
+use App\Models\User;
+
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use App\Models\Appointment;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
+
+use Filament\Notifications\Notification;
 
 use App\Http\Services\AppointmentService;
+
+use Carbon\Carbon;
+use PhpParser\Comment\Doc;
 
 class UpdateAppointmentStatus implements ShouldQueue
 {
@@ -31,13 +39,33 @@ class UpdateAppointmentStatus implements ShouldQueue
     {
         try {
             $appointment = Appointment::find($this->appointmentId);
+            $patientProfile = PatientProfile::find($appointment->patient_profile_id ?? null);
 
             if (!$appointment) {
                 Log::warning("Appointment not found: {$this->appointmentId}");
                 return;
             }
 
-            // Kiểm tra xem appointment vẫn ở trạng thái upcoming
+            if ($appointment->status == 'pending') {
+                $user = User::find($patientProfile->user_id ?? null);
+                $user->notify(
+                    Notification::make()
+                        ->title('Bác sĩ không xác nhận hẹn')
+                        ->body(
+                            "Bác sĩ không xác nhận hẹn khám của bạn vào lúc {$appointment->date} {$appointment->time}. Vui lòng thử lại sau."
+                        )
+                        ->danger()
+                        ->toDatabase()
+                );
+
+                $appointment->update(['status' => 'cancelled']);
+
+                Log::info("Appointment {$this->appointmentId} status updated to 'cancelled' due to pending status without confirmation.");
+
+                app(AppointmentService::class)->clearAppointmentRelatedCache($appointment);
+                return;
+            }
+
             if ($appointment->status !== 'upcoming') {
                 Log::info("Appointment {$this->appointmentId} is no longer upcoming, current status: {$appointment->status}");
                 return;
@@ -55,14 +83,37 @@ class UpdateAppointmentStatus implements ShouldQueue
 
             // Chỉ chuyển trạng thái nếu đã đến giờ hẹn (có thể cho phép sớm 5 phút)
             if ($now->gte($appointmentDateTime->subMinutes(5))) {
+                $patient = User::find($patientProfile->user_id ?? null);
+                $patient->notify(
+                    Notification::make()
+                        ->title('Sắp đến giờ hẹn khám')
+                        ->body(
+                            "Sắp đến giờ hẹn khám của bạn vào lúc {$appointment->date} {$appointment->time}. Vui lòng chuẩn bị."
+                        )
+                        ->danger()
+                        ->toDatabase()
+                );
+
+                $doctorProfile = DoctorProfile::find($appointment->doctor_profile_id ?? null);
+                $doctor = User::find($doctorProfile->user_id ?? null);
+                $doctor->notify(
+                    Notification::make()
+                        ->title('Sắp đến giờ hẹn khám')
+                        ->body(
+                            "Sắp đến giờ hẹn khám với bệnh nhân {$patientProfile->user->name} vào lúc {$appointment->date} {$appointment->time}. Vui lòng chuẩn bị."
+                        )
+                        ->danger()
+                        ->toDatabase()
+                );
+
                 $appointment->update(['status' => 'waiting']);
 
                 Log::info("Updated appointment {$this->appointmentId} status from 'upcoming' to 'waiting'");
 
-                // Clear cache nếu cần
                 app(AppointmentService::class)->clearAppointmentRelatedCache($appointment);
             } else {
                 Log::info("Appointment {$this->appointmentId} time has not arrived yet. Scheduled for: {$appointmentDateTime}, Current: {$now}");
+                $this->release(3300);
             }
         } catch (\Exception $e) {
             Log::error("Error updating appointment status for appointment {$this->appointmentId}: " . $e->getMessage());
