@@ -44,9 +44,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-use App\Models\ExamResult;
-use App\Models\File as AppFile;
-
 class UpcomingAppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
@@ -263,7 +260,7 @@ class UpcomingAppointmentResource extends Resource
                             ->label('Kết quả khám')
                             ->required()
                             ->columnSpanFull(),
-                        Textarea::make('medication')
+                        RichEditor::make('medication')
                             ->label('Thông tin thuốc (không bắt buộc)')
                             ->rows(3),
                         FileUpload::make('files')

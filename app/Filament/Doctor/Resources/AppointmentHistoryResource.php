@@ -224,9 +224,8 @@ class AppointmentHistoryResource extends Resource
                             ->label('Kết quả khám')
                             ->required()
                             ->columnSpanFull(),
-                        Textarea::make('medication')
-                            ->label('Thông tin thuốc (không bắt buộc)')
-                            ->rows(3),
+                        RichEditor::make('medication')
+                            ->label('Thông tin thuốc (không bắt buộc)'),
                         FileUpload::make('files')
                             ->label('Tệp đính kèm kết quả')
                             ->multiple()
