@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
+use App\Models\Appointment;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+
 use App\Http\Services\ProfileService;
 use App\Http\Requests\PatientEditProfileRequest;
+
 use Carbon\Carbon;
 
 class PatientProfileController extends Controller
@@ -235,8 +241,6 @@ class PatientProfileController extends Controller
                 ->paginate(10)
                 ->withQueryString();
 
-            // Efficient statistics (single grouped query, no model hydration)
-            // Use a fresh relation to avoid carrying order/limit from the paginated query (ONLY_FULL_GROUP_BY safe)
             $counts = $user->patientProfile->appointments()
                 ->selectRaw('status, COUNT(*) as aggregate')
                 ->groupBy('status')
@@ -253,10 +257,65 @@ class PatientProfileController extends Controller
         return view('user.appointment-history', compact('user', 'appointments', 'statistics'));
     }
 
-
     /**
-     * Clear profile completion cache
+     * Submit review for appointment
      */
+    public function submitReview(Request $request, $appointmentId)
+    {
+        try {
+            $user = Auth::user();
+
+            // Validate the request
+            $request->validate([
+                'rate' => 'required|integer|min:1|max:5',
+                'review' => 'nullable|string|max:1000',
+                'recommend' => 'required|boolean'
+            ]);
+
+            // Find the appointment
+            $appointment = Appointment::where('id', $appointmentId)
+                ->where('patient_profile_id', $user->patientProfile->id)
+                ->where('status', 'completed')
+                ->first();
+
+            if (!$appointment) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Appointment not found or not eligible for review'
+                ], 404);
+            }
+
+            if ($appointment->review) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Review already exists for this appointment'
+                ], 400);
+            }
+
+            $review = Review::create([
+                'appointment_id' => $appointment->id,
+                'patient_profile_id' => $user->patientProfile->id,
+                'doctor_profile_id' => $appointment->doctor_profile_id,
+                'rate' => $request->rate,
+                'review' => $request->review,
+                'recommend' => $request->recommend ? 1 : 0,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Review submitted successfully',
+                'review' => $review
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error submitting review: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while submitting the review'
+            ], 500);
+        }
+    }
+
     private function clearProfileCompletionCache($userId)
     {
         $cacheKey = "profile_completion_{$userId}";
