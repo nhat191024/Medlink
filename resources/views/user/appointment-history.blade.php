@@ -246,17 +246,26 @@
                                             @endswitch
                                         </div>
 
-                                        @if ($appointment->status === 'completed' && !$appointment->review)
-                                            <button class="flex items-center gap-1 rounded-lg bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700 transition-all duration-300 hover:scale-105 hover:bg-yellow-200 hover:shadow-lg">
-                                                <x-heroicon-m-star class="h-3 w-3" />
-                                                Đánh giá
-                                            </button>
-                                        @elseif($appointment->review)
-                                            <div class="flex items-center gap-1 text-xs text-green-600">
-                                                <x-heroicon-s-star class="h-3 w-3" />
-                                                Đã đánh giá
-                                            </div>
-                                        @endif
+                                        <div class="flex flex-col gap-2">
+                                            @if ($appointment->status === 'completed' && $appointment->examResult)
+                                                <button class="flex items-center gap-1 rounded-lg bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700 transition-all duration-300 hover:scale-105 hover:bg-blue-200 hover:shadow-lg" onclick="openExamResultModal('{{ $appointment->id }}')">
+                                                    <x-heroicon-m-document-text class="h-3 w-3" />
+                                                    Xem kết quả
+                                                </button>
+                                            @endif
+
+                                            @if ($appointment->status === 'completed' && !$appointment->review)
+                                                <button class="flex items-center gap-1 rounded-lg bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-700 transition-all duration-300 hover:scale-105 hover:bg-yellow-200 hover:shadow-lg">
+                                                    <x-heroicon-m-star class="h-3 w-3" />
+                                                    Đánh giá
+                                                </button>
+                                            @elseif($appointment->review)
+                                                <div class="flex items-center gap-1 text-xs text-green-600">
+                                                    <x-heroicon-s-star class="h-3 w-3" />
+                                                    Đã đánh giá
+                                                </div>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
 
@@ -349,10 +358,242 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Kết quả khám -->
+    <div id="examResultModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+        <div class="animate-scale-in max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b bg-gradient-to-r from-red-500 to-red-600 p-6 text-white">
+                <div class="flex items-center gap-3">
+                    <x-heroicon-s-document-text class="h-6 w-6" />
+                    <h2 class="text-xl font-bold">Kết quả khám bệnh</h2>
+                </div>
+                <button class="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 hover:bg-white hover:bg-opacity-20" onclick="closeExamResultModal()">
+                    <x-heroicon-s-x-mark class="h-5 w-5" />
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="max-h-[calc(90vh-5rem)] overflow-y-auto p-6">
+                <div id="examResultContent">
+                    <!-- Nội dung sẽ được load bằng JavaScript -->
+                    <div class="flex items-center justify-center py-8">
+                        <div class="h-8 w-8 animate-spin rounded-full border-b-2 border-red-600"></div>
+                        <span class="ml-3 text-gray-600">Đang tải...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
     <script>
+        // Global variables
+        let appointments = @json($appointments->items());
+        console.log('Appointments data:', appointments);
+        let currentAppointmentId = null;
+
+        // Modal functions
+        function openExamResultModal(appointmentId) {
+            currentAppointmentId = appointmentId;
+            const modal = document.getElementById('examResultModal');
+            const content = document.getElementById('examResultContent');
+
+            // Show modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Show loading
+            content.innerHTML = `
+                <div class="flex items-center justify-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600"></div>
+                    <span class="ml-3 text-gray-600">Đang tải...</span>
+                </div>
+            `;
+
+            // Load exam result data
+            loadExamResult(appointmentId);
+        }
+
+        function closeExamResultModal() {
+            const modal = document.getElementById('examResultModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentAppointmentId = null;
+        }
+
+        function loadExamResult(appointmentId) {
+            // Find appointment data
+            const appointment = appointments.find(app => app.id == appointmentId);
+
+            console.log('Loading exam result for appointment:', appointmentId);
+            console.log('Appointment data:', appointment);
+
+            if (!appointment || !appointment.exam_result) {
+                document.getElementById('examResultContent').innerHTML = `
+                <div class="text-center py-8">
+                    <div class="mx-auto h-12 w-12 text-gray-400 mb-4">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" class="w-full h-full">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.96-.833-2.73 0L3.084 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Không tìm thấy kết quả</h3>
+                    <p class="text-gray-600">Kết quả khám chưa có hoặc đã bị xóa.</p>
+                </div>
+            `;
+                return;
+            }
+
+            // Render exam result
+            renderExamResult(appointment);
+        }
+
+        function renderExamResult(appointment) {
+            const examResult = appointment.exam_result; // Try camelCase first
+            const doctor = appointment.doctor;
+            const service = appointment.service;
+
+            // Format date
+            const appointmentDate = new Date(appointment.date).toLocaleDateString('vi-VN');
+            const updatedAt = examResult.updated_at ?
+                new Date(examResult.updated_at).toLocaleDateString('vi-VN', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : '';
+
+            // Render files
+            let filesHtml = '';
+            if (examResult.files && examResult.files.length > 0) {
+                filesHtml = examResult.files.map(file => `
+                    <li class="flex items-center gap-2 p-2 border rounded-lg hover:bg-gray-50">
+                        <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <a href="/storage/${file.path}" target="_blank"
+                            class="text-blue-600 hover:underline flex-1 text-sm">
+                            ${file.original_name || file.path.split('/').pop()}
+                        </a>
+                        <span class="text-xs text-gray-500">${file.mime_type || ''}</span>
+                    </li>
+                `).join('');
+            } else {
+                filesHtml = '<p class="text-sm text-gray-500 italic">Không có tệp đính kèm</p>';
+            }
+
+            const content = `
+                <div class="space-y-6">
+                    <!-- Patient and Doctor Info -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-xl">
+                        <div class="space-y-2">
+                            <h4 class="font-semibold text-gray-800 flex items-center gap-2">
+                                <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                Thông tin bệnh nhân
+                            </h4>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Họ tên:</span> {{ $user->name }}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Ngày khám:</span> ${appointmentDate}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Thời gian:</span> ${appointment.time}
+                            </p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="font-semibold text-gray-800 flex items-center gap-2">
+                                <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Thông tin khám
+                            </h4>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Bác sĩ:</span> ${doctor.user.name}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Dịch vụ:</span> ${service.name}
+                            </p>
+                            <p class="text-sm text-gray-600">
+                                <span class="font-medium">Khoa:</span> ${doctor.medical_category?.name || 'Không xác định'}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Exam Result -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                            <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Kết quả khám bệnh
+                        </h4>
+                        <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                            ${examResult.result || '<span class="text-gray-500 italic">Chưa có kết quả</span>'}
+                        </div>
+                    </div>
+
+                    <!-- Medical Information -->
+                    ${examResult.medication ? `
+                                        <div class="space-y-4">
+                                            <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                                                <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                                </svg>
+                                                Thông tin thuốc và điều trị
+                                            </h4>
+                                            <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                                                ${examResult.medication}
+                                            </div>
+                                        </div>
+                                    ` : ''}
+
+                    <!-- Attachments -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                            <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                            </svg>
+                            Tệp đính kèm (${examResult.files ? examResult.files.length : 0})
+                        </h4>
+                        <div class="p-4 border rounded-xl bg-white">
+                            ${examResult.files && examResult.files.length > 0 ?
+                                `<ul class="space-y-2">${filesHtml}</ul>` :
+                                '<p class="text-sm text-gray-500 italic">Không có tệp đính kèm</p>'
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Update Info -->
+                    ${updatedAt ? `
+                                    <div class="text-xs text-gray-500 text-right border-t pt-4">
+                                        Cập nhật lần cuối: ${updatedAt}
+                                    </div>
+                                ` : ''}
+                </div>
+            `;
+
+            document.getElementById('examResultContent').innerHTML = content;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('examResultModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExamResultModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && currentAppointmentId) {
+                closeExamResultModal();
+            }
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             // Intersection Observer cho stagger animation
             const observerOptions = {
@@ -399,17 +640,17 @@
                     const y = e.clientY - rect.top - size / 2;
 
                     ripple.style.cssText = `
-                position: absolute;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.6);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                width: ${size}px;
-                height: ${size}px;
-                left: ${x}px;
-                top: ${y}px;
-                pointer-events: none;
-            `;
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.6);
+                        transform: scale(0);
+                        animation: ripple 0.6s linear;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        pointer-events: none;
+                    `;
 
                     this.style.position = 'relative';
                     this.style.overflow = 'hidden';
@@ -486,6 +727,60 @@
 
     img.loaded {
         opacity: 1;
+    }
+
+    .animate-scale-in {
+        animation: scaleIn 0.3s ease-out;
+    }
+
+    @keyframes scaleIn {
+        from {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    /* Modal backdrop */
+    #examResultModal {
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Modal content scrollbar */
+    #examResultContent {
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e0 #f7fafc;
+    }
+
+    #examResultContent::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    #examResultContent::-webkit-scrollbar-track {
+        background: #f7fafc;
+        border-radius: 3px;
+    }
+
+    #examResultContent::-webkit-scrollbar-thumb {
+        background: #cbd5e0;
+        border-radius: 3px;
+    }
+
+    #examResultContent::-webkit-scrollbar-thumb:hover {
+        background: #a0aec0;
     }
 `;
         document.head.appendChild(style);
