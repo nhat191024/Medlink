@@ -16,9 +16,8 @@ use Filament\Notifications\Notification;
 use App\Http\Services\AppointmentService;
 
 use Carbon\Carbon;
-use PhpParser\Comment\Doc;
 
-class UpdateAppointmentStatus implements ShouldQueue
+class CheckAppointmentUpcoming implements ShouldQueue
 {
     use Queueable;
 
@@ -46,34 +45,13 @@ class UpdateAppointmentStatus implements ShouldQueue
                 return;
             }
 
-            if ($appointment->status == 'pending') {
-                $user = User::find($patientProfile->user_id ?? null);
-                $user->notify(
-                    Notification::make()
-                        ->title('Bác sĩ không xác nhận hẹn')
-                        ->body(
-                            "Bác sĩ không xác nhận hẹn khám của bạn vào lúc {$appointment->date} {$appointment->time}. Vui lòng thử lại sau."
-                        )
-                        ->danger()
-                        ->toDatabase()
-                );
-
-                $appointment->update(['status' => 'cancelled']);
-
-                Log::info("Appointment {$this->appointmentId} status updated to 'cancelled' due to pending status without confirmation.");
-
-                app(AppointmentService::class)->clearAppointmentRelatedCache($appointment);
-                return;
-            }
-
             if ($appointment->status !== 'upcoming') {
                 Log::info("Appointment {$this->appointmentId} is no longer upcoming, current status: {$appointment->status}");
                 return;
             }
 
-            // Parse thời gian appointment để kiểm tra xem đã đến giờ chưa
+            // Parse appointment date and time
             $appointmentDateTime = $this->parseAppointmentDateTime($appointment->date, $appointment->time);
-
             if (!$appointmentDateTime) {
                 Log::error("Could not parse appointment datetime for appointment {$this->appointmentId}");
                 return;
@@ -113,7 +91,7 @@ class UpdateAppointmentStatus implements ShouldQueue
                 app(AppointmentService::class)->clearAppointmentRelatedCache($appointment);
             } else {
                 Log::info("Appointment {$this->appointmentId} time has not arrived yet. Scheduled for: {$appointmentDateTime}, Current: {$now}");
-                $this->release(3300);
+                $this->dispatch()->delay($appointmentDateTime->subMinutes(5));
             }
         } catch (\Exception $e) {
             Log::error("Error updating appointment status for appointment {$this->appointmentId}: " . $e->getMessage());
