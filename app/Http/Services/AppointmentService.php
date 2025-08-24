@@ -12,8 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
-use App\Jobs\ProcessAppointmentPayment;
-use App\Jobs\UpdateAppointmentStatus;
+use App\Jobs\CheckAppointmentPending;
 use App\Http\Resources\DoctorAppointmentResource;
 
 use App\Http\Services\PaymentService;
@@ -624,7 +623,7 @@ class AppointmentService
 
             // Only schedule if the appointment is in the future
             if ($jobDelay->gt(now())) {
-                UpdateAppointmentStatus::dispatch($appointment->id)->delay($jobDelay);
+                CheckAppointmentPending::dispatch($appointment->id)->delay($jobDelay);
 
                 // Mark job as scheduled
                 $appointment->update([
