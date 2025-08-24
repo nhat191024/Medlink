@@ -24,3 +24,4 @@ yarn-error.log
 /.zed
 dumb.php
 .devdbrc
+"laradumps.yaml" 
