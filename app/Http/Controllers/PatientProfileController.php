@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use App\Models\Appointment;
+use App\Models\Support;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -312,6 +313,62 @@ class PatientProfileController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'An error occurred while submitting the review'
+            ], 500);
+        }
+    }
+
+    /**
+     * Show appointment history page
+     */
+    public function submitSupport(Request $request, Appointment $appointment)
+    {
+        try {
+            $request->validate([
+                'support_type' => 'required|string|in:medical_question,treatment_support,prescription_help,other',
+                'message' => 'required|string|min:10|max:2000'
+            ]);
+
+            // Verify appointment belongs to current user and is completed
+            if ($appointment->patient_profile_id !== Auth::user()->patientProfile->id || $appointment->status !== 'completed') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cuộc hẹn không tồn tại hoặc chưa hoàn thành.'
+                ], 404);
+            }
+
+            // Load doctor relationship if not already loaded
+            $appointment->loadMissing('doctor.user');
+
+            $supportTypeMap = [
+                'medical_question' => 'Câu hỏi y tế',
+                'treatment_support' => 'Hỗ trợ điều trị',
+                'prescription_help' => 'Hỗ trợ đơn thuốc',
+                'other' => 'Khác'
+            ];
+
+            $supportTypeText = $supportTypeMap[$request->support_type] ?? 'Khác';
+
+            // Create support request
+            $support = Support::create([
+                'patient_id' => Auth::id(),
+                'doctor_id' => $appointment->doctor->user->id,
+                'appointment_id' => $appointment->id,
+                'hospital_id' => $appointment->hospital_id,
+                'message' => "{$supportTypeText}: {$request->message}",
+                'status' => 'open'
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Yêu cầu hỗ trợ đã được gửi thành công.',
+                'support_id' => $support->id
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Support submission error: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi gửi yêu cầu hỗ trợ. Vui lòng thử lại.'
             ], 500);
         }
     }
