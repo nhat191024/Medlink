@@ -354,6 +354,10 @@
                                 <x-heroicon-s-clipboard-document-list class="h-5 w-5" />
                                 Lịch sử đặt khám
                             </a>
+                            <a class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-3 font-semibold text-white transition-all duration-300 hover:from-orange-600 hover:to-red-700" href="{{ route('profile.support-requests') }}">
+                                <x-heroicon-s-question-mark-circle class="h-5 w-5" />
+                                Yêu cầu hỗ trợ
+                            </a>
                             <a class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-green-600 px-4 py-3 font-semibold text-white transition-all duration-300 hover:from-green-600 hover:to-green-700" href="{{ route('profile.edit') }}">
                                 <x-heroicon-s-cog-6-tooth class="h-5 w-5" />
                                 Chỉnh sửa hồ sơ
