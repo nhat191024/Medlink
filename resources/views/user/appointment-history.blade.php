@@ -306,6 +306,10 @@
                                                     Đã đánh giá
                                                 </div>
                                             @endif
+                                                <button class="flex items-center gap-1 rounded-lg bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700 transition-all duration-300 hover:scale-105 hover:bg-orange-200 hover:shadow-lg" onclick="openSupportModal('{{ $appointment->id }}')">
+                                                    <x-heroicon-m-question-mark-circle class="h-3 w-3" />
+                                                    Yêu cầu hỗ trợ
+                                                </button>
                                         </div>
                                     </div>
                                 </div>
@@ -515,6 +519,90 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Yêu cầu hỗ trợ -->
+    <div id="supportModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+        <div class="animate-scale-in max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b bg-gradient-to-r from-red-400 to-red-700 p-6 text-white">
+                <div class="flex items-center gap-3">
+                    <x-heroicon-s-question-mark-circle class="h-6 w-6" />
+                    <h2 class="text-xl font-bold">Yêu cầu hỗ trợ</h2>
+                </div>
+                <button class="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 hover:bg-white hover:bg-opacity-20" onclick="closeSupportModal()">
+                    <x-heroicon-s-x-mark class="h-5 w-5" />
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="max-h-[calc(90vh-5rem)] overflow-y-auto p-6">
+                <form id="supportForm">
+                    <div class="space-y-6">
+                        <div id="supportDoctorInfo" class="rounded-xl bg-gray-50 p-4">
+                            <!-- Thông tin bác sĩ sẽ được load bằng JavaScript -->
+                        </div>
+
+                        <!-- Loại vấn đề -->
+                        <div class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700">Loại vấn đề cần hỗ trợ</label>
+                            <div class="space-y-2">
+                                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all duration-300 hover:border-orange-500 hover:bg-orange-50">
+                                    <input class="radio radio-orange radio-sm" name="support_type" type="radio" value="medical_question">
+                                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                        <x-heroicon-s-heart class="h-4 w-4 text-red-600" />
+                                        Câu hỏi về kết quả khám
+                                    </span>
+                                </label>
+                                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all duration-300 hover:border-orange-500 hover:bg-orange-50">
+                                    <input class="radio radio-orange radio-sm" name="support_type" type="radio" value="treatment_support">
+                                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                        <x-heroicon-s-beaker class="h-4 w-4 text-blue-600" />
+                                        Hỗ trợ điều trị
+                                    </span>
+                                </label>
+                                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all duration-300 hover:border-orange-500 hover:bg-orange-50">
+                                    <input class="radio radio-orange radio-sm" name="support_type" type="radio" value="prescription_help">
+                                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                        <x-heroicon-s-beaker class="h-4 w-4 text-green-600" />
+                                        Hỗ trợ về thuốc
+                                    </span>
+                                </label>
+                                <label class="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-all duration-300 hover:border-orange-500 hover:bg-orange-50">
+                                    <input class="radio radio-orange radio-sm" name="support_type" type="radio" value="other">
+                                    <span class="flex items-center gap-2 text-sm font-medium text-gray-700">
+                                        <x-heroicon-s-chat-bubble-oval-left-ellipsis class="h-4 w-4 text-purple-600" />
+                                        Khác
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Mô tả chi tiết -->
+                        <div class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700" for="supportMessage">Mô tả chi tiết vấn đề</label>
+                            <textarea id="supportMessage" class="w-full rounded-xl border border-gray-300 p-4 text-sm transition-all duration-300 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-200" name="message" rows="5" placeholder="Vui lòng mô tả chi tiết vấn đề bạn cần hỗ trợ..."></textarea>
+                            <div class="text-xs text-gray-500">
+                                Hãy mô tả càng chi tiết càng tốt để chúng tôi có thể hỗ trợ bạn hiệu quả nhất.
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-50" type="button" onclick="closeSupportModal()">
+                                Hủy bỏ
+                            </button>
+                            <button id="submitSupport" class="flex-1 rounded-xl bg-gradient-to-r from-red-400 to-red-700 py-3 text-sm font-semibold text-white transition-all duration-300 hover:from-orange-600 hover:to-red-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+                                <span class="flex items-center justify-center gap-2">
+                                    <x-heroicon-s-paper-airplane class="h-4 w-4" />
+                                    Gửi yêu cầu
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -666,18 +754,18 @@
 
                     <!-- Medical Information -->
                     ${examResult.medication ? `
-                                                                                                                                                <div class="space-y-4">
-                                                                                                                                                    <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
-                                                                                                                                                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                                                                                                                                        </svg>
-                                                                                                                                                        Thông tin thuốc và điều trị
-                                                                                                                                                    </h4>
-                                                                                                                                                    <div class="prose max-w-none p-4 border rounded-xl bg-white">
-                                                                                                                                                        ${examResult.medication}
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            ` : ''}
+                                                <div class="space-y-4">
+                                                    <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                                                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                                        </svg>
+                                                        Thông tin thuốc và điều trị
+                                                    </h4>
+                                                    <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                                                        ${examResult.medication}
+                                                    </div>
+                                                </div>
+                                            ` : ''}
 
                     <!-- Attachments -->
                     <div class="space-y-4">
@@ -697,10 +785,10 @@
 
                     <!-- Update Info -->
                     ${updatedAt ? `
-                                                                                                                                            <div class="text-xs text-gray-500 text-right border-t pt-4">
-                                                                                                                                                Cập nhật lần cuối: ${updatedAt}
-                                                                                                                                            </div>
-                                                                                                                                        ` : ''}
+                                                <div class="text-xs text-gray-500 text-right border-t pt-4">
+                                                    Cập nhật lần cuối: ${updatedAt}
+                                                </div>
+                                            ` : ''}
                 </div>
             `;
 
@@ -719,6 +807,9 @@
             }
             if (e.key === 'Escape' && currentReviewAppointmentId) {
                 closeReviewModal();
+            }
+            if (e.key === 'Escape' && currentSupportAppointmentId) {
+                closeSupportModal();
             }
         });
 
@@ -749,6 +840,61 @@
             // Reset radio buttons
             const radioButtons = document.querySelectorAll('input[name="recommend"]');
             radioButtons.forEach(radio => radio.checked = false);
+        }
+
+        // Support Modal Functions
+        let currentSupportAppointmentId = null;
+
+        function openSupportModal(appointmentId) {
+            currentSupportAppointmentId = appointmentId;
+            const modal = document.getElementById('supportModal');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            loadSupportData(appointmentId);
+        }
+
+        function closeSupportModal() {
+            const modal = document.getElementById('supportModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentSupportAppointmentId = null;
+
+            // Reset form
+            document.getElementById('supportForm').reset();
+            document.getElementById('supportMessage').value = '';
+
+            // Reset radio buttons
+            const radioButtons = document.querySelectorAll('input[name="support_type"]');
+            radioButtons.forEach(radio => radio.checked = false);
+        }
+
+        function loadSupportData(appointmentId) {
+            const appointment = appointments.find(app => app.id == appointmentId);
+
+            if (!appointment) {
+                console.error('Appointment not found:', appointmentId);
+                return;
+            }
+
+            const doctor = appointment.doctor;
+            const service = appointment.service;
+            const appointmentDate = new Date(appointment.date).toLocaleDateString('vi-VN');
+
+            document.getElementById('supportDoctorInfo').innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="h-16 w-16 overflow-hidden rounded-full">
+                        <img class="h-full w-full object-cover" src="${doctor.user.avatar || '/default-avatar.png'}" alt="${doctor.user.name}">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-800">${doctor.user.name}</h3>
+                        <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Khoa khám'}</p>
+                        <p class="text-sm font-medium text-red-600">${service.name}</p>
+                        <p class="text-xs text-gray-500">Ngày khám: ${appointmentDate}</p>
+                    </div>
+                </div>
+            `;
         }
 
         function loadReviewData(appointmentId) {
@@ -941,6 +1087,64 @@
             }, 5000);
         }
 
+        // Submit support function
+        function submitSupport(appointmentId, supportType, message) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            fetch(`/appointment/${appointmentId}/support`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        support_type: supportType,
+                        message: message
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessNotification('Gửi yêu cầu thành công', 'Yêu cầu hỗ trợ của bạn đã được gửi. Chúng tôi sẽ phản hồi sớm nhất có thể!');
+                        closeSupportModal();
+
+                        // Reload page after 2 seconds
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        showErrorNotification('Lỗi gửi yêu cầu', data.message || 'Có lỗi xảy ra khi gửi yêu cầu hỗ trợ. Vui lòng thử lại!');
+
+                        const submitBtn = document.getElementById('submitSupport');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `
+                            <span class="flex items-center justify-center gap-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                </svg>
+                                Gửi yêu cầu
+                            </span>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showErrorNotification('Lỗi gửi yêu cầu', 'Có lỗi xảy ra khi gửi yêu cầu hỗ trợ. Vui lòng thử lại!');
+
+                    const submitBtn = document.getElementById('submitSupport');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <span class="flex items-center justify-center gap-2">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            Gửi yêu cầu
+                        </span>
+                    `;
+                });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Star rating event handlers
             const stars = document.querySelectorAll('.star');
@@ -1000,6 +1204,49 @@
 
                 // Submit review via fetch
                 submitReview(currentReviewAppointmentId, rating, comment, recommend);
+            });
+
+            // Support form submission
+            document.getElementById('supportForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const supportType = document.querySelector('input[name="support_type"]:checked')?.value;
+                const message = document.getElementById('supportMessage').value.trim();
+
+                if (!supportType) {
+                    showErrorNotification('Thiếu thông tin', 'Vui lòng chọn loại vấn đề cần hỗ trợ!');
+                    return;
+                }
+
+                if (!message) {
+                    showErrorNotification('Thiếu thông tin', 'Vui lòng mô tả chi tiết vấn đề!');
+                    return;
+                }
+
+                if (message.length < 10) {
+                    showErrorNotification('Thông tin không hợp lệ', 'Mô tả vấn đề phải có ít nhất 10 ký tự!');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = document.getElementById('submitSupport');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <span class="flex items-center justify-center gap-2">
+                        <div class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                        Đang gửi...
+                    </span>
+                `;
+
+                // Submit support via fetch
+                submitSupport(currentSupportAppointmentId, supportType, message);
+            });
+
+            // Close support modal when clicking outside
+            document.getElementById('supportModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeSupportModal();
+                }
             });
 
             // Intersection Observer cho stagger animation
