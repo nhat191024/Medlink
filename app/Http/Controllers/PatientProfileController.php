@@ -373,6 +373,45 @@ class PatientProfileController extends Controller
         }
     }
 
+    /**
+     * Show support requests page
+     */
+    public function supportRequests(Request $request)
+    {
+        $user = Auth::user();
+
+        // Verify user is a patient
+        if ($user->user_type !== 'patient') {
+            abort(403, 'Access denied. This page is only for patients.');
+        }
+
+        $status = $request->get('status');
+
+        $supportQuery = Support::with([
+            'doctor.user',
+            'appointment.service',
+            'appointment.doctor.medicalCategory',
+            'hospital'
+        ])
+            ->where('patient_id', $user->id)
+            ->orderBy('created_at', 'desc');
+
+        if ($status && in_array($status, ['open', 'closed'])) {
+            $supportQuery->where('status', $status);
+        }
+
+        $supportRequests = $supportQuery->paginate(10);
+
+        // Calculate statistics
+        $statistics = [
+            'total' => Support::where('patient_id', $user->id)->count(),
+            'open' => Support::where('patient_id', $user->id)->where('status', 'open')->count(),
+            'closed' => Support::where('patient_id', $user->id)->where('status', 'closed')->count(),
+        ];
+
+        return view('user.support-requests', compact('supportRequests', 'statistics'));
+    }
+
     private function clearProfileCompletionCache($userId)
     {
         $cacheKey = "profile_completion_{$userId}";
