@@ -388,7 +388,7 @@ class PatientProfileController extends Controller
         $status = $request->get('status');
 
         $supportQuery = Support::with([
-            'doctor.user',
+            'doctor',
             'appointment.service',
             'appointment.doctor.medicalCategory',
             'hospital'
