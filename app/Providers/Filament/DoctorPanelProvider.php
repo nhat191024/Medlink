@@ -45,6 +45,13 @@ class DoctorPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->widgets([
+                \App\Filament\Doctor\Widgets\DoctorOverviewStatsWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorAppointmentsChartWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorRevenueChartWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorAppointmentStatusChartWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorServicesPerformanceWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorRecentReviewsWidget::class,
+                \App\Filament\Doctor\Widgets\DoctorRecentActivitiesWidget::class,
                 Widgets\AccountWidget::class,
             ])
 
