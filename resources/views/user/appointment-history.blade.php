@@ -82,6 +82,10 @@
                                 <x-heroicon-s-arrow-left class="h-4 w-4" />
                                 Quay lại hồ sơ
                             </a>
+                            <a class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-orange-600 hover:to-red-700 hover:shadow-lg" href="{{ route('profile.support-requests') }}">
+                                <x-heroicon-s-question-mark-circle class="h-4 w-4" />
+                                Yêu cầu hỗ trợ
+                            </a>
                             <a class="animate-bounce-subtle flex items-center gap-2 rounded-xl bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-red-600 hover:to-red-700 hover:shadow-lg" href="{{ route('appointment.index') }}">
                                 <x-heroicon-s-plus class="h-4 w-4" />
                                 Đặt lịch mới
@@ -306,10 +310,10 @@
                                                     Đã đánh giá
                                                 </div>
                                             @endif
-                                                <button class="flex items-center gap-1 rounded-lg bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700 transition-all duration-300 hover:scale-105 hover:bg-orange-200 hover:shadow-lg" onclick="openSupportModal('{{ $appointment->id }}')">
-                                                    <x-heroicon-m-question-mark-circle class="h-3 w-3" />
-                                                    Yêu cầu hỗ trợ
-                                                </button>
+                                            <button class="flex items-center gap-1 rounded-lg bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700 transition-all duration-300 hover:scale-105 hover:bg-orange-200 hover:shadow-lg" onclick="openSupportModal('{{ $appointment->id }}')">
+                                                <x-heroicon-m-question-mark-circle class="h-3 w-3" />
+                                                Yêu cầu hỗ trợ
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -754,18 +758,18 @@
 
                     <!-- Medical Information -->
                     ${examResult.medication ? `
-                                                <div class="space-y-4">
-                                                    <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
-                                                        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                                        </svg>
-                                                        Thông tin thuốc và điều trị
-                                                    </h4>
-                                                    <div class="prose max-w-none p-4 border rounded-xl bg-white">
-                                                        ${examResult.medication}
+                                                    <div class="space-y-4">
+                                                        <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                                                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                                            </svg>
+                                                            Thông tin thuốc và điều trị
+                                                        </h4>
+                                                        <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                                                            ${examResult.medication}
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ` : ''}
+                                                ` : ''}
 
                     <!-- Attachments -->
                     <div class="space-y-4">
@@ -785,10 +789,10 @@
 
                     <!-- Update Info -->
                     ${updatedAt ? `
-                                                <div class="text-xs text-gray-500 text-right border-t pt-4">
-                                                    Cập nhật lần cuối: ${updatedAt}
-                                                </div>
-                                            ` : ''}
+                                                    <div class="text-xs text-gray-500 text-right border-t pt-4">
+                                                        Cập nhật lần cuối: ${updatedAt}
+                                                    </div>
+                                                ` : ''}
                 </div>
             `;
 
