@@ -5,13 +5,14 @@ namespace App\Http\Services;
 use App\Models\Bill;
 use App\Models\Service;
 use App\Models\Appointment;
+use App\Models\DoctorProfile;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
-use App\Jobs\ProcessAppointmentPayment;
-use App\Jobs\UpdateAppointmentStatus;
+use App\Jobs\CheckAppointmentPending;
 use App\Http\Resources\DoctorAppointmentResource;
 
 use App\Http\Services\PaymentService;
@@ -38,10 +39,10 @@ class AppointmentService
         $baseQuery = null;
 
         if ($userType === 'healthcare') {
-            $baseQuery = Appointment::with(['patient.user', 'service', 'bill', 'review'])
+            $baseQuery = Appointment::with(['patient.user', 'service', 'bill', 'review', 'files'])
                 ->where('doctor_profile_id', $profileId);
         } elseif ($userType === 'patient') {
-            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory', 'review'])
+            $baseQuery = Appointment::with(['doctor.user', 'service', 'bill', 'doctor.medicalCategory', 'review', 'files'])
                 ->where('patient_profile_id', $profileId);
         }
 
@@ -287,8 +288,14 @@ class AppointmentService
             Cache::forget($this->cacheKey::APPOINTMENT_STATISTICS . $patientUserId);
         }
 
-        foreach (Cache::getRedis()->keys($this->cacheKey::DOCTOR_LIST_SEARCH_PAGE) as $key) {
-            Cache::forget(str_replace(config('cache.prefix') . ':', '', $key));
+        try {
+            $pattern = $this->cacheKey::DOCTOR_LIST_SEARCH_PAGE . '*';
+            $keys = Redis::keys($pattern);
+            foreach ($keys as $key) {
+                Redis::del($key);
+            }
+        } catch (\Throwable $e) {
+            // Ignore cache invalidation issues
         }
     }
 
@@ -378,22 +385,17 @@ class AppointmentService
     {
         try {
             DB::beginTransaction();
-            // Get patient profile
+
             $patientProfile = $user->patientProfile;
+            $hospitalId = DoctorProfile::find($request->doctor_profile_id)->first()->user->hospital_id;
 
             if (!$patientProfile) {
                 throw new \Exception('Patient profile not found');
             }
 
-            // Handle file upload if exists
-            $medicalProblemFilePath = null;
-            if ($request->hasFile('medical_problem_file')) {
-                $file = $request->file('medical_problem_file');
-                $fileName = time() . '_' . $file->getClientOriginalName();
-                $medicalProblemFilePath = $file->move(storage_path('uploads/medical_problems'), $fileName)->getPathname();
-            }
+            $incomingFiles = $request->medical_problem_files ?? [];
 
-            $service = Service::findOrFail($request->service_id); // Ensure service exists
+            $service = Service::findOrFail($request->service_id);
 
             $link = null;
             if ($service->name == "Online visit" || $service->name == "Video Appointment") {
@@ -406,22 +408,40 @@ class AppointmentService
                 'patient_profile_id' => $patientProfile->id,
                 'doctor_profile_id' => $request->doctor_profile_id,
                 'service_id' => $request->service_id,
+                'hospital_id' => $hospitalId,
                 'status' => 'pending',
                 'medical_problem' => $request->medical_problem,
-                'medical_problem_file' => $medicalProblemFilePath,
                 'duration' => $service->duration,
                 'date' => $request->date,
                 'day_of_week' => $request->day_of_week,
                 'time' => $request->time,
+                'reason' => $request->input('note') ?? null,
                 'link' => $link,
                 'address' => $address,
             ]);
+
+            // Persist uploaded files via polymorphic File model
+            if (!empty($incomingFiles)) {
+                foreach ($incomingFiles as $f) {
+                    if (!$f) continue;
+                    $storedPath = $f->store('uploads/medical_problems', 'public');
+                    $appointment->files()->create([
+                        'disk' => 'public',
+                        'path' => $storedPath,
+                        'original_name' => $f->getClientOriginalName(),
+                        'mime_type' => $f->getClientMimeType(),
+                        'size' => $f->getSize(),
+                        'uploaded_by' => $user->id ?? null,
+                    ]);
+                }
+            }
 
             $price = $service->price < 2000 ? 2000 : $service->price;  // Cap price at 2000 for development
 
             $bill = Bill::create([
                 'id' => time() . mt_rand(100000, 999999),
                 'appointment_id' => $appointment->id,
+                'hospital_id' => $hospitalId,
                 'payment_method' => $request->payment_method,
                 'taxVAT' => $price * 0.10, // Assuming VAT is 10%
                 'total' => $price + $price * 0.10,
@@ -599,12 +619,11 @@ class AppointmentService
                 return;
             }
 
-            // Schedule job to run at appointment time (minus 5 minutes for early processing)
-            $jobDelay = $appointmentDateTime->subMinutes(5);
+            $jobDelay = $appointmentDateTime->subMinutes(60);
 
             // Only schedule if the appointment is in the future
             if ($jobDelay->gt(now())) {
-                UpdateAppointmentStatus::dispatch($appointment->id)->delay($jobDelay);
+                CheckAppointmentPending::dispatch($appointment->id)->delay($jobDelay);
 
                 // Mark job as scheduled
                 $appointment->update([

@@ -2,23 +2,18 @@
 return [
     'menu' => [
         'home' => 'Home',
-        'services' => 'Services',
-        'doctor_consultation' => 'Doctor Consultation',
-        'pharmacy' => 'Pharmacy',
+        'medical_category' => 'Medical Categories',
+        'doctor_consultation' => 'Book Appointment',
         'support' => 'Support',
     ],
 
-    'subtitle' => [
-        'home' => 'Medlink Home',
-        'services' => 'Our Services',
-        'booking' => 'Online Doctor Consultation',
-        'pharmacy' => 'Online Medicine Purchase',
-        'support' => 'Support Center',
-    ],
-
     'button' => [
+        'download' => 'Download App',
         'login' => 'Login',
         'register' => 'Register',
         'logout' => 'Logout',
+
+        'profile' => 'Profile',
+        'history' => 'Appointment History',
     ],
 ];

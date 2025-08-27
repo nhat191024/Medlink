@@ -21,6 +21,10 @@ class CreateUserLanguagesTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('language_id')->references('id')->on('languages')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['user_id', 'language_id'], 'idx_user_languages_user_lang');
+            $table->unique(['user_id', 'language_id'], 'uk_user_languages_unique');
         });
     }
 

@@ -1,3 +1,4 @@
+@import 'animate.css/animate.min.css';
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -5,7 +6,31 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+@plugin "daisyui" {
+    themes: pastel --default;
+    root: ":root";
+    include: ;
+    exclude: ;
+    prefix: ;
+    logs: true;
+}
+
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+
+    .textarea:focus,
+    .textarea:focus-within {
+        outline: none !important;
+        outline-offset: 0 !important;
+    }
+
+    .input:focus,
+    .input:focus-within {
+        outline: none !important;
+        outline-offset: 0 !important;
+    }
 }

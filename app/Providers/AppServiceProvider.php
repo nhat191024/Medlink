@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
                 ->locales(['vi', 'en']); // also accepts a closure
         });
 
-        if ($this->app->environment('production')) {
-            URL::forceScheme('https');
-        }
+        // if ($this->app->environment('production')) {
+        URL::forceScheme('https');
+        // }
     }
 }

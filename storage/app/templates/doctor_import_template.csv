@@ -1,0 +1,3 @@
+﻿name,email,password,gender,country_code,phone,address,city,ward,country,zip_code,professional_number,medical_category,introduce,office_address,company_name,
+# Tên bác sĩ*,# Email*,# Mật khẩu*,# Giới tính (male/female/other),# Mã quốc gia (+84),# Số điện thoại,# Địa chỉ,# Thành phố,# Phường/Xã,# Quốc gia,# Mã bưu điện,# Số chứng chỉ hành nghề*,# Chuyên khoa,# Giới thiệu,# Địa chỉ phòng khám,# Tên công ty,
+Nguyễn Văn A,doctor.example@email.com,123456,male,84,901234567,123 Đường ABC,Hồ Chí Minh,Phường 1,Việt Nam,70000,BS001234,Tim mạch,Bác sĩ có kinh nghiệm 10 năm trong lĩnh vực tim mạch,"456 Đường XYZ, Quận 1",Bệnh viện ABC,

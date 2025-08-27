@@ -1,74 +1,162 @@
 {
     "medical_categories": [
         {
-            "name": "Khoa răng hàm mặt"
+            "name": "Răng hàm mặt"
         },
         {
-            "name": "Khoa tim mạch"
+            "name": "Tim mạch"
         },
         {
-            "name": "Khoe da liễu"
+            "name": "Da liễu"
         },
         {
-            "name": "Khoa phụ sản"
+            "name": "Phụ sản"
         },
         {
-            "name": "Khoa thần kinh"
+            "name": "Thần kinh"
         },
         {
-            "name": "Khoa mặc"
+            "name": "Mắt"
         },
         {
-            "name": "Khoa chỉnh hình"
+            "name": "Chỉnh hình"
         },
         {
-            "name": "Khoa nhi"
+            "name": "Nhi"
         },
         {
-            "name": "Khoa âm thần"
+            "name": "Tâm thần"
         },
         {
-            "name": "Khoa tiết niệu"
+            "name": "Tiết niệu"
         },
         {
-            "name": "Khoa tai mũi họng"
+            "name": "Tai mũi họng"
         },
         {
-            "name": "Khoa mắt"
+            "name": "Mắt"
         },
         {
-            "name": "Khoa nội tiết"
+            "name": "Nội tiết"
         },
         {
-            "name": "Khoa tiêu hóa"
+            "name": "Tiêu hóa"
         },
         {
-            "name": "Khoa hô hấp"
+            "name": "Hô hấp"
         },
         {
-            "name": "Khoa dinh dưỡng"
+            "name": "Dinh dưỡng"
         },
         {
-            "name": "Khoa ung bướu"
+            "name": "Ung bướu"
         },
         {
-            "name": "Khoa tâm thần"
+            "name": "Tâm thần"
         },
         {
-            "name": "Khoa nội tổng quát"
+            "name": "Nội tổng quát"
         },
         {
-            "name": "Khoa ngoại tổng quát"
+            "name": "Ngoại tổng quát"
         },
         {
-            "name": "Khoa y học cổ truyền"
+            "name": "Y học cổ truyền"
+        }
+    ],
+    "hospitals": [
+        {
+            "name": "Bệnh viện Bạch Mai",
+            "address": "78 Giải Phóng",
+            "city": "Hà Nội",
+            "ward": "Kim liên",
+            "email": "bachmai@gmail.com",
+            "phone": "096.985.1616",
+            "website": "https://bachmai.gov.vn/",
+            "logo": "https://bachmai.gov.vn/logo/logo.png",
+            "description": "BBệnh viện Bạch Mai là bệnh viện Đa khoa hoàn chỉnh hạng đặc biệt đầu tiên tại Việt Nam, với tầm nhìn trở thành bệnh viện uy tín trong khu vực và trên thế giới. Chúng tôi cam kết chăm sóc sức khỏe toàn diện cho mọi người dân bằng tài năng, y đức và sự tận tâm.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Hữu nghị Việt Đức",
+            "address": "40 Tràng Thi",
+            "city": "Hà Nội",
+            "ward": "Hoàn Kiếm",
+            "email": "huunghi@gmail.com",
+            "phone": "038.253.531",
+            "website": "https://benhvienvietduc.org/",
+            "logo": "https://tracuu.benhvienvietduc.org/_next/static/media/logo.1902b4ec.png",
+            "description": "Bệnh viện Việt Đức là tuyến cao nhất của ngành Ngoại khoa miền Bắc, Việt Nam. Với hơn 150 giáo sư, bác sĩ của bệnh viện và của Trường Đại học Y Hà Nội, Trường Đại học Y Dược, ĐHQGHN mỗi năm bệnh viện tiến hành khoảng 28.000 ca phẫu thuật thuộc nhiều chuyên khoa sâu khác nhau.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Chợ Rẫy",
+            "address": "201B Nguyễn Chí Thanh",
+            "city": "Hồ Chí Minh",
+            "ward": "Phường 12",
+            "email": "choray@gmail.com",
+            "phone": "028.3865.4249",
+            "website": "https://choray.vn/",
+            "logo": "https://banner2.cleanpng.com/20190305/pxl/kisspng-cho-ray-hospital-logo-organization-brand-trang-ch-mediworld-1713903149677.webp",
+            "description": "Bệnh viện Chợ Rẫy là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại TP.HCM và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Đa khoa Tỉnh Quảng Ninh",
+            "address": "Tuệ Tĩnh, P. Bạch Đằng, Hạ Long, Quảng Ninh",
+            "city": "Quảng Ninh",
+            "ward": "Phường Bạch Đằng",
+            "email": "bvdkt.syt@quangninh.gov.vn",
+            "phone": "0203 3825 499",
+            "website": "https://www.benhviendakhoatinhquangninh.vn",
+            "logo": "hhttps://www.benhviendakhoatinhquangninh.vn/images/hinhanh/bannerchinh11202552775036.jpg",
+            "description": "Bệnh viện Chợ Đa khoa là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Quảng Ninh và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Đa khoa quốc tế",
+            "address": "124 P. Nguyễn Đức Cảnh",
+            "city": "Hải Phòng",
+            "ward": "Lê Chân",
+            "email": "dakhoaquocte.hih@gmail.com",
+            "phone": "0225 3955 888",
+            "website": "https://hih.vn",
+            "logo": "https://hih.vn/wp-content/uploads/2019/06/logo-bv-01.png",
+            "description": "Bệnh viện Chợ Đa khoa quốc tế  là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Hải phòng và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        },
+        {
+            "name": "Bệnh viện Hữu nghị Việt Tiệp",
+            "address": "1 P. Nhà Thương, An Biên",
+            "city": "Hải Phòng",
+            "ward": "Lê Chân",
+            "email": "dakhoaquocte.hih@gmail.com",
+            "phone": "1900 232361",
+            "website": "https://hih.vn",
+            "logo": "https://hih.vn/wp-content/uploads/2019/06/logo-bv-01.png",
+            "description": "Bệnh viện Hữu nghị Việt Tiệp  là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Hải phòng và các tỉnh lân cận.",
+            "contract_start_date": "2025-01-01",
+            "contract_end_date": "2025-12-31"
+        }
+    ],
+    "admins": [
+        {
+            "name": "admin",
+            "password": "Password1$",
+            "email": "admin@gmail.com",
+            "role": "admin"
         }
     ],
     "services": [
         {
             "icon": "assets/icons/home_2.svg",
             "name": "Khám tại nhà",
-            "description": "khám tại nhà",
+            "description": "Bác sĩ sẽ đến tận nhà để khám bệnh cho bạn",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -77,8 +165,8 @@
         },
         {
             "icon": "assets/icons/video_on.svg",
-            "name": "Khám qua video",
-            "description": "khám qua video",
+            "name": "Tư vấn qua video",
+            "description": "Nhận lời khuyên và tư vấn từ bác sĩ qua video call",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
@@ -88,7 +176,7 @@
         {
             "icon": "assets/icons/first_aid_kit.svg",
             "name": "Khám tại phòng khám",
-            "description": "khám tại phòng khám",
+            "description": "Khám bệnh tại cơ sở y tế trực tiếp với bác sĩ",
             "price": 100000,
             "duration": 30,
             "buffer_time": 10,
@@ -97,8 +185,8 @@
         },
         {
             "icon": "assets/icons/online.svg",
-            "name": "Khám qua cuộc gọi",
-            "description": "khám qua cuộc gọi",
+            "name": "Tư vấn cuộc gọi",
+            "description": "Nhận tư vấn qua cuộc gọi điện thoại với bác sĩ",
             "price": 50000,
             "duration": 30,
             "buffer_time": 10,
@@ -120,6 +208,7 @@
         {
             "user_type": "patient",
             "identity": "none",
+            "hospital_id": null,
             "email": "phamvantrung@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",
@@ -131,13 +220,165 @@
             "longitude": "106.0578",
             "country": "Việt Nam",
             "city": "Hưng Yên",
-            "state": null,
+            "ward": "Hồng Châu",
             "address": "123 Main St, Hưng Yên, Việt Nam",
-            "zip_code": "160000"
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 170,
+                "weight": 52,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh lmao",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "Vuanhnhat@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=N&background=random&size=512",
+            "name": "Vũ Anh Nhật",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "775235650",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hải phòng",
+            "ward": "Lê Chân",
+            "address": "123 Main St, Hải Phòng, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-21",
+                "age": 21,
+                "height": 172,
+                "weight": 100,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh Đại tràng",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "nguyenthilan@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=L&background=random&size=512",
+            "name": "Nguyễn Thị Lan",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 152,
+                "weight": 45,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh trĩ",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "hung@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Văn Hùng",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "987654321",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 180,
+                "weight": 75,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh huyết áp",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
+        },
+        {
+            "user_type": "patient",
+            "identity": "none",
+            "hospital_id": null,
+            "email": "hang@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Thị Hằng",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "patient": {
+                "birth_date": "2004-01-17",
+                "age": 21,
+                "height": 160,
+                "weight": 50,
+                "blood_group": "O+",
+                "medical_history": "có tiền sử bệnh tiểu đường",
+                "insurances": {
+                    "insurance_type": "vietnamese",
+                    "insurance_number": "VN-INS-342307",
+                    "registry": "123 Main St, Hưng Yên, Việt Nam",
+                    "registered_address": "Bệnh viện Đa khoa Hưng Yên",
+                    "vaild_from": "2024-01-01"
+                }
+            }
         },
         {
             "user_type": "healthcare",
             "identity": "doctor",
+            "hospital_id": 1,
             "email": "thinh12os@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=T&background=random&size=512",
@@ -149,153 +390,589 @@
             "longitude": "106.0578",
             "country": "Việt Nam",
             "city": "Quảng Ninh",
-            "state": null,
+            "ward": "Cẩm Phả",
             "address": "123 Main St, Quảng Ninh, Việt Nam",
-            "zip_code": "160000"
-        }
-    ],
-    "patients": [
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-17416",
+                "introduce": "Tôi là bác sĩ chuyên khoa nội tổng quát với hơn 10 năm kinh nghiệm trong lĩnh vực y tế. Tôi đã từng làm việc tại các bệnh viện lớn và có chuyên môn sâu về các bệnh lý nội khoa.",
+                "office_address": "123 Main St, Quảng Ninh, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Quảng Ninh",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Monday",
+                        "all_day": 1
+                    }
+                ]
+            }
+        },
         {
-            "birth_date": "2004-01-17",
-            "age": 21,
-            "height": 170,
-            "weight": 52,
-            "blood_group": "O+",
-            "medical_history": "có tiền sử bệnh lmao",
-            "insurances": {
-                "insurance_type": "vietnamese",
-                "insurance_number": "VN-INS-342307",
-                "registry": "123 Main St, Hưng Yên, Việt Nam",
-                "registered_address": "Bệnh viện Đa khoa Hưng Yên",
-                "vaild_from": "2024-01-01"
-            },
-            "languages": [
-                {
-                    "name": "Tiếng Anh",
-                    "code": "en"
-                },
-                {
-                    "name": "Tiếng Việt",
-                    "code": "vi"
-                }
-            ]
-        }
-    ],
-    "doctors": [
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 2,
+            "email": "nguyenvanhoa@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Nguyễn Văn Hòa",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-23516",
+                "introduce": "Tôi là bác sĩ chuyên khoa tim mạch, đã có hơn 12 năm làm việc trong các trung tâm tim mạch hàng đầu. Tôi am hiểu sâu về chẩn đoán, điều trị và phòng ngừa các bệnh lý về tim, luôn tận tâm mang đến giải pháp tối ưu cho từng bệnh nhân.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
         {
-            "medical_category_id": 1,
-            "id_card_path": "storage/upload/doctor_assets/id-card.png",
-            "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
-            "professional_card_path": null,
-            "exploitation_license_path": null,
-            "professional_number": "PROF-17416",
-            "introduce": "Tôi là bác sĩ chuyên khoa nội tổng quát với hơn 10 năm kinh nghiệm trong lĩnh vực y tế. Tôi đã từng làm việc tại các bệnh viện lớn và có chuyên môn sâu về các bệnh lý nội khoa.",
-            "office_address": "123 Main St, Quảng Ninh, Việt Nam",
-            "company_name": "Bệnh viện Đa khoa Quảng Ninh",
-            "work_schedules": [
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Sunday",
-                    "start_time": "10:00",
-                    "end_time": "10:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Tuesday",
-                    "all_day": 1
-                },
-                {
-                    "day_of_week": "Wednesday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Wednesday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Thursday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Thursday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "08:00",
-                    "end_time": "08:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "09:00",
-                    "end_time": "09:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Friday",
-                    "start_time": "10:00",
-                    "end_time": "10:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "12:00",
-                    "end_time": "12:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "12:30",
-                    "end_time": "13:00",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "13:00",
-                    "end_time": "13:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Saturday",
-                    "start_time": "14:00",
-                    "end_time": "14:30",
-                    "all_day": 0
-                },
-                {
-                    "day_of_week": "Monday",
-                    "all_day": 1
-                }
-            ],
-            "languages": [
-                {
-                    "name": "Tiếng Anh",
-                    "code": "en"
-                },
-                {
-                    "name": "Tiếng Việt",
-                    "code": "vi"
-                }
-            ]
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 3,
+            "email": "hoangduynam@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=N&background=random&size=512",
+            "name": "Hoàng Duy nam",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hải phòng",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hải Phòng, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-36546",
+                "introduce": "Tôi là bác sĩ chuyên khoa ngoại tổng quát, đã có hơn 8 năm kinh nghiệm trong lĩnh vực phẫu thuật và điều trị các bệnh lý ngoại khoa. Tôi luôn nỗ lực mang đến sự an tâm và hiệu quả cao nhất cho bệnh nhân.",
+                "office_address": "123 Main St, Hải Phòng, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Chợ Rẫy",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 4,
+            "email": "vuhongquan@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=Q&background=random&size=512",
+            "name": "Vũ Hồng Quân",
+            "gender": "male",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Ngô Quyền",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-51342",
+                "introduce": "Tôi là bác sĩ chuyên khoa nhi, đã có hơn 6 năm kinh nghiệm trong việc chăm sóc sức khỏe trẻ em. Tôi luôn tận tâm và yêu thích công việc của mình, với mục tiêu mang lại sự phát triển toàn diện cho trẻ nhỏ.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
+        },
+        {
+            "user_type": "healthcare",
+            "identity": "doctor",
+            "hospital_id": 5,
+            "email": "Ha@gmail.com",
+            "password": "Password1$",
+            "avatar": "https://ui-avatars.com/api/?name=H&background=random&size=512",
+            "name": "Chu Thanh Hà",
+            "gender": "Female",
+            "country_code": "+84",
+            "phone": "123456789",
+            "latitude": "20.6547",
+            "longitude": "106.0578",
+            "country": "Việt Nam",
+            "city": "Hà Nội",
+            "ward": "Cầu Giấy",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "zip_code": "160000",
+            "doctor": {
+                "id_card_path": "storage/upload/doctor_assets/id-card.png",
+                "medical_degree_path": "storage/upload/doctor_assets/medical-degree.png",
+                "professional_card_path": null,
+                "exploitation_license_path": null,
+                "professional_number": "PROF-23516",
+                "introduce": "Tôi là bác sĩ chuyên khoa nội tiết, đã có hơn 10 năm kinh nghiệm trong việc chẩn đoán và điều trị các bệnh lý nội tiết. Tôi luôn nỗ lực mang đến sự chăm sóc tốt nhất cho bệnh nhân của mình.",
+                "office_address": "123 Main St, Hà Nội, Việt Nam",
+                "company_name": "Bệnh viện Đa khoa Hưng Yên",
+                "work_schedules": [
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Sunday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Tuesday",
+                        "all_day": 1
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Wednesday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Thursday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "08:00",
+                        "end_time": "08:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "09:00",
+                        "end_time": "09:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Friday",
+                        "start_time": "10:00",
+                        "end_time": "10:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:00",
+                        "end_time": "12:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "12:30",
+                        "end_time": "13:00",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "13:00",
+                        "end_time": "13:30",
+                        "all_day": 0
+                    },
+                    {
+                        "day_of_week": "Saturday",
+                        "start_time": "14:00",
+                        "end_time": "14:30",
+                        "all_day": 0
+                    }
+                ]
+            }
         }
     ],
     "appointments": [
@@ -402,7 +1079,462 @@
                 "taxVAT": 10000,
                 "total": 110000,
                 "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ rất tận tâm và chuyên nghiệp. Tôi cảm thấy hài lòng với dịch vụ khám bệnh.",
+                "recommend": true
             }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 5,
+            "status": "pending",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "07:30 AM - 8:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 6,
+            "status": "upcoming",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 7,
+            "status": "cancelled",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 8,
+            "status": "rejected",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 2,
+            "patient_profile_id": 2,
+            "service_id": 5,
+            "status": "completed",
+            "medical_problem": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-28",
+            "day_of_week": "Monday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Dolore culpa pariatur qui non qui sunt laboris ex officia veniam incididunt.",
+            "address": "123 Main St, Hưng Yên, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ rất tận tâm và chuyên nghiệp. Tôi cảm thấy hài lòng với dịch vụ khám bệnh.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 9,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tổng quát để xác định nguyên nhân đau bụng.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 10,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 11,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 12,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 3,
+            "patient_profile_id": 3,
+            "service_id": 9,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng đau bụng kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-29",
+            "day_of_week": "Tuesday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tổng quát đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 4,
+                "content": "Bác sĩ tư vấn kỹ lưỡng, dịch vụ tốt.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 13,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tại nhà để kiểm tra sức khỏe.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 14,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 15,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 16,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 4,
+            "patient_profile_id": 4,
+            "service_id": 13,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng sốt cao.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-30",
+            "day_of_week": "Wednesday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ nhiệt tình, dịch vụ tốt.",
+                "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 17,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "07:30 AM - 08:00 AM",
+            "reason": "Khám tại nhà để kiểm tra sức khỏe.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 18,
+            "status": "upcoming",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "08:00 AM - 08:30 AM",
+            "reason": "Khám qua video để tư vấn ban đầu.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 19,
+            "status": "cancelled",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "08:30 AM - 09:00 AM",
+            "reason": "Khám tại phòng khám bị hủy do bệnh nhân bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 20,
+            "status": "rejected",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "09:00 AM - 09:30 AM",
+            "reason": "Cuộc gọi bị từ chối do bác sĩ bận.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 5,
+            "patient_profile_id": 5,
+            "service_id": 17,
+            "status": "completed",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-07-31",
+            "day_of_week": "Thursday",
+            "time": "09:30 AM - 10:00 AM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            },
+            "review": {
+                "rate": 5,
+                "content": "Bác sĩ tận tâm, dịch vụ chuyên nghiệp.",
+                "recommend": true
+            }
+        }
+    ],
+    "supports": [
+        {
+            "patient_id": 1,
+            "doctor_id": 2,
+            "appointment_id": 1,
+            "hospital_id": 1,
+            "message": "Tôi cần hỗ trợ về lịch hẹn khám bệnh.",
+            "status": "open"
         }
     ]
 }

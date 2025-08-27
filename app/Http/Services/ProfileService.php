@@ -431,7 +431,6 @@ class ProfileService
             $user->update([
                 'name' => $validatedData['name'],
                 'gender' => $validatedData['gender'] ?? null,
-                'country_code' => $validatedData['country_code'],
                 'phone' => $validatedData['phone'],
                 'email' => $validatedData['email'],
                 'latitude' => $validatedData['latitude'] ?? null,
@@ -464,17 +463,17 @@ class ProfileService
             ]);
 
             // Update languages
-            $this->updateUserLanguages($user, $validatedData['languages']);
+            // $this->updateUserLanguages($user, $validatedData['languages']);
 
             DB::commit();
             return [
                 'profile' => $user->load('patientProfile.insurance', 'languages.language'),
-                'message' => 'Patient profile updated successfully'
+                'message' => 'Hồ sơ bệnh nhân được cập nhật thành công'
             ];
         } catch (\Exception $e) {
             DB::rollBack();
             return [
-                'error' => 'Failed to update patient profile: ' . $e->getMessage()
+                'error' => 'Lỗi khi cập nhập hồ sơ bệnh nhân: ' . $e->getMessage()
             ];
         }
     }

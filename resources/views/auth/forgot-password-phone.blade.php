@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="auth-container">
         <div class="left">
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
@@ -96,7 +96,7 @@
             }, 300);
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             initProgressIndicator(1);
 
             const selectSelected = document.getElementById('selectSelected');
@@ -120,35 +120,35 @@
 
                     // Add popular countries first
                     const popularCountries = [{
-                        name: 'Vietnam',
-                        flag: '🇻🇳',
-                        code: '+84'
-                    },
-                    {
-                        name: 'United States',
-                        flag: '🇺🇸',
-                        code: '+1'
-                    },
-                    {
-                        name: 'United Kingdom',
-                        flag: '🇬🇧',
-                        code: '+44'
-                    },
-                    {
-                        name: 'China',
-                        flag: '🇨🇳',
-                        code: '+86'
-                    },
-                    {
-                        name: 'Japan',
-                        flag: '🇯🇵',
-                        code: '+81'
-                    },
-                    {
-                        name: 'South Korea',
-                        flag: '🇰🇷',
-                        code: '+82'
-                    }
+                            name: 'Vietnam',
+                            flag: '🇻🇳',
+                            code: '+84'
+                        },
+                        {
+                            name: 'United States',
+                            flag: '🇺🇸',
+                            code: '+1'
+                        },
+                        {
+                            name: 'United Kingdom',
+                            flag: '🇬🇧',
+                            code: '+44'
+                        },
+                        {
+                            name: 'China',
+                            flag: '🇨🇳',
+                            code: '+86'
+                        },
+                        {
+                            name: 'Japan',
+                            flag: '🇯🇵',
+                            code: '+81'
+                        },
+                        {
+                            name: 'South Korea',
+                            flag: '🇰🇷',
+                            code: '+82'
+                        }
                     ];
 
                     // Remove duplicates and merge with popular countries
@@ -165,25 +165,25 @@
                     console.error('Error fetching countries:', error);
                     // Fallback to basic countries
                     const fallbackCountries = [{
-                        name: 'Vietnam',
-                        flag: '🇻🇳',
-                        code: '+84'
-                    },
-                    {
-                        name: 'United States',
-                        flag: '🇺🇸',
-                        code: '+1'
-                    },
-                    {
-                        name: 'United Kingdom',
-                        flag: '🇬🇧',
-                        code: '+44'
-                    },
-                    {
-                        name: 'Togo',
-                        flag: '🇹🇬',
-                        code: '+228'
-                    }
+                            name: 'Vietnam',
+                            flag: '🇻🇳',
+                            code: '+84'
+                        },
+                        {
+                            name: 'United States',
+                            flag: '🇺🇸',
+                            code: '+1'
+                        },
+                        {
+                            name: 'United Kingdom',
+                            flag: '🇬🇧',
+                            code: '+44'
+                        },
+                        {
+                            name: 'Togo',
+                            flag: '🇹🇬',
+                            code: '+228'
+                        }
                     ];
                     populateDropdown(fallbackCountries);
                 });
@@ -195,9 +195,9 @@
                     const div = document.createElement('div');
                     div.innerHTML =
                         `<span class="country-flag">${country.flag}</span>
-                                <span class="country-name">${country.name}</span>
-                                <span class="country-code">${country.code}</span>`;
-                    div.addEventListener('click', function () {
+                                    <span class="country-name">${country.name}</span>
+                                    <span class="country-code">${country.code}</span>`;
+                    div.addEventListener('click', function() {
                         selectCountry(country);
                     });
                     selectItems.appendChild(div);
@@ -207,14 +207,14 @@
             function selectCountry(country) {
                 selectSelected.innerHTML =
                     `<span class="country-flag">${country.flag}</span>
-                            <span class="country-code">${country.code}</span>`;
+                                <span class="country-code">${country.code}</span>`;
                 hiddenSelect.value = country.code;
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             }
 
             // Toggle dropdown
-            selectSelected.addEventListener('click', function (e) {
+            selectSelected.addEventListener('click', function(e) {
                 console.log('Dropdown clicked');
                 e.stopPropagation();
                 selectItems.classList.toggle('select-hide');
@@ -222,7 +222,7 @@
             });
 
             // Close dropdown when clicking outside
-            document.addEventListener('click', function () {
+            document.addEventListener('click', function() {
                 selectItems.classList.add('select-hide');
                 selectSelected.classList.remove('select-arrow-active');
             });

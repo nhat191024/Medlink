@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Models\File;
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
  *
@@ -14,9 +18,9 @@ use Carbon\Carbon;
  * @property int $patient_profile_id
  * @property int $doctor_profile_id
  * @property int $service_id
+ * @property int $hospital_id
  * @property string $status
  * @property string $medical_problem
- * @property string|null $medical_problem_file
  * @property int $duration
  * @property string $date
  * @property string $day_of_week
@@ -29,6 +33,7 @@ use Carbon\Carbon;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Bill|null $bill
  * @property-read \App\Models\DoctorProfile $doctor
  * @property-read \App\Models\PatientProfile $patient
  * @property-read \App\Models\Review|null $review
@@ -53,6 +58,8 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereServiceId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatusJobScheduled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereStatusJobScheduledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Appointment withTrashed()
@@ -61,15 +68,15 @@ use Carbon\Carbon;
  */
 class Appointment extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'patient_profile_id',
         'doctor_profile_id',
         'service_id',
+        'hospital_id',
         'status',
         'medical_problem',
-        'medical_problem_file',
         'duration',
         'date',
         'day_of_week',
@@ -86,6 +93,11 @@ class Appointment extends Model
         'status_job_scheduled_at' => 'datetime',
     ];
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
     public function patient()
     {
         return $this->belongsTo(PatientProfile::class, 'patient_profile_id');
@@ -94,6 +106,11 @@ class Appointment extends Model
     public function doctor()
     {
         return $this->belongsTo(DoctorProfile::class, 'doctor_profile_id');
+    }
+
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class, 'hospital_id');
     }
 
     public function service()
@@ -109,6 +126,16 @@ class Appointment extends Model
     public function bill()
     {
         return $this->hasOne(Bill::class, 'appointment_id');
+    }
+
+    public function examResult()
+    {
+        return $this->hasOne(ExamResult::class, 'appointment_id');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
     }
 
     public static function isDoctorBusy($doctorProfileId)

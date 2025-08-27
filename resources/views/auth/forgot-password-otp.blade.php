@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app-no-layout')
 
 @push('styles')
     <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="auth-container">
         <div class="left">
             <img class="doctor-img" src="{{ asset('img/doctor.webp') }}" alt="Doctor">
         </div>
@@ -18,14 +18,14 @@
             </div>
 
             <!-- Progress Indicator -->
-            <div class="progress-indicator" id="progressIndicator">
+            <div id="progressIndicator" class="progress-indicator">
                 <div class="progress-circle">
                     <svg viewBox="0 0 50 50">
                         <circle class="progress-bg" cx="25" cy="25" r="20"></circle>
-                        <circle class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6" id="progressCircle">
+                        <circle id="progressCircle" class="progress-fill" cx="25" cy="25" r="20" stroke-dasharray="0 125.6">
                         </circle>
                     </svg>
-                    <div class="progress-number" id="progressNumber">1</div>
+                    <div id="progressNumber" class="progress-number">1</div>
                 </div>
             </div>
 
@@ -38,18 +38,18 @@
                 {{ session('forgot_password.country_code') }} {{ session('forgot_password.phone') }}
             </p>
 
-            <form method="POST" action="#" class="otp-form">
+            <form class="otp-form" method="POST" action="#">
                 @csrf
                 <div class="otp-inputs">
-                    <input type="text" name="digit1" maxlength="1" class="otp-box" required autofocus>
-                    <input type="text" name="digit2" maxlength="1" class="otp-box" required>
-                    <input type="text" name="digit3" maxlength="1" class="otp-box" required>
-                    <input type="text" name="digit4" maxlength="1" class="otp-box" required>
+                    <input class="otp-box" name="digit1" type="text" required maxlength="1" autofocus>
+                    <input class="otp-box" name="digit2" type="text" required maxlength="1">
+                    <input class="otp-box" name="digit3" type="text" required maxlength="1">
+                    <input class="otp-box" name="digit4" type="text" required maxlength="1">
                 </div>
 
                 <p class="resend-text">{{ __('client/auth.resend-text') }} <span id="countdown">60s</span></p>
 
-                <button type="submit" class="submit-btn" disabled id="verify-btn">
+                <button id="verify-btn" class="submit-btn" type="submit" disabled>
                     {{ __('client/auth.button.verify') }}
                 </button>
             </form>
@@ -74,7 +74,7 @@
             }, 300);
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             initProgressIndicator(2);
             const inputs = document.querySelectorAll('.otp-box');
 

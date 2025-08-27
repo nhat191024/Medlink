@@ -2,8 +2,30 @@
 
 namespace App\Http\Services;
 
+use App\Models\Review;
+
 class ReviewService
 {
+    public function getReviewsShowCase()
+    {
+        $reviews = Review::with(['patient.user'])
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get()
+            ->map(function ($review) {
+                return [
+                    'id' => $review->id,
+                    'rate' => $review->rate,
+                    'review' => $review->review,
+                    'name' => $review->patient->user->name,
+                    'avatar' => $review->patient->user->avatar ? asset($review->patient->user->avatar) : null,
+                    'created_at' => $review->created_at,
+                ];
+            });
+
+        return $reviews;
+    }
+
     public function getTestimonials($reviews)
     {
         $testimonialsTitle = [
@@ -51,5 +73,34 @@ class ReviewService
             'avatar' => $review->patient->user->avatar ? asset($review->patient->user->avatar) : null,
             'created_at' => $review->created_at,
         ]);
+    }
+
+    public function getFavoriteDoctors($doctors)
+    {
+        $sortedDoctors = $doctors->sortByDesc(function ($doctor) {
+            $averageRating = $doctor->reviews_avg_rate ?? 0;
+            $reviewsCount = $doctor->reviews_count;
+
+            return [$averageRating, $reviewsCount];
+        })->values();
+
+        $favoriteDoctors = $sortedDoctors->filter(fn($doctor) => $doctor->reviews_count > 0);
+
+        return $favoriteDoctors->map(function ($doctor) {
+            return [
+                'id' => $doctor->id,
+                'name' => $doctor->user->name,
+                'avatar' => $doctor->user->avatar ? asset($doctor->user->avatar) : null,
+                'medical_category' => $doctor->medicalCategory->name ?? null,
+                'city' => $doctor->user->city,
+                'country' => $doctor->user->country,
+                'company_name' => $doctor->company_name,
+                'introduce' => $doctor->introduce,
+                'service_price' => $doctor->services->pluck('price')->first() ?? 0,
+                'average_rating' => round($doctor->reviews_avg_rate ?? 0, 1),
+                'total_reviews' => $doctor->reviews_count,
+                'created_at' => $doctor->created_at,
+            ];
+        });
     }
 }

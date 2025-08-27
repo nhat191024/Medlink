@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
  *
  *
@@ -23,6 +26,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Appointment> $appointments
  * @property-read int|null $appointments_count
+ * @property-read float|null $average_rating
+ * @property-read \App\Models\Hospital $hospital
  * @property-read \App\Models\MedicalCategory|null $medicalCategory
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Review> $reviews
  * @property-read int|null $reviews_count
@@ -38,6 +43,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereCompanyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereExploitationLicensePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereHospitalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereIdCardPath($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|DoctorProfile whereIntroduce($value)
@@ -52,7 +58,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class DoctorProfile extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +77,56 @@ class DoctorProfile extends Model
         'office_address',
         'company_name',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::created(function ($doctorProfile) {
+            if ($doctorProfile->user?->hospital) {
+                $doctorProfile->user->hospital->increment('doctor_count');
+            }
+        });
+        static::deleted(function ($doctorProfile) {
+            if ($doctorProfile->user?->hospital) {
+                $doctorProfile->user->hospital->decrement('doctor_count');
+            }
+        });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+    /**
+     * Get the average rating (rate) from related reviews.
+     *
+     * @return float|null
+     */
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rate');
+    }
+
+    /**
+     * Get the minimum service price for this doctor.
+     *
+     * @return float
+     */
+    public function getMinServicePriceAttribute()
+    {
+        return $this->services()->min('price') ?? 0;
+    }
+
+    /**
+     * Get the total number of reviews for this doctor.
+     *
+     * @return int
+     */
+    public function getTotalReviewsAttribute()
+    {
+        return $this->reviews()->count();
+    }
 
     /**
      *  Models relationships
@@ -103,15 +159,5 @@ class DoctorProfile extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class, 'doctor_profile_id');
-    }
-
-    /**
-     * Get the average rating (rate) from related reviews.
-     *
-     * @return float|null
-     */
-    public function getAverageRatingAttribute()
-    {
-        return $this->reviews()->avg('rate');
     }
 }

@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -31,14 +35,53 @@ use Illuminate\Database\Eloquent\Model;
  */
 class MedicalCategory extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'name',
+        'slug',
     ];
 
-    public function users()
+    protected static function boot()
     {
-        return $this->hasMany(User::class);
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (empty($model->slug)) {
+                $model->slug = Str::slug($model->name);
+
+                // Ensure unique slug
+                $originalSlug = $model->slug;
+                $count = 1;
+                while (static::where('slug', $model->slug)->exists()) {
+                    $model->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+
+        static::updating(function ($model) {
+            if ($model->isDirty('name') && empty($model->getOriginal('slug'))) {
+                $model->slug = Str::slug($model->name);
+
+                // Ensure unique slug
+                $originalSlug = $model->slug;
+                $count = 1;
+                while (static::where('slug', $model->slug)->where('id', '!=', $model->id)->exists()) {
+                    $model->slug = $originalSlug . '-' . $count;
+                    $count++;
+                }
+            }
+        });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+    public function doctorProfiles()
+    {
+        return $this->hasMany(DoctorProfile::class);
     }
 }

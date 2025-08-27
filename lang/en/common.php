@@ -1,17 +1,44 @@
 <?php
 return [
     'admin' => [
+        'id' => 'ID',
+
+        'admin' => 'Admins',
+        'accounts' => 'Accounts',
+
+        'hr' => 'Human Resources',
+        'supervisor' => 'Supervisors',
         'doctor' => 'Doctors',
         'patient' => 'Patients',
         'pharmacy' => 'Pharmacies',
         'hospital' => 'Hospitals',
 
+        'avatar' => 'Avatar',
+
+        'basic_info' => 'Basic Information',
+
+        'username' => 'Name',
         'name' => 'Name',
+        'hospital_name' => 'Hospital Name',
         'email' => 'Email',
+        'password' => 'Password',
+        'leave_blank_to_keep_current_password' => 'Leave blank to keep current password',
         'phone' => 'Phone',
+        'country_code' => 'Country Code',
         'country' => 'Country',
         'city' => 'City',
-        'state' => 'State/Province',
+        'ward' => 'Ward',
+        'address' => 'Address',
+        'zip_code' => 'Zip Code',
+        'website' => 'Website',
+        'logo' => 'Logo',
+        'description' => 'Description',
+        'gender' => 'Gender',
+        'male' => 'Male',
+        'female' => 'Female',
+        'other' => 'Other',
+        'contract_start_date' => 'Contract Start Date',
+        'contract_end_date' => 'Contract End Date',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
 
@@ -23,6 +50,7 @@ return [
         'view_image' => 'View Image',
         'approve' => 'Approve',
         'suspend' => 'Suspend',
+        'lock_account' => 'Lock Account',
         'restore' => 'Restore',
         'reactivate' => 'Reactivate',
         'delete_permanently' => 'Delete Permanently',
@@ -42,6 +70,39 @@ return [
         'delete_modal_heading' => 'Delete Account Permanently',
         'delete_modal_description' => 'Are you sure you want to delete this account permanently? This action cannot be undone.',
         'delete_success' => 'Account deleted permanently.',
+
+        'view_account' => 'Account',
+        'account_info' => 'Account Information',
+
+        'activity' => 'Activity',
+        'action' => 'Action',
+        'subject' => 'Subject',
+        'subject_id' => 'Subject ID',
+        'subject_name' => 'Subject Name',
+        'causer' => 'Causer',
+        'causer_id' => 'Causer ID',
+        'causer_name' => 'Causer Name',
+    ],
+
+    'basic_info' => 'Basic Information',
+    'hospital_basic_info_description' => 'Update the basic information of the hospital',
+    'address_info_description' => 'Update the address information of the hospital',
+    'description_info' => 'Description Information',
+    'hospital_description_details' => 'Hospital Description Details',
+    'contact_info' => 'Contact Information',
+    'contact_info_description' => 'Information about the contract term',
+
+    'success' => 'Success!',
+    'notifation' => [
+        'update_success' => 'The information of :name has been updated.',
+    ],
+
+    'event' => [
+        'created' => 'Created',
+        'updated' => 'Updated',
+        'deleted' => 'Deleted',
+        'restored' => 'Restored',
+        'force_deleted' => 'Force Deleted',
     ],
 
     'mobile_app_url' => 'Mobile App URL',
@@ -49,5 +110,18 @@ return [
     'play_store_url' => 'Play Store URL',
     'app_store_url' => 'App Store URL',
 
+    'system' => 'System',
+    'my_profile' => 'My Profile',
+    'back' => 'Back',
+
     'close' => 'Close',
+    'save' => 'Save',
+    'cancel' => 'Cancel',
+    'edit' => 'Edit',
+    'delete' => 'Delete',
+    'create' => 'Create',
+    'update' => 'Update',
+
+    'download_template' => 'Download Template',
+    'import_doctors' => 'Import Doctors',
 ];

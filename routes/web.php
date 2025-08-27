@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\MedicalSpecialtyController;
 
 // Auth routes
 Route::middleware('guest')->group(function () {
@@ -17,18 +20,18 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     require __DIR__ . '/web/doctor-booking.php';
+    require __DIR__ . '/web/profile.php';
+    require __DIR__ . '/web/medical-specialties.php';
 });
 
-route::get('/', function () {
-    return view('layouts.app');
-});
-
-Route::get('/home/doctor-detail', function () {
-    return view('home.doctor-detail');
-});
-
-Route::get('/booking', function () {
-    return view('appointment.booking');
-});
-
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
+
+// Test route for success page
+// Route::get('/test-success', function () {
+//     session()->flash('serviceName', 'Khám tim mạch');
+//     session()->flash('date', '25/12/2024');
+//     session()->flash('time', '09:00 - 10:00');
+//     return redirect()->route('appointment.success');
+// })->name('test.success');

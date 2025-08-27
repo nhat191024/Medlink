@@ -27,6 +27,10 @@ return new class extends Migration
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('medical_category_id')->references('id')->on('medical_categories')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['medical_category_id'], 'idx_doctor_profiles_category');
+            $table->index(['user_id'], 'idx_doctor_profiles_user');
         });
     }
 

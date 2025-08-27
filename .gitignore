@@ -23,3 +23,5 @@ yarn-error.log
 /.vscode
 /.zed
 dumb.php
+.devdbrc
+laradumps.yaml

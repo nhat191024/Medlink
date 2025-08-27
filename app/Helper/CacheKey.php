@@ -4,6 +4,14 @@ namespace App\Helper;
 
 class CacheKey
 {
+    //use in HomeController
+    public const string HOME = 'home';
+
+    //use in MedicalCategoryController
+    public const string MEDICAL_CATEGORIES = 'medical_categories';
+    public const string DOCTOR_IN_CATEGORY = 'doctors_in_category_';
+    public const string RELATED_SPECIALTIES = 'related_specialties_';
+
     //use in DashboardController & UserService
     public const string PATIENT_SUMMARY = 'patient_summary_';
     public const string PATIENT_PROFILE_DATA = 'patient_profile_data_';
@@ -18,12 +26,12 @@ class CacheKey
     public const string APPOINTMENT_DETAILS = 'appointment_details_';
     public const string APPOINTMENT_STATISTICS = 'appointment_statistics_';
 
-    //use in SearchController & appointmentService
+    //use in SearchController & appointmentService & BookingController
     public const string HEALTH_CATEGORIES_COUNT = 'health_categories_count';
     public const string DOCTOR_LIST_SEARCH_PAGE = 'doctor_list_search_page_';
     public const string DOCTOR_SEARCH = 'doctor_search_';
 
-    //use in ProfileController & ProfileService
+    //use in ProfileController & ProfileService & BookingController
     public const string DOCTOR_PROFILE = 'doctor_profile_';
     public const string PATIENT_PROFILE = 'patient_profile_';
     public const string PROFILE_STATISTICS = 'profile_statistics_';

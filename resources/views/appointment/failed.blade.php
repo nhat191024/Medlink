@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link href="{{ asset('css/appointment/failed.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/appointment/failed.css') }}?v=1" rel="stylesheet">
 @endpush
 
 @section('content')
     <div class="failed-bg">
-        <div class="failed-main">
+        <div class="failed-main border-0">
             <div class="failed-icon-top">
                 <img src="{{ asset('img/error-icon.png') }}" alt="Error Icon" class="info-icon-img">
             </div>

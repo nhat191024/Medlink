@@ -22,6 +22,11 @@ class CreateFavoritesTable extends Migration
 
             $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['patient_id', 'type'], 'idx_favorites_patient_type');
+            $table->index(['doctor_id', 'type'], 'idx_favorites_doctor_type');
+            $table->unique(['patient_id', 'doctor_id'], 'uk_favorites_unique');
         });
     }
 

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
 /**
  *
  *
@@ -12,7 +15,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $user_id
  * @property string|null $birth_date
  * @property int|null $age
- * @property string|null $gender
  * @property int|null $height
  * @property int|null $weight
  * @property string|null $blood_group
@@ -33,7 +35,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereBirthDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereBloodGroup($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereGender($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereHeight($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PatientProfile whereMedicalHistory($value)
@@ -44,7 +45,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 class PatientProfile extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -60,6 +61,11 @@ class PatientProfile extends Model
         'blood_group',
         'medical_history',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 
     /**
      *  Models relationships

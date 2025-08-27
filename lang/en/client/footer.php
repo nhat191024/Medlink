@@ -1,46 +1,30 @@
 <?php
 return [
+    'company_side_1' => 'Taiyo Joint Stock Company',
+    'copy_right' => 'Copyright ©',
+    'all_rights_reserved' => 'Copyright belongs to Taiyo Joint Stock Company | Legal representative: Mr. Taiyo | Tax code: 123456789',
     'menu' => [
-        'service' => 'Services',
+        'service' => 'Service',
         'services' => [
-            'service1' => 'Free Question Submission',
-            'service2' => 'Book an Appointment',
-            'service3' => 'View Test Results',
-            'service4' => 'Buy Medicine Online',
+            'service1' => 'Ask questions for free',
+            'service2' => 'Book a medical appointment',
+            'service3' => 'View test results',
+            'service4' => 'Buy medicine online',
         ],
 
         'information' => 'Information',
         'informations' => [
-            'information1' => 'Disease Lookup',
-            'information2' => 'Find Clinics',
-            'information3' => 'Search Doctors'
+            'information1' => 'Disease lookup',
+            'information2' => 'Find clinics',
+            'information3' => 'Search for doctors'
         ],
 
-        'extra' => 'Extras',
+        'extra' => 'Others',
         'extras' => [
-            'extra1' => 'Privacy Policy',
-            'extra2' => 'Terms of Use',
-            'extra3' => 'Service Usage Process',
-            'extra4' => 'Operating Regulations',
+            'extra1' => 'Privacy policy',
+            'extra2' => 'Terms of use',
+            'extra3' => 'Service usage process',
+            'extra4' => 'Operational regulations',
         ],
-
-        'connect_with_us' => 'Connect with Us',
-        'contact' => 'Contact Us',
-        'email' => 'Email',
-        'hotline' => 'Hotline',
-
-        'headquarters' => 'Headquarters in Hai Phong',
-        'branches' => [
-            'branch1' => 'Hanoi Branch',
-            'branch2' => 'Ho Chi Minh City Branch',
-        ],
-
-        'address' => [
-            'address1' => '123 ABC Street, District 1, Hai Phong',
-            'address2' => '456 DEF Street, District 2, Hanoi',
-            'address3' => '789 GHI Street, District 3, Ho Chi Minh City',
-        ],
-
-        'company' => "Taiyo Joint Stock Company | Legal Representative: Mr. Taiyo | Tax Code: 123456789",
     ]
 ];

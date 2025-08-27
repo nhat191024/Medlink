@@ -22,6 +22,10 @@ class CreateUserSettingsTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['user_id', 'name'], 'idx_user_settings_user_name');
+            $table->unique(['user_id', 'name'], 'uk_user_settings_user_name');
         });
     }
 

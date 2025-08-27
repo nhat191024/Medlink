@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
             $table->enum('user_type', ['healthcare', 'patient', 'admin'])->default('patient');
             $table->enum('identity', ['none', 'doctor', 'pharmacies', 'hospital', 'ambulance'])->default('none');
 
+            $table->unsignedBigInteger('hospital_id')->nullable();
+
             $table->string('email')->unique();
             $table->string('password');
 
@@ -33,7 +35,7 @@ class CreateUsersTable extends Migration
 
             $table->string('country')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
+            $table->string('ward')->nullable();
             $table->string('address')->nullable();
             $table->string('zip_code')->nullable();
 
@@ -42,6 +44,17 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('hospital_id')->references('id')->on('hospitals')->onDelete('restrict')->onUpdate('cascade');
+
+            // Performance indexes
+            $table->index(['user_type', 'status'], 'idx_users_type_status');
+            $table->index('hospital_id', 'idx_users_hospital_id');
+            $table->index(['status', 'created_at'], 'idx_users_status_created');
+            $table->index(['email', 'status'], 'idx_users_email_status');
+            $table->index(['phone'], 'idx_users_phone');
+            $table->index(['city', 'status'], 'idx_users_city_status');
+            $table->index(['last_login'], 'idx_users_last_login');
         });
 
         Schema::create('sessions', function (Blueprint $table) {

@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     libpng-dev \
     libpq-dev \
-    # nodejs \
-    # npm \
+    nodejs \
+    npm \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libicu-dev \

@@ -328,8 +328,8 @@ class AuthController extends Controller
             $password = $request->input('password');
             $passwordConfirmation = $request->input('password_confirmation');
             $user = User::where('country_code', $countryCode)
-            ->where('phone', $this->removeZero($phone))
-            ->first();
+                ->where('phone', $this->removeZero($phone))
+                ->first();
             // dd($request->all(),$user, $this->removeZero($phone));
 
             if (!$user) {
@@ -402,7 +402,7 @@ class AuthController extends Controller
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect('/login');
+            return redirect('/');
         } else {
             return redirect('/login');
         }
