@@ -47,6 +47,11 @@ class HospitalPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->widgets([
+                \App\Filament\Hospital\Widgets\HospitalOverviewStatsWidget::class,
+                \App\Filament\Hospital\Widgets\HospitalAppointmentsChartWidget::class,
+                \App\Filament\Hospital\Widgets\HospitalRevenueChartWidget::class,
+                \App\Filament\Hospital\Widgets\HospitalAppointmentStatusChartWidget::class,
+                \App\Filament\Hospital\Widgets\HospitalRecentActivitiesWidget::class,
                 AccountWidget::class,
             ])
 
