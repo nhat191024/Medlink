@@ -194,10 +194,10 @@
                                         @if ($support->doctor)
                                             <div class="flex items-center gap-3 rounded-lg bg-blue-50 p-3">
                                                 <div class="h-10 w-10 overflow-hidden rounded-full">
-                                                    <img class="h-full w-full object-cover" src="{{ asset($support->doctor->user->avatar ?? 'default-avatar.png') }}" alt="{{ $support->doctor->user->name }}">
+                                                    <img class="h-full w-full object-cover" src="{{ asset($support->doctor->avatar ?? 'default-avatar.png') }}" alt="{{ $support->doctor->name }}">
                                                 </div>
                                                 <div>
-                                                    <p class="text-sm font-medium text-gray-800">{{ $support->doctor->user->name }}</p>
+                                                    <p class="text-sm font-medium text-gray-800">{{ $support->doctor->name }}</p>
                                                     <p class="text-xs text-gray-600">{{ $support->doctor->medicalCategory->name ?? 'Bác sĩ' }}</p>
                                                 </div>
                                             </div>
@@ -470,60 +470,60 @@
                                 <span>Tạo lúc: ${createdAt}</span>
                             </div>
                             ${updatedAt ? `
-                                                    <div class="flex items-center gap-2 mt-1">
-                                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                                        </svg>
-                                                        <span>Cập nhật: ${updatedAt}</span>
-                                                    </div>
-                                                ` : ''}
+                                    <div class="flex items-center gap-2 mt-1">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                        <span>Cập nhật: ${updatedAt}</span>
+                                    </div>
+                                ` : ''}
                         </div>
                     </div>
 
                     <!-- Appointment Info -->
                     ${appointment ? `
-                                            <div class="bg-blue-50 rounded-xl p-4">
-                                                <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
-                                                    <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 4v6m-4-4h8m-4-4a4 4 0 11-8 0m4 4v6" />
-                                                    </svg>
-                                                    Thông tin cuộc hẹn liên quan
-                                                </h4>
-                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    <div>
-                                                        <p class="text-sm font-medium text-gray-600">Ngày khám:</p>
-                                                        <p class="text-sm text-gray-800">${appointmentDate}</p>
-                                                    </div>
-                                                    ${appointment.service ? `
+                            <div class="bg-blue-50 rounded-xl p-4">
+                                <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                                    <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a4 4 0 118 0v4m-4 4v6m-4-4h8m-4-4a4 4 0 11-8 0m4 4v6" />
+                                    </svg>
+                                    Thông tin cuộc hẹn liên quan
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-600">Ngày khám:</p>
+                                        <p class="text-sm text-gray-800">${appointmentDate}</p>
+                                    </div>
+                                    ${appointment.service ? `
                                     <div>
                                         <p class="text-sm font-medium text-gray-600">Dịch vụ:</p>
                                         <p class="text-sm text-gray-800">${appointment.service.name}</p>
                                     </div>
                                 ` : ''}
-                                                </div>
-                                            </div>
-                                        ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
 
                     <!-- Doctor Info -->
                     ${doctor ? `
-                                            <div class="bg-green-50 rounded-xl p-4">
-                                                <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
-                                                    <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                                    </svg>
-                                                    Bác sĩ phụ trách
-                                                </h4>
-                                                <div class="flex items-center gap-4">
-                                                    <div class="h-12 w-12 overflow-hidden rounded-full">
-                                                        <img class="h-full w-full object-cover" src="${doctor.user.avatar || '/default-avatar.png'}" alt="${doctor.user.name}">
-                                                    </div>
-                                                    <div>
-                                                        <p class="font-medium text-gray-800">${doctor.user.name}</p>
-                                                        <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Bác sĩ'}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ` : ''}
+                            <div class="bg-green-50 rounded-xl p-4">
+                                <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center gap-2">
+                                    <svg class="h-5 w-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    Bác sĩ phụ trách
+                                </h4>
+                                <div class="flex items-center gap-4">
+                                    <div class="h-12 w-12 overflow-hidden rounded-full">
+                                        <img class="h-full w-full object-cover" src="${doctor.avatar || '/default-avatar.png'}" alt="${doctor.name}">
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-800">${doctor.name}</p>
+                                        <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Bác sĩ'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
 
                     <!-- Support Message -->
                     <div class="bg-gray-50 rounded-xl p-4">
