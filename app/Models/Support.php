@@ -45,12 +45,12 @@ class Support extends Model
 
     public function patient()
     {
-        return $this->belongsTo(PatientProfile::class, 'patient_id');
+        return $this->belongsTo(User::class, 'patient_id');
     }
 
     public function doctor()
     {
-        return $this->belongsTo(DoctorProfile::class, 'doctor_id');
+        return $this->belongsTo(User::class, 'doctor_id');
     }
 
     public function appointment()
