@@ -10,5 +10,6 @@ Route::prefix('profile')->name('profile.')->group(function () {
     Route::get('/appointment-history', [PatientProfileController::class, 'appointmentHistory'])->name('appointment-history');
 });
 
-// Appointment review route
+// Appointment review and support routes
 Route::post('/appointment/{appointment}/review', [PatientProfileController::class, 'submitReview'])->name('appointment.review');
+Route::post('/appointment/{appointment}/support', [PatientProfileController::class, 'submitSupport'])->name('appointment.support');
