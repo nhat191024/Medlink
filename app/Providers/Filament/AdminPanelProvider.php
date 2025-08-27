@@ -46,7 +46,14 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
 
-            ->widgets([])
+            ->widgets([
+                \App\Filament\Admin\Widgets\OverviewStatsWidget::class,
+                \App\Filament\Admin\Widgets\AppointmentsChartWidget::class,
+                \App\Filament\Admin\Widgets\RevenueChartWidget::class,
+                \App\Filament\Admin\Widgets\PatientsGrowthChartWidget::class,
+                \App\Filament\Admin\Widgets\AppointmentStatusChartWidget::class,
+                \App\Filament\Admin\Widgets\RecentActivitiesWidget::class,
+            ])
 
             ->plugins([
                 AppSettingsPlugin::make(),
