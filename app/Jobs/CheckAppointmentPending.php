@@ -15,6 +15,8 @@ use Filament\Notifications\Notification;
 
 use App\Http\Services\AppointmentService;
 
+use App\Helper\MailHelper;
+
 class CheckAppointmentPending implements ShouldQueue
 {
     use Queueable;
@@ -52,6 +54,8 @@ class CheckAppointmentPending implements ShouldQueue
             return;
         }
 
+        $appointment->update(['status' => 'cancelled']);
+
         $user = User::find($patientProfile->user_id ?? null);
         $user->notify(
             Notification::make()
@@ -75,7 +79,15 @@ class CheckAppointmentPending implements ShouldQueue
                 ->toDatabase()
         );
 
-        $appointment->update(['status' => 'cancelled']);
+        $mail = config('app.env') === 'production' ? $user->email : 'richberchannel01@gmail.com';
+
+        MailHelper::sendNotification(
+            $mail,
+            'Lịch hẹn bị hủy',
+            "Lịch hẹn khám của bạn vào lúc {$appointment->date} {$appointment->time} đã bị hủy do bác sĩ không xác nhận. Vui lòng thử lại sau.",
+            null,
+            null
+        );
 
         Log::info("Appointment {$this->appointmentId} status updated to 'cancelled' due to pending status without confirmation.");
 
