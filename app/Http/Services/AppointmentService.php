@@ -19,6 +19,7 @@ use App\Http\Services\PaymentService;
 use Carbon\Carbon;
 
 use App\Helper\CacheKey;
+use App\Helper\MailHelper;
 
 class AppointmentService
 {
@@ -480,6 +481,15 @@ class AppointmentService
 
             // Clear appointment and doctor list cache after successful creation
             $this->clearAppointmentRelatedCache($appointment);
+
+            $billData = [
+                'invoice_number' => $data['billId'],
+                'total' => $data['amount'],
+                'date' => $bill->created_at->toDateString(),
+                'items' => $data['items'],
+            ];
+
+            MailHelper::sendInvoice('richberchannel01@gmail.com', $billData);
 
             DB::commit();
 
