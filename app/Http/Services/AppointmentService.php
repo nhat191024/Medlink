@@ -489,7 +489,11 @@ class AppointmentService
                 'items' => $data['items'],
             ];
 
-            MailHelper::sendInvoice('richberchannel01@gmail.com', $billData);
+            if (config('app.env') === 'production') {
+                MailHelper::sendInvoice($user->email, $billData);
+            } else {
+                MailHelper::sendInvoice('richberchannel01@gmail.com', $billData);
+            }
 
             DB::commit();
 
