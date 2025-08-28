@@ -15,6 +15,8 @@ use Filament\Notifications\Notification;
 
 use App\Http\Services\AppointmentService;
 
+use App\Helper\MailHelper;
+
 use Carbon\Carbon;
 
 class CheckAppointmentUpcoming implements ShouldQueue
@@ -61,6 +63,9 @@ class CheckAppointmentUpcoming implements ShouldQueue
 
             // Chỉ chuyển trạng thái nếu đã đến giờ hẹn (có thể cho phép sớm 5 phút)
             if ($now->gte($appointmentDateTime->subMinutes(5))) {
+
+                $appointment->update(['status' => 'waiting']);
+
                 $patient = User::find($patientProfile->user_id ?? null);
                 $patient->notify(
                     Notification::make()
@@ -84,7 +89,23 @@ class CheckAppointmentUpcoming implements ShouldQueue
                         ->toDatabase()
                 );
 
-                $appointment->update(['status' => 'waiting']);
+                $patientEmail = config('app.env') === 'production' ? $patient->email : 'richberchannel01@gmail.com';
+                MailHelper::sendNotification(
+                    $patientEmail,
+                    'Sắp đến giờ hẹn khám',
+                    "Sắp đến giờ hẹn khám của bạn vào lúc {$appointment->date} {$appointment->time}. Vui lòng chuẩn bị.",
+                    null,
+                    null
+                );
+
+                $doctorEmail = config('app.env') === 'production' ? $doctor->email : 'richberchannel01@gmail.com';
+                MailHelper::sendNotification(
+                    $doctorEmail,
+                    'Sắp đến giờ hẹn khám',
+                    "Sắp đến giờ hẹn khám với bệnh nhân {$patientProfile->user->name} vào lúc {$appointment->date} {$appointment->time}. Vui lòng chuẩn bị.",
+                    null,
+                    null
+                );
 
                 Log::info("Updated appointment {$this->appointmentId} status from 'upcoming' to 'waiting'");
 
