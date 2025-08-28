@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\MedicalSpecialtyController;
 
+use App\Helper\MailHelper;
+
 // Auth routes
 Route::middleware('guest')->group(function () {
     Route::get('/splash', [AuthController::class, 'showSplashForm'])->name('splash');
@@ -28,10 +30,24 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
 
-// Test route for success page
-// Route::get('/test-success', function () {
-//     session()->flash('serviceName', 'Khám tim mạch');
-//     session()->flash('date', '25/12/2024');
-//     session()->flash('time', '09:00 - 10:00');
-//     return redirect()->route('appointment.success');
-// })->name('test.success');
+// Route::get('/test', function () {
+//     $billData = [
+//         'invoice_number' => 'bill id',
+//         'total' => 'amount',
+//         'date' => 'date',
+//         'items' => [
+//             [
+//                 'name' => "Appointment Booking at medlink - Dr test - Service: test service",
+//                 'price' => 100,
+//                 'quantity' => 1
+//             ],
+//             [
+//                 'name' => 'VAT (10%)',
+//                 'price' => 10,
+//                 'quantity' => 1
+//             ]
+//         ],
+//     ];
+
+//     MailHelper::sendInvoice('richberchannel01@gmail.com', $billData);
+// });
