@@ -374,6 +374,99 @@ class PatientProfileController extends Controller
     }
 
     /**
+     * Cancel appointment
+     */
+    public function cancelAppointment(Request $request, Appointment $appointment)
+    {
+        try {
+            $user = Auth::user();
+
+            $request->validate([
+                'cancel_reason' => 'required|string|max:500'
+            ]);
+
+            if (
+                $appointment->patient_profile_id !== $user->patientProfile->id ||
+                !in_array($appointment->status, ['pending', 'confirmed', 'upcoming'])
+            ) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Appointment not found or cannot be cancelled'
+                ], 404);
+            }
+
+            // Check if appointment can be cancelled (6 hours before)
+            $appointmentDateTime = $this->parseAppointmentDateTime($appointment->date, $appointment->time);
+            if (!$appointmentDateTime) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid appointment time format'
+                ], 400);
+            }
+
+            $hoursUntilAppointment = Carbon::now()->diffInHours($appointmentDateTime, false);
+            if ($hoursUntilAppointment <= 6) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Cannot cancel appointment within 6 hours of scheduled time'
+                ], 400);
+            }
+
+            // Update appointment status to cancelled
+            $appointment->update([
+                'status' => 'cancelled',
+                'reason' => $request->cancel_reason
+            ]);
+
+            // Process refund if there's a bill
+            // if ($appointment->bill && $appointment->bill->status === 'paid') {
+            //     $total = $appointment->bill->total;
+            //     $user->deposit($total, [
+            //         'description' => 'Refund for cancelled appointment',
+            //         'appointmentId' => $appointment->id
+            //     ], true);
+
+            //     $appointment->bill->update(['status' => 'refunded']);
+            // }
+
+            $appointment->doctor?->user?->notify(
+                \Filament\Notifications\Notification::make()
+                    ->title('Lịch hẹn bị hủy')
+                    ->body("Bệnh nhân {$user->name} đã hủy lịch hẹn vào {$appointment->date} {$appointment->time}. Lý do: {$request->cancel_reason}")
+                    ->warning()
+                    ->toDatabase()
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Appointment cancelled successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error cancelling appointment: ' . $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while cancelling the appointment'
+            ], 500);
+        }
+    }
+
+    /**
+     * Parse appointment date and time to Carbon instance
+     */
+    private function parseAppointmentDateTime($date, $time)
+    {
+        try {
+            $timeParts = preg_split('/\s*-\s*/', $time);
+            $startTime = $timeParts[0] ?? $time;
+            return Carbon::parse("{$date} {$startTime}");
+        } catch (\Exception $e) {
+            Log::error("Error parsing appointment datetime. Date: {$date}, Time: {$time}, Error: " . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Show support requests page
      */
     public function supportRequests(Request $request)
