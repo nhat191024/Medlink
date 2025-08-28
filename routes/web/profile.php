@@ -11,6 +11,7 @@ Route::prefix('profile')->name('profile.')->group(function () {
     Route::get('/support-requests', [PatientProfileController::class, 'supportRequests'])->name('support-requests');
 });
 
-// Appointment review and support routes
+// Appointment review, support and cancel routes
 Route::post('/appointment/{appointment}/review', [PatientProfileController::class, 'submitReview'])->name('appointment.review');
 Route::post('/appointment/{appointment}/support', [PatientProfileController::class, 'submitSupport'])->name('appointment.support');
+Route::post('/appointment/{appointment}/cancel', [PatientProfileController::class, 'cancelAppointment'])->name('appointment.cancel');
