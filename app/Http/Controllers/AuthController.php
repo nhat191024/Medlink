@@ -118,25 +118,8 @@ class AuthController extends Controller
         return redirect()->route('register.profile');
     }
 
-
     public function profileRegisterSubmit(Request $request)
     {
-        //         "full_name" => "awdwadwad"
-        //   "age" => "18"
-        //   "gender" => "male"
-        //   "height" => "1.53"x100
-        //   "weight" => "46"
-        //   "blood_group" => "A+"
-        //   "medical_history" => "awdadwwad"
-        //   "insurance_type" => "vietnamese"
-        //   "insurance_number" => "waawawd"
-        //   "valid_from" => "2025-07-04"
-        //   "registry" => "esfesfesf"
-        //   "registered_address" => "sefefsesfawdwad"
-        //   "assurance_type" => "Loại 1"
-        //   "main_insured" => null
-        //   "entitled_insured" => null
-        //   "address" => "sefesfesf"
         $request->validate([
             'full_name' => 'required|string|max:255',
             'age' => 'required|integer|min:0|max:150',
@@ -260,7 +243,6 @@ class AuthController extends Controller
         return back();
     }
 
-
     public function showForgotPasswordForm()
     {
         return view('auth.forgot-password-phone');
@@ -268,7 +250,6 @@ class AuthController extends Controller
 
     public function sendOtp(Request $request)
     {
-
         $phone = $request->input('phone');
         $countryCode = $request->input('country_code');
         $request->validate([
@@ -291,6 +272,7 @@ class AuthController extends Controller
             ])->withInput($request->only('country_code', 'phone'));
         }
     }
+
     public function removeZero(string $phone)
     {
         if (str_starts_with($phone, '0')) {
