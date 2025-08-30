@@ -14,18 +14,18 @@ Route::get('/test/create-notification', function () {
     $user = Auth::user();
 
     // Tạo notification mẫu bằng Laravel Database Notifications
-    $user->notify(new TestNotification([
-        'title' => 'Bác sĩ không xác nhận hẹn',
-        'body' => 'Bác sĩ không xác nhận hẹn khám của bạn vào lúc 2025-08-24 08:00 AM - 08:30 AM. Vui lòng thử lại sau.',
-        'iconColor' => 'danger',
-        'icon' => 'heroicon-o-x-circle',
-        'color' => null,
-        'duration' => 'persistent',
-        'status' => 'danger',
-        'view' => 'filament-notifications::notification',
-        'viewData' => [],
-        'format' => 'filament'
-    ]));
+    // $user->notify(new TestNotification([
+    //     'title' => 'Bác sĩ không xác nhận hẹn',
+    //     'body' => 'Bác sĩ không xác nhận hẹn khám của bạn vào lúc 2025-08-24 08:00 AM - 08:30 AM. Vui lòng thử lại sau.',
+    //     'iconColor' => 'danger',
+    //     'icon' => 'heroicon-o-x-circle',
+    //     'color' => null,
+    //     'duration' => 'persistent',
+    //     'status' => 'danger',
+    //     'view' => 'filament-notifications::notification',
+    //     'viewData' => [],
+    //     'format' => 'filament'
+    // ]));
 
     return response()->json(['message' => 'Test notification created successfully']);
 })->name('test.create-notification');
