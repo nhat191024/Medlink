@@ -24,30 +24,14 @@ Route::middleware('auth')->group(function () {
     require __DIR__ . '/web/doctor-booking.php';
     require __DIR__ . '/web/profile.php';
     require __DIR__ . '/web/medical-specialties.php';
+    require __DIR__ . '/web/notifications.php';
+
+    // Test routes for development
+    if (app()->environment(['local', 'staging'])) {
+        require __DIR__ . '/web/test.php';
+    }
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/info/{doctor_profile_id}', [BookingController::class, 'showDoctorInfo'])->name('appointment.info');
-
-// Route::get('/test', function () {
-//     $billData = [
-//         'invoice_number' => 'bill id',
-//         'total' => 'amount',
-//         'date' => 'date',
-//         'items' => [
-//             [
-//                 'name' => "Appointment Booking at medlink - Dr test - Service: test service",
-//                 'price' => 100,
-//                 'quantity' => 1
-//             ],
-//             [
-//                 'name' => 'VAT (10%)',
-//                 'price' => 10,
-//                 'quantity' => 1
-//             ]
-//         ],
-//     ];
-
-//     MailHelper::sendInvoice('richberchannel01@gmail.com', $billData);
-// });
