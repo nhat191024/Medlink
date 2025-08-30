@@ -211,8 +211,9 @@ class AuthController extends Controller
             'avatar.max' => __('client/auth.validation.avatar_max'),
         ]);
         $newUser = $request->session()->get('user');
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
             $user = new User();
             $user->phone = $newUser['phone'];
             $user->country_code = $newUser['country_code'];
@@ -230,17 +231,16 @@ class AuthController extends Controller
                 $user->avatar = "/upload/avatar/default.png";
             }
             $user->save();
-            // Handle avatar upload logic here
-            // For example, save the avatar to storage and update the user's profile
             $this->patientCreate($user->id, $request, $newUser);
+
             $request->session()->forget('user');
+
             DB::commit();
             return redirect()->route('register.progress');
         } catch (\Throwable $th) {
-            throw $th;
             DB::rollBack();
+            throw $th;
         }
-        return back();
     }
 
     public function showForgotPasswordForm()
