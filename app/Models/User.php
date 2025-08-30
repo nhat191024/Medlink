@@ -62,7 +62,6 @@ use Illuminate\Support\Facades\Log as FacadesLog;
  * @property-read \Bavix\Wallet\Models\Wallet $wallet
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserLanguage> $languages
  * @property-read int|null $languages_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserNotification> $notification
  * @property-read int|null $notification_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
