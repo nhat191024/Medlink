@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\PatientProfile;
 use App\Models\DoctorProfile;
 use App\Models\Service;
+use App\Models\User;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
@@ -30,6 +31,9 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 
+use Filament\Notifications\Notification;
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -38,7 +42,7 @@ use App\Filament\Doctor\Resources\NewAppointmentResource\Pages\ListNewAppointmen
 
 use Carbon\Carbon;
 
-use Illuminate\Support\Facades\Auth;
+use App\Helper\MailHelper;
 
 class NewAppointmentResource extends Resource
 {
@@ -183,6 +187,48 @@ class NewAppointmentResource extends Resource
                     ->color('success')
                     ->action(function (Appointment $record): void {
                         $record->update(['status' => 'upcoming']);
+
+                        // Get patient and doctor information
+                        $patientProfile = PatientProfile::find($record->patient_profile_id);
+                        $doctorProfile = DoctorProfile::find($record->doctor_profile_id);
+                        $patient = User::find($patientProfile->user_id ?? null);
+                        $doctor = User::find($doctorProfile->user_id ?? null);
+
+                        // Send notifications to patient
+                        if ($patient) {
+                            $patient->notify(
+                                Notification::make()
+                                    ->title('Lịch hẹn đã được chấp nhận')
+                                    ->body(
+                                        "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã được chấp nhận."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+
+                            // Send email to patient
+                            $patientEmail = config('app.env') === 'production' ? $patient->email : 'richberchannel01@gmail.com';
+                            MailHelper::sendNotification(
+                                $patientEmail,
+                                'Lịch hẹn đã được chấp nhận',
+                                "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã được chấp nhận. Vui lòng có mặt đúng giờ.",
+                                null,
+                                null
+                            );
+                        }
+
+                        // Send notification to doctor
+                        if ($doctor) {
+                            $doctor->notify(
+                                Notification::make()
+                                    ->title('Đã chấp nhận lịch hẹn')
+                                    ->body(
+                                        "Bạn đã chấp nhận lịch hẹn với bệnh nhân {$patient->name} vào ngày {$record->date} lúc {$record->time}."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+                        }
                     })
                     ->requiresConfirmation()
                     ->modalHeading('Xác nhận lịch hẹn')
@@ -203,6 +249,48 @@ class NewAppointmentResource extends Resource
                             'status' => 'rejected',
                             'reason' => $data['reject_reason']
                         ]);
+
+                        // Get patient and doctor information
+                        $patientProfile = PatientProfile::find($record->patient_profile_id);
+                        $doctorProfile = DoctorProfile::find($record->doctor_profile_id);
+                        $patient = User::find($patientProfile->user_id ?? null);
+                        $doctor = User::find($doctorProfile->user_id ?? null);
+
+                        // Send notifications to patient
+                        if ($patient) {
+                            $patient->notify(
+                                Notification::make()
+                                    ->title('Lịch hẹn đã bị từ chối')
+                                    ->body(
+                                        "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã bị từ chối."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+
+                            // Send email to patient
+                            $patientEmail = config('app.env') === 'production' ? $patient->email : 'richberchannel01@gmail.com';
+                            MailHelper::sendNotification(
+                                $patientEmail,
+                                'Lịch hẹn đã bị từ chối',
+                                "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã bị từ chối. Vui lòng liên hệ với bác sĩ để biết thêm chi tiết.",
+                                null,
+                                null
+                            );
+                        }
+
+                        // Send notification to doctor
+                        if ($doctor) {
+                            $doctor->notify(
+                                Notification::make()
+                                    ->title('Đã từ chối lịch hẹn')
+                                    ->body(
+                                        "Bạn đã từ chối lịch hẹn với bệnh nhân {$patient->name} vào ngày {$record->date} lúc {$record->time}."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+                        }
                     })
                     ->requiresConfirmation()
                     ->modalHeading('Từ chối lịch hẹn')
