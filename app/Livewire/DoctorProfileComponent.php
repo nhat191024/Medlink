@@ -202,7 +202,6 @@ class DoctorProfileComponent extends Component implements HasForms
         // Update or create doctor profile
         $doctorProfileData = [
             'introduce' => $data['introduce'],
-            'company_name' => $data['company_name'],
         ];
 
         $user->doctorProfile()->updateOrCreate(
