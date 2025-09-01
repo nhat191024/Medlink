@@ -98,10 +98,14 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
             }
         });
 
-        // Automatically soft delete associated admins when a hospital is deleted
+        // Automatically soft delete associated admins & doctor profiles when a hospital is deleted
         static::deleting(function ($hospital) {
             $hospital->admins()->each(function ($admin) {
                 $admin->delete();
+            });
+
+            $hospital->doctors()->each(function ($doctor) {
+                $doctor->delete();
             });
         });
     }
