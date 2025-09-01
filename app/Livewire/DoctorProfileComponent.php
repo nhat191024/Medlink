@@ -139,10 +139,10 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->searchable()
                             ->disabled(),
 
-                        TextInput::make('company_name')
-                            ->label('Tên công ty/Bệnh viện')
-                            ->maxLength(255)
-                            ->disabled(),
+                        // TextInput::make('company_name')
+                        //     ->label('Tên công ty/Bệnh viện')
+                        //     ->maxLength(255)
+                        //     ->disabled(),
 
                         Textarea::make('introduce')
                             ->label('Giới thiệu bản thân')
