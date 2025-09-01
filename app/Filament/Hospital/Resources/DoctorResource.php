@@ -214,18 +214,18 @@ class DoctorResource extends Resource
                         'suspend' => 'heroicon-o-no-symbol',
                         'trashed' => 'heroicon-o-lock-closed',
                     ][$state] ?? 'heroicon-o-question-mark-circle'),
-                TextColumn::make('country')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.country')),
-                TextColumn::make('city')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.city')),
-                TextColumn::make('ward')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.ward')),
+                // TextColumn::make('country')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.country')),
+                // TextColumn::make('city')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.city')),
+                // TextColumn::make('ward')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.ward')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
