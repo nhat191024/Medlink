@@ -32,6 +32,7 @@ class HospitalProfileComponent extends Component implements HasForms
         /** @var Hospital $hospital */
         $hospital = Auth::guard('hospital')->user();
         $this->form->fill([
+            'logo' => $hospital->logo,
             'name' => $hospital->name,
             'address' => $hospital->address,
             'city' => $hospital->city,
@@ -57,7 +58,9 @@ class HospitalProfileComponent extends Component implements HasForms
                             ->label(__('filament-edit-profile::default.avatar'))
                             ->avatar()
                             ->imageEditor()
-                            ->directory('uploads/hospitals/logos'),
+                            ->directory('uploads/hospitals/logos')
+                            ->acceptedFileTypes(['image/jpeg', 'image/jpg', 'image/png', 'image/webp']),
+
                         TextInput::make('name')
                             ->label(__('common.admin.hospital_name'))
                             ->required()
