@@ -31,6 +31,8 @@ class CreateDoctor extends CreateRecord
             'medical_category_id' => $data['medical_category_id'],
             'office_address' => $data['office_address'] ?? '',
             'company_name' => $data['company_name'] ?? '',
+            'medical_degree_path' => $data['medical_degree_path'] ?? null,
+            'professional_card_path' => $data['professional_card_path'] ?? null,
         ]);
 
         return $user;

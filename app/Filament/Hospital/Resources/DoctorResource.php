@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
@@ -149,6 +150,20 @@ class DoctorResource extends Resource
                             ->maxLength(1000)
                             ->rows(3)
                             ->label(__('doctor.admin.introduce')),
+                        FileUpload::make('medical_degree_path')
+                            ->label(__('doctor.admin.medical_degree'))
+                            ->disk('public')
+                            ->directory('doctors/medical-degrees')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_medical_degree')),
+                        FileUpload::make('professional_card_path')
+                            ->label(__('doctor.admin.professional_card'))
+                            ->disk('public')
+                            ->directory('doctors/professional-cards')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_professional_card')),
                         // TextInput::make('office_address')
                         //     ->maxLength(500)
                         //     ->label(__('doctor.admin.office_address')),
