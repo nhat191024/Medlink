@@ -113,25 +113,25 @@ class DoctorResource extends Resource
                     ])
                     ->columns(2),
 
-                Section::make(__('common.admin.address'))
-                    ->schema([
-                        TextInput::make('address')
-                            ->maxLength(500)
-                            ->label(__('common.admin.address')),
-                        TextInput::make('city')
-                            ->maxLength(100)
-                            ->label(__('common.admin.city')),
-                        TextInput::make('ward')
-                            ->maxLength(100)
-                            ->label(__('common.admin.ward')),
-                        TextInput::make('country')
-                            ->maxLength(100)
-                            ->label(__('common.admin.country')),
-                        TextInput::make('zip_code')
-                            ->maxLength(20)
-                            ->label(__('common.admin.zip_code')),
-                    ])
-                    ->columns(2),
+                // Section::make(__('common.admin.address'))
+                //     ->schema([
+                //         TextInput::make('address')
+                //             ->maxLength(500)
+                //             ->label(__('common.admin.address')),
+                //         TextInput::make('city')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.city')),
+                //         TextInput::make('ward')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.ward')),
+                //         TextInput::make('country')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.country')),
+                //         TextInput::make('zip_code')
+                //             ->maxLength(20)
+                //             ->label(__('common.admin.zip_code')),
+                //     ])
+                //     ->columns(2),
 
                 Section::make(__('doctor.admin.doctor_info'))
                     ->schema([
@@ -149,12 +149,12 @@ class DoctorResource extends Resource
                             ->maxLength(1000)
                             ->rows(3)
                             ->label(__('doctor.admin.introduce')),
-                        TextInput::make('office_address')
-                            ->maxLength(500)
-                            ->label(__('doctor.admin.office_address')),
-                        TextInput::make('company_name')
-                            ->maxLength(255)
-                            ->label(__('doctor.admin.company_name')),
+                        // TextInput::make('office_address')
+                        //     ->maxLength(500)
+                        //     ->label(__('doctor.admin.office_address')),
+                        // TextInput::make('company_name')
+                        //     ->maxLength(255)
+                        //     ->label(__('doctor.admin.company_name')),
                     ])
                     ->columns(1),
             ]);
