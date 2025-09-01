@@ -28,6 +28,7 @@ class EditDoctor extends EditRecord
             $data['medical_category_id'] = $doctorProfile->medical_category_id;
             $data['office_address'] = $doctorProfile->office_address;
             $data['company_name'] = $doctorProfile->company_name;
+            $data['id_card_path'] = $doctorProfile->id_card_path;
             $data['medical_degree_path'] = $doctorProfile->medical_degree_path;
             $data['professional_card_path'] = $doctorProfile->professional_card_path;
         }
@@ -50,6 +51,7 @@ class EditDoctor extends EditRecord
                 'medical_category_id' => $data['medical_category_id'] ?? $doctorProfile->medical_category_id,
                 'office_address' => $data['office_address'] ?? $doctorProfile->office_address,
                 'company_name' => $data['company_name'] ?? $doctorProfile->company_name,
+                'id_card_path' => $data['id_card_path'] ?? $doctorProfile->id_card_path,
                 'medical_degree_path' => $data['medical_degree_path'] ?? $doctorProfile->medical_degree_path,
                 'professional_card_path' => $data['professional_card_path'] ?? $doctorProfile->professional_card_path,
             ]);

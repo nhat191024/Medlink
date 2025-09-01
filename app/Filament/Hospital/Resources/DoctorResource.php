@@ -150,6 +150,13 @@ class DoctorResource extends Resource
                             ->maxLength(1000)
                             ->rows(3)
                             ->label(__('doctor.admin.introduce')),
+                        FileUpload::make('id_card_path')
+                            ->label(__('doctor.admin.id_card'))
+                            ->disk('public')
+                            ->directory('doctors/id-cards')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_id_card')),
                         FileUpload::make('medical_degree_path')
                             ->label(__('doctor.admin.medical_degree'))
                             ->disk('public')

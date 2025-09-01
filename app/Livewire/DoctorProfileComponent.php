@@ -173,11 +173,11 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->acceptedFileTypes(['image/*', 'application/pdf'])
                             ->disabled(),
 
-                        FileUpload::make('exploitation_license_path')
-                            ->label('Giấy phép hoạt động')
-                            ->directory('uploads/doctors/documents')
-                            ->acceptedFileTypes(['image/*', 'application/pdf'])
-                            ->disabled(),
+                        // FileUpload::make('exploitation_license_path')
+                        //     ->label('Giấy phép hoạt động')
+                        //     ->directory('uploads/doctors/documents')
+                        //     ->acceptedFileTypes(['image/*', 'application/pdf'])
+                        //     ->disabled(),
                     ]),
             ])
             ->statePath('data');
