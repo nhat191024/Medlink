@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('weight')->nullable();
             $table->enum('blood_group', ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'])->nullable();
             $table->text('medical_history')->nullable();
-
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
