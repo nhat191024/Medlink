@@ -228,7 +228,7 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
 
     public function hospital()
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->belongsTo(Hospital::class)->withTrashed();
     }
 
     public function languages()
