@@ -169,6 +169,16 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
                 $user->avatar = "https://ui-avatars.com/api/?name={$name}&background=random&size=512";
             }
         });
+
+        // Automatically soft delete associated doctor profile or patient profile when a user is deleted
+        static::deleting(function ($user) {
+            if ($user->doctorProfile) {
+                $user->doctorProfile()->delete();
+            }
+            if ($user->patientProfile) {
+                $user->patientProfile()->delete();
+            }
+        });
     }
 
     public function canAccessPanel(Panel $panel): bool
