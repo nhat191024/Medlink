@@ -17,8 +17,8 @@ class CreateDoctor extends CreateRecord
         // Set default values for doctor
         $data['user_type'] = 'healthcare';
         $data['identity'] = 'doctor';
-        $data['status'] = 'waiting-approval';
-        $data['hospital_id'] = Auth::guard('admin')->user()->hospital_id;
+        $data['status'] = 'active';
+        $data['hospital_id'] = Auth::user()->id;
 
         // Create user
         $user = static::getModel()::create($data);
