@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedBigInteger('medical_category_id')->nullable();
             $table->string('office_address')->nullable();
             $table->string('company_name')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
