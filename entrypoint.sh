@@ -42,11 +42,11 @@ npm run build
 php artisan queue:restart
 
 # Start queue worker with multiple workers for better performance
-php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
 QUEUE_PID1=$!
 
 # Start second queue worker for redundancy
-php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
 QUEUE_PID2=$!
 
 # Start scheduler
@@ -69,13 +69,13 @@ while true; do
     # Check if queue workers are still running
     if ! kill -0 $QUEUE_PID1 2>/dev/null; then
         echo "Queue worker 1 died, restarting..."
-        php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+        php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
         QUEUE_PID1=$!
     fi
 
     if ! kill -0 $QUEUE_PID2 2>/dev/null; then
         echo "Queue worker 2 died, restarting..."
-        php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+        php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
         QUEUE_PID2=$!
     fi
 
