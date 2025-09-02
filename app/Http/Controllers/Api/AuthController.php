@@ -149,8 +149,8 @@ class AuthController extends Controller
 
             if ($request->hasFile('avatar')) {
                 $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-                $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
-                $user->avatar = "storage/upload/avatar/{$imageName}";
+                $request->file('avatar')->move(storage_path('app/public/uploads/avatar/'), $imageName);
+                $user->avatar = "storage/uploads/avatar/{$imageName}";
             } else {
                 $user->avatar = "https://ui-avatars.com/api/?name=" . urlencode($emailFirstLetter) . "&background=random&size=512";
             }

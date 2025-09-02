@@ -225,10 +225,10 @@ class AuthController extends Controller
             $user->gender = $newUser['gender'];
             if ($request->hasFile('avatar')) {
                 $imageName = time() . '_' . uniqid() . '.' . $request->file('avatar')->getClientOriginalExtension();
-                $request->file('avatar')->move(storage_path('app/public/upload/avatar/'), $imageName);
-                $user->avatar = "/upload/avatar/{$imageName}";
+                $request->file('avatar')->move(storage_path('app/public/uploads/avatar/'), $imageName);
+                $user->avatar = "/uploads/avatar/{$imageName}";
             } else {
-                $user->avatar = "/upload/avatar/default.png";
+                $user->avatar = "/uploads/avatar/default.png";
             }
             $user->save();
             $this->patientCreate($user->id, $request, $newUser);

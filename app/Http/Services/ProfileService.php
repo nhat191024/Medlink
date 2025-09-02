@@ -490,9 +490,9 @@ class ProfileService
         $imageName = time() . '_' . uniqid() . '.' . $avatarFile->getClientOriginalExtension();
 
         // Move file to upload directory
-        $avatarFile->move(storage_path('app/public/upload/avatar'), $imageName);
+        $avatarFile->move(storage_path('app/public/uploads/avatar'), $imageName);
 
-        return "storage/upload/avatar/{$imageName}";
+        return "storage/uploads/avatar/{$imageName}";
     }
 
     /**
@@ -500,7 +500,7 @@ class ProfileService
      */
     private function removeOldAvatar($avatarPath)
     {
-        if (str_starts_with($avatarPath, 'https://') || str_starts_with($avatarPath, 'storage/upload/avatar/default.png')) {
+        if (str_starts_with($avatarPath, 'https://') || str_starts_with($avatarPath, 'storage/uploads/avatar/default.png')) {
             return;
         }
 

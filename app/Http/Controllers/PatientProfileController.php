@@ -114,7 +114,7 @@ class PatientProfileController extends Controller
                 'phone' => !empty($user->phone),
                 'gender' => !empty($user->gender),
                 'address' => !empty($user->address),
-                'avatar' => !empty($user->avatar) && $user->avatar !== '/upload/avatar/default.png',
+                'avatar' => !empty($user->avatar) && $user->avatar !== '/uploads/avatar/default.png',
                 'birth_date' => !empty($patientProfile?->birth_date),
                 'height' => !empty($patientProfile?->height),
                 'weight' => !empty($patientProfile?->weight),

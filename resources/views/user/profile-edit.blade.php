@@ -244,7 +244,7 @@
                         <div class="flex flex-col items-center gap-6 md:flex-row">
                             <div class="avatar-upload">
                                 <div class="avatar-preview" onclick="document.getElementById('avatar').click()">
-                                    @if ($user->avatar && $user->avatar !== '/upload/avatar/default.png')
+                                    @if ($user->avatar && $user->avatar !== '/uploads/avatar/default.png')
                                         <img id="avatarPreview" class="h-full w-full object-cover" src="{{ asset($user->avatar) }}" alt="{{ $user->name }}">
                                     @else
                                         <div id="avatarPreview" class="flex h-full w-full items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 text-3xl font-bold text-white">

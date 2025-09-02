@@ -38,7 +38,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password' => bcrypt('Password1$'),
 
-            'avatar' => 'storage/upload/avatar/default.png',
+            'avatar' => 'storage/uploads/avatar/default.png',
             'name' => $this->faker->unique()->firstName() . ' ' . $this->faker->unique()->lastName(),
             'country_code' => '+84',
             'phone' => $this->faker->phoneNumber(),
