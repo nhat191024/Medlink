@@ -41,49 +41,5 @@ npm run build
 # Khởi động lại queue nếu cần
 php artisan queue:restart
 
-# Start queue worker with multiple workers for better performance
-php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
-QUEUE_PID1=$!
-
-# Start second queue worker for redundancy
-php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
-QUEUE_PID2=$!
-
-# Start scheduler
-php artisan schedule:work &
-SCHEDULER_PID=$!
-
-# Function to handle shutdown
-cleanup() {
-    echo "Shutting down services..."
-    kill $QUEUE_PID1 $QUEUE_PID2 $SCHEDULER_PID 2>/dev/null
-    wait
-    exit 0
-}
-
-# Trap signals
-trap cleanup SIGTERM SIGINT
-
-# Monitor processes and restart if they die
-while true; do
-    # Check if queue workers are still running
-    if ! kill -0 $QUEUE_PID1 2>/dev/null; then
-        echo "Queue worker 1 died, restarting..."
-        php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
-        QUEUE_PID1=$!
-    fi
-
-    if ! kill -0 $QUEUE_PID2 2>/dev/null; then
-        echo "Queue worker 2 died, restarting..."
-        php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout=90 &
-        QUEUE_PID2=$!
-    fi
-
-    if ! kill -0 $SCHEDULER_PID 2>/dev/null; then
-        echo "Scheduler died, restarting..."
-        php artisan schedule:work &
-        SCHEDULER_PID=$!
-    fi
-
-    sleep 30
-done
+# Start supervisor to manage all services (Apache, Queue, Scheduler)
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/laravel.conf
