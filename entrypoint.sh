@@ -38,14 +38,6 @@ php artisan key:generate
 npm install
 npm run build
 
-# Đảm bảo database đã sẵn sàng
-until php artisan migrate:status > /dev/null 2>&1; do
-    echo "Waiting for database to be ready..."
-    sleep 2
-done
-
-echo "Database is ready, starting services..."
-
 # Khởi động lại queue nếu cần
 php artisan queue:restart
 
