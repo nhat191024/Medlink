@@ -37,7 +37,7 @@ COPY supervisor-laravel.conf /etc/supervisor/conf.d/laravel.conf
 WORKDIR /var/www/html
 
 # Sao chép entrypoint.sh vào container
-COPY entrypoint-supervisor.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Cài đặt Composer
