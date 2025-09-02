@@ -41,7 +41,13 @@ class BookingController extends Controller
      */
     private function getDoctorProfileWithStats($doctorProfileId, array $extraRelations = [])
     {
-        $baseRelations = ['user', 'medicalCategory', 'services'];
+        $baseRelations = [
+            'user',
+            'medicalCategory',
+            'services' => function ($query) {
+                $query->where('is_active', 1);
+            }
+        ];
         $relations = array_merge($baseRelations, $extraRelations);
 
         return DoctorProfile::with($relations)
