@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\PatientProfile;
 use App\Models\DoctorProfile;
 use App\Models\Service;
+use App\Models\User;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
@@ -32,6 +33,8 @@ use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 
+use Filament\Notifications\Notification;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -43,6 +46,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+
+use App\Helper\MailHelper;
 
 class UpcomingAppointmentResource extends Resource
 {
@@ -247,6 +252,48 @@ class UpcomingAppointmentResource extends Resource
                             'status' => 'cancelled',
                             'cancel_reason' => $data['cancel_reason']
                         ]);
+
+                        // Get patient and doctor information
+                        $patientProfile = PatientProfile::find($record->patient_profile_id);
+                        $doctorProfile = DoctorProfile::find($record->doctor_profile_id);
+                        $patient = User::find($patientProfile->user_id ?? null);
+                        $doctor = User::find($doctorProfile->user_id ?? null);
+
+                        // Send notifications to patient
+                        if ($patient) {
+                            $patient->notify(
+                                Notification::make()
+                                    ->title('Lịch hẹn bị hủy')
+                                    ->body(
+                                        "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã bị hủy."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+
+                            // Send email to patient
+                            $patientEmail = config('app.env') === 'production' ? $patient->email : 'richberchannel01@gmail.com';
+                            MailHelper::sendNotification(
+                                $patientEmail,
+                                'Lịch hẹn bị hủy',
+                                "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã bị hủy.",
+                                null,
+                                null
+                            );
+                        }
+
+                        // Send notification to doctor
+                        if ($doctor) {
+                            $doctor->notify(
+                                Notification::make()
+                                    ->title('Lịch hẹn bị hủy')
+                                    ->body(
+                                        "Lịch hẹn của bạn với bệnh nhân {$patient->name} vào ngày {$record->date} lúc {$record->time} đã bị hủy."
+                                    )
+                                    ->success()
+                                    ->toDatabase()
+                            );
+                        }
                     })
                     ->requiresConfirmation()
                     ->modalHeading('Hủy lịch hẹn')
@@ -295,6 +342,48 @@ class UpcomingAppointmentResource extends Resource
                                     'size' => $size,
                                     'uploaded_by' => Auth::id(),
                                 ]);
+                            }
+
+                            // Get patient and doctor information
+                            $patientProfile = PatientProfile::find($record->patient_profile_id);
+                            $doctorProfile = DoctorProfile::find($record->doctor_profile_id);
+                            $patient = User::find($patientProfile->user_id ?? null);
+                            $doctor = User::find($doctorProfile->user_id ?? null);
+
+                            // Send notifications to patient
+                            if ($patient) {
+                                $patient->notify(
+                                    Notification::make()
+                                        ->title('Lịch hẹn đã được hoàn thành')
+                                        ->body(
+                                            "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã được hoàn thành."
+                                        )
+                                        ->success()
+                                        ->toDatabase()
+                                );
+
+                                // Send email to patient
+                                $patientEmail = config('app.env') === 'production' ? $patient->email : 'richberchannel01@gmail.com';
+                                MailHelper::sendNotification(
+                                    $patientEmail,
+                                    'Lịch hẹn đã được hoàn thành',
+                                    "Lịch hẹn của bạn với bác sĩ {$doctor->name} vào ngày {$record->date} lúc {$record->time} đã được hoàn thành. Vui lòng có mặt đúng giờ.",
+                                    null,
+                                    null
+                                );
+                            }
+
+                            // Send notification to doctor
+                            if ($doctor) {
+                                $doctor->notify(
+                                    Notification::make()
+                                        ->title('Đã hoàn thành lịch hẹn')
+                                        ->body(
+                                            "Bạn đã hoàn thành lịch hẹn với bệnh nhân {$patient->name} vào ngày {$record->date} lúc {$record->time}."
+                                        )
+                                        ->success()
+                                        ->toDatabase()
+                                );
                             }
                         });
                     })

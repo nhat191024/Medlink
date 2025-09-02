@@ -18,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\FileUpload;
 
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
@@ -113,25 +114,25 @@ class DoctorResource extends Resource
                     ])
                     ->columns(2),
 
-                Section::make(__('common.admin.address'))
-                    ->schema([
-                        TextInput::make('address')
-                            ->maxLength(500)
-                            ->label(__('common.admin.address')),
-                        TextInput::make('city')
-                            ->maxLength(100)
-                            ->label(__('common.admin.city')),
-                        TextInput::make('ward')
-                            ->maxLength(100)
-                            ->label(__('common.admin.ward')),
-                        TextInput::make('country')
-                            ->maxLength(100)
-                            ->label(__('common.admin.country')),
-                        TextInput::make('zip_code')
-                            ->maxLength(20)
-                            ->label(__('common.admin.zip_code')),
-                    ])
-                    ->columns(2),
+                // Section::make(__('common.admin.address'))
+                //     ->schema([
+                //         TextInput::make('address')
+                //             ->maxLength(500)
+                //             ->label(__('common.admin.address')),
+                //         TextInput::make('city')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.city')),
+                //         TextInput::make('ward')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.ward')),
+                //         TextInput::make('country')
+                //             ->maxLength(100)
+                //             ->label(__('common.admin.country')),
+                //         TextInput::make('zip_code')
+                //             ->maxLength(20)
+                //             ->label(__('common.admin.zip_code')),
+                //     ])
+                //     ->columns(2),
 
                 Section::make(__('doctor.admin.doctor_info'))
                     ->schema([
@@ -149,12 +150,33 @@ class DoctorResource extends Resource
                             ->maxLength(1000)
                             ->rows(3)
                             ->label(__('doctor.admin.introduce')),
-                        TextInput::make('office_address')
-                            ->maxLength(500)
-                            ->label(__('doctor.admin.office_address')),
-                        TextInput::make('company_name')
-                            ->maxLength(255)
-                            ->label(__('doctor.admin.company_name')),
+                        FileUpload::make('id_card_path')
+                            ->label(__('doctor.admin.id_card'))
+                            ->disk('public')
+                            ->directory('doctors/id-cards')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_id_card')),
+                        FileUpload::make('medical_degree_path')
+                            ->label(__('doctor.admin.medical_degree'))
+                            ->disk('public')
+                            ->directory('doctors/medical-degrees')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_medical_degree')),
+                        FileUpload::make('professional_card_path')
+                            ->label(__('doctor.admin.professional_card'))
+                            ->disk('public')
+                            ->directory('doctors/professional-cards')
+                            ->acceptedFileTypes(['image/*', 'application/pdf'])
+                            ->maxSize(5120) // 5MB
+                            ->hint(__('doctor.admin.upload_hint_professional_card')),
+                        // TextInput::make('office_address')
+                        //     ->maxLength(500)
+                        //     ->label(__('doctor.admin.office_address')),
+                        // TextInput::make('company_name')
+                        //     ->maxLength(255)
+                        //     ->label(__('doctor.admin.company_name')),
                     ])
                     ->columns(1),
             ]);
@@ -214,18 +236,18 @@ class DoctorResource extends Resource
                         'suspend' => 'heroicon-o-no-symbol',
                         'trashed' => 'heroicon-o-lock-closed',
                     ][$state] ?? 'heroicon-o-question-mark-circle'),
-                TextColumn::make('country')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.country')),
-                TextColumn::make('city')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.city')),
-                TextColumn::make('ward')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label(__('common.admin.ward')),
+                // TextColumn::make('country')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.country')),
+                // TextColumn::make('city')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.city')),
+                // TextColumn::make('ward')
+                //     ->searchable()
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->label(__('common.admin.ward')),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

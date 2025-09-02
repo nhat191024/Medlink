@@ -172,8 +172,6 @@ class AppointmentResource extends Resource
                         'cancelled' => __('appointment.status.cancelled'),
                         'rejected' => __('appointment.status.rejected'),
                     ]),
-                TrashedFilter::make()
-                    ->native(false),
             ])
             ->actions([
                 Action::make('view_exam_result')
@@ -220,9 +218,6 @@ class AppointmentResource extends Resource
                 'bill',
                 'examResult',
                 'examResult.files',
-            ])
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
             ]);
     }
 }

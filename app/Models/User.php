@@ -62,7 +62,6 @@ use Illuminate\Support\Facades\Log as FacadesLog;
  * @property-read \Bavix\Wallet\Models\Wallet $wallet
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserLanguage> $languages
  * @property-read int|null $languages_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserNotification> $notification
  * @property-read int|null $notification_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
@@ -170,6 +169,16 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
                 $user->avatar = "https://ui-avatars.com/api/?name={$name}&background=random&size=512";
             }
         });
+
+        // Automatically soft delete associated doctor profile or patient profile when a user is deleted
+        static::deleting(function ($user) {
+            if ($user->doctorProfile) {
+                $user->doctorProfile()->delete();
+            }
+            if ($user->patientProfile) {
+                $user->patientProfile()->delete();
+            }
+        });
     }
 
     public function canAccessPanel(Panel $panel): bool
@@ -229,7 +238,7 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
 
     public function hospital()
     {
-        return $this->belongsTo(Hospital::class);
+        return $this->belongsTo(Hospital::class)->withTrashed();
     }
 
     public function languages()

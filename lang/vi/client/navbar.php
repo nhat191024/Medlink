@@ -16,4 +16,13 @@ return [
         'profile' => 'Trang cá nhân',
         'history' => 'Lịch sử đặt hẹn',
     ],
+
+    'notifications' => [
+        'title' => 'Thông báo',
+        'mark_all_read' => 'Đánh dấu đã đọc tất cả',
+        'unread_messages' => 'thông báo chưa đọc',
+        'loading' => 'Đang tải thông báo...',
+        'no_notifications' => 'Chưa có thông báo nào',
+        'view_all' => 'Xem tất cả thông báo',
+    ],
 ];

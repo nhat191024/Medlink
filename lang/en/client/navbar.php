@@ -16,4 +16,13 @@ return [
         'profile' => 'Profile',
         'history' => 'Appointment History',
     ],
+
+    'notifications' => [
+        'title' => 'Notifications',
+        'mark_all_read' => 'Mark all as read',
+        'unread_messages' => 'unread notifications',
+        'loading' => 'Loading notifications...',
+        'no_notifications' => 'No notifications yet',
+        'view_all' => 'View all notifications',
+    ],
 ];

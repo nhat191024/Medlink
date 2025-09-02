@@ -56,7 +56,6 @@ class DoctorProfileComponent extends Component implements HasForms
             'id_card_path' => $doctorProfile?->id_card_path,
             'medical_degree_path' => $doctorProfile?->medical_degree_path,
             'professional_card_path' => $doctorProfile?->professional_card_path,
-            'exploitation_license_path' => $doctorProfile?->exploitation_license_path,
         ]);
     }
 
@@ -100,30 +99,30 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->native(false),
                     ]),
 
-                Section::make(__('common.admin.address'))
-                    ->description(__('common.address_info_description'))
-                    ->aside()
-                    ->schema([
-                        TextInput::make('address')
-                            ->label(__('common.admin.address'))
-                            ->maxLength(255)
-                            ->disabled(),
+                // Section::make(__('common.admin.address'))
+                //     ->description(__('common.address_info_description'))
+                //     ->aside()
+                //     ->schema([
+                //         TextInput::make('address')
+                //             ->label(__('common.admin.address'))
+                //             ->maxLength(255)
+                //             ->disabled(),
 
-                        TextInput::make('ward')
-                            ->label(__('common.admin.ward'))
-                            ->maxLength(255)
-                            ->disabled(),
+                //         TextInput::make('ward')
+                //             ->label(__('common.admin.ward'))
+                //             ->maxLength(255)
+                //             ->disabled(),
 
-                        TextInput::make('city')
-                            ->label(__('common.admin.city'))
-                            ->maxLength(255)
-                            ->disabled(),
+                //         TextInput::make('city')
+                //             ->label(__('common.admin.city'))
+                //             ->maxLength(255)
+                //             ->disabled(),
 
-                        TextInput::make('country')
-                            ->label(__('common.admin.country'))
-                            ->maxLength(255)
-                            ->disabled(),
-                    ]),
+                //         TextInput::make('country')
+                //             ->label(__('common.admin.country'))
+                //             ->maxLength(255)
+                //             ->disabled(),
+                //     ]),
 
                 Section::make('Thông tin chuyên môn')
                     ->description('Thông tin nghề nghiệp và chuyên môn của bác sĩ')
@@ -140,10 +139,10 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->searchable()
                             ->disabled(),
 
-                        TextInput::make('company_name')
-                            ->label('Tên công ty/Bệnh viện')
-                            ->maxLength(255)
-                            ->disabled(),
+                        // TextInput::make('company_name')
+                        //     ->label('Tên công ty/Bệnh viện')
+                        //     ->maxLength(255)
+                        //     ->disabled(),
 
                         Textarea::make('introduce')
                             ->label('Giới thiệu bản thân')
@@ -173,11 +172,11 @@ class DoctorProfileComponent extends Component implements HasForms
                             ->acceptedFileTypes(['image/*', 'application/pdf'])
                             ->disabled(),
 
-                        FileUpload::make('exploitation_license_path')
-                            ->label('Giấy phép hoạt động')
-                            ->directory('uploads/doctors/documents')
-                            ->acceptedFileTypes(['image/*', 'application/pdf'])
-                            ->disabled(),
+                        // FileUpload::make('exploitation_license_path')
+                        //     ->label('Giấy phép hoạt động')
+                        //     ->directory('uploads/doctors/documents')
+                        //     ->acceptedFileTypes(['image/*', 'application/pdf'])
+                        //     ->disabled(),
                     ]),
             ])
             ->statePath('data');
@@ -202,7 +201,6 @@ class DoctorProfileComponent extends Component implements HasForms
         // Update or create doctor profile
         $doctorProfileData = [
             'introduce' => $data['introduce'],
-            'company_name' => $data['company_name'],
         ];
 
         $user->doctorProfile()->updateOrCreate(

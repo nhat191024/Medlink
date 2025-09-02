@@ -12,5 +12,9 @@ return [
         'medical_degree' => 'Bằng cấp y khoa',
         'professional_card' => 'Thẻ hành nghề',
         'exploitation_license' => 'Giấy phép hành nghề',
+
+        'upload_hint_id_card' => 'Tải lên CMND/CCCD (PDF hoặc hình ảnh, tối đa 5MB)',
+        'upload_hint_medical_degree' => 'Tải lên bằng cấp y khoa (PDF hoặc hình ảnh, tối đa 5MB)',
+        'upload_hint_professional_card' => 'Tải lên thẻ hành nghề (PDF hoặc hình ảnh, tối đa 5MB)',
     ]
 ];

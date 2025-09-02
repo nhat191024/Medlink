@@ -310,6 +310,30 @@
                                                     Đã đánh giá
                                                 </div>
                                             @endif
+
+                                            @php
+                                                $canCancel = false;
+                                                if (in_array($appointment->status, ['pending', 'confirmed', 'upcoming'])) {
+                                                    try {
+                                                        $timeParts = preg_split('/\s*-\s*/', $appointment->time);
+                                                        $startTime = $timeParts[0] ?? $appointment->time;
+                                                        $startTimeClean = preg_replace('/\s*(AM|PM)$/i', '', $startTime);
+                                                        $appointmentDateTime = \Carbon\Carbon::parse("{$appointment->date} {$startTimeClean}");
+                                                        $hoursUntil = \Carbon\Carbon::now()->diffInHours($appointmentDateTime, false);
+                                                        $canCancel = $hoursUntil > 6;
+                                                    } catch (\Exception $e) {
+                                                        $canCancel = false;
+                                                    }
+                                                }
+                                            @endphp
+
+                                            @if ($canCancel)
+                                                <button class="flex items-center gap-1 rounded-lg bg-red-100 px-3 py-1 text-xs font-medium text-red-700 transition-all duration-300 hover:scale-105 hover:bg-red-200 hover:shadow-lg" onclick="openCancelModal('{{ $appointment->id }}')">
+                                                    <x-heroicon-m-x-mark class="h-3 w-3" />
+                                                    Hủy lịch hẹn
+                                                </button>
+                                            @endif
+
                                             <button class="flex items-center gap-1 rounded-lg bg-orange-100 px-3 py-1 text-xs font-medium text-orange-700 transition-all duration-300 hover:scale-105 hover:bg-orange-200 hover:shadow-lg" onclick="openSupportModal('{{ $appointment->id }}')">
                                                 <x-heroicon-m-question-mark-circle class="h-3 w-3" />
                                                 Yêu cầu hỗ trợ
@@ -607,6 +631,72 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Hủy lịch hẹn -->
+    <div id="cancelModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50 p-4">
+        <div class="animate-scale-in max-h-[90vh] w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between border-b bg-gradient-to-r from-red-500 to-red-600 p-6 text-white">
+                <div class="flex items-center gap-3">
+                    <x-heroicon-s-x-mark class="h-6 w-6" />
+                    <h2 class="text-xl font-bold">Hủy lịch hẹn</h2>
+                </div>
+                <button class="flex h-8 w-8 items-center justify-center rounded-full text-white transition-all duration-300 hover:bg-white hover:bg-opacity-20" onclick="closeCancelModal()">
+                    <x-heroicon-s-x-mark class="h-5 w-5" />
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="max-h-[calc(90vh-5rem)] overflow-y-auto p-6">
+                <form id="cancelForm">
+                    <div class="space-y-6">
+                        <div id="cancelDoctorInfo" class="rounded-xl bg-gray-50 p-4">
+                            <!-- Thông tin bác sĩ sẽ được load bằng JavaScript -->
+                        </div>
+
+                        <!-- Cảnh báo -->
+                        <div class="rounded-xl border border-yellow-200 bg-yellow-50 p-4">
+                            <div class="flex items-start gap-3">
+                                <x-heroicon-s-exclamation-triangle class="mt-0.5 h-5 w-5 text-yellow-600" />
+                                <div>
+                                    <h4 class="font-semibold text-yellow-800">Lưu ý quan trọng</h4>
+                                    <p class="mt-1 text-sm text-yellow-700">
+                                        • Bạn chỉ có thể hủy lịch hẹn trước 6 giờ so với thời gian khám<br>
+                                        • Sau khi hủy, số tiền sẽ được hoàn lại vào tài khoản của bạn sau 1 khoảng thời gian làm việc<br>
+                                        • Việc hủy lịch hẹn có thể ảnh hưởng đến bệnh nhân khác
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lý do hủy -->
+                        <div class="space-y-3">
+                            <label class="text-sm font-semibold text-gray-700" for="cancelReason">
+                                Lý do hủy lịch hẹn <span class="text-red-500">*</span>
+                            </label>
+                            <textarea id="cancelReason" class="w-full rounded-xl border border-gray-300 p-4 text-sm transition-all duration-300 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-200" name="cancel_reason" required rows="4" placeholder="Vui lòng cho biết lý do bạn cần hủy lịch hẹn này..."></textarea>
+                            <div class="text-xs text-gray-500">
+                                Lý do hủy sẽ được gửi tới bác sĩ để họ có thể sắp xếp lại lịch khám.
+                            </div>
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="flex gap-3 pt-4">
+                            <button class="flex-1 rounded-xl border border-gray-300 py-3 text-sm font-semibold text-gray-700 transition-all duration-300 hover:bg-gray-50" type="button" onclick="closeCancelModal()">
+                                Giữ lại lịch hẹn
+                            </button>
+                            <button id="submitCancel" class="flex-1 rounded-xl bg-gradient-to-r from-red-500 to-red-600 py-3 text-sm font-semibold text-white transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+                                <span class="flex items-center justify-center gap-2">
+                                    <x-heroicon-s-x-mark class="h-4 w-4" />
+                                    Xác nhận hủy
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -758,18 +848,18 @@
 
                     <!-- Medical Information -->
                     ${examResult.medication ? `
-                                                    <div class="space-y-4">
-                                                        <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
-                                                            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                                                            </svg>
-                                                            Thông tin thuốc và điều trị
-                                                        </h4>
-                                                        <div class="prose max-w-none p-4 border rounded-xl bg-white">
-                                                            ${examResult.medication}
-                                                        </div>
-                                                    </div>
-                                                ` : ''}
+                                                                                            <div class="space-y-4">
+                                                                                                <h4 class="font-bold text-lg text-gray-800 flex items-center gap-2 border-b pb-2">
+                                                                                                    <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                                                                                    </svg>
+                                                                                                    Thông tin thuốc và điều trị
+                                                                                                </h4>
+                                                                                                <div class="prose max-w-none p-4 border rounded-xl bg-white">
+                                                                                                    ${examResult.medication}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        ` : ''}
 
                     <!-- Attachments -->
                     <div class="space-y-4">
@@ -789,10 +879,10 @@
 
                     <!-- Update Info -->
                     ${updatedAt ? `
-                                                    <div class="text-xs text-gray-500 text-right border-t pt-4">
-                                                        Cập nhật lần cuối: ${updatedAt}
-                                                    </div>
-                                                ` : ''}
+                                                                                            <div class="text-xs text-gray-500 text-right border-t pt-4">
+                                                                                                Cập nhật lần cuối: ${updatedAt}
+                                                                                            </div>
+                                                                                        ` : ''}
                 </div>
             `;
 
@@ -814,6 +904,9 @@
             }
             if (e.key === 'Escape' && currentSupportAppointmentId) {
                 closeSupportModal();
+            }
+            if (e.key === 'Escape' && currentCancelAppointmentId) {
+                closeCancelModal();
             }
         });
 
@@ -848,6 +941,9 @@
 
         // Support Modal Functions
         let currentSupportAppointmentId = null;
+
+        // Cancel Modal Functions
+        let currentCancelAppointmentId = null;
 
         function openSupportModal(appointmentId) {
             currentSupportAppointmentId = appointmentId;
@@ -896,6 +992,55 @@
                         <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Khoa khám'}</p>
                         <p class="text-sm font-medium text-red-600">${service.name}</p>
                         <p class="text-xs text-gray-500">Ngày khám: ${appointmentDate}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Cancel Modal Functions
+        function openCancelModal(appointmentId) {
+            currentCancelAppointmentId = appointmentId;
+            const modal = document.getElementById('cancelModal');
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            loadCancelData(appointmentId);
+        }
+
+        function closeCancelModal() {
+            const modal = document.getElementById('cancelModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentCancelAppointmentId = null;
+
+            // Reset form
+            document.getElementById('cancelForm').reset();
+            document.getElementById('cancelReason').value = '';
+        }
+
+        function loadCancelData(appointmentId) {
+            const appointment = appointments.find(app => app.id == appointmentId);
+
+            if (!appointment) {
+                console.error('Appointment not found:', appointmentId);
+                return;
+            }
+
+            const doctor = appointment.doctor;
+            const service = appointment.service;
+            const appointmentDate = new Date(appointment.date).toLocaleDateString('vi-VN');
+
+            document.getElementById('cancelDoctorInfo').innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="h-16 w-16 overflow-hidden rounded-full">
+                        <img class="h-full w-full object-cover" src="${doctor.user.avatar || '/default-avatar.png'}" alt="${doctor.user.name}">
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-gray-800">${doctor.user.name}</h3>
+                        <p class="text-sm text-gray-600">${doctor.medical_category?.name || 'Khoa khám'}</p>
+                        <p class="text-sm font-medium text-red-600">${service.name}</p>
+                        <p class="text-xs text-gray-500">Ngày khám: ${appointmentDate} - ${appointment.time}</p>
                     </div>
                 </div>
             `;
@@ -1149,6 +1294,63 @@
                 });
         }
 
+        // Submit cancel function
+        function submitCancel(appointmentId, cancelReason) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+            fetch(`/appointment/${appointmentId}/cancel`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        cancel_reason: cancelReason
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccessNotification('Hủy lịch hẹn thành công', 'Lịch hẹn đã được hủy và số tiền sẽ được hoàn lại vào tài khoản của bạn.');
+                        closeCancelModal();
+
+                        // Reload page after 2 seconds
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        showErrorNotification('Lỗi hủy lịch hẹn', data.message || 'Có lỗi xảy ra khi hủy lịch hẹn. Vui lòng thử lại!');
+
+                        const submitBtn = document.getElementById('submitCancel');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = `
+                            <span class="flex items-center justify-center gap-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                Xác nhận hủy
+                            </span>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showErrorNotification('Lỗi hủy lịch hẹn', 'Có lỗi xảy ra khi hủy lịch hẹn. Vui lòng thử lại!');
+
+                    const submitBtn = document.getElementById('submitCancel');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `
+                        <span class="flex items-center justify-center gap-2">
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Xác nhận hủy
+                        </span>
+                    `;
+                });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Star rating event handlers
             const stars = document.querySelectorAll('.star');
@@ -1250,6 +1452,43 @@
             document.getElementById('supportModal').addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeSupportModal();
+                }
+            });
+
+            // Cancel form submission
+            document.getElementById('cancelForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const cancelReason = document.getElementById('cancelReason').value.trim();
+
+                if (!cancelReason) {
+                    showErrorNotification('Thiếu thông tin', 'Vui lòng nhập lý do hủy lịch hẹn!');
+                    return;
+                }
+
+                if (cancelReason.length < 10) {
+                    showErrorNotification('Thông tin không hợp lệ', 'Lý do hủy phải có ít nhất 10 ký tự!');
+                    return;
+                }
+
+                // Disable submit button
+                const submitBtn = document.getElementById('submitCancel');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `
+                    <span class="flex items-center justify-center gap-2">
+                        <div class="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                        Đang hủy...
+                    </span>
+                `;
+
+                // Submit cancel via fetch
+                submitCancel(currentCancelAppointmentId, cancelReason);
+            });
+
+            // Close cancel modal when clicking outside
+            document.getElementById('cancelModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeCancelModal();
                 }
             });
 

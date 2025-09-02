@@ -6,6 +6,7 @@ use App\Models\Appointment;
 use App\Models\PatientProfile;
 use App\Models\DoctorProfile;
 use App\Models\Service;
+use App\Models\User;
 
 use Filament\Tables\Table;
 use Filament\Forms\Form;
@@ -32,6 +33,8 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
+
+use Filament\Notifications\Notification;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -276,6 +279,23 @@ class AppointmentHistoryResource extends Resource
                                     'size' => $size,
                                     'uploaded_by' => Auth::id(),
                                 ]);
+                            }
+
+                            // Get patient and doctor information
+                            $patientProfile = PatientProfile::find($record->patient_profile_id);
+                            $patient = User::find($patientProfile->user_id ?? null);
+
+                            // Send notifications to patient
+                            if ($patient) {
+                                $patient->notify(
+                                    Notification::make()
+                                        ->title('Kết quả khám đã được cập nhật')
+                                        ->body(
+                                            "Kết quả khám của bạn vào ngày {$record->date} đã được cập nhật. Vui lòng kiểm tra kết quả trong ứng dụng."
+                                        )
+                                        ->success()
+                                        ->toDatabase()
+                                );
                             }
                         });
                     })

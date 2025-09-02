@@ -118,25 +118,8 @@ class AuthController extends Controller
         return redirect()->route('register.profile');
     }
 
-
     public function profileRegisterSubmit(Request $request)
     {
-        //         "full_name" => "awdwadwad"
-        //   "age" => "18"
-        //   "gender" => "male"
-        //   "height" => "1.53"x100
-        //   "weight" => "46"
-        //   "blood_group" => "A+"
-        //   "medical_history" => "awdadwwad"
-        //   "insurance_type" => "vietnamese"
-        //   "insurance_number" => "waawawd"
-        //   "valid_from" => "2025-07-04"
-        //   "registry" => "esfesfesf"
-        //   "registered_address" => "sefefsesfawdwad"
-        //   "assurance_type" => "Loại 1"
-        //   "main_insured" => null
-        //   "entitled_insured" => null
-        //   "address" => "sefesfesf"
         $request->validate([
             'full_name' => 'required|string|max:255',
             'age' => 'required|integer|min:0|max:150',
@@ -228,8 +211,9 @@ class AuthController extends Controller
             'avatar.max' => __('client/auth.validation.avatar_max'),
         ]);
         $newUser = $request->session()->get('user');
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
+
             $user = new User();
             $user->phone = $newUser['phone'];
             $user->country_code = $newUser['country_code'];
@@ -247,19 +231,17 @@ class AuthController extends Controller
                 $user->avatar = "/upload/avatar/default.png";
             }
             $user->save();
-            // Handle avatar upload logic here
-            // For example, save the avatar to storage and update the user's profile
             $this->patientCreate($user->id, $request, $newUser);
+
             $request->session()->forget('user');
+
             DB::commit();
             return redirect()->route('register.progress');
         } catch (\Throwable $th) {
-            throw $th;
             DB::rollBack();
+            throw $th;
         }
-        return back();
     }
-
 
     public function showForgotPasswordForm()
     {
@@ -268,7 +250,6 @@ class AuthController extends Controller
 
     public function sendOtp(Request $request)
     {
-
         $phone = $request->input('phone');
         $countryCode = $request->input('country_code');
         $request->validate([
@@ -291,6 +272,7 @@ class AuthController extends Controller
             ])->withInput($request->only('country_code', 'phone'));
         }
     }
+
     public function removeZero(string $phone)
     {
         if (str_starts_with($phone, '0')) {

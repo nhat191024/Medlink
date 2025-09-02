@@ -14,7 +14,7 @@
             <p class="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-400 md:text-xl">
                 {{ __('client/home.banner.description') }}
             </p>
-            <a class="mt-8 rounded-md bg-white px-5 py-2.5 text-base font-semibold leading-7 text-black transition hover:bg-gray-200 focus:border-blue-300 focus:outline-none focus:ring" href="#">
+            <a class="mt-8 rounded-md bg-white px-5 py-2.5 text-base font-semibold leading-7 text-black transition hover:bg-gray-200 focus:border-blue-300 focus:outline-none focus:ring" href="{{ route('medical-specialties.index') }}" href="#">
                 {{ __('client/home.banner.button') }}
             </a>
         </div>

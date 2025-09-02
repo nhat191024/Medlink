@@ -112,7 +112,7 @@
             "email": "bvdkt.syt@quangninh.gov.vn",
             "phone": "0203 3825 499",
             "website": "https://www.benhviendakhoatinhquangninh.vn",
-            "logo": "hhttps://www.benhviendakhoatinhquangninh.vn/images/hinhanh/bannerchinh11202552775036.jpg",
+            "logo": "https://www.benhviendakhoatinhquangninh.vn/images/hinhanh/bannerchinh11202552775036.jpg",
             "description": "Bệnh viện Chợ Đa khoa là bệnh viện đa khoa hạng đặc biệt, chuyên cung cấp dịch vụ khám chữa bệnh chất lượng cao cho người dân tại Quảng Ninh và các tỉnh lân cận.",
             "contract_start_date": "2025-01-01",
             "contract_end_date": "2025-12-31"
@@ -243,13 +243,13 @@
             "user_type": "patient",
             "identity": "none",
             "hospital_id": null,
-            "email": "Vuanhnhat@gmail.com",
+            "email": "richberchannel01@gmail.com",
             "password": "Password1$",
             "avatar": "https://ui-avatars.com/api/?name=N&background=random&size=512",
             "name": "Vũ Anh Nhật",
             "gender": "male",
             "country_code": "+84",
-            "phone": "775235650",
+            "phone": "785220699",
             "latitude": "20.6547",
             "longitude": "106.0578",
             "country": "Việt Nam",
@@ -1524,6 +1524,90 @@
                 "rate": 5,
                 "content": "Bác sĩ tận tâm, dịch vụ chuyên nghiệp.",
                 "recommend": true
+            }
+        },
+        {
+            "doctor_profile_id": 1,
+            "patient_profile_id": 2,
+            "service_id": 1,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-09-03",
+            "day_of_week": "Wednesday",
+            "time": "01:00 PM - 02:00 PM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 1,
+            "patient_profile_id": 2,
+            "service_id": 1,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-09-03",
+            "day_of_week": "Wednesday",
+            "time": "02:00 PM - 03:00 PM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 1,
+            "patient_profile_id": 2,
+            "service_id": 1,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-09-03",
+            "day_of_week": "Wednesday",
+            "time": "03:00 PM - 04:00 PM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
+            }
+        },
+        {
+            "doctor_profile_id": 1,
+            "patient_profile_id": 2,
+            "service_id": 1,
+            "status": "pending",
+            "medical_problem": "Bệnh nhân có triệu chứng mệt mỏi kéo dài.",
+            "medical_problem_file": null,
+            "duration": 30,
+            "date": "2025-09-03",
+            "day_of_week": "Wednesday",
+            "time": "04:00 PM - 05:00 PM",
+            "reason": "Khám tại nhà đã hoàn thành.",
+            "address": "123 Main St, Hà Nội, Việt Nam",
+            "link": null,
+            "bill": {
+                "payment_method": "qr_transfer",
+                "taxVAT": 10000,
+                "total": 110000,
+                "status": "paid"
             }
         }
     ],
