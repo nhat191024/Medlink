@@ -320,12 +320,16 @@ class NewAppointmentResource extends Resource
         return parent::getEloquentQuery()
             ->where('doctor_profile_id', Auth::user()->doctorProfile->id)
             ->where('status', 'pending')
+            ->whereHas('bill', function ($query) {
+                $query->where('status', 'paid');
+            })
             ->orderBy('created_at', 'desc')
             ->with([
                 'patient',
                 'patient.user',
                 'service',
                 'files',
+                'bill',
             ])
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
