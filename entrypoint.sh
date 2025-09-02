@@ -43,18 +43,33 @@ npm run build
 cat > /tmp/start-services.sh << 'EOF'
 #!/bin/bash
 
-# Start queue worker in background
-php artisan queue:work --daemon --sleep=3 --tries=3 --timeout=60 &
-QUEUE_PID=$!
+# Đảm bảo database đã sẵn sàng
+until php artisan migrate:status > /dev/null 2>&1; do
+    echo "Waiting for database to be ready..."
+    sleep 2
+done
 
-# Start scheduler in background
+echo "Database is ready, starting services..."
+
+# Khởi động lại queue nếu cần
+php artisan queue:restart
+
+# Start queue worker with multiple workers for better performance
+php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+QUEUE_PID1=$!
+
+# Start second queue worker for redundancy
+php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+QUEUE_PID2=$!
+
+# Start scheduler
 php artisan schedule:work --sleep=60 &
 SCHEDULER_PID=$!
 
 # Function to handle shutdown
 cleanup() {
     echo "Shutting down services..."
-    kill $QUEUE_PID $SCHEDULER_PID 2>/dev/null
+    kill $QUEUE_PID1 $QUEUE_PID2 $SCHEDULER_PID 2>/dev/null
     wait
     exit 0
 }
@@ -62,8 +77,29 @@ cleanup() {
 # Trap signals
 trap cleanup SIGTERM SIGINT
 
-# Wait for processes
-wait
+# Monitor processes and restart if they die
+while true; do
+    # Check if queue workers are still running
+    if ! kill -0 $QUEUE_PID1 2>/dev/null; then
+        echo "Queue worker 1 died, restarting..."
+        php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+        QUEUE_PID1=$!
+    fi
+
+    if ! kill -0 $QUEUE_PID2 2>/dev/null; then
+        echo "Queue worker 2 died, restarting..."
+        php artisan queue:work database --daemon --sleep=1 --tries=3 --max-time=3600 --memory=512 --timeout=90 &
+        QUEUE_PID2=$!
+    fi
+
+    if ! kill -0 $SCHEDULER_PID 2>/dev/null; then
+        echo "Scheduler died, restarting..."
+        php artisan schedule:work --sleep=60 &
+        SCHEDULER_PID=$!
+    fi
+
+    sleep 30
+done
 EOF
 
 # Make script executable
