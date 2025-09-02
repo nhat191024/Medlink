@@ -50,7 +50,7 @@ php artisan queue:work database --tries=3 --max-time=3600 --memory=512 --timeout
 QUEUE_PID2=$!
 
 # Start scheduler
-php artisan schedule:work --sleep=60 &
+php artisan schedule:work &
 SCHEDULER_PID=$!
 
 # Function to handle shutdown
@@ -81,20 +81,9 @@ while true; do
 
     if ! kill -0 $SCHEDULER_PID 2>/dev/null; then
         echo "Scheduler died, restarting..."
-        php artisan schedule:work --sleep=60 &
+        php artisan schedule:work &
         SCHEDULER_PID=$!
     fi
 
     sleep 30
 done
-# EOF
-
-# Make script executable
-# chmod +x /tmp/start-services.sh
-
-# Start services if no command provided
-# if [ "$#" -eq 0 ]; then
-#     exec /tmp/start-services.sh
-# else
-#     exec "$@"
-# fi
