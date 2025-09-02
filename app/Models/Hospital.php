@@ -108,6 +108,17 @@ class Hospital extends Authenticatable implements FilamentUser, HasAvatar
                 $doctor->delete();
             });
         });
+
+        //auto remove soft delete associated admin & doctor profile when a hospital is restored
+        static::restoring(function ($hospital) {
+            $hospital->admins()->each(function ($admin) {
+                $admin->restore();
+            });
+
+            $hospital->doctors()->each(function ($doctor) {
+                $doctor->restore();
+            });
+        });
     }
 
     public function canAccessPanel(Panel $panel): bool
