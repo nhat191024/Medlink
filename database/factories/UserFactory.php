@@ -205,24 +205,6 @@ class UserFactory extends Factory
     }
 
     /**
-     * Create 4 notifications for a user (2 unread, 2 read)
-     */
-    private function createNotificationsForUser(User $user)
-    {
-        // Create 2 unread notifications
-        Notification::factory()->count(2)->unread()->create([
-            'user_id' => $user->id,
-            'appointment_id' => null, // You can set this to a random appointment if needed
-        ]);
-
-        // Create 2 read notifications
-        Notification::factory()->count(2)->read()->create([
-            'user_id' => $user->id,
-            'appointment_id' => null, // You can set this to a random appointment if needed
-        ]);
-    }
-
-    /**
      * Create user settings with default values
      */
     private function createUserSettings(User $user)
