@@ -38,11 +38,6 @@ php artisan key:generate
 npm install
 npm run build
 
-# Start services using supervisor or run in background
-# Create a simple process manager script
-cat > /tmp/start-services.sh << 'EOF'
-#!/bin/bash
-
 # Đảm bảo database đã sẵn sàng
 until php artisan migrate:status > /dev/null 2>&1; do
     echo "Waiting for database to be ready..."
@@ -100,14 +95,14 @@ while true; do
 
     sleep 30
 done
-EOF
+# EOF
 
 # Make script executable
-chmod +x /tmp/start-services.sh
+# chmod +x /tmp/start-services.sh
 
 # Start services if no command provided
-if [ "$#" -eq 0 ]; then
-    exec /tmp/start-services.sh
-else
-    exec "$@"
-fi
+# if [ "$#" -eq 0 ]; then
+#     exec /tmp/start-services.sh
+# else
+#     exec "$@"
+# fi
