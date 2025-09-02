@@ -10,6 +10,7 @@ services:
             - "10002:80"
         volumes:
             - .:/var/www/html
+            - ./storage/logs:/var/www/html/storage/logs
         # healthcheck:
         #     test: ["CMD", "curl", "-f", "http://localhost/api/health"]
         #     interval: 30s
