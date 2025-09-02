@@ -87,9 +87,32 @@ class DoctorProfile extends Model
                 $doctorProfile->user->hospital->increment('doctor_count');
             }
         });
+
         static::deleted(function ($doctorProfile) {
-            if ($doctorProfile->user?->hospital) {
-                $doctorProfile->user->hospital->decrement('doctor_count');
+            $user = $doctorProfile->user;
+
+            // Only act if the related user exists and is not already soft deleted
+            if ($user && !$user->trashed()) {
+                if ($user->hospital) {
+                    $user->hospital->decrement('doctor_count');
+                }
+                $user->delete();
+            }
+        });
+
+        static::restoring(function ($doctorProfile) {
+            $user = $doctorProfile->user;
+
+            if ($user) {
+            $wasTrashed = $user->trashed();
+
+            if ($wasTrashed) {
+                $user->restore();
+
+                if ($user->hospital) {
+                $user->hospital->increment('doctor_count');
+                }
+            }
             }
         });
     }
