@@ -10,8 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libicu-dev \
+    supervisor \
+    procps \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install zip pdo_mysql gd bcmath intl \
+    && docker-php-ext-install zip pdo_mysql gd bcmath intl pcntl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -28,16 +30,21 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 COPY . /var/www/html
 
+# Copy supervisor configuration
+COPY supervisor-laravel.conf /etc/supervisor/conf.d/laravel.conf
+
 # Sao chép mã nguồn của ứng dụng vào container
 WORKDIR /var/www/html
 
 # Sao chép entrypoint.sh vào container
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY entrypoint-supervisor.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Cài đặt Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Create supervisor log directory
+RUN mkdir -p /var/log/supervisor
+
 # Đặt entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["apache2-foreground"]
