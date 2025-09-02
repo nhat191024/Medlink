@@ -172,27 +172,35 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
 
         // Automatically soft delete associated doctor profile or patient profile when a user is deleted
         static::deleting(function ($user) {
-            if ($user->doctorProfile) {
-                $wasTrashed = $user->doctorProfile->wasTrashed();
-                if (!$wasTrashed) {
-                    $user->doctorProfile()->delete();
+            // Soft delete related profiles only if they exist and are not already soft deleted
+            if ($doctor = $user->doctorProfile()->withTrashed()->first()) {
+                if (!$doctor->trashed()) {
+                    $doctor->delete();
                 }
             }
-            if ($user->patientProfile) {
-                $user->patientProfile()->delete();
+
+            if ($patient = $user->patientProfile()->withTrashed()->first()) {
+                if (!$patient->trashed()) {
+                    $patient->delete();
+                }
             }
         });
 
         // Automatically restore associated patient & doctor profile when a user is restored
         static::restoring(function ($user) {
-            if ($user->doctorProfile) {
-                $wasTrashed = $user->doctorProfile->wasTrashed();
-                if ($wasTrashed) {
-                    $user->doctorProfile()->restore();
+            try {
+                $doctor = $user->doctorProfile;
+                if ($doctor->trashed()) {
+                    $doctor->restore();
                 }
-            }
-            if ($user->patientProfile) {
-                $user->patientProfile()->restore();
+
+
+                $patient = $user->patientProfile->withTrashed()->first();
+                if ($patient && $patient->trashed()) {
+                    $patient->restore();
+                }
+            } catch (\Exception $e) {
+                FacadesLog::error('Error restoring user profiles: ' . $e->getMessage());
             }
         });
     }
@@ -249,7 +257,7 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
 
     public function doctorProfile()
     {
-        return $this->hasOne(DoctorProfile::class, 'user_id');
+        return $this->hasOne(DoctorProfile::class, 'user_id')->withTrashed();
     }
 
     public function hospital()
