@@ -195,7 +195,7 @@ class DoctorProfileComponent extends Component implements HasForms
             'email' => $data['email'],
             'phone' => $data['phone'],
             'gender' => $data['gender'],
-            'avatar' => $data['avatar'],
+            'avatar' => "storage/{$data['avatar']}",
         ]);
 
         // Update or create doctor profile
