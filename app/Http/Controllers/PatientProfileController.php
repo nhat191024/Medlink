@@ -329,7 +329,7 @@ class PatientProfileController extends Controller
             ]);
 
             // Verify appointment belongs to current user and is completed
-            if ($appointment->patient_profile_id !== Auth::user()->patientProfile->id || $appointment->status !== 'completed') {
+            if ($appointment->patient_profile_id !== Auth::user()->patientProfile->id) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Cuộc hẹn không tồn tại hoặc chưa hoàn thành.'
