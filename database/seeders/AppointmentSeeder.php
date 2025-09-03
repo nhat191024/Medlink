@@ -45,7 +45,7 @@ class AppointmentSeeder extends Seeder
             ]);
 
             Bill::create([
-                'id' => now()->timestamp . rand(1000, 9999),
+                'id' => now()->timestamp . rand(1000, 9999) + 1,
                 'hospital_id' => $hospitalId,
                 'appointment_id' => $appointment->id,
                 'payment_method' => $data['bill']['payment_method'],
