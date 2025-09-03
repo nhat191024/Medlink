@@ -1,61 +1,114 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MEDLINK
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+<img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+<img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+<img src="https://img.shields.io/badge/Status-Archived-red?style=for-the-badge" alt="Status">
 </p>
 
-## About Laravel
+## 🏥 Giới thiệu về dự án
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Medlink** là một hệ thống quản lý y tế toàn diện được phát triển như một phần của đồ án tốt nghiệp. Dự án nhằm mục đích cung cấp một nền tảng số hóa cho việc quản lý thông tin bệnh nhân, lịch hẹn khám, và các dịch vụ y tế.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 📋 Thông tin dự án
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   **Tên dự án**: Medlink - Hệ thống Quản lý Y tế
+-   **Loại**: Đồ án tốt nghiệp
+-   **Công nghệ chính**: Laravel (PHP Framework)
+-   **Database**: MySQL
+-   **Tác giả**: nhat191024
+-   **Trường**: FPT Polytechnic
+-   **Khoa**: Web development
+-   **Năm**: K18
+-   **Giảng viên hướng dẫn**: Trần Nguyễn Khánh Lâm
 
-## Learning Laravel
+### 🎯 Tính năng chính
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   👥 Quản lý thông tin bệnh nhân
+-   📅 Hệ thống đặt lịch hẹn khám
+-   👨‍⚕️ Quản lý thông tin bác sĩ và nhân viên y tế
+-   💊 Quản lý thuốc và đơn thuốc
+-   📊 Báo cáo và thống kê
+-   🔐 Hệ thống xác thực và phân quyền
+-   💳 Tích hợp thanh toán điện tử
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🛠️ Công nghệ sử dụng
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   **Backend Framework**: Laravel 12
+-   **Database**: MySQL
+-   **Authentication**: Laravel Sanctum
+-   **Admin Panel**: Filament
+-   **Payment Integration**: PayOS
+-   **File Storage**: Laravel Storage
+-   **Queue Management**: Redis/Database
+-   **Real-time**: Laravel Broadcasting
 
-## Laravel Sponsors
+## ⚠️ Thông báo quan trọng
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**🎓 DỰ ÁN ĐÃ NGỪNG CẬP NHẬT**
 
-### Premium Partners
+Dự án này đã được dừng cập nhập và nộp như một phần của đồ án tốt nghiệp. Kể từ ngày hoàn thành, dự án sẽ **không còn được cập nhật hoặc bảo trì thêm**.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 📅 Timeline dự án
 
-## Contributing
+-   **Bắt đầu**: 26/05/2025
+-   **Hoàn thành**: 03/09/2025
+-   **Trạng thái**: ✅ Đã bảo vệ đồ án thành công. Dự án có thể còn tồn tại lỗi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Cài đặt và triển khai
 
-## Code of Conduct
+### Yêu cầu hệ thống
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   PHP >= 8.2
+-   Composer
+-   MySQL >= 8.0
+-   Node.js & NPM/PNPM (cho build assets)
 
-## Security Vulnerabilities
+### Cài đặt
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# Clone repository
+git clone [repository-url]
+cd medlink-backend
 
-## License
+# Cài đặt dependencies
+composer install
+pnpm install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Cấu hình environment
+cp .env.example .env
+php artisan key:generate
+
+# Migrate database
+php artisan migrate --seed
+
+# Build assets
+pnpm run build
+
+# Chạy server
+php artisan serve
+```
+
+## 📚 Tài liệu API
+
+API documentation có thể được truy cập tại `/api/documentation` khi chạy server local.
+
+## 🔒 Bảo mật
+
+Dự án này được phát triển với mục đích học tập và nghiên cứu. Không khuyến khích sử dụng trong môi trường production mà không có việc đánh giá bảo mật kỹ lưỡng.
+
+## 📞 Liên hệ
+
+Nếu có câu hỏi về dự án, vui lòng liên hệ:
+
+-   Email: richberchannel01@gmail.com
+-   GitHub: [nhat191024](https://github.com/nhat191024)
+
+## 📄 License
+
+Dự án này được phát hành dưới [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+**Lưu ý**: Đây là dự án học tập và nghiên cứu. Tác giả không chịu trách nhiệm cho việc sử dụng mã nguồn này trong các mục đích thương mại hoặc production.
