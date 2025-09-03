@@ -61,8 +61,10 @@ class CheckAppointmentUpcoming implements ShouldQueue
 
             $now = Carbon::now();
 
+            $isDemo = env('APP_DEBUG_MODE');
+
             // Chỉ chuyển trạng thái nếu đã đến giờ hẹn (có thể cho phép sớm 5 phút)
-            if ($now->gte($appointmentDateTime->subMinutes(5))) {
+            if ($isDemo || $now->gte($appointmentDateTime->subMinutes(5))) {
 
                 $appointment->update(['status' => 'waiting']);
 
