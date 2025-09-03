@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Barryvdh\Debugbar\Facade;
 use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Notifications\Notifiable;
@@ -188,19 +189,16 @@ class User extends Authenticatable implements Wallet, Confirmable, FilamentUser,
 
         // Automatically restore associated patient & doctor profile when a user is restored
         static::restoring(function ($user) {
-            try {
+            if ($user->identity === 'doctor') {
                 $doctor = $user->doctorProfile;
                 if ($doctor->trashed()) {
                     $doctor->restore();
                 }
-
-
+            } else {
                 $patient = $user->patientProfile->withTrashed()->first();
-                if ($patient && $patient->trashed()) {
+                if ($patient?->trashed()) {
                     $patient->restore();
                 }
-            } catch (\Exception $e) {
-                FacadesLog::error('Error restoring user profiles: ' . $e->getMessage());
             }
         });
     }
